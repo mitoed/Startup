@@ -11,5 +11,5 @@ get domain name to deploy to (rent?)
 copy deployment code "deployFiles" to run in GitBash (console)
 code to be run in GitBash (console) is as follows:
 
-    ./deployFiles.sh -k _______ -h _______ -s [domain name]
+    ./deployFiles.sh -k ~/prod.pem -h [your domain name].click -s startup
     (ENTER)

@@ -1,15 +1,7 @@
-# Here are some notes from the videos.
+Link to [README file](/README.md) for startup application
 
-# HTML
-    Notes:
-    all headers and footers will be the same
-    use "go live" to see the code in a browser
-    provide sample options for each category in the "activities" page for html phase
-    
-    To Dos:
-    get domain name to deploy to (rent?)
-    copy deployment code "deployFiles" to run in GitBash (console)
-    code to be run in GitBash (console) is as follows:
-        ./deployFiles.sh -k _______ -h _______ -s [domain name]
-        (ENTER)
+## CS 260 Notes (by topic)
+[GitHub Notes -- Terms and Basic Instructions](/All_Notes/GitHub_notes.md)
+
+[HTML Notes -- Steps for Project, Commands, Basics](/All_Notes/html_notes.md)
     

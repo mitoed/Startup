@@ -1,26 +1,39 @@
 <!--This is the default and page where users will login (email + first name + last initial) and navigate to the other pages.-->
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <title>Activity Anarchy Login Page</title>
+    </head>
     <body>
-    <!--Navitagition Section-->
         <header>
-            <h1>Activity Anarchy</h1> <br>
-            <a href="index.html">Home</a> <br>
-            <a href="newanarchy.html">Create Voting Session</a> <br>
-            <a href="joinanarchy.html">Join Voting Session</a> <br>
-            <a href="activities.html">Activities List</a> <br>
-            <a href="about.html">About</a>
+            <h1>Activity Anarchy</h1>
+            <a href="index.html">Login Page</a> <br>
+            <a href="entersession.html">Enter a Voting Session</a> <br>
+            <a href="about.html">About Activity Anarchy</a>
         </header>
-
-    <!--Page Content - Login-->
+        <hr>
         <main>
-            <head>This is the main page.</head>
+            <section id="login">
+                <h1>Login</h1>
+                <form action>
+                    <label for="username">Username</label>
+                    <input type="text" id="username">
+                </form>
+                <form action>
+                    <label for="user-pw">Password</label>
+                    <input type="user-pw" id="user-pw">
+                </form>
+                <button id="login_submit">Submit</button>
+            </section>
         </main>
-
-    <!--Author Section-->
-        <main>
-            <span class="Author-Name">Michael Saulls</span> <br>
-            <a href="https://www.google.com">Google.com</a>
-        </main>
+        <hr>
+        <footer>
+            <section id="footer">
+                <span class="Author-Name">Michael Saulls | <a
+                        href="https://github.com/mitoed/Startup.git">GitHub
+                        Repository</a></span>
+            </section>
+        </footer>
     </body>
+
 </html>

@@ -1,0 +1,57 @@
+<!--This is the page that users will select to join an existing voting session.-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Enter Voting Session</title>
+    </head>
+    <body>
+        <header>
+            <h1>Activity Anarchy</h1>
+            <a href="index.html">Login Page</a> <br>
+            <a href="entersession.html">Enter a Voting Session</a> <br>
+            <a href="about.html">About Activity Anarchy</a>
+        </header>
+        <hr>
+        <main>
+            <section id="enter_session">
+                <h1>Join an Existing Session or Create a New One!</h1>
+                <section id="join_session">
+                    <h2>Enter a Session ID to join an existing session</h2>
+                    <form action>
+                        <label for="session_id">Session ID</label>
+                        <input type="text" id="session_id" name="session_id">
+                        <br>
+                        <button id="join_session_submit">Submit</button>
+                    </form>
+                </section>
+                <br>
+                <section id="create_session">
+                    <h2>Create a new session by choosing a category and clicking
+                        "Submit"</h2>
+                    <form action>
+                        <span>Select a Category</span> <br>
+                        <input type="radio" id="movie" name="category"
+                            value="movie">
+                        <label for="ses_cat">Movie</label>
+                        <input type="radio" id="game" name="category"
+                            value="game">
+                        <label for="ses_cat">Game</label>
+                        <input type="radio" id="food" name="category"
+                            value="food">
+                        <label for="ses_cat">Food</label>
+                        <br>
+                        <button id="create_session_submit">Submit</button>
+                    </form>
+                </section>
+            </section>
+        </main>
+        <hr>
+        <footer>
+            <section id="footer">
+                <span class="Author-Name">Michael Saulls | <a
+                        href="https://github.com/mitoed/Startup.git">GitHub
+                        Repository</a></span>
+            </section>
+        </footer>
+    </body>
+</html>

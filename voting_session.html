@@ -1,0 +1,59 @@
+<!--This is the page where users will participate in live voting based on the session they are in.-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Voting Session: D4K452</title>
+        <!--Should be updated with current session id-->
+    </head>
+    <body>
+        <header>
+            <h1>Activity Anarchy</h1>
+            <a href="index.html">Login Page</a> <br>
+            <a href="entersession.html">Enter a Voting Session</a> <br>
+            <a href="about.html">About Activity Anarchy</a>
+        </header>
+        <hr>
+        <main>
+            <section id="session_info">
+                <h1>Voting Session</h1>
+                <h2 id="vp_session_id">Session ID: D4K452</h2>
+            </section>
+            <br>
+            <section id="vote_list">
+                <form action>
+                    <label for="vote_selection">Search Here or Create Your
+                        Own...</label> <br>
+                    <input type="text" list="voting_options" id="vote_selection"
+                        name="vote_selection">
+                    <datalist id="voting_options">
+                        <!--Below is a hardcoded list of voting options.
+                        Given that its a datalist, the user can input something not included.
+                        Eventually, this should be held in a database and retreived based on category.
+                        The database should be updated with inputted options.
+                        Additions should immediately be added as new options to ALL lists.-->
+                        <option value="McDonald's"></option>
+                        <option value="Chick-fil-A"></option>
+                        <option value="Bumblebees"></option>
+                        <option value="Se Llama Peru"></option>
+                        <option value="India Palace"></option>
+                        <option value="Burger Supreme"></option>
+                        <option value="Cubby's"></option>
+                        <option value="Good Move"></option>
+                        <option value="Brick Oven"></option>
+                        <option value="Costa Vida"></option>
+                        <option value="Five Sushi Bros"></option>
+                        <option value="Black Sheep Cafe"></option>
+                    </datalist>
+                </form>
+            </section>
+        </main>
+        <hr>
+        <footer>
+            <section id="footer">
+                <span class="Author-Name">Michael Saulls | <a
+                        href="https://github.com/mitoed/Startup.git">GitHub
+                        Repository</a></span>
+            </section>
+        </footer>
+    </body>
+</html>

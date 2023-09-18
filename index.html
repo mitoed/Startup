@@ -19,15 +19,40 @@
         <main>
             <section id="login">
                 <h1>Login</h1>
-                <form action>
+                <form method="get" action="enter_session.html">
                     <label for="username">Username</label>
-                    <input type="text" id="username">
-                </form>
-                <form action>
+                    <input type="text" id="username"
+                        placeholder="type your username">
+                    <br>
                     <label for="user-pw">Password</label>
-                    <input type="user-pw" id="user-pw">
+                    <input type="user-pw" id="user-pw"
+                        placeholder="type your password">
+                    <br>
+                    <button id="login" type="submit">Login</button>
+                    <!--Does this ^^^ submit both username and password?-->
                 </form>
-                <button id="login_submit">Submit</button>
+            </section>
+            <br>
+            <div>or</div>
+            <br>
+            <section id="create_login">
+                <h1>Create New Account</h1>
+                <form method="get" action="enter_session.html">
+                    <label for="new_username">New Username</label>
+                    <input type="text" id="new_username"
+                        placeholder="create username">
+                    <br>
+                    <label for="new_user-pw">Create Password</label>
+                    <input type="user-pw" id="new_user-pw"
+                        placeholder="create password">
+                    <br>
+                    <label for="confirm_user-pw">Confirm Password</label>
+                    <input type="user-pw" id="confirm_user-pw"
+                        placeholder="confirm password">
+                    <br>
+                    <button id="new_account" type="submit">Create New Account</button>
+                    <!--Does this ^^^ submit both username and password?-->
+                </form>
             </section>
         </main>
         <hr>

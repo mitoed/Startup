@@ -21,18 +21,18 @@
                 <h1>Join an Existing Session or Create a New One!</h1>
                 <section id="join_session">
                     <h2>Enter a Session ID to join an existing session</h2>
-                    <form action>
+                    <form method="get" action="voting_session.html">
                         <label for="session_id">Session ID</label>
                         <input type="text" id="session_id" name="session_id">
                         <br>
-                        <button id="join_session_submit">Submit</button>
+                        <button id="join_session_submit" type="submit">Join</button>
                     </form>
                 </section>
                 <br>
                 <section id="create_session">
                     <h2>Create a new session by choosing a category and clicking
                         "Submit"</h2>
-                    <form action>
+                    <form method="get" action="voting_session.html">
                         <span>Select a Category</span> <br>
                         <input type="radio" id="movie" name="category"
                             value="movie">
@@ -44,7 +44,7 @@
                             value="food">
                         <label for="ses_cat">Food</label>
                         <br>
-                        <button id="create_session_submit">Submit</button>
+                        <button id="create_session_submit" type="submit">Create</button>
                     </form>
                 </section>
             </section>

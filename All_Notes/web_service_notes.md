@@ -36,3 +36,11 @@ CS 260 class AMI (Community AMI)
 Remote shell into server command:
 > ssh -i /keys/Startup-Production.pem ubuntu@3.209.236.159
 
+# Domain Names
+## Basic Structure (with example)
+
+| Part of Domain Name | Subdomain | Secondary | Top |
+| ------------- | -- | -- | -- |
+| Entire Domain | react.simon | cs260 | .click |
+| Root | | cs260 | .click |
+

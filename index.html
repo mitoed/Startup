@@ -3,30 +3,30 @@
 <html lang="en">
     <head>
         <title>Activity Anarchy Login Page</title>
+        <link rel="stylesheet" href="./style.css">
     </head>
     <body>
         <header>
-            <h1>Activity Anarchy</h1>
+            <h1 class="AA_Header">Activity Anarchy</h1>
             <nav>
                 <menu>
-                    <li><a href="index.html">Login Page</a></li>
-                    <li><a href="enter_session.html">Enter a Voting Session</a></li>
-                    <li><a href="about.html">About Activity Anarchy</a></li>
+                    <a href="index.html">Login Page</a>
+                    <a href="enter_session.html">Enter a Voting Session</a>
+                    <a href="about.html">About Activity Anarchy</a>
                 </menu>
             </nav>
         </header>
-        <hr>
         <main>
             <section id="login">
                 <h1>Login</h1>
                 <form method="get" action="enter_session.html">
-                    <label for="username">Username</label>
+                    <label for="username" class="login label">Username</label>
                     <input type="text" id="username"
-                        placeholder="type your username">
+                        placeholder="type your username" class="login entry">
                     <br>
-                    <label for="user-pw">Password</label>
+                    <label for="user-pw" class="login label">Password</label>
                     <input type="user-pw" id="user-pw"
-                        placeholder="type your password">
+                        placeholder="type your password" class="login entry">
                     <br>
                     <button id="login" type="submit">Login</button>
                     <!--Does this ^^^ submit both username and password?-->

@@ -60,14 +60,44 @@ About page
 
 ## HTML
 
+### HTML Deliverable
+
+**HTML Pages** - 4 html pages that represent the home/login page, the enter a voting session page, the voting page, and the about page.
+
+**Links** - The login page links to the enter a session page, which in turn links to the voting page. A navigation menu that has links to the login page, the enter a session page, and the about page.
+
+**Text** - There is a texual representation of each voting option, text that displays the winning decision, and text that appears with a voting recommendation.
+
+**Third Party Service Calls** - None will be used.
+
+**Images** - There is an image on the about page.
+
+**Login** - Users create an account (to be stored in a database) and then login with username and password. Username displayed on "enter session" and "voting session" pages.
+
+**Database** - All voting options are stored in a database by category, which are retreived for each voting session. New options (added within a session) will be immediately added to database at the end of the session. All user login and voting stats are held in a database. The voting option database is currently hardcoded into the voting_session page as a placeholder.
+
+**WebSocket** - Count of real time votes displayed on voting session page.
+
+**Git Commits** - Done
+
+### HTML To-Dos
+
 - [ ] Create html files for each page. All pages will be accessible via hyperlinks in the header except the "hidden" page that users will use when participating in a live vote.
 - [ ] For create/join session page to tell voting page which database to pull from, learn to pass variables through URLs (when populating the next html page) -- something about APIs
 
 ## CSS
 
+### CSS Deliverable
+
+### CSS To-Dos
+
 - [ ] Create property to hide or display the popup on the voting page (to be changed using JS); section is named "recommendation_popup"
 
 ## JavaScript
+
+### JavaScript Deliverable
+
+### JavaScript To-Dos
 
 - [ ] Alter css property to inherently hide recommendation popup. Only display if:
 
@@ -75,22 +105,40 @@ About page
 - There is only 1 user with a low "agreed-with" rate
 - ~35% of the time
 
-## Web service
+## Web Service
 
+### Web Service Deliverable
+
+### Web Service To-Dos
 - [ ]
 
 ## Database
+
+### Database Deliverable
+
+### Database To-Dos
 
 - [ ]
 
 ## Login
 
+### Login Deliverable
+
+### Login To-Dos
+
 - [ ]
 
 ## WebSocket
+
+### WebSocket Deliverable
+
+### WebSocket To-Dos
 
 - [ ]
 
 ## React
 
+### React Deliverable
+
+### React To-Dos
 - [ ]

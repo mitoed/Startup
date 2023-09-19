@@ -1,8 +1,18 @@
+#color_palatte{ /* color names and HEX are listed */
+  color: rgb(50,74,178); /*Violet Blue - 324AB2*/
+  color: rgb(67,179,174); /*Verdigris - 43B3AE*/
+  color: rgb(219,215,210); /*Timberwolf - DBD7D2*/
+  color: rgb(205,178,128); /*Ecru - CDB280*/
+  color: rgb(205,92,92); /*Indian Red - CD5C5C*/
+}
+
 * {
   text-align: center;
+  background-color: rgb(219,215,210);
 }
 
 h1 {
+  color: rgb(50,74,178);
   font-size: 20pt;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-weight: 800;
@@ -18,8 +28,6 @@ p {
   margin: 5pt;
 }
 
-
-
 form {
   font-size: 14pt;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -32,17 +40,35 @@ menu a[href],
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   text-decoration-line: none;
   font-size: 14pt;
-  color:rgb(221, 112, 112);
+  color:rgb(50,74,178);
   padding: 5pt;
-  margin: 2pt;
-  border: 2pt darkslategrey;
+  margin: 4pt;
   border-radius: 5pt;
-  background-color: darkslategrey;
-  transition: all 0.35s;
+  background-color: rgb(205,178,128);
+  transition: all 0.5s;
 }
 
 menu a[href]:hover {
-  font-size: 32pt;
-  color: darkslategray;
-  background-color: rgb(221, 112, 112);
+  color: rgb(205,178,128);
+  background-color: rgb(50,74,178);
+}
+
+.text-blue {
+  color: rgb(50,74,178);
+}
+
+.text-mint {
+  color: rgb(67,179,174);
+}
+
+.text-white {
+  color: rgb(219,215,210);
+}
+
+.text-tan {
+  color: rgb(205,178,128);
+}
+
+.text-red {
+  color: rgb(205,92,92);
 }

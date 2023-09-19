@@ -18,6 +18,9 @@
         </header>
         <hr>
         <main>
+            <section id="username_display">
+                <h1>You are currently logged in as: <span id="username">[USERNAME]</span></h1>
+            </section>
             <section id="session_info">
                 <h1>Voting Session</h1>
                 <h2 id="vp_session_id">Session ID: D4K452</h2>
@@ -27,7 +30,8 @@
                 <form action>
                     <label for="vote_selection">Voting Selection</label> <br>
                     <input type="text" list="voting_options" id="vote_selection"
-                        name="vote_selection" placeholder="Search Here or Create Your
+                        name="vote_selection"
+                        placeholder="Search Here or Create Your
                         Own...">
                     <datalist id="voting_options">
                         <!--Below is a hardcoded list of voting options.
@@ -47,11 +51,70 @@
                         <option value="Costa Vida"></option>
                         <option value="Five Sushi Bros"></option>
                         <option value="Black Sheep Cafe"></option>
-                    </datalist> <br>
-                    <button id="finalize">Finalize</button>
+                    </datalist>
                 </form>
             </section>
-
+            <br>
+            <section id="vote_count"> <!--Displays current vote counts-->
+                <table>
+                    <tr>
+                        <th>Food</th>
+                        <th>Votes</th>
+                    </tr>
+                    <tr>
+                        <td>McDonald's</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Chick-fil-A</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Bumblebees</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Se Llama Peru</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>India Palace</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Burger Supreme</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Cubby's</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Good Move</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Brick Oven</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Costa Vida</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Five Sushi Bros</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Black Sheep Cafe</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+            </section>
+            <br>
+            <section id="finalize_button">
+                <button id="finalize">Finalize Vote</button>
+            </section>
         </main>
         <section id="session_selection_popup">
             <p>Based on the selection of the group, you will be

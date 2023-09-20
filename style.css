@@ -1,4 +1,4 @@
-#color_palatte{ /* color names and HEX are listed */
+#color_palette{ /* color names and HEX are listed */
   color: rgb(50,74,178); /*Violet Blue - 324AB2*/
   color: rgb(67,179,174); /*Verdigris - 43B3AE*/
   color: rgb(219,215,210); /*Timberwolf - DBD7D2*/
@@ -6,17 +6,40 @@
   color: rgb(205,92,92); /*Indian Red - CD5C5C*/
 }
 
-* {
-  text-align: center;
-  background-color: rgb(219,215,210);
+#color_palette2 { /* color names and HEX are listed */
+  color: rgb(166,198,42); /*Android Green - 4A2AC6*/
+  color: rgb(254,150,92); /*Atomic Tangerine - FE965C*/
+  color: rgb(252,225,144); /*Jasmine - FCE090*/
+  color: rgb(230,93,98); /*Indian Red - E65D62*/
+  color: rgb(4,175,213); /*Pacific Cyan - 04AFD5*/
 }
 
-h1 {
-  color: rgb(50,74,178);
-  font-size: 20pt;
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-weight: 800;
-  margin: 5pt;
+* {
+  text-align: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: rgb(252,225,144, .85);
+}
+
+body {
+  background-image: url("/images/cactus_sunset_55.jpeg");
+  background-size: cover;
+  background-position: center;
+}
+
+#AA_header_logo {
+  height: 150px;
+}
+
+#AA_header_logo h1 {
+  color: rgb(4,175,213);
+  font-size: 24pt;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bolder;
   text-align: center;
 }
 
@@ -24,9 +47,25 @@ p {
   text-align: center;
 }
 
-.login, .label {
-  margin: 5pt;
+#login, #create_login {
+  background-color: rgb(254,150,92, .75);
+  border-radius: 10px;
+  width: 375px;
+  padding: 15px;
+  margin: 30px;
 }
+
+#login h1, #create_login h1 {
+  font-size: 14pt;
+}
+
+#login label, #login input,
+  #create_login label, #create_login input {
+    font-size: 10pt;
+    margin: 5px;
+    align-items: justify;
+}
+
 
 form {
   font-size: 14pt;
@@ -40,35 +79,15 @@ menu a[href],
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   text-decoration-line: none;
   font-size: 14pt;
-  color:rgb(50,74,178);
+  color:rgb(4,175,213);
   padding: 5pt;
-  margin: 4pt;
+  margin: 12pt;
   border-radius: 5pt;
-  background-color: rgb(205,178,128);
+  background-color: rgb(254,150,92, .5);
   transition: all 0.5s;
 }
 
 menu a[href]:hover {
-  color: rgb(205,178,128);
-  background-color: rgb(50,74,178);
-}
-
-.text-blue {
-  color: rgb(50,74,178);
-}
-
-.text-mint {
-  color: rgb(67,179,174);
-}
-
-.text-white {
-  color: rgb(219,215,210);
-}
-
-.text-tan {
-  color: rgb(205,178,128);
-}
-
-.text-red {
-  color: rgb(205,92,92);
+  color: rgb(254,150,92);
+  background-color: rgb(4,175,213, .5);
 }

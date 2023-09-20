@@ -7,36 +7,37 @@
     </head>
     <body>
         <header>
-            <h1 class="AA_Header">Activity Anarchy</h1>
+            <section id="AA_header_logo">
+                <img src="/images/orange cowboy hat.png" alt="Orange Cowboy Hat Logo" width="100px">
+                <h1 class="AA_Header">Activity Anarchy</h1>
+            </section>
             <nav>
                 <menu>
-                    <a href="index.html">Login Page</a>
-                    <a href="enter_session.html">Enter a Voting Session</a>
-                    <a href="about.html">About Activity Anarchy</a>
+                    <a href="index.html">Login</a>
+                    <a href="enter_session.html">Enter Session</a>
+                    <a href="about.html">About</a>
                 </menu>
             </nav>
         </header>
         <main>
             <section id="login">
-                <h1>Login</h1>
+                <h1>Login to Enter a Session</h1>
                 <form method="get" action="enter_session.html">
-                    <label for="username" class="login label">Username</label>
+                    <label for="username">Username</label>
                     <input type="text" id="username"
-                        placeholder="type your username" class="login entry">
+                        placeholder="type your username">
                     <br>
-                    <label for="user-pw" class="login label">Password</label>
+                    <label for="user-pw">Password</label>
                     <input type="user-pw" id="user-pw"
-                        placeholder="type your password" class="login entry">
+                        placeholder="type your password">
                     <br>
-                    <button id="login" type="submit">Login</button>
+                    <button id="login_button" type="submit">Login</button>
                     <!--Does this ^^^ submit both username and password?-->
                 </form>
             </section>
             <br>
-            <div>or</div>
-            <br>
             <section id="create_login">
-                <h1>Create New Account</h1>
+                <h1>Create an Account to Begin</h1>
                 <form method="get" action="enter_session.html">
                     <label for="new_username">New Username</label>
                     <input type="text" id="new_username"
@@ -50,7 +51,7 @@
                     <input type="user-pw" id="confirm_user-pw"
                         placeholder="confirm password">
                     <br>
-                    <button id="new_account" type="submit">Create New Account</button>
+                    <button id="create_login_button" type="submit">Create New Account</button>
                     <!--Does this ^^^ submit both username and password?-->
                 </form>
             </section>

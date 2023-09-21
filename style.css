@@ -21,21 +21,28 @@
   padding: 0;
 }
 
-header {
-  background-color: rgb(252,225,144, .85);
+header, 
+  menu {
+    background-color: rgb(252,225,144, .85);
+    margin-bottom: 15px;
+    z-index: 10;
 }
 
 body {
   background-image: url("/images/cactus_sunset_55.jpeg");
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 #AA_header_logo {
-  height: 150px;
+  height: 125px;
 }
 
 #AA_header_logo h1 {
+  padding: 10px;
+  height: 100px;
+  display: inline;
   color: rgb(4,175,213);
   font-size: 24pt;
   font-family: 'Courier New', Courier, monospace;
@@ -51,21 +58,35 @@ p {
   background-color: rgb(254,150,92, .75);
   border-radius: 10px;
   width: 375px;
-  padding: 15px;
-  margin: 30px;
+  padding: 12px;
+  margin: 25px;
 }
 
 #login h1, #create_login h1 {
   font-size: 14pt;
+  margin: 3px;
 }
 
 #login label, #login input,
   #create_login label, #create_login input {
     font-size: 10pt;
     margin: 5px;
-    align-items: justify;
 }
 
+#login label, #create_login label {
+  float: left;
+  height: 21px;
+}
+
+#login input, #create_login input {
+  float: right;
+  height: 21px;
+}
+
+button {
+  padding: 3px;
+  margin: 4px;
+}
 
 form {
   font-size: 14pt;

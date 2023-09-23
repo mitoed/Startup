@@ -1,31 +1,21 @@
-#color_palette{ /* color names and HEX are listed */
-  color: rgb(50,74,178); /*Violet Blue - 324AB2*/
-  color: rgb(67,179,174); /*Verdigris - 43B3AE*/
-  color: rgb(219,215,210); /*Timberwolf - DBD7D2*/
-  color: rgb(205,178,128); /*Ecru - CDB280*/
-  color: rgb(205,92,92); /*Indian Red - CD5C5C*/
-}
-
-#color_palette2 { /* color names and HEX are listed */
-  color: rgb(166,198,42); /*Android Green - 4A2AC6*/
-  color: rgb(254,150,92); /*Atomic Tangerine - FE965C*/
-  color: rgb(252,225,144); /*Jasmine - FCE090*/
-  color: rgb(230,93,98); /*Indian Red - E65D62*/
-  color: rgb(4,175,213); /*Pacific Cyan - 04AFD5*/
+:root {
+              /*Hue, Saturation, Lightness*/
+         --green: hsl(72, 65%, 47%);
+   --green-light: hsl(72, 71%, 65%);
+        --orange: hsl(21, 91%, 69%);
+  --orange-light: hsl(21, 88%, 78%);
+        --yellow: hsl(44, 95%, 78%);
+  --yellow-light: hsl(44, 67%, 82%);
+          --red: hsl(357, 73%, 63%);
+    --red-light: hsl(357, 46%, 69%);
+         --blue: hsl(192, 96%, 43%);
+   --blue-light: hsl(192, 34%, 63%);
 }
 
 * {
   text-align: center;
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-header, 
-  menu {
-    background-color: rgb(252,225,144, .85);
-    margin-bottom: 15px;
-    z-index: 10;
 }
 
 body {
@@ -35,57 +25,120 @@ body {
   background-repeat: no-repeat;
 }
 
+header {
+  background-color: var(--yellow-light);
+  height: 150px;
+}
+
 #AA_header_logo {
-  height: 125px;
+  width: 100%;
+  height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+#AA_header_logo * {
+  margin: 0 10px;
 }
 
 #AA_header_logo h1 {
-  padding: 10px;
-  height: 100px;
-  display: inline;
-  color: rgb(4,175,213);
+  color: rgb(4, 175, 213);
   font-size: 24pt;
-  font-family: 'Courier New', Courier, monospace;
-  font-weight: bolder;
+  font-family: 'Chelsea Market', cursive;
+  font-weight: 800;
+  letter-spacing: 2px;
   text-align: center;
 }
 
-p {
-  text-align: center;
+menu {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
-#login, #create_login {
-  background-color: rgb(254,150,92, .75);
+menu a[href],
+menu a[href]:visited {
+  font-family: 'Chelsea Market', cursive;
+  text-decoration-line: none;
+  font-size: 14pt;
+  font-weight: 1000px;
+  color: black;
+  padding: 5px 25px;
+  margin: 10px;
+  border-radius: 5pt;
+  background-color: var(--orange-light);
+  transition: all 0.4s;
+}
+
+menu a[href]:hover {
+  color: black;
+  background-color: var(--blue-light);
+}
+
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#login,
+#create_login {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  background-color: rgb(254, 150, 92, .75);
   border-radius: 10px;
   width: 375px;
-  padding: 12px;
-  margin: 25px;
+  padding: 12px 8px;
+  margin: 20px;
 }
 
-#login h1, #create_login h1 {
+#login h1,
+#create_login h1 {
+  width: 100%;
+  font-family: 'Chelsea Market', cursive;
   font-size: 14pt;
+  font-weight: 400;
   margin: 3px;
 }
 
-#login label, #login input,
-  #create_login label, #create_login input {
-    font-size: 10pt;
-    margin: 5px;
+#login form label,
+#login form input,
+#create_login form label,
+#create_login form input {
+  font-size: 10pt;
+  margin: 5px;
 }
 
 #login label, #create_login label {
+  font-family: 'Chelsea Market', cursive;
+  width: 125px;
   float: left;
-  height: 21px;
+  text-align: right;
 }
 
 #login input, #create_login input {
-  float: right;
-  height: 21px;
+  width: 160px;
 }
 
 button {
-  padding: 3px;
+  background-color: var(--blue-light);
+  border: 0;
+  border-radius: 5pt;
+  padding: 5px;
   margin: 4px;
+  font-family: 'Chelsea Market', cursive;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 form {
@@ -95,20 +148,16 @@ form {
   display: inline-block
 }
 
-menu a[href], 
-  menu a[href]:visited {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  text-decoration-line: none;
-  font-size: 14pt;
-  color:rgb(4,175,213);
-  padding: 5pt;
-  margin: 12pt;
-  border-radius: 5pt;
-  background-color: rgb(254,150,92, .5);
-  transition: all 0.5s;
+footer {
+  position: fixed;
+  bottom: 0px;
+  height: 50px;
+  width: 100%;
+  background-color: var(--yellow-light);
 }
 
-menu a[href]:hover {
-  color: rgb(254,150,92);
-  background-color: rgb(4,175,213, .5);
+footer p {
+  font-family: 'Chelsea Market', cursive;
+  font-weight: 200px;
+  margin: 10px;
 }

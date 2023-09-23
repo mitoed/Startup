@@ -24,6 +24,7 @@ When committing any saved change to the repository, you should add a meaningful 
 
 Below are keywords to use as the `type` in your comment:
 - `feat` – a new feature is introduced with the changes
+- `update` - a feature is changed or updated
 - `fix` – a bug fix has occurred
 - `chore` – changes that do not relate to a fix or feature and don't modify src or test files (for example updating dependencies)
 - `refactor` – refactored code that neither fixes a bug nor adds a feature

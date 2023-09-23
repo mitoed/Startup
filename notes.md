@@ -1,5 +1,9 @@
 Link to [README file](/README.md) for startup application
 
+Code to run in console:
+
+./deployFiles.sh -k ~/keys/Startup-Production.pem -h activityanarchy.click -s startup
+
 ## CS 260 Notes (by topic)
 [GitHub Notes -- Terms and Basic Instructions](/All_Notes/GitHub_notes.md)
 

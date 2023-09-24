@@ -66,7 +66,7 @@ About page
 
 **Links** - The login page links to the enter a session page, which in turn links to the voting page. A navigation menu that has links to the login page, the enter a session page, and the about page.
 
-**Text** - There is a texual representation of each voting option, text that displays the winning decision, and text that appears with a voting recommendation.
+**Text** - There is a textual representation of each voting option, text that displays the winning decision, and text that appears with a voting recommendation.
 
 **Third Party Service Calls** - None will be used.
 
@@ -74,7 +74,7 @@ About page
 
 **Login** - Users create an account (to be stored in a database) and then login with username and password. Username displayed on "enter session" and "voting session" pages.
 
-**Database** - All voting options are stored in a database by category, which are retreived for each voting session. New options (added within a session) will be immediately added to database at the end of the session. All user login and voting stats are held in a database. The voting option database is currently hardcoded into the voting_session page as a placeholder.
+**Database** - All voting options are stored in a database by category, which are retrieved for each voting session. New options (added within a session) will be immediately added to database at the end of the session. All user login and voting stats are held in a database. The voting option database is currently hardcoded into the voting_session page as a placeholder.
 
 **WebSocket** - Count of real time votes displayed on voting session page.
 

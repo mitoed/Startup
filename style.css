@@ -36,7 +36,7 @@ body {
   height: 150px;
 }
 
-.IN-l-main {
+.IND-l-main {
   height: calc(100vh - 160px - 70px);
   width: 100%;
   display: flex;
@@ -46,7 +46,7 @@ body {
   padding: 10px;
 }
 
-.IN-l-form {
+.IND-l-form {
   font-size: 14pt;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   max-width: 350px;
@@ -120,8 +120,8 @@ body {
   background-color: var(--blue-light);
 }
 
-.IN-userexist,
-.IN-usernew {
+.IND-userexist,
+.IND-usernew {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -133,8 +133,8 @@ body {
   margin: 20px;
 }
 
-.IN-userexist h1,
-.IN-usernew h1 {
+.IND-userexist h1,
+.IND-usernew h1 {
   width: 100%;
   font-family: 'Chelsea Market', cursive;
   font-size: 14pt;
@@ -142,28 +142,28 @@ body {
   margin: 3px;
 }
 
-.IN-userexist label,
-.IN-userexist input,
-.IN-usernew label,
-.IN-usernew input {
+.IND-userexist label,
+.IND-userexist input,
+.IND-usernew label,
+.IND-usernew input {
   font-size: 10pt;
   margin: 5px;
 }
 
-.IN-userexist label, 
-.IN-usernew label {
+.IND-userexist label, 
+.IND-usernew label {
   font-family: 'Chelsea Market', cursive;
   width: 125px;
   float: left;
   text-align: right;
 }
 
-.IN-userexist input, 
-.IN-usernew input {
+.IND-userexist input, 
+.IND-usernew input {
   width: 160px;
 }
 
-.IN-login button {
+.IND-login button {
   background-color: var(--blue-light);
   color: white;
   border: 0;
@@ -173,7 +173,7 @@ body {
   font-family: 'Chelsea Market', cursive;
 }
 
-.IN-login button:hover {
+.IND-login button:hover {
   background-color: var(--blue);
   cursor: pointer;
 }

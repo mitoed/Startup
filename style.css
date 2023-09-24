@@ -84,7 +84,7 @@ menu a[href]:hover {
 }
 
 main {
-  height: calc(100vh - 150px - 50px);
+  height: calc(100vh - 160px - 70px);
   width: 100%;
   display: flex;
   flex-direction: column;

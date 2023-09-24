@@ -3,62 +3,71 @@
 <html lang="en">
     <head>
         <title>Enter Voting Session</title>
+        <link rel="icon" href="/images/black cowboy hat.png" type="image/x-icon">
+        <link rel="stylesheet" href="./style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
     </head>
     <body>
-        <header>
-            <h1>Activity Anarchy</h1>
+        <header class="ALL-l-header">
+            <section id="logo">
+                <img src="/images/orange cowboy hat.png" alt="Orange Cowboy Hat Logo" width="100px">
+                <h1>Activity Anarchy</h1>
+            </section>
             <nav>
-                <menu>
-                    <li><a href="index.html">Login Page</a></li>
-                    <li><a href="enter_session.html">Enter a Voting Session</a></li>
-                    <li><a href="about.html">About Activity Anarchy</a></li>
+                <menu class="ALL-menu">
+                    <a href="index.html">Login</a>
+                    <a href="enter_session.html">Enter Session</a>
+                    <a href="about.html">About</a>
                 </menu>
             </nav>
         </header>
-        <hr>
-        <main>
-            <section id="username_display">
-                <h1>You are currently logged in as: <span id="username">[USERNAME]</span></h1>
+        <main class="ENT-l-main">
+            <section class="ENT-username">
+                <h1>Welcome, <span id="username">[USERNAME]</span></h1>
             </section>
-            <section id="enter_session">
-                <h1>Join an Existing Session or Create a New One!</h1>
-                <section id="join_session">
-                    <h2>Enter a Session ID to join an existing session</h2>
-                    <form method="get" action="voting_session.html">
+            <section class="ENT-session">
+                <!--<h1>Join an Existing Session or<br>Create a New One!</h1>-->
+                <section class="ENT-join">
+                    <h2>Join an existing session</h2>
+                    <form method="get" action="voting_session.html" class="ENT-join-form">
                         <label for="session_id">Session ID</label>
                         <input type="text" id="session_id" name="session_id">
                         <br>
-                        <button id="join_session_submit" type="submit">Join</button>
+                        <button class="ENT-join" type="submit">Join Session</button>
                     </form>
                 </section>
                 <br>
-                <section id="create_session">
-                    <h2>Create a new session by choosing a category and clicking
-                        "Submit"</h2>
-                    <form method="get" action="voting_session.html">
-                        <legend>Select a Category</legend> <br>
-                        <input type="radio" id="movie" name="category"
-                            value="movie">
-                        <label for="ses_cat">Movie</label>
-                        <input type="radio" id="game" name="category"
-                            value="game">
-                        <label for="ses_cat">Game</label>
-                        <input type="radio" id="food" name="category"
-                            value="food">
-                        <label for="ses_cat">Food</label>
-                        <br>
-                        <button id="create_session_submit" type="submit">Create</button>
+                <section class="ENT-create">
+                    <h2>or Create a new session</h2>
+                    <form method="get" action="voting_session.html" class="ENT-create-form">
+                        <!--<legend>Select a Category</legend>-->
+                        <div class="ENT-create-form-cat">
+                            <input type="radio" id="movie" name="category"
+                                value="movie">
+                            <label for="movie">Movie</label>
+                        </div>
+                        <div class="ENT-create-form-cat">
+                            <input type="radio" id="game" name="category"
+                                value="game">
+                            <label for="game">Game</label>
+                        </div>
+                        <div class="ENT-create-form-cat">
+                            <input type="radio" id="food" name="category"
+                                value="food">
+                            <label for="food">Food</label>
+                        </div>
+                        <button class="ENT-join" type="submit">Create Session</button>
                     </form>
                 </section>
             </section>
         </main>
         <hr>
-        <footer>
-            <section id="footer">
-                <p><span class="Author-Name">Michael Saulls</span> | <a
-                        href="https://github.com/mitoed/Startup.git">GitHub
-                        Repository</a></p>
-            </section>
+        <footer class="ALL-l-footer">
+            <p><span class="Author-Name">Michael Saulls</span> | <a
+                    href="https://github.com/mitoed/Startup.git">GitHub
+                    Repository</a></p>
         </footer>
     </body>
 </html>

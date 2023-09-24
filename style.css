@@ -1,6 +1,6 @@
 :root { /*pre-set colors*/
-         --green: hsl(72, 65%, 47%);
-   --green-light: hsl(72, 71%, 65%);
+         --green: hsl(72, 71%, 65%);
+   --green-light: hsl(72, 53%, 71%);
         --orange: hsl(21, 91%, 69%);
   --orange-light: hsl(21, 88%, 78%);
         --yellow: hsl(44, 95%, 78%);
@@ -17,6 +17,7 @@
   text-align: center;
   margin: 0;
   padding: 0;
+  font-family: 'Chelsea Market', cursive;
 }
 
 body {
@@ -67,6 +68,16 @@ body {
   font-weight: 200px;
 }
 
+.ENT-l-main {
+  height: calc(100vh - 160px - 70px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+}
+
 /* ---------- Module Rules ----------*/
 
 #logo {
@@ -115,18 +126,14 @@ body {
   transition: all 0.4s;
 }
 
-.ALL-menu a[href]:hover {
-  color: black;
-  background-color: var(--blue-light);
-}
-
 .IND-userexist,
 .IND-usernew {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
-  background-color: rgb(254, 150, 92, .75);
+  background-color: var(--orange-light);
+  opacity: .85;
   border-radius: 10px;
   width: 375px;
   padding: 12px 8px;
@@ -173,7 +180,110 @@ body {
   font-family: 'Chelsea Market', cursive;
 }
 
+.ENT-username h1 {
+  font-size: 14pt;
+  font-weight: 400;
+  margin: 25px;
+}
+
+.ENT-session {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  background-color: var(--green-light);
+  opacity: .85;
+  border-radius: 10px;
+  width: 425px;
+  padding: 0px;
+  margin: 10px;
+}
+
+.ENT-session h2 {
+  text-align: center;
+  font-family: 'Chelsea Market', cursive;
+  font-size: 16pt;
+  font-weight: 400;
+  margin: 8px;
+}
+
+.ENT-session label,
+.ENT-session input {
+  font-size: 12pt;
+}
+
+.ENT-join label,
+.ENT-join input {
+  margin: 5px;
+}
+
+.ENT-join,
+.ENT-create {
+  margin: 15px;
+}
+
+.ENT-create-form {
+  display: inline-flex;
+  align-items: center;
+  align-content: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 325px;
+}
+
+/*.ENT-create-form legend {
+  font-family: 'Chelsea Market', cursive;
+  font-size: 14pt;
+  font-weight: 400;
+  margin: 3px;
+  padding: 0;
+}*/
+
+.ENT-create-form-cat {
+  margin: 10px;
+}
+
+.ENT-create-form-cat input {
+  margin: 1px;
+}
+
+.ENT-create-form-cat label {
+  margin: 0;
+  padding: 0;
+}
+
+/*.ENT-create-form input {
+  margin: 10px 0px 10px 10px;
+}
+
+.ENT-create-form label {
+  margin: 10px 10px 10px 0px;
+}*/
+
+.ENT-session button {
+  background-color: var(--blue-light);
+  color: white;
+  border: 0;
+  border-radius: 5pt;
+  padding: 5px;
+  margin: 4px;
+  font-family: 'Chelsea Market', cursive;
+}
+
+/* ---------- Style Rules ----------*/
+
+.ALL-menu a[href]:hover {
+  color: black;
+  background-color: var(--blue-light);
+}
+
 .IND-login button:hover {
+  background-color: var(--blue);
+  cursor: pointer;
+}
+
+.ENT-session button:hover {
   background-color: var(--blue);
   cursor: pointer;
 }

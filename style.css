@@ -20,7 +20,7 @@
 
 body {
   background-image: url("/images/cactus_sunset_55.jpeg");
-  background-size: 100vw 150%;
+  background-size: 100vw auto;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;

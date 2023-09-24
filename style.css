@@ -1,5 +1,4 @@
-:root {
-              /*Hue, Saturation, Lightness*/
+:root { /*pre-set colors*/
          --green: hsl(72, 65%, 47%);
    --green-light: hsl(72, 71%, 65%);
         --orange: hsl(21, 91%, 69%);
@@ -11,6 +10,8 @@
          --blue: hsl(192, 96%, 43%);
    --blue-light: hsl(192, 34%, 63%);
 }
+
+/* ---------- Base Rules ----------*/
 
 * {
   text-align: center;
@@ -28,12 +29,47 @@ body {
   overflow-x: hidden;
 }
 
-header {
+/* ---------- Layout Rules ----------*/
+
+.l-header {
   background-color: var(--yellow-light);
   height: 150px;
 }
 
-#AA_header_logo {
+.l-main {
+  height: calc(100vh - 160px - 70px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+}
+
+.l-form {
+  font-size: 14pt;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  max-width: 350px;
+  display: inline-block
+}
+
+.l-footer {
+  position: relative;
+  bottom: 0px;
+  height: 50px;
+  width: 100%;
+  background-color: var(--yellow-light);
+}
+
+.l-footer p {
+  font-family: 'Chelsea Market', cursive;
+  font-weight: 200px;
+  margin: 10px;
+}
+
+/* ---------- Module Rules ----------*/
+
+#logo {
   width: 100%;
   height: 85px;
   display: flex;
@@ -43,11 +79,11 @@ header {
   flex-grow: 0;
 }
 
-#AA_header_logo * {
+#logo {
   margin: 0 10px;
 }
 
-#AA_header_logo h1 {
+#logo h1 {
   color: rgb(4, 175, 213);
   font-size: 24pt;
   font-family: 'Chelsea Market', cursive;
@@ -56,7 +92,7 @@ header {
   text-align: center;
 }
 
-menu {
+.menu {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -64,8 +100,8 @@ menu {
   flex-shrink: 0;
 }
 
-menu a[href],
-menu a[href]:visited {
+.menu a[href],
+.menu a[href]:visited {
   font-family: 'Chelsea Market', cursive;
   text-decoration-line: none;
   font-size: 14pt;
@@ -78,23 +114,13 @@ menu a[href]:visited {
   transition: all 0.4s;
 }
 
-menu a[href]:hover {
+.menu a[href]:hover {
   color: black;
   background-color: var(--blue-light);
 }
 
-main {
-  height: calc(100vh - 160px - 70px);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 10px;
-}
-
-#login,
-#create_login {
+.userexist,
+.usernew {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -106,8 +132,8 @@ main {
   margin: 20px;
 }
 
-#login h1,
-#create_login h1 {
+.userexist h1,
+.usernew h1 {
   width: 100%;
   font-family: 'Chelsea Market', cursive;
   font-size: 14pt;
@@ -115,26 +141,28 @@ main {
   margin: 3px;
 }
 
-#login form label,
-#login form input,
-#create_login form label,
-#create_login form input {
+.userexist label,
+.userexist input,
+.usernew label,
+.usernew input {
   font-size: 10pt;
   margin: 5px;
 }
 
-#login label, #create_login label {
+.userexist label, 
+.usernew label {
   font-family: 'Chelsea Market', cursive;
   width: 125px;
   float: left;
   text-align: right;
 }
 
-#login input, #create_login input {
+.userexist input, 
+.usernew input {
   width: 160px;
 }
 
-button {
+.login button {
   background-color: var(--blue-light);
   color: white;
   border: 0;
@@ -144,27 +172,7 @@ button {
   font-family: 'Chelsea Market', cursive;
 }
 
-button:hover {
+.login button:hover {
+  background-color: var(--blue);
   cursor: pointer;
-}
-
-form {
-  font-size: 14pt;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  max-width: 350px;
-  display: inline-block
-}
-
-footer {
-  position: relative;
-  bottom: 0px;
-  height: 50px;
-  width: 100%;
-  background-color: var(--yellow-light);
-}
-
-footer p {
-  font-family: 'Chelsea Market', cursive;
-  font-weight: 200px;
-  margin: 10px;
 }

@@ -20,11 +20,12 @@
 
 body {
   background-image: url("/images/cactus_sunset_55.jpeg");
-  background-size: auto 150%;
+  background-size: 100vw 150%;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  background-color: var(--green-light);
+  background-color: whitesmoke;
+  overflow-x: hidden;
 }
 
 header {
@@ -155,7 +156,7 @@ form {
 }
 
 footer {
-  position: fixed;
+  position: relative;
   bottom: 0px;
   height: 50px;
   width: 100%;

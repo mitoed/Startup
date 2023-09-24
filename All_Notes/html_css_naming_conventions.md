@@ -8,10 +8,10 @@
 | Page Name | Prefix |
 | --------- | ------ |
 | ALL PAGES | ALL- |
-| index.html | IN- |
-| enter-session.html | ES- |
-| voting-session.html | VS- |
-| about.html | AB- |
+| index.html | IND- |
+| enter-session.html | ENT- |
+| voting-session.html | VOT- |
+| about.html | ABT- |
 
 ### Class (and Sub-Class) Structure
 

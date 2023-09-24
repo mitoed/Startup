@@ -58,13 +58,13 @@ body {
   bottom: 0px;
   height: 50px;
   width: 100%;
+  padding: 10px;
   background-color: var(--yellow-light);
 }
 
 .ALL-l-footer p {
   font-family: 'Chelsea Market', cursive;
   font-weight: 200px;
-  margin: 10px;
 }
 
 /* ---------- Module Rules ----------*/

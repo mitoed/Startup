@@ -56,7 +56,7 @@ body {
 .ALL-l-footer {
   position: relative;
   bottom: 0px;
-  height: 50px;
+  height: 40px;
   width: 100%;
   padding: 10px;
   background-color: var(--yellow-light);

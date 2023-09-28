@@ -22,7 +22,7 @@
 
 body {
   background-image: url("/images/cactus_sunset_55.jpg");
-  background-size: 100vw auto;
+  background-size: auto 150vh;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -33,29 +33,24 @@ body {
 /* ---------- Layout Rules ----------*/
 
 .ALL-l-header {
+  position: fixed;
+  top: 0px;
   background-color: var(--yellow-light);
   height: 150px;
+  width: 100%;
 }
 
-.IND-l-main {
-  height: calc(100vh - 160px - 70px);
+.ALL-l-main {
+  position: relative;
+  top: 150px;
+  overflow-y: scroll;
+  height: calc(100vh - 160px - 50px);
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
   padding: 10px;
 }
 
-.IND-l-form {
-  font-size: 14pt;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  max-width: 350px;
-  display: inline-block
-}
-
 .ALL-l-footer {
-  position: relative;
+  position: fixed;
   bottom: 0px;
   height: 40px;
   width: 100%;
@@ -68,14 +63,11 @@ body {
   font-weight: 200px;
 }
 
-.ENT-l-main {
-  height: calc(100vh - 160px - 70px);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 10px;
+.IND-l-form {
+  font-size: 14pt;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  max-width: 350px;
+  display: inline-block
 }
 
 /* ---------- Module Rules ----------*/
@@ -126,6 +118,13 @@ body {
   border-radius: 5pt;
   background-color: var(--orange-light);
   transition: all 0.4s;
+}
+
+.container.verticle {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .IND-userexist,
@@ -183,9 +182,10 @@ body {
 }
 
 .ENT-username h1 {
+  flex-shrink: 1;
   font-size: 14pt;
   font-weight: 400;
-  margin: 25px;
+  margin: 15px;
 }
 
 .ENT-session {
@@ -234,14 +234,6 @@ body {
   width: 325px;
 }
 
-/*.ENT-create-form legend {
-  font-family: 'Chelsea Market', cursive;
-  font-size: 14pt;
-  font-weight: 400;
-  margin: 3px;
-  padding: 0;
-}*/
-
 .ENT-create-form-cat {
   margin: 10px;
 }
@@ -254,14 +246,6 @@ body {
   margin: 0;
   padding: 0;
 }
-
-/*.ENT-create-form input {
-  margin: 10px 0px 10px 10px;
-}
-
-.ENT-create-form label {
-  margin: 10px 10px 10px 0px;
-}*/
 
 .ENT-session button {
   background-color: var(--blue-light);

@@ -5,20 +5,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Voting Session: D4K452</title>
         <!--Should be updated with current session id-->
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <header>
-            <h1>Activity Anarchy</h1>
+        <header class="ALL-l-header">
+            <section id="logo">
+                <img src="/images/orange cowboy hat.png" alt="Orange Cowboy Hat Logo" width="100px">
+                <h1>Activity Anarchy</h1>
+            </section>
             <nav>
-                <menu>
-                    <li><a href="index.html">Login Page</a></li>
-                    <li><a href="enter_session.html">Enter a Voting Session</a></li>
-                    <li><a href="about.html">About Activity Anarchy</a></li>
+                <menu class="ALL-menu">
+                    <a href="index.html">Login</a>
+                    <a href="enter_session.html">Enter Session</a>
+                    <a href="about.html">About</a>
                 </menu>
             </nav>
         </header>
-        <hr>
-        <main>
+        <main class="ALL-l-main">
             <section id="username_display">
                 <h1>You are currently logged in as: <span id="username">[USERNAME]</span></h1>
             </section>
@@ -26,10 +29,9 @@
                 <h1>Voting Session</h1>
                 <h2 id="vp_session_id">Session ID: D4K452</h2>
             </section>
-            <br>
             <section id="vote_list">
                 <form action>
-                    <label for="vote_selection">Voting Selection</label> <br>
+                    <label for="vote_selection">Voting Selection</label>
                     <input type="text" list="voting_options" id="vote_selection"
                         name="vote_selection"
                         placeholder="Search Here or Create Your
@@ -55,7 +57,6 @@
                     </datalist>
                 </form>
             </section>
-            <br>
             <section id="vote_count"> <!--Displays current vote counts-->
                 <table>
                     <tr>
@@ -140,13 +141,10 @@
             <h1>What is popular on the internet?</h1>
             <p>Google recommends <span id="recommendation_internet_option">[Restaurant]</span> based on reviews and proximity to your location. Check it out <a href="google.com">here</a>!</p>
         </section>
-        <hr>
-        <footer>
-            <section id="footer">
-                <p><span class="Author-Name">Michael Saulls</span> | <a
-                        href="https://github.com/mitoed/Startup.git">GitHub
-                        Repository</a></p>
-            </section>
+        <footer class="ALL-l-footer">
+            <p><span class="Author-Name">Michael Saulls</span> | <a
+                    href="https://github.com/mitoed/Startup.git">GitHub
+                    Repository</a></p>
         </footer>
     </body>
 </html>

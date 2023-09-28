@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Enter Voting Session</title>
+        <title>Enter Session - Activity Anarchy</title>
         <link rel="icon" href="/images/black cowboy hat.png" type="image/x-icon">
         <link rel="stylesheet" href="./style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,8 +24,8 @@
                 </menu>
             </nav>
         </header>
-        <main class="ALL-l-main container verticle grid2">
-            <section class="ENT-username">
+        <main class="ALL-l-main ALL-container ALL-verticle">
+            <section class="ALL-username">
                 <h1>Welcome, <span id="username">[USERNAME]</span></h1>
             </section>
             <section class="ENT-session">
@@ -34,9 +34,9 @@
                     <h2>Join an existing session</h2>
                     <form method="get" action="voting_session.html" class="ENT-join-form">
                         <label for="session_id">Session ID</label>
-                        <input type="text" id="session_id" name="session_id">
+                        <input type="text" id="session_id" name="session_id" placeholder="type a session id">
                         <br>
-                        <button class="ENT-join" type="submit">Join Session</button>
+                        <button type="submit">Join Session</button>
                     </form>
                 </section>
                 <br>
@@ -59,7 +59,7 @@
                                 value="food">
                             <label for="food">Food</label>
                         </div>
-                        <button class="ENT-join" type="submit">Create Session</button>
+                        <button type="submit">Create Session</button>
                     </form>
                 </section>
             </section>

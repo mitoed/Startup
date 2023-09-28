@@ -3,9 +3,12 @@
 <html lang="en">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Voting Session: D4K452</title>
-        <!--Should be updated with current session id-->
-        <link rel="stylesheet" href="style.css">
+        <title>Voting Session - Activity Anarchy</title>
+        <link rel="icon" href="/images/black cowboy hat.png" type="image/x-icon">
+        <link rel="stylesheet" href="./style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
     </head>
     <body>
         <header class="ALL-l-header">
@@ -21,125 +24,124 @@
                 </menu>
             </nav>
         </header>
-        <main class="ALL-l-main">
-            <section id="username_display">
-                <h1>You are currently logged in as: <span id="username">[USERNAME]</span></h1>
+        <main class="ALL-l-main ALL-container ALL-verticle">
+            <section class="ALL-username">
+                <h1>Welcome, <span id="username">[USERNAME]</span></h1>
             </section>
-            <section id="session_info">
-                <h1>Voting Session</h1>
-                <h2 id="vp_session_id">Session ID: D4K452</h2>
+            <section class="VOT-session VOT-info">
+                <h1>Session ID: <span class="session id">D4K452</span></h1>
             </section>
-            <section id="vote_list">
-                <form action>
-                    <label for="vote_selection">Voting Selection</label>
-                    <input type="text" list="voting_options" id="vote_selection"
-                        name="vote_selection"
-                        placeholder="Search Here or Create Your
-                        Own...">
-                    <datalist id="voting_options">
-                        <!--Below is a hardcoded list of voting options.
-                        Given that its a datalist, the user can input something not included.
-                        Eventually, this should be held in a database and retreived based on category.
-                        The database should be updated with inputted options.
-                        Additions should immediately be added as new options to ALL lists.-->
-                        <option value="McDonald's"></option>
-                        <option value="Chick-fil-A"></option>
-                        <option value="Bumblebees"></option>
-                        <option value="Se Llama Peru"></option>
-                        <option value="India Palace"></option>
-                        <option value="Burger Supreme"></option>
-                        <option value="Cubby's"></option>
-                        <option value="Good Move"></option>
-                        <option value="Brick Oven"></option>
-                        <option value="Costa Vida"></option>
-                        <option value="Five Sushi Bros"></option>
-                        <option value="Black Sheep Cafe"></option>
-                    </datalist>
-                </form>
-            </section>
-            <section id="vote_count"> <!--Displays current vote counts-->
-                <table>
-                    <tr>
-                        <th>Food</th>
-                        <th>Votes</th>
-                    </tr>
-                    <tr>
-                        <td>McDonald's</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Chick-fil-A</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>Bumblebees</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>Se Llama Peru</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>India Palace</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>Burger Supreme</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>Cubby's</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>Good Move</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>Brick Oven</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>Costa Vida</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>Five Sushi Bros</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>Black Sheep Cafe</td>
-                        <td>0</td>
-                    </tr>
-                </table>
-            </section>
-            <br>
-            <section id="finalize_button">
-                <button id="finalize">Finalize Vote</button>
+            <section class="VOT-count_selection VOT-container">
+                <section class="VOT-count"> <!--Displays current vote counts-->
+                    <table>
+                        <tr>
+                            <th>Food</th>
+                            <th>Votes</th>
+                        </tr>
+                        <tr>
+                            <td>McDonald's</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>Chick-fil-A</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>Bumblebees</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>Se Llama Peru</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>India Palace</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>Burger Supreme</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>Cubby's</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>Good Move</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>Brick Oven</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>Costa Vida</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>Five Sushi Bros</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>Black Sheep Cafe</td>
+                            <td>0</td>
+                        </tr>
+                    </table>
+                </section>
+                <section class="VOT-select_internet VOT-container">
+                    <section class="VOT-select">
+                        <form action>
+                            <label for="vote_selection">Voting Selection</label><br>
+                            <input type="text" list="voting_options" id="vote_selection"
+                                name="vote_selection"
+                                placeholder="type to search or create">
+                            <datalist id="voting_options">
+                                <!--Below is a hardcoded list of voting options.
+                                Given that its a datalist, the user can input something not included.
+                                Eventually, this should be held in a database and retreived based on category.
+                                The database should be updated with inputted options.
+                                Additions should immediately be added as new options to ALL lists.-->
+                                <option value="McDonald's"></option>
+                                <option value="Chick-fil-A"></option>
+                                <option value="Bumblebees"></option>
+                                <option value="Se Llama Peru"></option>
+                                <option value="India Palace"></option>
+                                <option value="Burger Supreme"></option>
+                                <option value="Cubby's"></option>
+                                <option value="Good Move"></option>
+                                <option value="Brick Oven"></option>
+                                <option value="Costa Vida"></option>
+                                <option value="Five Sushi Bros"></option>
+                                <option value="Black Sheep Cafe"></option>
+                            </datalist>
+                        </form>
+                        <button id="finalize" type="submit">Finalize Vote</button>
+                    </section>
+                    <section class="VOT-internet">
+                        <p>Based on reviews and proximity to your location, Google recommends
+                            <span id="recommendation_internet">[Restaurant]</span>.<br>
+                            Check it out <a href="google.com" id="recommendation_link">here</a>!</p>
+                    </section>
+                </section>
             </section>
         </main>
-        <section id="session_selection_popup">
+        <section class="VOT-opinion">
+            <h1>Care to try something new?</h1>
+            <p>One of the voters seems to be more creative than the rest.
+                <br>This time, they voted for:
+                <span id="recommendation_opinion">Good Move</span>.<br>
+                <!--"recommended_opinion" should change based on calculation-->
+                Would you like to support this opinion instead?</p>
+            <button id="opnion_yes" type="submit">Yes</button>
+            <button id="opinion_no" type="button">No</button>
+        </section>
+        <section class="VOT-final VOT-decision">
             <p>Based on the selection of the group, you will be
                 <span id="category_verb">eating at</span>
                 <!--changed with category selection-->
                 <span id="group_selection">McDonald's</span>
                 <!--option with most votes-->
                 !</p>
-        </section>
-        <section id="recommendation_popup">
-            <h1 id="popup_head">Care to try something new?</h1>
-            <p>One of the voters seems to be more creative than the rest,
-                meaning their opinion is rarely chosen. This time, they
-                voted for:<br>
-                <span id="recommended_popup_opinion">Good Move</span>.<br>
-                <!--"recommended_opinion" should change based on calculation-->
-                Would you like to support this opinion instead?</p>
-            <button id="recommend_yes">Yes</button>
-            <button id="recommend_no">No</button>
-        </section>
-        <section id="recommendation_internet">
-            <h1>What is popular on the internet?</h1>
-            <p>Google recommends <span id="recommendation_internet_option">[Restaurant]</span> based on reviews and proximity to your location. Check it out <a href="google.com">here</a>!</p>
         </section>
         <footer class="ALL-l-footer">
             <p><span class="Author-Name">Michael Saulls</span> | <a

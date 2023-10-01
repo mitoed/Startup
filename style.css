@@ -59,7 +59,7 @@ button {
 .ALL-l-main {
   position: relative;
   top: 135px;
-  overflow-y: scroll;
+  overflow-y: auto;
   width: 100%;
   padding: 30px 0;
   z-index: 0;
@@ -302,7 +302,7 @@ button {
   opacity: .85;
   margin: 10px 20px;
   max-height: 350px;
-  overflow-y: scroll;
+  overflow-y: auto;
   & table,
   & th,
   & td {

@@ -87,40 +87,38 @@
                         </tr>
                     </table>
                 </section>
-                <section class="VOT-select_internet VOT-container">
-                    <section class="VOT-select">
-                        <form action>
-                            <label for="vote_selection">Voting Selection</label><br>
-                            <input type="text" list="voting_options" id="vote_selection"
-                                name="vote_selection"
-                                placeholder="type to search or create">
-                            <datalist id="voting_options">
-                                <!--Below is a hardcoded list of voting options.
-                                Given that its a datalist, the user can input something not included.
-                                Eventually, this should be held in a database and retreived based on category.
-                                The database should be updated with inputted options.
-                                Additions should immediately be added as new options to ALL lists.-->
-                                <option value="McDonald's"></option>
-                                <option value="Chick-fil-A"></option>
-                                <option value="Bumblebees"></option>
-                                <option value="Se Llama Peru"></option>
-                                <option value="India Palace"></option>
-                                <option value="Burger Supreme"></option>
-                                <option value="Cubby's"></option>
-                                <option value="Good Move"></option>
-                                <option value="Brick Oven"></option>
-                                <option value="Costa Vida"></option>
-                                <option value="Five Sushi Bros"></option>
-                                <option value="Black Sheep Cafe"></option>
-                            </datalist>
-                        </form>
-                        <button id="finalize" type="submit">Finalize Vote</button>
-                    </section>
-                    <section class="VOT-internet">
-                        <p>Based on reviews and proximity to your location, Google recommends
-                            <span id="recommendation_internet">[Restaurant]</span>.<br>
-                            Check it out <a href="google.com" id="recommendation_link">here</a>!</p>
-                    </section>
+                <section class="VOT-select">
+                    <form action>
+                        <label for="vote_selection">Voting Selection</label><br>
+                        <input type="text" list="voting_options" id="vote_selection"
+                            name="vote_selection"
+                            placeholder="type to search or create">
+                        <datalist id="voting_options">
+                            <!--Below is a hardcoded list of voting options.
+                            Given that its a datalist, the user can input something not included.
+                            Eventually, this should be held in a database and retreived based on category.
+                            The database should be updated with inputted options.
+                            Additions should immediately be added as new options to ALL lists.-->
+                            <option value="McDonald's"></option>
+                            <option value="Chick-fil-A"></option>
+                            <option value="Bumblebees"></option>
+                            <option value="Se Llama Peru"></option>
+                            <option value="India Palace"></option>
+                            <option value="Burger Supreme"></option>
+                            <option value="Cubby's"></option>
+                            <option value="Good Move"></option>
+                            <option value="Brick Oven"></option>
+                            <option value="Costa Vida"></option>
+                            <option value="Five Sushi Bros"></option>
+                            <option value="Black Sheep Cafe"></option>
+                        </datalist>
+                    </form>
+                    <button id="finalize" type="submit">Finalize Vote</button>
+                </section>
+                <section class="VOT-internet">
+                    <p>Based on reviews and proximity to your location, Google recommends
+                        <span id="recommendation_internet">[Restaurant]</span>.<br>
+                        Check it out <a href="google.com" id="recommendation_link">here</a>!</p>
                 </section>
             </section>
         </main>

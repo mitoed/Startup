@@ -29,7 +29,7 @@ body {
   background-repeat: no-repeat;
   background-color: whitesmoke;
   overflow-x: hidden;
-  overflow-y: hidden;
+  /*overflow-y: hidden;*/
 }
 
 input {
@@ -53,14 +53,16 @@ button {
   background-color: var(--yellow-light);
   min-height: 125px;
   width: 100%;
+  z-index: 100;
 }
 
 .ALL-l-main {
   position: relative;
   top: 135px;
-  overflow-y: scroll !important;
+  overflow-y: scroll;
   width: 100%;
   padding: 30px 0;
+  z-index: 0;
 }
 
 @media (min-width:442px) {
@@ -89,6 +91,7 @@ button {
   height: 20px;
   width: 100%;
   padding: 10px;
+  z-index: 100;
   background-color: var(--yellow-light);
   & p {
     font-weight: 200px;
@@ -254,18 +257,50 @@ button {
 
 .VOT-count_selection.VOT-container {
   display: flex;
-  align-items: space-between;
-  align-content: space-between;
-  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  align-content: space-evenly;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   margin: 10px;
-  height: 350px;
+}
+
+@media (orientation: landscape) {
+  .VOT-count_selection.VOT-container {
+    height: 360px;
+  }
+  .VOT-count {
+    order: 1;
+  }
+  .VOT-select {
+    order: 2;
+  }
+  .VOT-internet {
+    order: 3;
+  }
+}
+
+@media (orientation: portrait) {
+  .VOT-count_selection.VOT-container {
+    min-height: 360px;
+    overflow-y: scroll;
+  }
+  .VOT-count {
+    order: 2;
+  }
+  .VOT-select {
+    order: 1;
+  }
+  .VOT-internet {
+    order: 3;
+  }
 }
 
 .VOT-count {
   display: inline-flex;
   opacity: .85;
-  margin: 10px;
+  margin: 10px 20px;
   max-height: 350px;
   overflow-y: scroll;
   & table,
@@ -295,17 +330,6 @@ button {
   }
 }
 
-.VOT-select_internet.VOT-container {
-  display: inline-flex;
-  align-items: center;
-  align-content: space-evenly;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: 275px;
-  margin: 10px;
-  padding: 10px;
-}
-
 .VOT-select,
 .VOT-internet {
   display: flex;
@@ -314,8 +338,9 @@ button {
   justify-content: center;
   flex-wrap: wrap;
   width: 250px;
+  height: 100px;
   padding: 15px;
-  margin: 5px;
+  margin: 10px 20px;
   background-color: var(--green-light);
   opacity: .85;
   border-radius: 10px;
@@ -342,6 +367,10 @@ button {
   }
   & span {
     font-weight: 700;
+  }
+  & a[href],
+  & a[href]:visited {
+    color: var(--blue);
   }
 }
 

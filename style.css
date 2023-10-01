@@ -266,13 +266,13 @@ button {
   display: inline-flex;
   opacity: .85;
   margin: 10px;
-  height: 330px;
+  max-height: 350px;
   overflow-y: scroll;
   & table,
   & th,
   & td {
     border: 1px solid;
-    padding: 0px 4px;
+    padding: 4px 4px;
     font-size: 10pt;
     text-align: left;
   }

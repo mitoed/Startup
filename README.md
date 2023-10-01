@@ -82,16 +82,29 @@ About page
 
 ### HTML To-Dos
 
-- [ ] Create html files for each page. All pages will be accessible via hyperlinks in the header except the "hidden" page that users will use when participating in a live vote.
-- [ ] For create/join session page to tell voting page which database to pull from, learn to pass variables through URLs (when populating the next html page) -- something about APIs
+- [X] Create html files for each page. All pages will be accessible via hyperlinks in the header except the "hidden" page that users will use when participating in a live vote.
 
 ## CSS
 
 ### CSS Deliverable
 
+**Header, Footer, Main Content** - Added appropriate color to header/footer (including buttons with contrasting color) and img to background of main.
+
+**Navigation Elements** - Menu at top for navigating to each accessible page. Buttons on pages also navigate to next page.
+
+**Responsive to Window Sizing** - Through Flexblocks, elements remain centered upon resizing and voting page blocks rearrange for better visibility on narrow windows/devices.
+
+**Application Elements** - Styling intended to be simple yet intuitive and eye-catching. Flex blocks maintain good spacing and arrangement.
+
+**Application Text Content** - Imported readable and theme-appropriate font used throughout.
+
+**Application Images** - Background image applied using CSS. Placeholder image (to be updated) positioned on About Page.
+
+**Multiple Git Commits** - Done with (mostly) detailed comments.
+
 ### CSS To-Dos
 
-- [ ] Create property to hide or display the popup on the voting page (to be changed using JS); section is named "recommendation_popup"
+- [X] Create property to hide or display the popup on the voting page (to be changed using JS); section is named "recommendation_popup"
 
 ## JavaScript
 
@@ -99,6 +112,7 @@ About page
 
 ### JavaScript To-Dos
 
+- [ ] For create/join session page to tell voting page which database to pull from, learn to pass variables through URLs (when populating the next html page) -- something about APIs
 - [ ] Alter css property to inherently hide recommendation popup. Only display if:
 
 - Finalize button is clicked(?)

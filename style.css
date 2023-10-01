@@ -75,8 +75,8 @@ button {
 
 @media (max-width:441px) {
   .ALL-l-main {
-    top: 152px;
-    min-height: calc(100vh - 172px - 80px);
+    top: 153px;
+    min-height: calc(100vh - 173px - 80px);
   }
   #logo h1 {
     font-size: 18pt;

@@ -431,6 +431,7 @@ button {
 .ALL-menu a[href]:hover {
   color: black;
   background-color: var(--blue-light);
+  cursor: pointer;
 }
 
 button:hover {

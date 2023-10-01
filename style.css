@@ -29,6 +29,7 @@ body {
   background-repeat: no-repeat;
   background-color: whitesmoke;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 input {
@@ -57,8 +58,7 @@ button {
 .ALL-l-main {
   position: relative;
   top: 135px;
-  overflow-y: scroll;
-  height: calc(100vh - 155px - 40px);
+  overflow-y: scroll !important;
   width: 100%;
   padding: 30px 0;
 }
@@ -66,7 +66,7 @@ button {
 @media (min-width:442px) {
   .ALL-l-main {
     top: 135px;
-    height: calc(100vh - 155px - 40px);
+    min-height: calc(100vh - 155px - 80px);
   }
   #logo h1 {
     font-size: 24pt;
@@ -76,7 +76,7 @@ button {
 @media (max-width:441px) {
   .ALL-l-main {
     top: 152px;
-    height: calc(100vh - 172px - 40px);
+    min-height: calc(100vh - 172px - 80px);
   }
   #logo h1 {
     font-size: 18pt;

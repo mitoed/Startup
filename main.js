@@ -1,4 +1,6 @@
 // ---------- INITIALIZING VALUES ---------- //
+
+
 document.getElementById('login_error').innerHTML = ''
 document.getElementById('create_error').innerHTML = ''
 
@@ -7,6 +9,8 @@ document.getElementById('create_error').innerHTML = ''
 
 
 // ---------- CLASSES ---------- //
+
+
 class User {
   constructor (username, password) {
     this._username = username
@@ -57,6 +61,8 @@ class Session {
 
 
 // ---------- DUMMY VALUES ---------- //
+
+
 const databaseUSERS = []
 function addFakeUser (fakeUserName, fakePassword) {
   let fakeUser = new User(fakeUserName, fakePassword)
@@ -75,6 +81,8 @@ console.log(databaseUSERS)
 
 
 // ---------- GENERAL FUNCTIONS ---------- //
+
+
 // Validate a value from any field
 function DBInfoExist (database, checkField, checkValue, errorID = '') {
   if (database === null || checkField === null || checkValue === null) {
@@ -96,20 +104,22 @@ function DBInfoExist (database, checkField, checkValue, errorID = '') {
 
 
 // ---------- LOGIN PAGE ---------- //
+
+
 // Verify password of a given username
-function UserPassCorrect (database, checkUsername, checkPassword, errorID = '') {
-  if (database === null || checkUsername === null || checkPassword === null) {
+function UserPassCorrect (database, checkUsername, checkPassword, errorID) {
+  if (database === null || checkUsername === null || checkPassword === null || errorID === null) {
     console.log('Please provide all the inputs.')
     return
   }
   for (let entry in database) {
     if (database[entry]['username'] === checkUsername) {
       if (database[entry]['password'] === checkPassword) {
-        document.getElementById(errorID).innerHTML = '' // TO BE TESTED
+        document.getElementById(errorID).innerHTML = ''
         window.location.href = './enter_session.html'
         return
       } else {
-        document.getElementById(errorID).innerHTML = 'incorrect password' // TO BE TESTED
+        document.getElementById(errorID).innerHTML = 'incorrect password'
         return
       }
     }

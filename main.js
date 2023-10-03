@@ -1,5 +1,4 @@
-/* Classes */
-
+// CLASSES
 class User {
   constructor (username, password) {
     this._username = username
@@ -18,7 +17,6 @@ class User {
     this._sessions_won++
   }
 }
-
 class Session {
   constructor (sessionID, userArray, category, categoryArray, startTime) {
     this._sessionID = sessionID
@@ -46,41 +44,66 @@ class Session {
   get winner() {return this._winner}
 }
 
-/* Dummy Values*/
-
+// DUMMY VALUES
 const databaseUSERS = []
-
 function addFakeUser (fakeUserName, fakePassword) {
   let fakeUser = new User(fakeUserName, fakePassword)
   databaseUSERS.push(fakeUser)
 }
-
 addFakeUser("masaulls", "20difjw*%")
 addFakeUser('chsaulls', '389d9*')
 addFakeUser('rcsaulls', '303udsd')
 addFakeUser('ecsaulls', '38&jdkf')
 addFakeUser('ssaulls', '7329fd')
 addFakeUser('csaulls', '39fds')
-
 console.log(databaseUSERS)
 
-/* Common Protocols (to be functions)
-- check if information exists in DB like a username or session ID (databaseName/Location, checkField, checkValue, errorArray)
-- validate information in DB like a password (databaseName/Location, checkField, checkValue, checkField2, checkValue2, errorArray)
-*/
+// COMMON FUNCTIONS
+// Validate a value from any field
+function DBInfoExist (database, checkField, checkValue, errorID = '') {
+  if (database === null || checkField === null || checkValue === null) {
+    console.log('Please provide all the inputs.')
+    return false
+  }
+  for (let entry in database) {
+    if (database[entry][checkField] === checkValue) {
+      document.getElementById(errorID).innerHTML = '' // TO BE TESTED
+      return true
+    }
+  }
+  document.getElementById(errorID).innerHTML = `that ${checkField} does not exist` // TO BE TESTED
+  return false
+}
 
 /* Login Page (Existing User):
 - check to see if username exists in DB
 - if username exists, validate password
-- if username doesn't exist or password does not match, unhide error message.
+- if username doesn't exist or password does not match, show error message.
 */
 
-
+// Verify password of a given username
+function UserPassCorrect (database, checkUsername, checkPassword, errorID = '') {
+  if (database === null || checkUsername === null || checkPassword === null) {
+    console.log('Please provide all the inputs.')
+    return null
+  }
+  for (let entry in database) {
+    if (database[entry]['username'] === checkUsername) {
+      if (database[entry]['password'] === checkPassword) {
+        document.getElementById(errorID).innerHTML = '' // TO BE TESTED
+        return true
+      } else {
+        document.getElementById(errorID).innerHTML = 'incorrect password' // TO BE TESTED
+        return false
+      }
+    }
+  }
+}
 
 /* Login Page (Create User):
 - check to see if username exists in DB
 - check to see if password fits requirements
-- if passwords does not fit requirements or passwords don't match, unhide error message.
+- if passwords does not fit requirements or passwords don't match, show error message.
 */
 
 /* Enter Session Page (Existing Session):

@@ -46,6 +46,24 @@ class Session {
   get winner() {return this._winner}
 }
 
+/* Dummy Values*/
+
+const databaseUSERS = []
+
+function addFakeUser (fakeUserName, fakePassword) {
+  let fakeUser = new User(fakeUserName, fakePassword)
+  databaseUSERS.push(fakeUser)
+}
+
+addFakeUser("masaulls", "20difjw*%")
+addFakeUser('chsaulls', '389d9*')
+addFakeUser('rcsaulls', '303udsd')
+addFakeUser('ecsaulls', '38&jdkf')
+addFakeUser('ssaulls', '7329fd')
+addFakeUser('csaulls', '39fds')
+
+console.log(databaseUSERS)
+
 /* Common Protocols (to be functions)
 - check if information exists in DB like a username or session ID (databaseName/Location, checkField, checkValue, errorArray)
 - validate information in DB like a password (databaseName/Location, checkField, checkValue, checkField2, checkValue2, errorArray)

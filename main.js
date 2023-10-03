@@ -1,3 +1,25 @@
+/* Classes */
+
+class User {
+  constructor (username, password) {
+    this._username = username
+    this._password = password
+    this._sessions_total = 0
+    this._sessions_won = 0
+  }
+  get username() {return this._username}
+  get password() {return this._password}
+  get sessions_total() {return this._sessions_total}
+  participateSession() {
+    this._sessions_total++
+  }
+  get sessions_won() {return this._sessions_won}
+  winSession() {
+    this._sessions_won++
+  }
+}
+
+
 /* Common Protocols (to be functions)
 - check if information exists in DB like a username or session ID (databaseName/Location, checkField, checkValue, errorArray)
 - validate information in DB like a password (databaseName/Location, checkField, checkValue, checkField2, checkValue2, errorArray)

@@ -83,6 +83,8 @@ About page
 ### HTML To-Dos
 
 - [X] Create html files for each page. All pages will be accessible via hyperlinks in the header except the "hidden" page that users will use when participating in a live vote.
+- [ ] Add error messages to login page (display: "none")
+- [ ] Change table information to handlebars section to be filled by JS
 
 ## CSS
 
@@ -105,6 +107,8 @@ About page
 ### CSS To-Dos
 
 - [X] Create property to hide or display the popup on the voting page (to be changed using JS); section is named "recommendation_popup"
+- [ ] Format error messages as small, red text
+- [ ] Add additional dark background when the vote has been finalized
 
 ## JavaScript
 

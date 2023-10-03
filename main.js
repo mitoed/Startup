@@ -8,6 +8,7 @@ const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/
 
 
 
+
 // ---------- CLASSES ---------- //
 
 
@@ -112,7 +113,7 @@ function UserPassCorrect (database, checkUsername, checkPassword) {
     if (database[entry]['username'] === checkUsername) {
       if (database[entry]['password'] === checkPassword) {
         document.getElementById('login_error').innerHTML = ''
-        window.location.href = './enter_session.html'
+        window.location.href = `./enter_session.html?user=${checkUsername}`
         return
       } else {
         document.getElementById('login_error').innerHTML = 'incorrect password'
@@ -130,9 +131,9 @@ const login_exist_button = document.getElementById('login_exist')
 login_exist_button.onclick = function(event) {
   event.preventDefault();
 
-  let login_user = document.getElementById('username_input').value
+  let username_input = document.getElementById('username_input').value
   let password_input = document.getElementById('password_input').value
-  UserPassCorrect(databaseUSERS, login_user, password_input)
+  UserPassCorrect(databaseUSERS, username_input, password_input)
 }
 
 // Verify new user credentials
@@ -151,7 +152,7 @@ function UserPassCreate (database, newUsername, newPassword, confirmPassword) {
     document.getElementById('create_error').innerHTML = 'passwords must match'
     return
   }
-  window.location.href = './enter_session.html'
+  window.location.href = `./enter_session.html?user=${newUsername}`
   return
 }
 
@@ -167,8 +168,13 @@ login_create_button.onclick = function(event) {
   UserPassCreate(databaseUSERS, new_username, new_password, confirm_password)
 }
 
+// Retrieve username from url
+const pageURL = window.location.href
+const urlParams = new URLSearchParams(pageURL);
+const currentUser = urlParams.get('user');
+document.getElementById('username').innerHTML =  `Welcome, ${currentUser}`
 
-
+console.log(currentUser)
 
 /* Enter Session Page (Existing Session):
 - enter username into document.getElementById('username').innerHTML

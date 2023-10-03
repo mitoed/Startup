@@ -19,6 +19,32 @@ class User {
   }
 }
 
+class Session {
+  constructor (sessionID, userArray, category, categoryArray, startTime) {
+    this._sessionID = sessionID
+    this._userArray = userArray
+    this._category = category
+    this._categoryArray = categoryArray
+    this._startTime = startTime
+    this._unpopularOpinion = ""
+    this._endTime = ""
+    this._winner = ""
+  }
+  get sessionID() {return this._sessionID}
+  get userArray() {return this._userArray}
+  get category() {return this._category}
+  get categoryArray() {return this._categoryArray}
+  get startTime() {return this._startTime}
+  get _unpopularOpinion() {return this._unpopularOpinion}
+  set endTime(timeStamp) {
+    this._endTime = timeStamp
+  }
+  get endTime() {return this._endTime}
+  set winner(winningSelection) {
+    this._winner = winningSelection
+  }
+  get winner() {return this._winner}
+}
 
 /* Common Protocols (to be functions)
 - check if information exists in DB like a username or session ID (databaseName/Location, checkField, checkValue, errorArray)

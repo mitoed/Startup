@@ -1,4 +1,3 @@
-<!--This is the page that users will select to join an existing voting session.-->
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -9,6 +8,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
+        <script src="./enter_session.js" defer></script>
     </head>
     <body>
         <header class="ALL-l-header">
@@ -26,24 +26,22 @@
         </header>
         <main class="ALL-l-main ALL-container ALL-verticle">
             <section class="ALL-username">
-                <h1>Welcome, <span id="username">[USERNAME]</span></h1>
+                <h1 id="username">Welcome!</h1>
             </section>
             <section class="ENT-session">
-                <!--<h1>Join an Existing Session or<br>Create a New One!</h1>-->
                 <section class="ENT-join">
                     <h2>Join an existing session</h2>
                     <form method="get" action="voting_session.html" class="ENT-join-form">
                         <label for="session_id">Session ID</label>
                         <input type="text" id="session_id" name="session_id" placeholder="type a session id">
                         <br>
-                        <button type="submit">Join Session</button>
+                        <button class="submit">Join Session</button>
                     </form>
                 </section>
                 <br>
                 <section class="ENT-create">
                     <h2>or Create a new session</h2>
                     <form method="get" action="voting_session.html" class="ENT-create-form">
-                        <!--<legend>Select a Category</legend>-->
                         <div class="ENT-create-form-cat">
                             <input type="radio" id="movie" name="category"
                                 value="movie">
@@ -59,7 +57,7 @@
                                 value="food">
                             <label for="food">Food</label>
                         </div>
-                        <button type="submit">Create Session</button>
+                        <button class="submit">Create Session</button>
                     </form>
                 </section>
             </section>

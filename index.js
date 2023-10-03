@@ -168,13 +168,8 @@ login_create_button.onclick = function(event) {
   UserPassCreate(databaseUSERS, new_username, new_password, confirm_password)
 }
 
-// Retrieve username from url
-const pageURL = window.location.href
-const urlParams = new URLSearchParams(pageURL);
-const currentUser = urlParams.get('user');
-document.getElementById('username').innerHTML =  `Welcome, ${currentUser}`
 
-console.log(currentUser)
+
 
 /* Enter Session Page (Existing Session):
 - enter username into document.getElementById('username').innerHTML

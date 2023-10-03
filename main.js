@@ -1,8 +1,6 @@
 // ---------- INITIALIZING VALUES ---------- //
 
 
-document.getElementById('login_error').innerHTML = ''
-document.getElementById('create_error').innerHTML = ''
 // RegEx that checks for 1 letter, 1 number, and 8 characters long
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/
 

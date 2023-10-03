@@ -18,14 +18,14 @@ Below are the steps of this project and their descriptions:
 
 ### Key Features
 
-- [ ] Login to identify voters and track "times agreed-with"
+- [ ] Login to identify voters and track "sessions_won"
 - [ ] Create or join a session by Session ID
 - [ ] Live voting that shows all available options from database in order of votes received
 - [ ] Click (or tap) to vote on option; "Finalize Vote" button at bottom
 - [ ] Timer to limit duration of live vote??
 - [ ] Database of pre-added suggestions by category (movies, restaurants, games)
 - [ ] Add new option to category's database during live vote
-- [ ] Upon clicking "Finalize Vote" and only 35% of the time, recommends selected option of user with lowest "times agreed-with" value (iff below certain amount like 2)
+- [ ] Upon clicking "Finalize Vote" and only 35% of the time, recommends selected option of user with lowest "sessions_won" value (iff below certain amount like 2)
 
 ### Technology Uses
 
@@ -33,11 +33,11 @@ Below are the steps of this project and their descriptions:
 
 **Database Data**: Pre-added options are stored in database with category listed (movie, food, game)
 
-User data also stored (username, password, email, "times participated", "times agreed-with")
+User data also stored (username, password, email, "total_sessions", "sessions_won")
 
 **WebSocket Data**: Users are seeing live results as votes are received.
 
-Live recommendations made based on vote of least times agreed-with.
+Live recommendations made based on vote of least sessions_won.
 
 Seperate data for votes finalized?
 
@@ -53,7 +53,7 @@ Users join an existing session or create a new one by category
 Votes are seen live to the right of each option. Options are sorted by number of votes. User can search for and add new options at the top.
 
 ![Sketch of recommendation popup upon clicking "Finalize Vote" on the live voting page](/images/Design_recommendation_popup.jpg)
-Once the user clicks on "Finalize Vote" (only ~35% of the time), they may receive a recommendation based on the vote of the one "least times agreed-with".
+Once the user clicks on "Finalize Vote" (only ~35% of the time), they may receive a recommendation based on the vote of the one "least sessions_won".
 
 ![Sketch of about page](/images/Design_about_page.jpg)
 About page

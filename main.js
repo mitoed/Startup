@@ -1,4 +1,12 @@
-// CLASSES
+// ---------- INITIALIZING VALUES ---------- //
+document.getElementById('login_error').innerHTML = ''
+document.getElementById('create_error').innerHTML = ''
+
+
+
+
+
+// ---------- CLASSES ---------- //
 class User {
   constructor (username, password) {
     this._username = username
@@ -44,13 +52,17 @@ class Session {
   get winner() {return this._winner}
 }
 
-// DUMMY VALUES
+
+
+
+
+// ---------- DUMMY VALUES ---------- //
 const databaseUSERS = []
 function addFakeUser (fakeUserName, fakePassword) {
   let fakeUser = new User(fakeUserName, fakePassword)
   databaseUSERS.push(fakeUser)
 }
-addFakeUser("masaulls", "20difjw*%")
+addFakeUser("masaulls", "1234")
 addFakeUser('chsaulls', '389d9*')
 addFakeUser('rcsaulls', '303udsd')
 addFakeUser('ecsaulls', '38&jdkf')
@@ -58,7 +70,11 @@ addFakeUser('ssaulls', '7329fd')
 addFakeUser('csaulls', '39fds')
 console.log(databaseUSERS)
 
-// COMMON FUNCTIONS
+
+
+
+
+// ---------- GENERAL FUNCTIONS ---------- //
 // Validate a value from any field
 function DBInfoExist (database, checkField, checkValue, errorID = '') {
   if (database === null || checkField === null || checkValue === null) {
@@ -75,29 +91,42 @@ function DBInfoExist (database, checkField, checkValue, errorID = '') {
   return false
 }
 
-/* Login Page (Existing User):
-- check to see if username exists in DB
-- if username exists, validate password
-- if username doesn't exist or password does not match, show error message.
-*/
 
+
+
+
+// ---------- LOGIN PAGE ---------- //
 // Verify password of a given username
 function UserPassCorrect (database, checkUsername, checkPassword, errorID = '') {
   if (database === null || checkUsername === null || checkPassword === null) {
     console.log('Please provide all the inputs.')
-    return null
+    return
   }
   for (let entry in database) {
     if (database[entry]['username'] === checkUsername) {
       if (database[entry]['password'] === checkPassword) {
         document.getElementById(errorID).innerHTML = '' // TO BE TESTED
-        return true
+        window.location.href = './enter_session.html'
+        return
       } else {
         document.getElementById(errorID).innerHTML = 'incorrect password' // TO BE TESTED
-        return false
+        return
       }
     }
   }
+  document.getElementById(errorID).innerHTML = 'username does not exist'
+  return
+}
+
+// When user clicks "login", validate the username and password then go to the Enter Session page.
+const login_exist_button = document.getElementById('login_exist')
+
+login_exist_button.onclick = function(event) {
+  event.preventDefault();
+
+  let login_user = document.getElementById('username_input').value
+  let password_input = document.getElementById('password_input').value
+  UserPassCorrect(databaseUSERS, login_user, password_input, 'login_error')
 }
 
 /* Login Page (Create User):

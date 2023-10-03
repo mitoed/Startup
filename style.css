@@ -36,7 +36,7 @@ input {
   text-align: left;
 }
 
-button[type="submit"] {
+button.submit {
   background-color: var(--blue-light);
   color: white;
   border: 0;
@@ -195,6 +195,14 @@ button[type="submit"] {
     font-size: 10pt;
     margin: 5px;
   }
+}
+
+#login_error,
+#create_error {
+  margin: 0;
+  font-size: 10pt;
+  color: var(--red);
+  text-align: center;
 }
 
 .ENT-session {
@@ -434,7 +442,7 @@ button[type="submit"] {
   cursor: pointer;
 } 
 
-button[type="submit"]:hover {
+button.submit:hover {
   background-color: var(--blue);
   cursor: pointer;
 }

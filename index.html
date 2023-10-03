@@ -9,6 +9,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
+        
     </head>
     <body>
         <header class="ALL-l-header">
@@ -28,36 +29,36 @@
             <section class="IND-login">
                 <section class="IND-user IND-exists">
                     <h1>Login to Enter a Session</h1>
-                    <form method="get" action="enter_session.html">
-                        <label for="username">Username</label>
+                    <form method="get">
+                        <label for="username_input">Username</label>
                         <input type="text" id="username_input"
                             placeholder="type your username">
                         <br>
-                        <label for="user-pw">Password</label>
-                        <input type="user-pw" id="user-pw_input"
+                        <label for="password_input">Password</label>
+                        <input type="password" id="password_input"
                             placeholder="type your password">
                         <br>
-                        <button type="submit">Login</button>
-                        <!--Does this ^^^ submit both username and password?-->
+                        <p id="login_error"></p>
+                        <button class="submit" id="login_exist">Login</button>
                     </form>
                 </section>
                 <section class="IND-user IND-new">
                     <h1>Create an Account to Begin</h1>
-                    <form method="get" action="enter_session.html">
+                    <form method="get">
                         <label for="new_username">New Username</label>
                         <input type="text" id="new_username"
                             placeholder="create username">
                         <br>
                         <label for="new_user-pw">Create Password</label>
-                        <input type="user-pw" id="new_user-pw"
+                        <input type="user-pw" id="new_password"
                             placeholder="create password">
                         <br>
-                        <label for="confirm_user-pw">Confirm Password</label>
-                        <input type="user-pw" id="confirm_user-pw"
+                        <label for="confirm_password">Confirm Password</label>
+                        <input type="password" id="confirm_password"
                             placeholder="confirm password">
                         <br>
-                        <button type="submit">Create New Account</button>
-                        <!--Does this ^^^ submit both username and password?-->
+                        <p id="create_error"></p>
+                        <button class="submit" id="login_create">Create New Account</button>
                     </form>
                 </section>
             </section>
@@ -67,6 +68,6 @@
                     href="https://github.com/mitoed/Startup.git">GitHub
                     Repository</a></p>
         </footer>
+        <script src="./main.js"></script>
     </body>
-
 </html>

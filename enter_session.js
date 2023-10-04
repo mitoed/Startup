@@ -2,8 +2,39 @@
 // PAGE LOADING
 // =============================================================================
 
+function createSessionID () {
+  let newSessionID
+  let problem = false
+  do {
+    newSessionID = randomSessionID()
+    problem = validateNewSessionID(newSessionID)
+  } while (problem)
+}
 
+function randomSessionID() {
+  let sessionString = []
+  let digit
+  let digitArray1 = 'BCDFGHJKLMNPQRSTVWXZ'.split('')
+  let digitArray2 = '0123456789'.split('')
+  do {
+    digit = digitArray1[Math.floor(Math.random() * digitArray1.length)]
+    sessionString.push(digit)
+    digit = digitArray2[Math.floor(Math.random() * digitArray2.length)]
+    sessionString.push(digit)
+  } while (sessionString.length < 6)
+  sessionString = sessionString.join('')
+  return sessionString
+}
+console.log(randomSessionID())
 
+function validateNewSessionID (newSessionID) {
+  for (let session in databaseSESSION) {
+    if (databaseSESSION[session]['sessionID'] === newSessionID) {
+      return true
+    }
+  }
+  return false
+}
 
 
 /* Enter Session Page (Existing Session):

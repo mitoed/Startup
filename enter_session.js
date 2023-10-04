@@ -2,13 +2,16 @@
 // PAGE LOADING
 // =============================================================================
 
-function createSessionID () {
+let databaseSESSION = []
+
+export function createSessionID () {
   let newSessionID
   let problem = false
   do {
     newSessionID = randomSessionID()
-    problem = validateNewSessionID(newSessionID)
+    problem = validateSessionID(newSessionID)
   } while (problem)
+  return newSessionID
 }
 
 function randomSessionID() {
@@ -25,11 +28,11 @@ function randomSessionID() {
   sessionString = sessionString.join('')
   return sessionString
 }
-console.log(randomSessionID())
 
-function validateNewSessionID (newSessionID) {
+
+function validateSessionID (checkSessionID) {
   for (let session in databaseSESSION) {
-    if (databaseSESSION[session]['sessionID'] === newSessionID) {
+    if (databaseSESSION[session]['sessionID'] === checkSessionID) {
       return true
     }
   }

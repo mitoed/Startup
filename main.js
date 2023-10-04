@@ -7,6 +7,11 @@ import * as enterSessionModule from './enter_session.js'
 import * as votingSessionModule from './voting_session.js'
 
 // =============================================================================
+// OR PASTE FUNCTIONS TO TEXT
+// =============================================================================
+
+
+// =============================================================================
 // CLASSES
 // =============================================================================
 
@@ -36,16 +41,16 @@ class Session {
     this._category = category
     this._categoryArray = categoryArray
     this._startTime = startTime
-    this._unpopularOpinion = ""
-    this._endTime = ""
-    this._winner = ""
+    this._unpopularOpinion = ''
+    this._endTime = ''
+    this._winner = ''
   }
   get sessionID() {return this._sessionID}
   get userArray() {return this._userArray}
   get category() {return this._category}
   get categoryArray() {return this._categoryArray}
   get startTime() {return this._startTime}
-  get _unpopularOpinion() {return this._unpopularOpinion}
+  get unpopularOpinion() {return this._unpopularOpinion}
   set endTime(timeStamp) {
     this._endTime = timeStamp
   }
@@ -73,18 +78,66 @@ addFakeUser('ssaulls', '7329fd')
 addFakeUser('csaulls', '39fds')
 console.log(databaseUSERS)
 
-const databaseSESSIONS = []
-function addFakeSession (fakeCategory) {
-  let fakeSession = new Session (newSessionID(), databaseUSERS, fakeCategory, databaseCATEGORY, Date.now())
-  databaseSESSIONS.push(fakeSession)
+const databaseSESSION = []
+function addFakeSession (fakeCategory, databaseCATEGORY) {
+  let fakeSession = new Session (createSessionID(), databaseUSERS, fakeCategory, databaseCATEGORY, Date.now())
+  databaseSESSION.push(fakeSession)
 }
-addFakeSession ('movie')
-addFakeSession ('movie')
-addFakeSession ('food')
-addFakeSession ('food')
-addFakeSession ('game')
-addFakeSession ('food')
-console.log(databaseSESSIONS)
+
+let databaseFOOD = [
+  "Wendy's",
+  "McDonald's",
+  "Chick-fil-A",
+  "Bumblebees",
+  "Se Llama Peru",
+  "India Palace",
+  "Burger Supreme",
+  "Cubby's",
+  "Good Move",
+  "Brick Oven",
+  "Costa Vida",
+  "Five Sushi Bros",
+  "Black Sheep Cafe",
+];
+
+let databaseMOVIE = [
+  "The Shawshank Redemption",
+  "The Godfather",
+  "The Dark Knight",
+  "Pulp Fiction",
+  "Schindler's List",
+  "The Lord of the Rings: The Return of the King",
+  "Fight Club",
+  "Forrest Gump",
+  "Inception",
+  "The Matrix",
+  "Gladiator",
+  "The Silence of the Lambs"
+];
+
+let databaseGAME = [
+  "Settlers of Catan",
+  "Ticket to Ride",
+  "Carcassonne",
+  "Pandemic",
+  "Dominion",
+  "Codenames",
+  "7 Wonders",
+  "Twilight Struggle",
+  "Agricola",
+  "Scythe",
+  "Splendor",
+  "Betrayal at Baldur's Gate"
+];
+
+addFakeSession ('movie', databaseMOVIE)
+addFakeSession ('movie', databaseMOVIE)
+addFakeSession ('food', databaseFOOD)
+addFakeSession ('food', databaseFOOD)
+addFakeSession ('game', databaseGAME)
+addFakeSession ('game', databaseGAME)
+addFakeSession ('food', databaseFOOD)
+console.log(databaseSESSION)
 
 // =============================================================================
 // GENERAL FUNCTIONS
@@ -157,3 +210,9 @@ switch (true) {
   default:
     console.log('Error: no recognizable page loaded')
 }
+
+// =============================================================================
+// ENTER SESSION PAGE FUNCTIONS
+// =============================================================================
+
+console.log('New Session ID: ' + enterSessionModule.createSessionID())

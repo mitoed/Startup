@@ -61,7 +61,7 @@ class Session {
 }
 
 class VotingOption {
-  constructor (optionName, currentVotes) {
+  constructor (optionName, currentVotes = 0) {
     this._optionName = optionName
     this._currentVotes = currentVotes
   }
@@ -73,7 +73,7 @@ class VotingOption {
     this._currentVotes += newVotes
   }
   htmlTableRow() {
-    return `<tr><td>${optionName}</td><td>${this.currentVotes}</td></tr>`
+    return `<tr><td>${this.optionName}</td><td>${this.currentVotes}</td></tr>`
   }
   addToCategoryDatabase(databaseCATEGORY) {
     databaseCATEGORY.push({'optionName': this.optionName, 'currentVotes': this.currentVotes})
@@ -103,7 +103,7 @@ function addFakeSession (fakeCategory, databaseCATEGORY) {
   databaseSESSION.push(fakeSession)
 }
 
-let databaseFOOD = [
+let listFOOD = [
   "Wendy's",
   "McDonald's",
   "Chick-fil-A",
@@ -119,7 +119,7 @@ let databaseFOOD = [
   "Black Sheep Cafe",
 ];
 
-let databaseMOVIE = [
+/*let listMOVIE = [
   "The Shawshank Redemption",
   "The Godfather",
   "The Dark Knight",
@@ -134,7 +134,7 @@ let databaseMOVIE = [
   "The Silence of the Lambs"
 ];
 
-let databaseGAME = [
+let listGAME = [
   "Settlers of Catan",
   "Ticket to Ride",
   "Carcassonne",
@@ -147,15 +147,9 @@ let databaseGAME = [
   "Scythe",
   "Splendor",
   "Betrayal at Baldur's Gate"
-];
+];*/
 
-addFakeSession ('movie', databaseMOVIE)
-addFakeSession ('movie', databaseMOVIE)
-addFakeSession ('food', databaseFOOD)
-addFakeSession ('food', databaseFOOD)
-addFakeSession ('game', databaseGAME)
-addFakeSession ('game', databaseGAME)
-addFakeSession ('food', databaseFOOD)
+addFakeSession ('food', listFOOD)
 console.log(databaseSESSION)
 
 // =============================================================================
@@ -338,17 +332,17 @@ function createSessionWithCategory() {
     const sessionCategory = document.querySelector('input[name="category"]:checked').value;
     switch (true) {
       case sessionCategory === 'movie':
-        databaseCATEGORY = databaseMOVIE
+        listCATEGORY = listMOVIE
         break
       case sessionCategory === 'game':
-        databaseCATEGORY = databaseGAME
+        listCATEGORY = listGAME
         break
       case sessionCategory === 'food':
-        databaseCATEGORY = databaseFOOD
+        listCATEGORY = listFOOD
         break
     }
 
-    let newSessionInstance = new Session (createSessionID(), databaseUSERS, sessionCategory, databaseCATEGORY, Date.now())
+    let newSessionInstance = new Session (createSessionID(), databaseUSERS, sessionCategory, listCATEGORY, Date.now())
     databaseSESSION.push(newSessionInstance)
     let newSessionID = newSessionInstance['sessionID']
     window.location.href = `./voting_session.html?user=${currentUser}&session=${newSessionID}`
@@ -360,7 +354,28 @@ function createSessionWithCategory() {
 // VOTING SESSION PAGE FUNCTIONALITY
 // =============================================================================
 
+// From this database will the information be pulled to populate the table
+function createCategoryDB(category, categoryList) {
+  let categoryDatabase = []
+  for (let entry in categoryList) {
+    let newOption = new VotingOption(categoryList[entry])
+    categoryDatabase.push(newOption)
+  }
+  return categoryDatabase
+}
 
+function populateTable(category, categoryList) {
+  const parentElement = document.getElementById('count_table')
+  let categoryDatabase = createCategoryDB(category, categoryList)
+  console.log(categoryDatabase)
+  for (let entry in categoryDatabase) {
+    let htmlString = categoryDatabase[entry].htmlTableRow()
+    console.log(htmlString)
+    parentElement.insertAdjacentHTML('beforeend', htmlString)
+  }
+}
+
+//populateTable('food', listFOOD)
 
 /* Voting Page:
 - pass session ID to document.head.title.innerHTML
@@ -403,7 +418,7 @@ switch (true) {
     break
   case window.location.href.includes('voting_session.html'):
     usernameSessionFromURL()
-    populateTable()
+    populateTable('food', listFOOD)
     break
   case window.location.href.includes('about.html'):
     break

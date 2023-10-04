@@ -2,21 +2,9 @@
 // PAGE LOADING
 // =============================================================================
 
-// Retrieve username from url
-export function usernameFromURL() {
-  const pageURL = window.location.search;
-  const currentUser = pageURL.split('user=')[1];
-  if (currentUser !== undefined) {
-    document.getElementById('username').innerHTML = `Welcome, ${currentUser}`;
-  } else {
-    document.getElementById('username').innerHTML = `Welcome!`;
-  }
-}
 
-// Enter session by Session ID and username
-export function usernameSessionToURL (nextURL, currentUser, currentsessionID) {
-  `${nextURL}?user=${currentUser}&session=${currentsessionID}`
-}
+
+
 
 /* Enter Session Page (Existing Session):
 - enter username into document.getElementById('username').innerHTML

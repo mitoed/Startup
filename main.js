@@ -168,6 +168,7 @@ function usernameFromURL() {
   } else {
     document.getElementById('username').innerHTML = `Welcome!`;
   }
+  return currentUser
 }
 
 // Retrieve SessionID from url
@@ -180,6 +181,7 @@ function usernameSessionFromURL() {
   } else {
     document.getElementById('username').innerHTML = `Welcome!`;
   }
+  return currentUser, currentsessionID
 }
 
 // Insert username into URL
@@ -193,6 +195,32 @@ function usernameSessionToURL (nextURL, currentUser, currentsessionID) {
 }
 
 // =============================================================================
+// ENTER SESSION PAGE FUNCTIONS
+// =============================================================================
+
+// Add Session ID validation to button
+function createSessionWithCategory() {
+  const create_session_button = document.getElementById('create_session')
+
+  create_session_button.onclick = function(event) {
+    event.preventDefault();
+
+    // get the category from the form
+    const sessionCategory = 'movie'
+
+    let newSessionInstance = new Session (enterSessionModule.createSessionID(), databaseUSERS, sessionCategory, databaseCATEGORY, Date.now())
+    databaseSESSION.push(newSessionInstance)
+
+    let newSessionID = newSessionInstance['sessionID']
+    
+    console.log('we made it!')
+    console.log(databaseSESSION)
+    window.location.href = `./voting_session.html?user=${username}&session=${newSessionID}`
+    return
+  }
+}
+
+// =============================================================================
 // LOAD PAGE FUNCTIONALITY
 // =============================================================================
 
@@ -202,6 +230,7 @@ switch (true) {
     indexModule.createLoginUsernamePassword()
   case window.location.href.includes('enter_session.html'):
     usernameFromURL()
+    createSessionWithCategory()
   case window.location.href.includes('votin_session.html'):
     usernameSessionFromURL()
     votingSessionModule.populateTable()
@@ -210,9 +239,3 @@ switch (true) {
   default:
     console.log('Error: no recognizable page loaded')
 }
-
-// =============================================================================
-// ENTER SESSION PAGE FUNCTIONS
-// =============================================================================
-
-console.log('New Session ID: ' + enterSessionModule.createSessionID())

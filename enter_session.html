@@ -32,17 +32,17 @@
             <section class="ENT-session">
                 <section class="ENT-join">
                     <h2>Join an existing session</h2>
-                    <form method="get" action="voting_session.html" class="ENT-join-form">
+                    <form method="get" class="ENT-join-form">
                         <label for="session_id">Session ID</label>
-                        <input type="text" id="session_id" name="session_id" placeholder="type a session id">
+                        <input type="text" id="join_session_id" name="session_id" placeholder="type a session id">
                         <br>
-                        <button class="submit">Join Session</button>
+                        <button class="submit" id="join_session">Join Session</button>
                     </form>
                 </section>
                 <br>
                 <section class="ENT-create">
                     <h2>or Create a new session</h2>
-                    <form method="get" action="voting_session.html" class="ENT-create-form">
+                    <form method="get" class="ENT-create-form">
                         <div class="ENT-create-form-cat">
                             <input type="radio" id="movie" name="category"
                                 value="movie">
@@ -58,7 +58,7 @@
                                 value="food">
                             <label for="food">Food</label>
                         </div>
-                        <button class="submit">Create Session</button>
+                        <button class="submit" id="create_session">Create Session</button>
                     </form>
                 </section>
             </section>

@@ -106,6 +106,39 @@ function DBInfoExist (database, checkField, checkValue, errorID = '') {
   return false
 }
 
+// Retrieve username from url
+function usernameFromURL() {
+  const pageURL = window.location.search;
+  const currentUser = pageURL.split('user=')[1].split('&')[0];
+  if (currentUser !== undefined) {
+    document.getElementById('username').innerHTML = `Welcome, ${currentUser}`;
+  } else {
+    document.getElementById('username').innerHTML = `Welcome!`;
+  }
+}
+
+// Retrieve SessionID from url
+function usernameSessionFromURL() {
+  const pageURL = window.location.search;
+  const currentUser = pageURL.split('user=')[1].split('&')[0];
+  const currentsessionID = pageURL.split('session=')[1].split('&')[0];
+  if (currentUser !== undefined) {
+    document.getElementById('username').innerHTML = `Welcome, ${currentUser}`;
+  } else {
+    document.getElementById('username').innerHTML = `Welcome!`;
+  }
+}
+
+// Insert username into URL
+function usernameToURL (nextURL, currentUser) {
+  `${nextURL}?user=${currentUser}`
+}
+
+// Insert username and session id into URL
+function usernameSessionToURL (nextURL, currentUser, currentsessionID) {
+  `${nextURL}?user=${currentUser}&session=${currentsessionID}`
+}
+
 // =============================================================================
 // LOAD PAGE FUNCTIONALITY
 // =============================================================================
@@ -115,9 +148,10 @@ switch (true) {
     indexModule.validateLoginUsernamePassword()
     indexModule.createLoginUsernamePassword()
   case window.location.href.includes('enter_session.html'):
-    enterSessionModule.usernameFromURL()
+    usernameFromURL()
   case window.location.href.includes('votin_session.html'):
-    votingSessionModule.usernameFromURL()
+    usernameSessionFromURL()
+    votingSessionModule.populateTable()
   case window.location.href.includes('about.html'):
 
   default:

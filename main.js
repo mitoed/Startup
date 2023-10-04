@@ -369,7 +369,7 @@ function createSessionWithCategory() {
 // =============================================================================
 
 switch (true) {
-  case window.location.href.includes('index.html'):
+  default:
     validateLoginUsernamePassword()
     createLoginUsernamePassword()
     break

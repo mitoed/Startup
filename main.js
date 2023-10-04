@@ -1,8 +1,10 @@
 // =============================================================================
-// IMPORT FUNCTIONS
+// IMPORT MODULES
 // =============================================================================
 
-
+import * as indexModule from './index.js'
+import * as enterSessionModule from './enter_session.js'
+import * as votingSessionModule from './voting_session.js'
 
 // =============================================================================
 // CLASSES
@@ -26,8 +28,6 @@ class User {
     this._sessions_won++
   }
 }
-
-export class User {}
 
 class Session {
   constructor (sessionID, userArray, category, categoryArray, startTime) {
@@ -104,4 +104,22 @@ function DBInfoExist (database, checkField, checkValue, errorID = '') {
   }
   document.getElementById(errorID).innerHTML = `that ${checkField} does not exist` // TO BE TESTED
   return false
+}
+
+// =============================================================================
+// LOAD PAGE FUNCTIONALITY
+// =============================================================================
+
+switch (true) {
+  case window.location.href.includes('index.html'):
+    indexModule.validateLoginUsernamePassword()
+    indexModule.createLoginUsernamePassword()
+  case window.location.href.includes('enter_session.html'):
+    enterSessionModule.usernameFromUR()
+  case window.location.href.includes('votin_session.html'):
+
+  case window.location.href.includes('about.html'):
+
+  default:
+    console.log('Error: no recognizable page loaded')
 }

@@ -158,29 +158,31 @@ function DBInfoExist (database, checkField, checkValue, errorID = '') {
   return false
 }
 
+let currentUser
+
 // Retrieve username from url
 function usernameFromURL() {
-  const pageURL = window.location.search;
-  const currentUser = pageURL.split('user=')[1].split('&')[0];
+  const pageURL = window.location.href;
+  currentUser = pageURL.split('user=')[1];
   if (currentUser !== undefined) {
     document.getElementById('username').innerHTML = `Welcome, ${currentUser}`;
   } else {
     document.getElementById('username').innerHTML = `Welcome!`;
   }
-  return currentUser
+  return// currentUser
 }
 
 // Retrieve SessionID from url
 function usernameSessionFromURL() {
-  const pageURL = window.location.search;
-  const currentUser = pageURL.split('user=')[1].split('&')[0];
-  const currentsessionID = pageURL.split('session=')[1].split('&')[0];
+  const pageURL = window.location.href;
+  currentUser = pageURL.split('user=')[1].split('&')[0];
+  const currentsessionID = pageURL.split('session=')[1];
   if (currentUser !== undefined) {
     document.getElementById('username').innerHTML = `Welcome, ${currentUser}`;
   } else {
     document.getElementById('username').innerHTML = `Welcome!`;
   }
-  return currentUser, currentsessionID
+  return// currentUser, currentsessionID
 }
 
 // Insert username into URL
@@ -314,17 +316,23 @@ function createSessionWithCategory() {
   create_session_button.onclick = function(event) {
     event.preventDefault();
 
-    // get the category from the form
-    const sessionCategory = 'movie'
+    const sessionCategory = document.querySelector('input[name="category"]:checked').value;
+    switch (true) {
+      case sessionCategory === 'movie':
+        databaseCATEGORY = databaseMOVIE
+        break
+      case sessionCategory === 'game':
+        databaseCATEGORY = databaseGAME
+        break
+      case sessionCategory === 'food':
+        databaseCATEGORY = databaseFOOD
+        break
+    }
 
     let newSessionInstance = new Session (createSessionID(), databaseUSERS, sessionCategory, databaseCATEGORY, Date.now())
     databaseSESSION.push(newSessionInstance)
-
     let newSessionID = newSessionInstance['sessionID']
-    
-    console.log('we made it!')
-    console.log(databaseSESSION)
-    window.location.href = `./voting_session.html?user=${username}&session=${newSessionID}`
+    window.location.href = `./voting_session.html?user=${currentUser}&session=${newSessionID}`
     return
   }
 }
@@ -361,15 +369,22 @@ function createSessionWithCategory() {
 // =============================================================================
 
 switch (true) {
-  case window.location.href.includes('enter_session.html'):
-    usernameFromURL()
-    createSessionWithCategory()
-  case window.location.href.includes('votin_session.html'):
-    usernameSessionFromURL()
-    populateTable()
-  case window.location.href.includes('about.html'):
-
-  default:
+  case window.location.href.includes('index.html'):
     validateLoginUsernamePassword()
-    createLoginUsernamePassword() 
+    createLoginUsernamePassword()
+    break
+  case window.location.href.includes('enter_session.html'):
+    console.log('initialize page functionality')
+    usernameFromURL()
+    console.log('username should be retrieved')
+    createSessionWithCategory()
+    console.log('button should carry value')
+    console.log(window.location.href.split('user=')[1])
+    break
+  case window.location.href.includes('voting_session.html'):
+    console.log(usernameSessionFromURL())
+    populateTable()
+    break
+  case window.location.href.includes('about.html'):
+    break
 }

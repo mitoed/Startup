@@ -2,9 +2,8 @@
 // IMPORT MODULES
 // =============================================================================
 
-import * as indexModule from './index.js'
-import * as enterSessionModule from './enter_session.js'
-import * as votingSessionModule from './voting_session.js'
+
+
 
 // =============================================================================
 // OR PASTE FUNCTIONS TO TEXT
@@ -195,8 +194,118 @@ function usernameSessionToURL (nextURL, currentUser, currentsessionID) {
 }
 
 // =============================================================================
+// LOGIN PAGE FUNCTIONS
+// =============================================================================
+
+// Verify login credentials
+function UserPassCorrect (database, checkUsername, checkPassword) {
+  for (let entry in database) {
+    if (database[entry]['username'] === checkUsername) {
+      if (database[entry]['password'] === checkPassword) {
+        document.getElementById('login_error').innerHTML = ''
+        window.location.href = `./enter_session.html?user=${checkUsername}`
+        return
+      } else {
+        document.getElementById('login_error').innerHTML = 'incorrect password'
+        return
+      }
+    }
+  }
+  document.getElementById('login_error').innerHTML = 'username does not exist'
+  return
+}
+
+// Add user verification to button
+function validateLoginUsernamePassword() {
+  const login_exist_button = document.getElementById('login_exist')
+
+  login_exist_button.onclick = function(event) {
+    event.preventDefault();
+
+    let username_input = document.getElementById('username_input').value
+    let password_input = document.getElementById('password_input').value
+    UserPassCorrect(databaseUSERS, username_input, password_input)
+  }
+}
+
+// Verify new user credentials
+function UserPassCreate (database, newUsername, newPassword, confirmPassword) {
+
+  // RegEx that checks for 1 letter, 1 number, and 8 characters long
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/
+
+  for (let entry in database) {
+    if (database[entry]['username'] === newUsername) {
+      document.getElementById('create_error').innerHTML = newUsername + ' already exists'
+      return
+    }
+  }
+  if (passwordRegex.test(newPassword)) {} else {
+    document.getElementById('create_error').innerHTML = 'password must contain 1 letter, 1 number, and be at least 8 characters long'
+    return
+  }
+  if (newPassword === confirmPassword) {} else {
+    document.getElementById('create_error').innerHTML = 'passwords must match'
+    return
+  }
+  console.log('button functionality added')
+  window.location.href = `./enter_session.html?user=${newUsername}`
+  return
+}
+
+// Add new user verification to button
+function createLoginUsernamePassword() {
+  const login_create_button = document.getElementById('login_create')
+  console.log('button recognized')
+  login_create_button.onclick = function(event) {
+    event.preventDefault();
+
+    let new_username = document.getElementById('new_username').value
+    let new_password = document.getElementById('new_password').value
+    let confirm_password = document.getElementById('confirm_password').value
+    console.log('button functionality tried')
+    UserPassCreate(databaseUSERS, new_username, new_password, confirm_password)
+  }
+}
+
+// =============================================================================
 // ENTER SESSION PAGE FUNCTIONS
 // =============================================================================
+
+function createSessionID () {
+  let newSessionID
+  let problem = false
+  do {
+    newSessionID = randomSessionID()
+    problem = validateSessionID(newSessionID)
+  } while (problem)
+  return newSessionID
+}
+
+function randomSessionID() {
+  let sessionString = []
+  let digit
+  let digitArray1 = 'BCDFGHJKLMNPQRSTVWXZ'.split('')
+  let digitArray2 = '0123456789'.split('')
+  do {
+    digit = digitArray1[Math.floor(Math.random() * digitArray1.length)]
+    sessionString.push(digit)
+    digit = digitArray2[Math.floor(Math.random() * digitArray2.length)]
+    sessionString.push(digit)
+  } while (sessionString.length < 6)
+  sessionString = sessionString.join('')
+  return sessionString
+}
+
+
+function validateSessionID (checkSessionID) {
+  for (let session in databaseSESSION) {
+    if (databaseSESSION[session]['sessionID'] === checkSessionID) {
+      return true
+    }
+  }
+  return false
+}
 
 // Add Session ID validation to button
 function createSessionWithCategory() {
@@ -208,7 +317,7 @@ function createSessionWithCategory() {
     // get the category from the form
     const sessionCategory = 'movie'
 
-    let newSessionInstance = new Session (enterSessionModule.createSessionID(), databaseUSERS, sessionCategory, databaseCATEGORY, Date.now())
+    let newSessionInstance = new Session (createSessionID(), databaseUSERS, sessionCategory, databaseCATEGORY, Date.now())
     databaseSESSION.push(newSessionInstance)
 
     let newSessionID = newSessionInstance['sessionID']
@@ -221,21 +330,46 @@ function createSessionWithCategory() {
 }
 
 // =============================================================================
+// VOTING SESSION PAGE FUNCTIONALITY
+// =============================================================================
+
+/* Voting Page:
+- enter username into document.getElementById('username').innerHTML
+- pass session ID to document.head.title.innerHTML
+- generate table from DB using handlebars
+- upon clicking "finalize vote":
+    - [based on users and chance] generate and display unpopular user's vote:
+        - check all users for most unpopular user
+        - pass that user's vote to document.getElementById('recommendation_opinion').innerHTML
+        - wait for user response
+        - if 'yes', replace their selection with recommended opinion
+    - add value to DB/table if not in DB/table
+    - increment vote count
+    - sort table by votes (then alphabetically)
+- using user physical location:
+    - scrape google for top nearby restaurants
+    - pass website url to document.getElementById('recommendation_link').href
+    - add restaurant name to document.getElementById('recommendation_internet').innerHTML
+- when all users have clicked "finalize vote":
+    - pass appropriate category verb (e.g., "eating at") to document.getElementById('category_verb')
+    - pass winning selection to document.getElementById('group_selection)
+    - change the message and background's hidden property to false
+*/
+
+// =============================================================================
 // LOAD PAGE FUNCTIONALITY
 // =============================================================================
 
 switch (true) {
-  case window.location.href.includes('index.html'):
-    indexModule.validateLoginUsernamePassword()
-    indexModule.createLoginUsernamePassword()
   case window.location.href.includes('enter_session.html'):
     usernameFromURL()
     createSessionWithCategory()
   case window.location.href.includes('votin_session.html'):
     usernameSessionFromURL()
-    votingSessionModule.populateTable()
+    populateTable()
   case window.location.href.includes('about.html'):
 
   default:
-    console.log('Error: no recognizable page loaded')
+    validateLoginUsernamePassword()
+    createLoginUsernamePassword() 
 }

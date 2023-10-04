@@ -2,16 +2,6 @@
 // PAGE LOADING
 // =============================================================================
 
-// Retrieve username from url
-export function usernameSessionFromURL () {
-  const pageURL = window.location.search;
-  const currentUser = pageURL.split('user=')[1];
-  if (currentUser !== undefined) {
-    document.getElementById('username').innerHTML = `Welcome, ${currentUser}`;
-  } else {
-    document.getElementById('username').innerHTML = `Welcome!`;
-  }
-}
 
 /* Voting Page:
 - enter username into document.getElementById('username').innerHTML

@@ -73,6 +73,18 @@ addFakeUser('ssaulls', '7329fd')
 addFakeUser('csaulls', '39fds')
 console.log(databaseUSERS)
 
+const databaseSESSIONS = []
+function addFakeSession (fakeCategory) {
+  let fakeSession = new Session (newSessionID(), databaseUSERS, fakeCategory, databaseCATEGORY, Date.now())
+  databaseSESSIONS.push(fakeSession)
+}
+addFakeSession ('movie')
+addFakeSession ('movie')
+addFakeSession ('food')
+addFakeSession ('food')
+addFakeSession ('game')
+addFakeSession ('food')
+
 // =============================================================================
 // GENERAL FUNCTIONS
 // =============================================================================

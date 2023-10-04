@@ -175,14 +175,13 @@ function usernameFromURL() {
 // Retrieve SessionID from url
 function usernameSessionFromURL() {
   const pageURL = window.location.href;
+
   currentUser = pageURL.split('user=')[1].split('&')[0];
+  document.getElementById('username').innerHTML = `Welcome, ${currentUser}`;
+
   const currentsessionID = pageURL.split('session=')[1];
-  if (currentUser !== undefined) {
-    document.getElementById('username').innerHTML = `Welcome, ${currentUser}`;
-  } else {
-    document.getElementById('username').innerHTML = `Welcome!`;
-  }
-  return// currentUser, currentsessionID
+  document.getElementById('session_id').innerHTML = `Session ID: ${currentsessionID}`;
+  return
 }
 
 // Insert username into URL
@@ -342,7 +341,6 @@ function createSessionWithCategory() {
 // =============================================================================
 
 /* Voting Page:
-- enter username into document.getElementById('username').innerHTML
 - pass session ID to document.head.title.innerHTML
 - generate table from DB using handlebars
 - upon clicking "finalize vote":
@@ -382,7 +380,7 @@ switch (true) {
     console.log(window.location.href.split('user=')[1])
     break
   case window.location.href.includes('voting_session.html'):
-    console.log(usernameSessionFromURL())
+    usernameSessionFromURL()
     populateTable()
     break
   case window.location.href.includes('about.html'):

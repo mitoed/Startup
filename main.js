@@ -84,6 +84,7 @@ addFakeSession ('food')
 addFakeSession ('food')
 addFakeSession ('game')
 addFakeSession ('food')
+console.log(databaseSESSIONS)
 
 // =============================================================================
 // GENERAL FUNCTIONS

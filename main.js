@@ -115,9 +115,9 @@ switch (true) {
     indexModule.validateLoginUsernamePassword()
     indexModule.createLoginUsernamePassword()
   case window.location.href.includes('enter_session.html'):
-    enterSessionModule.usernameFromUR()
+    enterSessionModule.usernameFromURL()
   case window.location.href.includes('votin_session.html'):
-
+    votingSessionModule.usernameFromURL()
   case window.location.href.includes('about.html'):
 
   default:

@@ -447,20 +447,3 @@ button.submit:hover {
   background-color: var(--blue);
   cursor: pointer;
 }
-
-button[type="button"] {
-  background: transparent;
-  border: 0;
-}
-
-tr:nth-child(1n + 2):hover > td * {
-  border-color: black;
-  color: white;
-  font-weight: 600;
-}
-
-tr:nth-child(1n + 2):focus-within > td * {
-  border-color: black;
-  color: var(--yellow);
-  font-weight: 600;
-}

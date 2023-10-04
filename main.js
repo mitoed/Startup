@@ -60,6 +60,26 @@ class Session {
   get winner() {return this._winner}
 }
 
+class VotingOption {
+  constructor (optionName, currentVotes) {
+    this._optionName = optionName
+    this._currentVotes = currentVotes
+  }
+  get optionName() {return this._optionName}
+  set optionName(newName) {this._optionName = newName}
+  get currentVotes() {return this._currentVotes}
+
+  incrementVotes(newVotes) {
+    this._currentVotes += newVotes
+  }
+  htmlTableRow() {
+    return `<tr><td>${optionName}</td><td>${this.currentVotes}</td></tr>`
+  }
+  addToCategoryDatabase(databaseCATEGORY) {
+    databaseCATEGORY.push({'optionName': this.optionName, 'currentVotes': this.currentVotes})
+  }
+}
+
 // =============================================================================
 // DUMMY VALUES
 // =============================================================================
@@ -339,6 +359,8 @@ function createSessionWithCategory() {
 // =============================================================================
 // VOTING SESSION PAGE FUNCTIONALITY
 // =============================================================================
+
+
 
 /* Voting Page:
 - pass session ID to document.head.title.innerHTML

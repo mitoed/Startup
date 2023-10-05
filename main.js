@@ -353,17 +353,8 @@ function createSessionWithCategory() {
 // VOTING SESSION PAGE FUNCTIONALITY
 // =============================================================================
 
+// Declare Global Variables
 let categoryDatabase
-
-// From this database will the information be pulled to populate the table
-function createCategoryDB(category, categoryList) {
-  categoryDatabase = []
-  for (let entry in categoryList) {
-    let newOption = new VotingOption(categoryList[entry])
-    categoryDatabase.push(newOption)
-  }
-  return categoryDatabase
-}
 
 function populateTable(category, categoryList, thisDatabase = null) {
   const parentElement = document.getElementById('count_table')
@@ -376,6 +367,33 @@ function populateTable(category, categoryList, thisDatabase = null) {
     console.log(htmlString)
     parentElement.insertAdjacentHTML('beforeend', htmlString)
   }
+}
+
+// From this database will the information be pulled to populate the table
+function createCategoryDB(category, categoryList) {
+  categoryDatabase = []
+  for (let entry in categoryList) {
+    let newOption = new VotingOption(categoryList[entry])
+    categoryDatabase.push(newOption)
+  }
+  return categoryDatabase
+}
+
+// Needs to be added to 'finalize vote' button on click
+function castVote() {
+  const selectedOption = document.getElementById('vote_selection').value
+  const optionDBIndex = categoryDatabase.findIndex((element) => element.optionName === selectedOption)
+  if (optionDBIndex !== -1) {// If option already exists in databaseCATEGORY
+    categoryDatabase[optionDBIndex].incrementVotes()
+  } else {// If option does not exist in databaseCATEGORY, add
+    const newOption = new VotingOption(selectedOption)
+    newOption.incrementVotes()
+    categoryDatabase.push(newOption)
+  }
+  // Clear the table, sort the database, and repopulate the table
+  clearTable()
+  sortTableHighToLow()
+  populateTable('food', listFOOD, categoryDatabase)
 }
 
 function sortTableHighToLow() {
@@ -392,25 +410,6 @@ function clearTable() {
     parentElement.removeChild(parentElement.children[1])
   }
 }
-
-// Needs to be added to 'finalize vote' button on click
-function castVote() {
-  console.log(categoryDatabase)
-  const selectedOption = document.getElementById('vote_selection').value
-  const optionDBIndex = categoryDatabase.findIndex((element) => element.optionName === selectedOption)
-  console.log(optionDBIndex)
-  if (optionDBIndex >= 0) {// If option already exists in databaseCATEGORY
-    categoryDatabase[optionDBIndex].incrementVotes()
-    console.log(categoryDatabase[optionDBIndex])
-  } else {// If option does not exist in databaseCATEGORY, add
-    console.log('Its not here!')
-  }
-  // Clear the table, sort the database, and repopulate the table
-  clearTable()
-  sortTableHighToLow()
-  populateTable('food', listFOOD, categoryDatabase)
-}
-
 
 /* Voting Page:
 - pass session ID to document.head.title.innerHTML

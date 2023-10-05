@@ -205,6 +205,7 @@ function retrieveSessionInstance() {
   console.log(databaseSESSION)
   currentSessionInstance = databaseSESSION.find((element) => element['sessionID'] === currentSessionID)
   console.log(currentSessionInstance)
+  document.title = `Voting Session: ${sessionID}`
 }
 
 // =============================================================================

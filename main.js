@@ -3,28 +3,34 @@
 // =============================================================================
 
 class User {
-  constructor(username, password) {
+  constructor(username, password, activeVote = '') {
     this._username = username
     this._password = password
-    this._sessions_total = 0
-    this._sessions_won = 0
+    this._activeSession = ''
+    this._activeVote = activeVote
+    this._sessionsTotal = 0
+    this._sessionsWon = 0
   }
   get username() { return this._username }
   get password() { return this._password }
-  get sessions_total() { return this._sessions_total }
+  get activeSession() {return this._activeSession}
+  set activeSession(userActiveSession) {this._activeSession = userActiveSession}
+  get activeVote() {return this._activeVote}
+  set activeVote(userActiveVote) {this._activeVote = userActiveVote}
+  get sessionsTotal() {return this._sessionsTotal }
+
   participateSession() {
-    this._sessions_total++
+    this._sessionsTotal++
   }
-  get sessions_won() { return this._sessions_won }
+  get sessionsWon() { return this._sessionsWon }
   winSession() {
-    this._sessions_won++
+    this._sessionsWon++
   }
 }
 
 class Session {
-  constructor(sessionID, userArray, category, categoryArray, startTime) {
+  constructor(sessionID, category, categoryArray, startTime) {
     this._sessionID = sessionID
-    this._userArray = userArray
     this._category = category
     this._categoryArray = categoryArray
     this._startTime = startTime
@@ -33,7 +39,6 @@ class Session {
     this._winner = ''
   }
   get sessionID() { return this._sessionID }
-  get userArray() { return this._userArray }
   get category() { return this._category }
   get categoryArray() { return this._categoryArray }
   get startTime() { return this._startTime }
@@ -49,25 +54,26 @@ class Session {
 }
 
 class VotingOption {
-  constructor(optionName, currentVotes = 0) {
+  constructor(optionName) {
     this._optionName = optionName
-    this._currentVotes = currentVotes
   }
-  get optionName() { return this._optionName }
-  set optionName(newName) { this._optionName = newName }
-  get currentVotes() { return this._currentVotes }
-
-  incrementVotes(newVotes = 1) {
-    this._currentVotes += newVotes
+  get optionName() {return this._optionName }
+  set optionName(newName) {this._optionName = newName }
+  calculateVotes() {
+    const totalVotes = databaseUSERS.filter(instance => 
+      //instance.activeSession === currentSessionID && // Use once session ID can be recovered
+      instance.activeVote === this.optionName
+    ).length
+    return totalVotes
   }
   newhtmlTableRow() {
-    return `<tr><td>${this.optionName}</td><td>${this.currentVotes}</td></tr>`
+    return `<tr><td>${this.optionName}</td><td>${this.calculateVotes()}</td></tr>`
   }
   newhtmlDatalistRow() {
     return `<option value="${this.optionName}"></option>`
   }
   addToCategoryDatabase(databaseCATEGORY) {
-    databaseCATEGORY.push({ 'optionName': this.optionName, 'currentVotes': this.currentVotes })
+    databaseCATEGORY.push({ 'optionName': this.optionName, 'currentVotes': this.calculateVotes() })
   }
 }
 
@@ -76,20 +82,20 @@ class VotingOption {
 // =============================================================================
 
 const databaseUSERS = []
-function addFakeUser(fakeUserName, fakePassword) {
-  let fakeUser = new User(fakeUserName, fakePassword)
+function addFakeUser(fakeUserName, fakePassword, fakeSelection) {
+  let fakeUser = new User(fakeUserName, fakePassword, fakeSelection)
   databaseUSERS.push(fakeUser)
 }
 addFakeUser("masaulls", "1234")
-addFakeUser('chsaulls', '389d9*')
-addFakeUser('rcsaulls', '303udsd')
-addFakeUser('ecsaulls', '38&jdkf')
-addFakeUser('ssaulls', '7329fd')
-addFakeUser('csaulls', '39fds')
+addFakeUser('chsaulls', '389d9*', 'Costa Vida')
+addFakeUser('rcsaulls', '303udsd', 'Five Sushi Bros')
+addFakeUser('ecsaulls', '38&jdkf', 'Brick Oven')
+addFakeUser('ssaulls', '7329fd', 'Burger Supreme')
+addFakeUser('csaulls', '39fds', 'Good Move')
 
 const databaseSESSION = []
 function addFakeSession(fakeCategory, databaseCATEGORY) {
-  let fakeSession = new Session(createSessionID(), databaseUSERS, fakeCategory, databaseCATEGORY, Date.now())
+  let fakeSession = new Session(createSessionID(), fakeCategory, databaseCATEGORY, Date.now())
   databaseSESSION.push(fakeSession)
 }
 
@@ -341,7 +347,7 @@ function createSessionWithCategory() {
         break
     }
 
-    let newSessionInstance = new Session(createSessionID(), databaseUSERS, sessionCategory, listCATEGORY, Date.now())
+    let newSessionInstance = new Session(createSessionID(), sessionCategory, listCATEGORY, Date.now())
     databaseSESSION.push(newSessionInstance)
     let newSessionID = newSessionInstance['sessionID']
     window.location.href = `./voting_session.html?user=${currentUser}&session=${newSessionID}`
@@ -362,6 +368,7 @@ function populateTable(category, categoryList, thisDatabase = null) {
   if (thisDatabase === null) {
     categoryDatabase = createCategoryDB(category, categoryList)
   }
+  sortTableHighToLow()
   for (let entry in categoryDatabase) {
     // Add entry to table
     let htmlRowElement = categoryDatabase[entry].newhtmlTableRow()
@@ -382,6 +389,12 @@ function createCategoryDB(category, categoryList) {
   return categoryDatabase
 }
 
+function sortTableHighToLow() {
+  categoryDatabase = categoryDatabase.sort((a, b) => {
+    return b.calculateVotes() - a.calculateVotes()
+  })
+}
+
 // Add cast vote function to "finalize vote" button
 function castVoteButton() {
   const finalize_vote_button = document.getElementById('finalize_vote')
@@ -399,26 +412,23 @@ function castVoteButton() {
 
 // Needs to be added to 'finalize vote' button on click
 function castVote() {
+  // Set the user's active vote
   const selectedOption = document.getElementById('vote_selection').value
+  const userIndex = databaseUSERS.findIndex(user => user.username === currentUser)
+  databaseUSERS[userIndex].activeVote = selectedOption
+  // Search for the vote in the category database
   const optionDBIndex = categoryDatabase.findIndex((element) => element.optionName === selectedOption)
   if (optionDBIndex !== -1) {// If option already exists in databaseCATEGORY
-    categoryDatabase[optionDBIndex].incrementVotes()
+    categoryDatabase[optionDBIndex].calculateVotes()
   } else {// If option does not exist in databaseCATEGORY, add
     const newOption = new VotingOption(selectedOption)
-    newOption.incrementVotes()
+    newOption.calculateVotes()
     categoryDatabase.push(newOption)
   }
   // Clear the table, sort the database, and repopulate the table
   clearTable()
   clearDatalist()
-  sortTableHighToLow()
   populateTable('food', listFOOD, categoryDatabase)
-}
-
-function sortTableHighToLow() {
-  categoryDatabase = categoryDatabase.sort((a, b) => {
-    return b.currentVotes - a.currentVotes
-  })
 }
 
 function clearTable() {

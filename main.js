@@ -482,6 +482,7 @@ function declareWinner(proceed) {
     document.getElementById('category_verb').innerHTML = categoryVerb
     document.getElementById('group_selection').innerHTML = groupSelection
     exitFromFinalSelection()
+    disableCastVoteButton()
   }
 }
 
@@ -497,6 +498,12 @@ function exitFromFinalSelection() {
   }
 }
 
+function disableCastVoteButton() {
+  const finalize_vote_button = document.getElementById('finalize_vote')
+  finalize_vote_button.onclick = function (event) {
+    event.preventDefault();
+  }
+}
 
 /* Voting Page:
 - pass session ID to document.head.title.innerHTML

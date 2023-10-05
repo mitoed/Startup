@@ -3,26 +3,26 @@
 // =============================================================================
 
 class User {
-  constructor (username, password) {
+  constructor(username, password) {
     this._username = username
     this._password = password
     this._sessions_total = 0
     this._sessions_won = 0
   }
-  get username() {return this._username}
-  get password() {return this._password}
-  get sessions_total() {return this._sessions_total}
+  get username() { return this._username }
+  get password() { return this._password }
+  get sessions_total() { return this._sessions_total }
   participateSession() {
     this._sessions_total++
   }
-  get sessions_won() {return this._sessions_won}
+  get sessions_won() { return this._sessions_won }
   winSession() {
     this._sessions_won++
   }
 }
 
 class Session {
-  constructor (sessionID, userArray, category, categoryArray, startTime) {
+  constructor(sessionID, userArray, category, categoryArray, startTime) {
     this._sessionID = sessionID
     this._userArray = userArray
     this._category = category
@@ -32,39 +32,39 @@ class Session {
     this._endTime = ''
     this._winner = ''
   }
-  get sessionID() {return this._sessionID}
-  get userArray() {return this._userArray}
-  get category() {return this._category}
-  get categoryArray() {return this._categoryArray}
-  get startTime() {return this._startTime}
-  get unpopularOpinion() {return this._unpopularOpinion}
+  get sessionID() { return this._sessionID }
+  get userArray() { return this._userArray }
+  get category() { return this._category }
+  get categoryArray() { return this._categoryArray }
+  get startTime() { return this._startTime }
+  get unpopularOpinion() { return this._unpopularOpinion }
   set endTime(timeStamp) {
     this._endTime = timeStamp
   }
-  get endTime() {return this._endTime}
+  get endTime() { return this._endTime }
   set winner(winningSelection) {
     this._winner = winningSelection
   }
-  get winner() {return this._winner}
+  get winner() { return this._winner }
 }
 
 class VotingOption {
-  constructor (optionName, currentVotes = 0) {
+  constructor(optionName, currentVotes = 0) {
     this._optionName = optionName
     this._currentVotes = currentVotes
   }
-  get optionName() {return this._optionName}
-  set optionName(newName) {this._optionName = newName}
-  get currentVotes() {return this._currentVotes}
+  get optionName() { return this._optionName }
+  set optionName(newName) { this._optionName = newName }
+  get currentVotes() { return this._currentVotes }
 
-  incrementVotes(newVotes) {
+  incrementVotes(newVotes = 1) {
     this._currentVotes += newVotes
   }
-  htmlTableRow() {
+  newhtmlTableRow() {
     return `<tr><td>${this.optionName}</td><td>${this.currentVotes}</td></tr>`
   }
   addToCategoryDatabase(databaseCATEGORY) {
-    databaseCATEGORY.push({'optionName': this.optionName, 'currentVotes': this.currentVotes})
+    databaseCATEGORY.push({ 'optionName': this.optionName, 'currentVotes': this.currentVotes })
   }
 }
 
@@ -73,7 +73,7 @@ class VotingOption {
 // =============================================================================
 
 const databaseUSERS = []
-function addFakeUser (fakeUserName, fakePassword) {
+function addFakeUser(fakeUserName, fakePassword) {
   let fakeUser = new User(fakeUserName, fakePassword)
   databaseUSERS.push(fakeUser)
 }
@@ -86,8 +86,8 @@ addFakeUser('csaulls', '39fds')
 console.log(databaseUSERS)
 
 const databaseSESSION = []
-function addFakeSession (fakeCategory, databaseCATEGORY) {
-  let fakeSession = new Session (createSessionID(), databaseUSERS, fakeCategory, databaseCATEGORY, Date.now())
+function addFakeSession(fakeCategory, databaseCATEGORY) {
+  let fakeSession = new Session(createSessionID(), databaseUSERS, fakeCategory, databaseCATEGORY, Date.now())
   databaseSESSION.push(fakeSession)
 }
 
@@ -137,15 +137,15 @@ let listGAME = [
   "Betrayal at Baldur's Gate"
 ];*/
 
-addFakeSession ('food', listFOOD)
-console.log(databaseSESSION)
+//addFakeSession ('food', listFOOD)
+//console.log(databaseSESSION)
 
 // =============================================================================
 // GENERAL FUNCTIONS
 // =============================================================================
 
 // Validate a value from any field
-function DBInfoExist (database, checkField, checkValue, errorID = '') {
+function DBInfoExist(database, checkField, checkValue, errorID = '') {
   if (database === null || checkField === null || checkValue === null) {
     console.log('Please provide all the inputs.')
     return false
@@ -161,6 +161,8 @@ function DBInfoExist (database, checkField, checkValue, errorID = '') {
 }
 
 let currentUser
+let currentSessionID
+let currentSessionInstance
 
 // Retrieve username from url
 function usernameFromURL() {
@@ -181,19 +183,26 @@ function usernameSessionFromURL() {
   currentUser = pageURL.split('user=')[1].split('&')[0];
   document.getElementById('username').innerHTML = `Welcome, ${currentUser}`;
 
-  const currentsessionID = pageURL.split('session=')[1];
-  document.getElementById('session_id').innerHTML = `Session ID: ${currentsessionID}`;
+  currentSessionID = pageURL.split('session=')[1];
+  document.getElementById('session_id').innerHTML = `Session ID: ${currentSessionID}`;
   return
 }
 
 // Insert username into URL
-function usernameToURL (nextURL, currentUser) {
+function usernameToURL(nextURL, currentUser) {
   `${nextURL}?user=${currentUser}`
 }
 
 // Insert username and session id into URL
-function usernameSessionToURL (nextURL, currentUser, currentsessionID) {
+function usernameSessionToURL(nextURL, currentUser, currentsessionID) {
   `${nextURL}?user=${currentUser}&session=${currentsessionID}`
+}
+
+// To get the current session's info
+function retrieveSessionInstance() {
+  console.log(databaseSESSION)
+  currentSessionInstance = databaseSESSION.find((element) => element['sessionID'] === currentSessionID)
+  console.log(currentSessionInstance)
 }
 
 // =============================================================================
@@ -201,7 +210,7 @@ function usernameSessionToURL (nextURL, currentUser, currentsessionID) {
 // =============================================================================
 
 // Verify login credentials
-function UserPassCorrect (database, checkUsername, checkPassword) {
+function UserPassCorrect(database, checkUsername, checkPassword) {
   checkUsername = checkUsername.toLowerCase()
   for (let entry in database) {
     if (database[entry]['username'] === checkUsername) {
@@ -223,7 +232,7 @@ function UserPassCorrect (database, checkUsername, checkPassword) {
 function validateLoginUsernamePassword() {
   const login_exist_button = document.getElementById('login_exist')
 
-  login_exist_button.onclick = function(event) {
+  login_exist_button.onclick = function (event) {
     event.preventDefault();
 
     let username_input = document.getElementById('username_input').value
@@ -233,7 +242,7 @@ function validateLoginUsernamePassword() {
 }
 
 // Verify new user credentials
-function UserPassCreate (database, newUsername, newPassword, confirmPassword) {
+function UserPassCreate(database, newUsername, newPassword, confirmPassword) {
 
   // RegEx that checks for 1 letter, 1 number, and 8 characters long
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/
@@ -246,11 +255,11 @@ function UserPassCreate (database, newUsername, newPassword, confirmPassword) {
       return
     }
   }
-  if (passwordRegex.test(newPassword)) {} else {
+  if (passwordRegex.test(newPassword)) { } else {
     document.getElementById('create_error').innerHTML = 'password must contain 1 letter, 1 number, and be at least 8 characters long'
     return
   }
-  if (newPassword === confirmPassword) {} else {
+  if (newPassword === confirmPassword) { } else {
     document.getElementById('create_error').innerHTML = 'passwords must match'
     return
   }
@@ -263,7 +272,7 @@ function UserPassCreate (database, newUsername, newPassword, confirmPassword) {
 function createLoginUsernamePassword() {
   const login_create_button = document.getElementById('login_create')
   console.log('button recognized')
-  login_create_button.onclick = function(event) {
+  login_create_button.onclick = function (event) {
     event.preventDefault();
 
     let new_username = document.getElementById('new_username').value
@@ -278,7 +287,7 @@ function createLoginUsernamePassword() {
 // ENTER SESSION PAGE FUNCTIONS
 // =============================================================================
 
-function createSessionID () {
+function createSessionID() {
   let newSessionID
   let problem = false
   do {
@@ -303,8 +312,7 @@ function randomSessionID() {
   return sessionString
 }
 
-
-function validateSessionID (checkSessionID) {
+function validateSessionID(checkSessionID) {
   for (let session in databaseSESSION) {
     if (databaseSESSION[session]['sessionID'] === checkSessionID) {
       return true
@@ -317,7 +325,7 @@ function validateSessionID (checkSessionID) {
 function createSessionWithCategory() {
   const create_session_button = document.getElementById('create_session')
 
-  create_session_button.onclick = function(event) {
+  create_session_button.onclick = function (event) {
     event.preventDefault();
 
     const sessionCategory = document.querySelector('input[name="category"]:checked').value;
@@ -333,7 +341,7 @@ function createSessionWithCategory() {
         break
     }
 
-    let newSessionInstance = new Session (createSessionID(), databaseUSERS, sessionCategory, listCATEGORY, Date.now())
+    let newSessionInstance = new Session(createSessionID(), databaseUSERS, sessionCategory, listCATEGORY, Date.now())
     databaseSESSION.push(newSessionInstance)
     let newSessionID = newSessionInstance['sessionID']
     window.location.href = `./voting_session.html?user=${currentUser}&session=${newSessionID}`
@@ -345,9 +353,11 @@ function createSessionWithCategory() {
 // VOTING SESSION PAGE FUNCTIONALITY
 // =============================================================================
 
+let categoryDatabase
+
 // From this database will the information be pulled to populate the table
 function createCategoryDB(category, categoryList) {
-  let categoryDatabase = []
+  categoryDatabase = []
   for (let entry in categoryList) {
     let newOption = new VotingOption(categoryList[entry])
     categoryDatabase.push(newOption)
@@ -355,18 +365,52 @@ function createCategoryDB(category, categoryList) {
   return categoryDatabase
 }
 
-function populateTable(category, categoryList) {
+function populateTable(category, categoryList, thisDatabase = null) {
   const parentElement = document.getElementById('count_table')
-  let categoryDatabase = createCategoryDB(category, categoryList)
+  if (thisDatabase === null) {
+    categoryDatabase = createCategoryDB(category, categoryList)
+  }
   console.log(categoryDatabase)
   for (let entry in categoryDatabase) {
-    let htmlString = categoryDatabase[entry].htmlTableRow()
+    let htmlString = categoryDatabase[entry].newhtmlTableRow()
     console.log(htmlString)
     parentElement.insertAdjacentHTML('beforeend', htmlString)
   }
 }
 
-//populateTable('food', listFOOD)
+function sortTableHighToLow() {
+  categoryDatabase = categoryDatabase.sort((a, b) => {
+    return b.currentVotes - a.currentVotes
+  })
+}
+
+function clearTable() {
+  const parentElement = document.getElementById('count_table')
+  const parentElementSize = parentElement.childElementCount
+  console.log(parentElement.children[parentElementSize - 1])
+  for (let child = 1; child < parentElementSize; child++) {
+    parentElement.removeChild(parentElement.children[1])
+  }
+}
+
+// Needs to be added to 'finalize vote' button on click
+function castVote() {
+  console.log(categoryDatabase)
+  const selectedOption = document.getElementById('vote_selection').value
+  const optionDBIndex = categoryDatabase.findIndex((element) => element.optionName === selectedOption)
+  console.log(optionDBIndex)
+  if (optionDBIndex >= 0) {// If option already exists in databaseCATEGORY
+    categoryDatabase[optionDBIndex].incrementVotes()
+    console.log(categoryDatabase[optionDBIndex])
+  } else {// If option does not exist in databaseCATEGORY, add
+    console.log('Its not here!')
+  }
+  // Clear the table, sort the database, and repopulate the table
+  clearTable()
+  sortTableHighToLow()
+  populateTable('food', listFOOD, categoryDatabase)
+}
+
 
 /* Voting Page:
 - pass session ID to document.head.title.innerHTML
@@ -409,6 +453,8 @@ switch (true) {
     break
   case window.location.href.includes('voting_session.html'):
     usernameSessionFromURL()
+    retrieveSessionInstance()
+    //THIS IS CURRENTLY HARDCODED BECAUSE THE SESSION DATABASE DOES NOT PERSIST BETWEEN PAGES
     populateTable('food', listFOOD)
     break
   case window.location.href.includes('about.html'):

@@ -406,8 +406,8 @@ button.submit {
 #final_decision_background{
   position: fixed;
   top: 0px;
-  height: 100vh;
-  width: 100vw;
+  height: 1000vh;
+  width: 1000vw;
   background-color: black;
   opacity: 50%;
   visibility: hidden;

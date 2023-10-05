@@ -381,6 +381,20 @@ function createCategoryDB(category, categoryList) {
   return categoryDatabase
 }
 
+function castVoteButton() {
+  const finalize_vote_button = document.getElementById('finalize_vote')
+  finalize_vote_button.onclick = function (event) {
+    event.preventDefault();
+    castVote()
+  }
+  const vote_selection_input = document.getElementById('vote_selection')
+  vote_selection_input.addEventListener('keydown', function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+    }
+  })
+}
+
 // Needs to be added to 'finalize vote' button on click
 function castVote() {
   const selectedOption = document.getElementById('vote_selection').value
@@ -461,6 +475,7 @@ switch (true) {
     retrieveSessionInstance()
     //THIS IS CURRENTLY HARDCODED BECAUSE THE SESSION DATABASE DOES NOT PERSIST BETWEEN PAGES
     populateTable('food', listFOOD)
+    castVoteButton()
     break
   case window.location.href.includes('about.html'):
     break

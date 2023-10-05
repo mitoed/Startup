@@ -360,7 +360,7 @@ function createSessionWithCategory() {
 // =============================================================================
 
 // Declare Global Variables
-let categoryDatabase
+let categoryDatabase // This is what's populated in the table and the datalist
 
 function populateTable(category, categoryList, thisDatabase = null) {
   const tableElement = document.getElementById('count_table')
@@ -400,7 +400,9 @@ function castVoteButton() {
   const finalize_vote_button = document.getElementById('finalize_vote')
   finalize_vote_button.onclick = function (event) {
     event.preventDefault();
+    recommendUnpopularOpinion()
     castVote()
+    declareWinner(checkAllVotesCast())
   }
   const vote_selection_input = document.getElementById('vote_selection')
   vote_selection_input.addEventListener('keydown', function(event) {
@@ -446,6 +448,51 @@ function clearDatalist() {
     parentElement.removeChild(parentElement.children[0])
   }
 }
+
+function recommendUnpopularOpinion() {
+
+}
+
+function declareWinner(proceed) {
+  if (proceed) {
+    categoryDatabase = categoryDatabase.sort((a, b) => b.calculateVotes() - a.calculateVotes())
+    let groupSelection = categoryDatabase[0]['optionName']
+
+    const currentCategory = 'food' //currentSessionInstance['category']
+    let categoryVerb
+    switch (true) {
+      case currentCategory === 'food':
+        categoryVerb = 'eating at'
+        break
+      case currentCategory === 'movie':
+        categoryVerb = 'watching'
+        break
+      case currentCategory === 'game':
+        categoryVerb = 'playing'
+        break
+    }
+    document.getElementById('final_decision_background').style.visibility = 'visible'
+    document.getElementById('final_decision').style.visibility = 'visible'
+    document.getElementById('category_verb').innerHTML = categoryVerb
+    document.getElementById('group_selection').innerHTML = groupSelection
+  }
+}
+
+function checkAllVotesCast() {
+  const totalUsers = 6 // databaseUSERS.filter(instance => instance.activeSession === currentSessionID).length // Use once session ID can be recovered
+  const totalVotes = databaseUSERS.filter(instance => instance.activeVote !== '').length
+  return (totalUsers === totalVotes)
+}
+
+/*<div id="final_decision_background"></div>
+<div id="final_decision">
+    <p>Based on the selection of the group, you will be
+        <span id="category_verb">eating at</span>
+        <!--changed with category selection-->
+        <span id="group_selection">McDonald's</span>
+        <!--option with most votes-->
+        !</p>
+</div>*/
 
 /* Voting Page:
 - pass session ID to document.head.title.innerHTML

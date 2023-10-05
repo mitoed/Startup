@@ -502,6 +502,7 @@ function disableCastVoteButton() {
   const finalize_vote_button = document.getElementById('finalize_vote')
   finalize_vote_button.onclick = function (event) {
     event.preventDefault();
+    document.getElementById('disabled_finalize').innerHTML = 'Session has concluded'
   }
 }
 

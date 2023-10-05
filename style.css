@@ -197,7 +197,8 @@ button.submit {
 }
 
 #login_error,
-#create_error {
+#create_error,
+#disabled_finalize {
   max-width: 300px;
   margin: 0;
   font-size: 10pt;

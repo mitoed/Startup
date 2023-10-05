@@ -205,7 +205,7 @@ function retrieveSessionInstance() {
   console.log(databaseSESSION)
   currentSessionInstance = databaseSESSION.find((element) => element['sessionID'] === currentSessionID)
   console.log(currentSessionInstance)
-  document.title = `Voting Session: ${sessionID}`
+  //document.title = `Voting Session: ${sessionID}`
 }
 
 // =============================================================================
@@ -439,15 +439,12 @@ function clearDatalist() {
 
 /* Voting Page:
 - pass session ID to document.head.title.innerHTML
-- generate table from DB using handlebars
 - upon clicking "finalize vote":
     - [based on users and chance] generate and display unpopular user's vote:
         - check all users for most unpopular user
         - pass that user's vote to document.getElementById('recommendation_opinion').innerHTML
         - wait for user response
         - if 'yes', replace their selection with recommended opinion
-    - add value to DB/table if not in DB/table
-    - increment vote count
     - sort table by votes (then alphabetically)
 - using user physical location:
     - scrape google for top nearby restaurants

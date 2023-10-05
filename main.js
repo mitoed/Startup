@@ -453,6 +453,12 @@ function recommendUnpopularOpinion() {
 
 }
 
+function checkAllVotesCast() {
+  const totalUsers = 6 // databaseUSERS.filter(instance => instance.activeSession === currentSessionID).length // Use once session ID can be recovered
+  const totalVotes = databaseUSERS.filter(instance => instance.activeVote !== '').length
+  return (totalUsers === totalVotes)
+}
+
 function declareWinner(proceed) {
   if (proceed) {
     categoryDatabase = categoryDatabase.sort((a, b) => b.calculateVotes() - a.calculateVotes())
@@ -475,24 +481,22 @@ function declareWinner(proceed) {
     document.getElementById('final_decision').style.visibility = 'visible'
     document.getElementById('category_verb').innerHTML = categoryVerb
     document.getElementById('group_selection').innerHTML = groupSelection
+    exitFromFinalSelection()
   }
 }
 
-function checkAllVotesCast() {
-  const totalUsers = 6 // databaseUSERS.filter(instance => instance.activeSession === currentSessionID).length // Use once session ID can be recovered
-  const totalVotes = databaseUSERS.filter(instance => instance.activeVote !== '').length
-  return (totalUsers === totalVotes)
+// Add way out of final selection display
+function exitFromFinalSelection() {
+  const final_decision_background_button = document.getElementById('final_decision_background')
+
+  final_decision_background_button.onclick = function () {
+    document.getElementById('final_decision_background').style.visibility = 'hidden'
+    document.getElementById('final_decision').style.visibility = 'hidden'
+    document.getElementById('category_verb').innerHTML = ""
+    document.getElementById('group_selection').innerHTML = ""
+  }
 }
 
-/*<div id="final_decision_background"></div>
-<div id="final_decision">
-    <p>Based on the selection of the group, you will be
-        <span id="category_verb">eating at</span>
-        <!--changed with category selection-->
-        <span id="group_selection">McDonald's</span>
-        <!--option with most votes-->
-        !</p>
-</div>*/
 
 /* Voting Page:
 - pass session ID to document.head.title.innerHTML

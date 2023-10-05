@@ -86,7 +86,7 @@ function addFakeUser(fakeUserName, fakePassword, fakeSelection) {
   let fakeUser = new User(fakeUserName, fakePassword, fakeSelection)
   databaseUSERS.push(fakeUser)
 }
-addFakeUser("masaulls", "1234")
+addFakeUser("masaulls", "1234", 'Bumblebees')
 addFakeUser('chsaulls', '389d9*', 'Costa Vida')
 addFakeUser('rcsaulls', '303udsd', 'Five Sushi Bros')
 addFakeUser('ecsaulls', '38&jdkf', 'Brick Oven')
@@ -272,6 +272,9 @@ function UserPassCreate(database, newUsername, newPassword, confirmPassword) {
     document.getElementById('create_error').innerHTML = 'passwords must match'
     return
   }
+  const newUserInstance = new User (newUsername, newPassword)
+  databaseUSERS.push(newUserInstance)
+  console.log(databaseUSERS)
   window.location.href = `./enter_session.html?user=${newUsername}`
   return
 }

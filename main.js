@@ -381,6 +381,7 @@ function createCategoryDB(category, categoryList) {
   return categoryDatabase
 }
 
+// Add cast vote function to "finalize vote" button
 function castVoteButton() {
   const finalize_vote_button = document.getElementById('finalize_vote')
   finalize_vote_button.onclick = function (event) {

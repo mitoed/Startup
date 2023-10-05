@@ -63,6 +63,9 @@ class VotingOption {
   newhtmlTableRow() {
     return `<tr><td>${this.optionName}</td><td>${this.currentVotes}</td></tr>`
   }
+  newhtmlDatalistRow() {
+    return `<option value="${this.optionName}"></option>`
+  }
   addToCategoryDatabase(databaseCATEGORY) {
     databaseCATEGORY.push({ 'optionName': this.optionName, 'currentVotes': this.currentVotes })
   }
@@ -83,7 +86,6 @@ addFakeUser('rcsaulls', '303udsd')
 addFakeUser('ecsaulls', '38&jdkf')
 addFakeUser('ssaulls', '7329fd')
 addFakeUser('csaulls', '39fds')
-console.log(databaseUSERS)
 
 const databaseSESSION = []
 function addFakeSession(fakeCategory, databaseCATEGORY) {
@@ -263,7 +265,6 @@ function UserPassCreate(database, newUsername, newPassword, confirmPassword) {
     document.getElementById('create_error').innerHTML = 'passwords must match'
     return
   }
-  console.log('button functionality added')
   window.location.href = `./enter_session.html?user=${newUsername}`
   return
 }
@@ -271,14 +272,12 @@ function UserPassCreate(database, newUsername, newPassword, confirmPassword) {
 // Add new user verification to button
 function createLoginUsernamePassword() {
   const login_create_button = document.getElementById('login_create')
-  console.log('button recognized')
   login_create_button.onclick = function (event) {
     event.preventDefault();
 
     let new_username = document.getElementById('new_username').value
     let new_password = document.getElementById('new_password').value
     let confirm_password = document.getElementById('confirm_password').value
-    console.log('button functionality tried')
     UserPassCreate(databaseUSERS, new_username, new_password, confirm_password)
   }
 }
@@ -357,15 +356,18 @@ function createSessionWithCategory() {
 let categoryDatabase
 
 function populateTable(category, categoryList, thisDatabase = null) {
-  const parentElement = document.getElementById('count_table')
+  const tableElement = document.getElementById('count_table')
+  const datalistElement = document.getElementById('voting_options')
   if (thisDatabase === null) {
     categoryDatabase = createCategoryDB(category, categoryList)
   }
-  console.log(categoryDatabase)
   for (let entry in categoryDatabase) {
-    let htmlString = categoryDatabase[entry].newhtmlTableRow()
-    console.log(htmlString)
-    parentElement.insertAdjacentHTML('beforeend', htmlString)
+    // Add entry to table
+    let htmlRowElement = categoryDatabase[entry].newhtmlTableRow()
+    tableElement.insertAdjacentHTML('beforeend', htmlRowElement)
+    // Add entry to datalist
+    let htmlDatalistString = categoryDatabase[entry].newhtmlDatalistRow()
+    datalistElement.insertAdjacentHTML('beforeend', htmlDatalistString)
   }
 }
 
@@ -392,6 +394,7 @@ function castVote() {
   }
   // Clear the table, sort the database, and repopulate the table
   clearTable()
+  clearDatalist()
   sortTableHighToLow()
   populateTable('food', listFOOD, categoryDatabase)
 }
@@ -405,9 +408,16 @@ function sortTableHighToLow() {
 function clearTable() {
   const parentElement = document.getElementById('count_table')
   const parentElementSize = parentElement.childElementCount
-  console.log(parentElement.children[parentElementSize - 1])
   for (let child = 1; child < parentElementSize; child++) {
     parentElement.removeChild(parentElement.children[1])
+  }
+}
+
+function clearDatalist() {
+  const parentElement = document.getElementById('voting_options')
+  const parentElementSize = parentElement.childElementCount
+  for (let child = 0; child < parentElementSize; child++) {
+    parentElement.removeChild(parentElement.children[0])
   }
 }
 
@@ -443,12 +453,8 @@ switch (true) {
     createLoginUsernamePassword()
     break
   case window.location.href.includes('enter_session.html'):
-    console.log('initialize page functionality')
     usernameFromURL()
-    console.log('username should be retrieved')
     createSessionWithCategory()
-    console.log('button should carry value')
-    console.log(window.location.href.split('user=')[1])
     break
   case window.location.href.includes('voting_session.html'):
     usernameSessionFromURL()

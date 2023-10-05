@@ -202,6 +202,7 @@ function usernameSessionToURL (nextURL, currentUser, currentsessionID) {
 
 // Verify login credentials
 function UserPassCorrect (database, checkUsername, checkPassword) {
+  checkUsername = checkUsername.toLowerCase()
   for (let entry in database) {
     if (database[entry]['username'] === checkUsername) {
       if (database[entry]['password'] === checkPassword) {
@@ -236,6 +237,8 @@ function UserPassCreate (database, newUsername, newPassword, confirmPassword) {
 
   // RegEx that checks for 1 letter, 1 number, and 8 characters long
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/
+
+  newUsername = newUsername.toLowerCase();
 
   for (let entry in database) {
     if (database[entry]['username'] === newUsername) {

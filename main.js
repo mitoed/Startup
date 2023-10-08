@@ -190,38 +190,23 @@ let currentUser
 let currentSessionID
 let currentSessionInstance
 
-// Retrieve username from url
-function usernameFromURL() {
+// Retrieve current information from url
+function infoFromURL() {
   const pageURL = window.location.href;
-  currentUser = pageURL.split('user=')[1];
-  if (currentUser !== undefined) {
-    document.getElementById('username').innerHTML = `Welcome, ${currentUser}`;
-  } else {
-    document.getElementById('username').innerHTML = `Welcome!`;
-  }
-  return// currentUser
-}
-
-// Retrieve SessionID from url
-function usernameSessionFromURL() {
-  const pageURL = window.location.href;
-
-  currentUser = pageURL.split('user=')[1].split('&')[0];
-  document.getElementById('username').innerHTML = `Welcome, ${currentUser}`;
-
   currentSessionID = pageURL.split('session=')[1];
-  document.getElementById('session_id').innerHTML = `Session ID: ${currentSessionID}`;
-  return
+  try {currentUser = pageURL.split('user=')[1].split('&session')[0];} 
+  catch {currentUser = pageURL.split('user=')[1];}
 }
 
-// Insert username into URL
-function usernameToURL(nextURL, currentUser) {
-  `${nextURL}?user=${currentUser}`
-}
-
-// Insert username and session id into URL
-function usernameSessionToURL(nextURL, currentUser, currentsessionID) {
-  `${nextURL}?user=${currentUser}&session=${currentsessionID}`
+// Add current information to navigation menu
+function infoToMenu() {
+  const navigationMenu = document.getElementById('navigation_menu')
+  const navigationChildren = navigationMenu.children
+  for (let child = 1; child < navigationChildren.length; child++) {
+    if (currentUser !== undefined) {
+      navigationChildren[child].href += `?user=${currentUser}`
+    }
+  }
 }
 
 // To get the current session's info
@@ -580,18 +565,21 @@ switch (true) {
     createLoginUsernamePassword()
     break
   case window.location.href.includes('enter_session.html'):
-    usernameFromURL()
+    infoFromURL()
+    infoToMenu()
     enterSessionWithID()
     createSessionWithCategory()
     break
   case window.location.href.includes('voting_session.html'):
-    usernameSessionFromURL()
+    infoFromURL()
+    infoToMenu()
     retrieveSessionInstance()
     //THIS IS CURRENTLY HARDCODED BECAUSE THE SESSION DATABASE DOES NOT PERSIST BETWEEN PAGES
     populateTable(currentSessionInstance.category, currentSessionInstance.categoryArray)
     castVoteButton()
     break
   case window.location.href.includes('about.html'):
-    disableEnterSession()
+    infoFromURL()
+    infoToMenu()
     break
 }

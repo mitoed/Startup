@@ -1,12 +1,23 @@
 // =============================================================================
+// GLOBAL VARIABLES
+// =============================================================================
+
+const databaseUSERS = []
+const databaseSESSION = []
+let currentUser
+let currentSessionID
+let currentSessionInstance
+let categoryDatabase
+
+// =============================================================================
 // CLASSES
 // =============================================================================
 
 class User {
-  constructor(username, password, activeVote = '') {
+  constructor(username, password, activeSession = '', activeVote = '') {
     this._username = username
     this._password = password
-    this._activeSession = ''
+    this._activeSession = activeSession
     this._activeVote = activeVote
     this._sessionsTotal = 0
     this._sessionsWon = 0
@@ -81,25 +92,24 @@ class VotingOption {
 // DUMMY VALUES
 // =============================================================================
 
-const databaseUSERS = []
-function addFakeUser(fakeUserName, fakePassword, fakeSelection) {
-  let fakeUser = new User(fakeUserName, fakePassword, fakeSelection)
+function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection) {
+  let fakeUser = new User(fakeUserName, fakePassword, fakeSessionID, fakeSelection)
   databaseUSERS.push(fakeUser)
 }
-addFakeUser("masaulls", "1234", 'Bumblebees')
-addFakeUser('chsaulls', '389d9*', 'Costa Vida')
-addFakeUser('rcsaulls', '303udsd', 'Five Sushi Bros')
-addFakeUser('ecsaulls', '38&jdkf', 'Brick Oven')
-addFakeUser('ssaulls', '7329fd', 'Burger Supreme')
-addFakeUser('csaulls', '39fds', 'Good Move')
+addFakeUser("masaulls", "1234", 'M7G2X7', 'Bumblebees')
+addFakeUser('chsaulls', '389d9*', 'M7G2X7', 'Costa Vida')
+addFakeUser('rcsaulls', '303udsd', 'M7G2X7', 'Five Sushi Bros')
+addFakeUser('ecsaulls', '38&jdkf', 'M7G2X7', 'Brick Oven')
+addFakeUser('ssaulls', '7329fd', 'M7G2X7', 'Burger Supreme')
+addFakeUser('csaulls', '39fds', 'M7G2X7', 'Good Move')
 
-const databaseSESSION = []
 function addFakeSession(fakeSessionID, fakeCategory, databaseCATEGORY) {
   let fakeSession = new Session(fakeSessionID, fakeCategory, databaseCATEGORY, Date.now())
   databaseSESSION.push(fakeSession)
 }
 
-let listFOOD = [
+{ // Dummy databases
+  let listFOOD = [
   "Wendy's",
   "McDonald's",
   "Chick-fil-A",
@@ -148,23 +158,24 @@ let listGAME = [
 addFakeSession ('M7G2X7', 'food', listFOOD)
 addFakeSession ("M7N7V4", 'food', listFOOD)
 addFakeSession ("S7T4H9", 'food', listFOOD)
-addFakeSession ("F0W7Q7", 'food', listFOOD)
+addFakeSession ("F2W7Q7", 'food', listFOOD)
 addFakeSession ("H6Q2N0", 'food', listFOOD)
 addFakeSession ("S2S4D6", 'food', listFOOD)
 addFakeSession ("C7M0X2", 'game', listGAME)
 addFakeSession ("X7H3J3", 'game', listGAME)
 addFakeSession ("N4C3Q5", 'game', listGAME)
 addFakeSession ("D5H9K5", 'game', listGAME)
-addFakeSession ("S0V0J9", 'game', listGAME)
-addFakeSession ("Z6L1X1", 'game', listGAME)
+addFakeSession ("S2V2J9", 'game', listGAME)
+addFakeSession ("Z6L3X3", 'game', listGAME)
 addFakeSession ("T7F3P7", 'game', listGAME)
 addFakeSession ("H4X6J2", 'movie', listMOVIE)
 addFakeSession ("N7T5Q6", 'movie', listMOVIE)
 addFakeSession ("F3V9B4", 'movie', listMOVIE)
 addFakeSession ("N2K6M6", 'movie', listMOVIE)
 addFakeSession ("Z7X5C7", 'movie', listMOVIE)
-addFakeSession ("Q5F0K4", 'movie', listMOVIE)
-addFakeSession ("V0K3N1", 'movie', listMOVIE)
+addFakeSession ("Q5F2K4", 'movie', listMOVIE)
+addFakeSession ("V2K3N3", 'movie', listMOVIE)
+}
 
 // =============================================================================
 // GENERAL FUNCTIONS
@@ -185,10 +196,6 @@ function DBInfoExist(database, checkField, checkValue, errorID = '') {
   document.getElementById(errorID).innerHTML = `that ${checkField} does not exist` // TO BE TESTED
   return false
 }
-
-let currentUser
-let currentSessionID
-let currentSessionInstance
 
 // Retrieve current information from url
 function infoFromURL() {
@@ -325,6 +332,7 @@ function enterSessionWithID() {
     event.preventDefault();
 
     currentSessionID = document.getElementById('join_session_id').value
+    currentSessionID = currentSessionID.toUpperCase()
     if (validateSessionID(currentSessionID)) {
       window.location.href = `./voting_session.html?user=${currentUser}&session=${currentSessionID}`
     } else {
@@ -375,7 +383,7 @@ function randomSessionID() {
   let sessionString = []
   let digit
   let digitArray1 = 'BCDFGHJKLMNPQRSTVWXZ'.split('')
-  let digitArray2 = '0123456789'.split('')
+  let digitArray2 = '23456789'.split('')
   do {
     digit = digitArray1[Math.floor(Math.random() * digitArray1.length)]
     sessionString.push(digit)
@@ -390,21 +398,17 @@ function randomSessionID() {
 // VOTING SESSION PAGE FUNCTIONALITY
 // =============================================================================
 
-// Declare Global Variables
-let categoryDatabase // This is what's populated in the table and the datalist
-
-function loadVotingSessionPage(defaultSessionID, defaultCategory, defaultList) {
-  try  { // session was correctly created in the database
+function loadVotingSessionPage(defaultSessionID) {
     currentSessionInstance = databaseSESSION.find((element) => element['sessionID'] === currentSessionID)
-  }
-  catch { // session is missing from the database; revert to default
+  if (currentSessionInstance === undefined) {
+    // if session is missing from the database; revert to default
+    document.getElementById('session_id').innerHTML = `Session ID: ${defaultSessionID}`;
+    currentSessionInstance = databaseSESSION.find((element) => element['sessionID'] === defaultSessionID)
     console.log('Error: session not correctly loaded from database. Default inert session loaded instead.')
-    currentSessionInstance = new Session(defaultSessionID, defaultCategory, defaultList, Date.now())
-    currentSessionID = currentSessionInstance['sessionID']
-    databaseSESSION.push(currentSessionInstance)
-  } finally {
-    document.title = `Voting Session: ${currentSessionID}`
   }
+  document.title = `Voting Session: ${currentSessionID}`
+  
+  populateTable(currentSessionInstance.category, currentSessionInstance.categoryArray)
 }
 
 // Populates data table and data list using the information gathered or inputted.
@@ -476,7 +480,7 @@ function castVote() {
   // Clear the table, sort the database, and repopulate the table
   clearTable()
   clearDatalist()
-  populateTable('food', listFOOD, categoryDatabase)
+  populateTable(currentSessionInstance.category, currentSessionInstance.categoryArray, categoryDatabase)
 }
 
 function clearTable() {
@@ -590,9 +594,7 @@ switch (true) {
   case window.location.href.includes('voting_session.html'):
     infoFromURL()
     infoToMenu()
-    loadVotingSessionPage('D4K452', 'food', listFOOD)
-    //THIS IS CURRENTLY HARDCODED BECAUSE THE SESSION DATABASE DOES NOT PERSIST BETWEEN PAGES
-    populateTable(currentSessionInstance.category, currentSessionInstance.categoryArray)
+    loadVotingSessionPage('M7G2X7')
     castVoteButton()
     break
   case window.location.href.includes('about.html'):

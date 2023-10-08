@@ -94,8 +94,8 @@ addFakeUser('ssaulls', '7329fd', 'Burger Supreme')
 addFakeUser('csaulls', '39fds', 'Good Move')
 
 const databaseSESSION = []
-function addFakeSession(fakeCategory, databaseCATEGORY) {
-  let fakeSession = new Session(createSessionID(), fakeCategory, databaseCATEGORY, Date.now())
+function addFakeSession(fakeSessionID, fakeCategory, databaseCATEGORY) {
+  let fakeSession = new Session(fakeSessionID, fakeCategory, databaseCATEGORY, Date.now())
   databaseSESSION.push(fakeSession)
 }
 
@@ -115,7 +115,7 @@ let listFOOD = [
   "Black Sheep Cafe",
 ];
 
-/*let listMOVIE = [
+let listMOVIE = [
   "The Shawshank Redemption",
   "The Godfather",
   "The Dark Knight",
@@ -143,10 +143,28 @@ let listGAME = [
   "Scythe",
   "Splendor",
   "Betrayal at Baldur's Gate"
-];*/
+];
 
-//addFakeSession ('food', listFOOD)
-//console.log(databaseSESSION)
+addFakeSession ('M7G2X7', 'food', listFOOD)
+addFakeSession ("M7N7V4", 'food', listFOOD)
+addFakeSession ("S7T4H9", 'food', listFOOD)
+addFakeSession ("F0W7Q7", 'food', listFOOD)
+addFakeSession ("H6Q2N0", 'food', listFOOD)
+addFakeSession ("S2S4D6", 'food', listFOOD)
+addFakeSession ("C7M0X2", 'game', listGAME)
+addFakeSession ("X7H3J3", 'game', listGAME)
+addFakeSession ("N4C3Q5", 'game', listGAME)
+addFakeSession ("D5H9K5", 'game', listGAME)
+addFakeSession ("S0V0J9", 'game', listGAME)
+addFakeSession ("Z6L1X1", 'game', listGAME)
+addFakeSession ("T7F3P7", 'game', listGAME)
+addFakeSession ("H4X6J2", 'movie', listMOVIE)
+addFakeSession ("N7T5Q6", 'movie', listMOVIE)
+addFakeSession ("F3V9B4", 'movie', listMOVIE)
+addFakeSession ("N2K6M6", 'movie', listMOVIE)
+addFakeSession ("Z7X5C7", 'movie', listMOVIE)
+addFakeSession ("Q5F0K4", 'movie', listMOVIE)
+addFakeSession ("V0K3N1", 'movie', listMOVIE)
 
 // =============================================================================
 // GENERAL FUNCTIONS

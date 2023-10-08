@@ -75,7 +75,7 @@ class VotingOption {
   set optionName(newName) {this._optionName = newName }
   calculateVotes() {
     const totalVotes = databaseUSERS.filter(instance => 
-      //instance.activeSession === currentSessionID && // Use once session ID can be recovered
+      instance.activeSession === currentSessionID && // Use once session ID can be recovered
       instance.activeVote === this.optionName
     ).length
     return totalVotes
@@ -99,12 +99,12 @@ function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection) {
   let fakeUser = new User(fakeUserName, fakePassword, fakeSessionID, fakeSelection)
   databaseUSERS.push(fakeUser)
 }
-addFakeUser("masaulls", "1234", 'F7G2X7', 'Bumblebees')
-addFakeUser('chsaulls', '389d9*', 'F7G2X7', 'Costa Vida')
-addFakeUser('rcsaulls', '303udsd', 'F7G2X7', 'Five Sushi Bros')
-addFakeUser('ecsaulls', '38&jdkf', 'F7G2X7', 'Brick Oven')
-addFakeUser('ssaulls', '7329fd', 'F7G2X7', 'Burger Supreme')
-addFakeUser('csaulls', '39fds', 'F7G2X7', 'Good Move')
+addFakeUser("masaulls", "1234", 'DEFAULT', 'Bumblebees')
+addFakeUser('chsaulls', '389d9*', 'DEFAULT', 'Costa Vida')
+addFakeUser('rcsaulls', '303udsd', 'DEFAULT', 'Five Sushi Bros')
+addFakeUser('ecsaulls', '38&jdkf', 'DEFAULT', 'Brick Oven')
+addFakeUser('ssaulls', '7329fd', 'DEFAULT', 'Burger Supreme')
+addFakeUser('csaulls', '39fds', 'DEFAULT', 'Good Move')
 
 function addFakeSession(fakeSessionID, fakeCategory, databaseCATEGORY) {
   let fakeSession = new Session(fakeSessionID, fakeCategory, databaseCATEGORY, Date.now())
@@ -156,7 +156,7 @@ let listGAME = [
   "Splendor",
   "Betrayal at Baldur's Gate"]
 
-addFakeSession ('J5P6D9', 'food', listFOOD)
+addFakeSession ('DEFAULT', 'food', listFOOD)
 addFakeSession ("F7N7V4", 'food', listFOOD)
 addFakeSession ("C7T4H9", 'food', listFOOD)
 addFakeSession ("F2W7Q7", 'food', listFOOD)

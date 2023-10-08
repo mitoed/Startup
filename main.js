@@ -196,8 +196,14 @@ function infoFromURL() {
   currentSessionID = pageURL.split('session=')[1];
   try {currentUser = pageURL.split('user=')[1].split('&session')[0];} 
   catch {currentUser = pageURL.split('user=')[1];}
-  document.getElementById('username').innerHTML = `Welcome, ${currentUser}`;
-  document.getElementById('session_id').innerHTML = `Session ID: ${currentSessionID}`;
+  try {if (currentUser !== undefined) {
+    document.getElementById('username').innerHTML = `Welcome, ${currentUser}!`;
+  } else {
+    document.getElementById('username').innerHTML = `Welcome!`;
+  }}
+  catch {}
+  try {document.getElementById('session_id').innerHTML = `Session ID: ${currentSessionID}`;}
+  catch {}
 }
 
 // Add current information to navigation menu
@@ -591,6 +597,7 @@ switch (true) {
     break
   case window.location.href.includes('about.html'):
     infoFromURL()
+    console.log(currentUser)
     infoToMenu()
     break
 }

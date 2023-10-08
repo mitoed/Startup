@@ -196,6 +196,8 @@ function infoFromURL() {
   currentSessionID = pageURL.split('session=')[1];
   try {currentUser = pageURL.split('user=')[1].split('&session')[0];} 
   catch {currentUser = pageURL.split('user=')[1];}
+  document.getElementById('username').innerHTML = `Welcome, ${currentUser}`;
+  document.getElementById('session_id').innerHTML = `Session ID: ${currentSessionID}`;
 }
 
 // Add current information to navigation menu
@@ -207,12 +209,6 @@ function infoToMenu() {
       navigationChildren[child].href += `?user=${currentUser}`
     }
   }
-}
-
-// To get the current session's info
-function retrieveSessionInstance() {
-  currentSessionInstance = databaseSESSION.find((element) => element['sessionID'] === currentSessionID)
-  document.title = `Voting Session: ${currentSessionID}`
 }
 
 // =============================================================================
@@ -391,6 +387,21 @@ function randomSessionID() {
 // Declare Global Variables
 let categoryDatabase // This is what's populated in the table and the datalist
 
+function loadVotingSessionPage(defaultSessionID, defaultCategory, defaultList) {
+  try  { // session was correctly created in the database
+    currentSessionInstance = databaseSESSION.find((element) => element['sessionID'] === currentSessionID)
+  }
+  catch { // session is missing from the database; revert to default
+    console.log('Error: session not correctly loaded from database. Default inert session loaded instead.')
+    currentSessionInstance = new Session(defaultSessionID, defaultCategory, defaultList, Date.now())
+    currentSessionID = currentSessionInstance['sessionID']
+    databaseSESSION.push(currentSessionInstance)
+  } finally {
+    document.title = `Voting Session: ${currentSessionID}`
+  }
+}
+
+// Populates data table and data list using the information gathered or inputted.
 function populateTable(category, categoryList, thisDatabase = null) {
   const tableElement = document.getElementById('count_table')
   const datalistElement = document.getElementById('voting_options')
@@ -573,7 +584,7 @@ switch (true) {
   case window.location.href.includes('voting_session.html'):
     infoFromURL()
     infoToMenu()
-    retrieveSessionInstance()
+    loadVotingSessionPage('D4K452', 'food', listFOOD)
     //THIS IS CURRENTLY HARDCODED BECAUSE THE SESSION DATABASE DOES NOT PERSIST BETWEEN PAGES
     populateTable(currentSessionInstance.category, currentSessionInstance.categoryArray)
     castVoteButton()

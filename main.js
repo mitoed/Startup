@@ -75,8 +75,7 @@ class VotingOption {
   set optionName(newName) {this._optionName = newName }
   calculateVotes() {
     const totalVotes = databaseUSERS.filter(instance => 
-      instance.activeSession === currentSessionID && // Use once session ID can be recovered
-      instance.activeVote === this.optionName
+      (instance.activeSession === currentSessionID && instance.activeVote === this.optionName)
     ).length
     return totalVotes
   }
@@ -99,12 +98,12 @@ function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection) {
   let fakeUser = new User(fakeUserName, fakePassword, fakeSessionID, fakeSelection)
   databaseUSERS.push(fakeUser)
 }
-addFakeUser("masaulls", "1234", 'DEFAULT', 'Bumblebees')
-addFakeUser('chsaulls', '389d9*', 'DEFAULT', 'Costa Vida')
-addFakeUser('rcsaulls', '303udsd', 'DEFAULT', 'Five Sushi Bros')
-addFakeUser('ecsaulls', '38&jdkf', 'DEFAULT', 'Brick Oven')
-addFakeUser('ssaulls', '7329fd', 'DEFAULT', 'Burger Supreme')
-addFakeUser('csaulls', '39fds', 'DEFAULT', 'Good Move')
+addFakeUser("MASAULLS", "1234")
+addFakeUser('CHSAULLS', '389d9*', 'DEFAULT', 'Costa Vida')
+addFakeUser('RCSAULLS', '303udsd', 'DEFAULT', 'Five Sushi Bros')
+addFakeUser('ECSAULLS', '38&jdkf', 'DEFAULT', 'Brick Oven')
+addFakeUser('SSAULLS', '7329fd', 'DEFAULT', 'Burger Supreme')
+addFakeUser('CSAULLS', '39fds', 'DEFAULT', 'Good Move')
 
 function addFakeSession(fakeSessionID, fakeCategory, databaseCATEGORY) {
   let fakeSession = new Session(fakeSessionID, fakeCategory, databaseCATEGORY, Date.now())
@@ -189,11 +188,11 @@ function DBInfoExist(database, checkField, checkValue, errorID = '') {
   }
   for (let entry in database) {
     if (database[entry][checkField] === checkValue) {
-      document.getElementById(errorID).innerHTML = '' // TO BE TESTED
+      document.getElementById(errorID).innerHTML = ''
       return true
     }
   }
-  document.getElementById(errorID).innerHTML = `that ${checkField} does not exist` // TO BE TESTED
+  document.getElementById(errorID).innerHTML = `that ${checkField} does not exist`
   return false
 }
 
@@ -205,12 +204,17 @@ function infoFromURL() {
   catch {currentUser = pageURL.split('user=')[1];}
   try {if (currentUser !== undefined) {
     document.getElementById('username').innerHTML = `Welcome, ${currentUser}!`;
+    console.log(`Successfully logged in as: ${currentUser}`)
   } else {
     document.getElementById('username').innerHTML = `Welcome!`;
+    console.log('Login unsuccessful.')
   }}
-  catch {}
-  try {document.getElementById('session_id').innerHTML = `Session ID: ${currentSessionID}`;}
-  catch {}
+  catch {} // no username to extract
+  try {
+    document.getElementById('session_id').innerHTML = `Session ID: ${currentSessionID}`;
+    console.log(`Successfully entered Session: ${currentSessionID}`)
+  }
+  catch {} // no session id to extract
 }
 
 // Add current information to navigation menu
@@ -239,7 +243,7 @@ function disableEnterSession() {
 
 // Verify login credentials
 function UserPassCorrect(database, checkUsername, checkPassword) {
-  checkUsername = checkUsername.toLowerCase()
+  checkUsername = checkUsername.toUpperCase()
   for (let entry in database) {
     if (database[entry]['username'] === checkUsername) {
       if (database[entry]['password'] === checkPassword) {
@@ -275,7 +279,7 @@ function UserPassCreate(database, newUsername, newPassword, confirmPassword) {
   // RegEx that checks for 1 letter, 1 number, and 8 characters long
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/
 
-  newUsername = newUsername.toLowerCase();
+  newUsername = newUsername.toUpperCase();
 
   for (let entry in database) {
     if (database[entry]['username'] === newUsername) {
@@ -418,10 +422,10 @@ function randomDigit(digitArray) {
 
 function loadVotingSessionPage() {
     currentSessionInstance = databaseSESSION.find((element) => element['sessionID'] === currentSessionID)
-    let currentCategory
-    let currentDatabase
   if (currentSessionInstance === undefined) {
     // if session is missing from the database; create new session but log error
+    let currentCategory
+    let currentDatabase
     switch (true) {
       case foodIDLetters.includes(currentSessionID[0]):
         currentCategory = 'food'
@@ -439,10 +443,15 @@ function loadVotingSessionPage() {
     currentSessionInstance = new Session(currentSessionID, currentCategory, currentDatabase, Date.now())
     console.log('Error: Session created and not loaded from database. ' + 
       'Please verify code for database entry creation and retrieval.')
+  } else {
+    // if session loaded correctly from database
+    console.log(`Session ${currentSessionID} loaded correctly from database.`)
   }
   document.title = `Voting Session: ${currentSessionID}`
-
+  const userIndex = databaseUSERS.findIndex(user => user.username === currentUser)
+  databaseUSERS[userIndex].activeSession = currentSessionID
   populateTable(currentSessionInstance.category, currentSessionInstance.categoryArray)
+  console.log(`Data populated correctly. Proceed with voting.`)
 }
 
 // Populates data table and data list using the information gathered or inputted.
@@ -454,10 +463,8 @@ function populateTable(category, categoryList, thisDatabase = null) {
   }
   sortTableHighToLow()
   for (let entry in categoryDatabase) {
-    // Add entry to table
     let htmlRowElement = categoryDatabase[entry].newhtmlTableRow()
     tableElement.insertAdjacentHTML('beforeend', htmlRowElement)
-    // Add entry to datalist
     let htmlDatalistString = categoryDatabase[entry].newhtmlDatalistRow()
     datalistElement.insertAdjacentHTML('beforeend', htmlDatalistString)
   }
@@ -486,7 +493,7 @@ function castVoteButton() {
     event.preventDefault();
     recommendUnpopularOpinion()
     castVote()
-    declareWinner(checkAllVotesCast())
+    displayWinner(checkAllVotesCast())
   }
   const vote_selection_input = document.getElementById('vote_selection')
   vote_selection_input.addEventListener('keydown', function(event) {
@@ -498,20 +505,17 @@ function castVoteButton() {
 
 // Needs to be added to 'finalize vote' button on click
 function castVote() {
-  // Set the user's active vote
   const selectedOption = document.getElementById('vote_selection').value
   const userIndex = databaseUSERS.findIndex(user => user.username === currentUser)
   databaseUSERS[userIndex].activeVote = selectedOption
-  // Search for the vote in the category database
   const optionDBIndex = categoryDatabase.findIndex((element) => element.optionName === selectedOption)
-  if (optionDBIndex !== -1) {// If option already exists in databaseCATEGORY
+  if (optionDBIndex !== -1) {
     categoryDatabase[optionDBIndex].calculateVotes()
-  } else {// If option does not exist in databaseCATEGORY, add
+  } else {
     const newOption = new VotingOption(selectedOption)
     newOption.calculateVotes()
     categoryDatabase.push(newOption)
   }
-  // Clear the table, sort the database, and repopulate the table
   clearTable()
   clearDatalist()
   populateTable(currentSessionInstance.category, currentSessionInstance.categoryArray, categoryDatabase)
@@ -538,26 +542,28 @@ function recommendUnpopularOpinion() {
 }
 
 function checkAllVotesCast() {
-  const totalUsers = 6 // databaseUSERS.filter(instance => instance.activeSession === currentSessionID).length // Use once session ID can be recovered
-  const totalVotes = databaseUSERS.filter(instance => instance.activeVote !== '').length
+  const sessionUsers = databaseUSERS.filter(instance => instance.activeSession === currentSessionID)
+  const totalUsers = sessionUsers.length
+  const totalVotes = sessionUsers.filter(instance => instance.activeVote !== '').length
   return (totalUsers === totalVotes)
 }
 
-function declareWinner(proceed) {
-  if (proceed) {
+function displayWinner(allVotesCast) {
+  if (allVotesCast) {
+    console.log('All users have cast their vote. Group decision will be displayed now.')
     categoryDatabase = categoryDatabase.sort((a, b) => b.calculateVotes() - a.calculateVotes())
     let groupSelection = categoryDatabase[0]['optionName']
 
     const currentCategory = currentSessionInstance.category
     let categoryVerb
-    switch (true) {
-      case currentCategory === 'food':
+    switch (currentCategory) {
+      case 'food':
         categoryVerb = 'eating at'
         break
-      case currentCategory === 'movie':
+      case 'movie':
         categoryVerb = 'watching'
         break
-      case currentCategory === 'game':
+      case 'game':
         categoryVerb = 'playing'
         break
     }
@@ -587,11 +593,11 @@ function disableCastVoteButton() {
   finalize_vote_button.onclick = function (event) {
     event.preventDefault();
     document.getElementById('disabled_finalize').innerHTML = 'Session has concluded'
+    console.log('Session has concluded; Finalize Vote button has been disabled.')
   }
 }
 
 /* Voting Page:
-- pass session ID to document.head.title.innerHTML
 - upon clicking "finalize vote":
     - [based on users and chance] generate and display unpopular user's vote:
         - check all users for most unpopular user
@@ -603,10 +609,6 @@ function disableCastVoteButton() {
     - scrape google for top nearby restaurants
     - pass website url to document.getElementById('recommendation_link').href
     - add restaurant name to document.getElementById('recommendation_internet').innerHTML
-- when all users have clicked "finalize vote":
-    - pass appropriate category verb (e.g., "eating at") to document.getElementById('category_verb')
-    - pass winning selection to document.getElementById('group_selection)
-    - change the message and background's hidden property to false
 */
 
 // =============================================================================
@@ -633,7 +635,6 @@ switch (true) {
     break
   case window.location.href.includes('about.html'):
     infoFromURL()
-    console.log(currentUser)
     infoToMenu()
     break
 }

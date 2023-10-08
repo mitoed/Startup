@@ -218,6 +218,15 @@ function retrieveSessionInstance() {
 // LOGIN PAGE FUNCTIONS
 // =============================================================================
 
+// Disable navigation menu
+function disableEnterSession() {
+  const navEnterSession = document.getElementById("nav_enter_session")
+  navEnterSession.href = ""
+  navEnterSession.onclick = function () {
+    alert('You must login or create an account before entering a session.')
+  }
+}
+
 // Verify login credentials
 function UserPassCorrect(database, checkUsername, checkPassword) {
   checkUsername = checkUsername.toLowerCase()
@@ -534,6 +543,7 @@ function disableCastVoteButton() {
 
 switch (true) {
   default:
+    disableEnterSession()
     validateLoginUsernamePassword()
     createLoginUsernamePassword()
     break
@@ -549,5 +559,6 @@ switch (true) {
     castVoteButton()
     break
   case window.location.href.includes('about.html'):
+    disableEnterSession()
     break
 }

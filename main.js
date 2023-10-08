@@ -418,21 +418,26 @@ function randomDigit(digitArray) {
 
 function loadVotingSessionPage() {
     currentSessionInstance = databaseSESSION.find((element) => element['sessionID'] === currentSessionID)
+    let currentCategory
+    let currentDatabase
   if (currentSessionInstance === undefined) {
     // if session is missing from the database; create new session but log error
     switch (true) {
       case foodIDLetters.includes(currentSessionID[0]):
         currentCategory = 'food'
+        currentDatabase = listFOOD
         break
       case movieIDLetters.includes(currentSessionID[0]):
         currentCategory = 'movie'
+        currentDatabase = listMOVIE
         break
       case gameIDLetters.includes(currentSessionID[0]):
         currentCategory = 'game'
+        currentDatabase = listGAME
         break
     }
-    currentSessionInstance = new Session(currentSessionID, 'food', listFOOD, Date.now())
-    console.log('Error: Session not correctly loaded from database; new session added instead. ' + 
+    currentSessionInstance = new Session(currentSessionID, currentCategory, currentDatabase, Date.now())
+    console.log('Error: Session created and not loaded from database. ' + 
       'Please verify code for database entry creation and retrieval.')
   }
   document.title = `Voting Session: ${currentSessionID}`

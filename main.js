@@ -226,10 +226,8 @@ function usernameSessionToURL(nextURL, currentUser, currentsessionID) {
 
 // To get the current session's info
 function retrieveSessionInstance() {
-  console.log(databaseSESSION)
   currentSessionInstance = databaseSESSION.find((element) => element['sessionID'] === currentSessionID)
-  console.log(currentSessionInstance)
-  //document.title = `Voting Session: ${sessionID}`
+  document.title = `Voting Session: ${currentSessionID}`
 }
 
 // =============================================================================
@@ -323,31 +321,6 @@ function createLoginUsernamePassword() {
 // ENTER SESSION PAGE FUNCTIONS
 // =============================================================================
 
-function createSessionID() {
-  let newSessionID
-  let problem = false
-  do {
-    newSessionID = randomSessionID()
-    problem = validateSessionID(newSessionID)
-  } while (problem)
-  return newSessionID
-}
-
-function randomSessionID() {
-  let sessionString = []
-  let digit
-  let digitArray1 = 'BCDFGHJKLMNPQRSTVWXZ'.split('')
-  let digitArray2 = '0123456789'.split('')
-  do {
-    digit = digitArray1[Math.floor(Math.random() * digitArray1.length)]
-    sessionString.push(digit)
-    digit = digitArray2[Math.floor(Math.random() * digitArray2.length)]
-    sessionString.push(digit)
-  } while (sessionString.length < 6)
-  sessionString = sessionString.join('')
-  return sessionString
-}
-
 function validateSessionID(checkSessionID) {
   for (let session in databaseSESSION) {
     if (databaseSESSION[session]['sessionID'] === checkSessionID) {
@@ -357,7 +330,23 @@ function validateSessionID(checkSessionID) {
   return false
 }
 
-// Add Session ID validation to button
+// Add Session ID validation to button and enter session
+function enterSessionWithID() {
+  const join_session_button = document.getElementById('join_session')
+
+  join_session_button.onclick = function (event) {
+    event.preventDefault();
+
+    currentSessionID = document.getElementById('join_session_id').value
+    if (validateSessionID(currentSessionID)) {
+      window.location.href = `./voting_session.html?user=${currentUser}&session=${currentSessionID}`
+    } else {
+      document.getElementById('session_not_found_error').innerHTML = 'Session Not Found'
+    }
+  }
+}
+
+// Add Session ID validation to button and create session
 function createSessionWithCategory() {
   const create_session_button = document.getElementById('create_session')
 
@@ -383,6 +372,31 @@ function createSessionWithCategory() {
     window.location.href = `./voting_session.html?user=${currentUser}&session=${newSessionID}`
     return
   }
+}
+
+function createSessionID() {
+  let newSessionID
+  let problem = false
+  do {
+    newSessionID = randomSessionID()
+    problem = validateSessionID(newSessionID)
+  } while (problem)
+  return newSessionID
+}
+
+function randomSessionID() {
+  let sessionString = []
+  let digit
+  let digitArray1 = 'BCDFGHJKLMNPQRSTVWXZ'.split('')
+  let digitArray2 = '0123456789'.split('')
+  do {
+    digit = digitArray1[Math.floor(Math.random() * digitArray1.length)]
+    sessionString.push(digit)
+    digit = digitArray2[Math.floor(Math.random() * digitArray2.length)]
+    sessionString.push(digit)
+  } while (sessionString.length < 6)
+  sessionString = sessionString.join('')
+  return sessionString
 }
 
 // =============================================================================
@@ -494,7 +508,7 @@ function declareWinner(proceed) {
     categoryDatabase = categoryDatabase.sort((a, b) => b.calculateVotes() - a.calculateVotes())
     let groupSelection = categoryDatabase[0]['optionName']
 
-    const currentCategory = 'food' //currentSessionInstance['category']
+    const currentCategory = currentSessionInstance.category
     let categoryVerb
     switch (true) {
       case currentCategory === 'food':
@@ -567,13 +581,14 @@ switch (true) {
     break
   case window.location.href.includes('enter_session.html'):
     usernameFromURL()
+    enterSessionWithID()
     createSessionWithCategory()
     break
   case window.location.href.includes('voting_session.html'):
     usernameSessionFromURL()
     retrieveSessionInstance()
     //THIS IS CURRENTLY HARDCODED BECAUSE THE SESSION DATABASE DOES NOT PERSIST BETWEEN PAGES
-    populateTable('food', listFOOD)
+    populateTable(currentSessionInstance.category, currentSessionInstance.categoryArray)
     castVoteButton()
     break
   case window.location.href.includes('about.html'):

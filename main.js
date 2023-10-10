@@ -246,10 +246,12 @@ function infoFromURL() {
 function infoToMenu() {
   const navigationMenu = document.getElementById('navigation_menu')
   const navigationChildren = navigationMenu.children
-  for (let child = 1; child < navigationChildren.length; child++) {
-    if (currentUser !== undefined) {
+  if (currentUser !== undefined) {
+    for (let child = 1; child < navigationChildren.length; child++) {
       navigationChildren[child].href += `?user=${currentUser}`
     }
+  } else if (currentUser === undefined) {
+    disableEnterSession()
   }
 }
 

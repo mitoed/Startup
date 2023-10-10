@@ -19,14 +19,16 @@ let categoryDatabase
 class User {
   constructor(username, password, activeSession = '', activeVote = '') {
     this._username = username
-    this._password = password
+    this._salt = generateSalt()
+    this._password_hash = hashPassword(password, this._salt)
     this._activeSession = activeSession
     this._activeVote = activeVote
     this._sessionsTotal = 0
     this._sessionsWon = 0
   }
   get username() { return this._username }
-  get password() { return this._password }
+  get salt() {return this._salt}
+  get passwordHash() { return this._password_hash}
   get activeSession() {return this._activeSession}
   set activeSession(userActiveSession) {this._activeSession = userActiveSession}
   get activeVote() {return this._activeVote}
@@ -180,6 +182,29 @@ addFakeSession ("T7F3P7", 'game', listGAME)
 // GENERAL FUNCTIONS
 // =============================================================================
 
+// Generate Salt
+function generateSalt() {
+  const saltArray = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('')
+  let newSalt = []
+  for (let digit = 0; digit < 6; digit++) {
+    newSalt.push(randomDigit(saltArray))
+  }
+  return newSalt.join('')
+}
+
+// Hash Password with Salt
+function hashPassword(password, salt) {
+  let hash = 0
+  const saltyPassword = salt + password
+  if (saltyPassword.length === 0) return hash;
+  for (let i = 0; i < saltyPassword.length; i++) {
+    let chr = saltyPassword.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+}
+
 // Validate a value from any field
 function DBInfoExist(database, checkField, checkValue, errorID = '') {
   if (database === null || checkField === null || checkValue === null) {
@@ -246,7 +271,9 @@ function UserPassCorrect(database, checkUsername, checkPassword) {
   checkUsername = checkUsername.toUpperCase()
   for (let entry in database) {
     if (database[entry]['username'] === checkUsername) {
-      if (database[entry]['password'] === checkPassword) {
+      const checkSalt = database[entry]['salt']
+      const checkHash = hashPassword(checkPassword, checkSalt)
+      if (database[entry]['passwordHash'] === checkHash) {
         document.getElementById('login_error').innerHTML = ''
         window.location.href = `./enter_session.html?user=${checkUsername}`
         return

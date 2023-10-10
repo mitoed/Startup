@@ -17,52 +17,52 @@ let categoryDatabase
 // =============================================================================
 
 class User {
-  constructor(username, password, activeSession = '', activeVote = '') {
+  constructor(username, password, active_session = '', active_vote = '') {
     this._username = username
     this._salt = generateSalt()
     this._password_hash = hashPassword(password, this._salt)
-    this._activeSession = activeSession
-    this._activeVote = activeVote
-    this._sessionsTotal = 0
-    this._sessionsWon = 0
+    this._active_session = active_session
+    this._active_vote = active_vote
+    this._sessions_total = 0
+    this._sessions_won = 0
   }
   get username() { return this._username }
   get salt() {return this._salt}
-  get passwordHash() { return this._password_hash}
-  get activeSession() {return this._activeSession}
-  set activeSession(userActiveSession) {this._activeSession = userActiveSession}
-  get activeVote() {return this._activeVote}
-  set activeVote(userActiveVote) {this._activeVote = userActiveVote}
-  get sessionsTotal() {return this._sessionsTotal }
+  get password_hash() { return this._password_hash}
+  get active_session() {return this._active_session}
+  set active_session(useractive_session) {this._active_session = useractive_session}
+  get active_vote() {return this._active_vote}
+  set active_vote(useractive_vote) {this._active_vote = useractive_vote}
+  get sessions_total() {return this._sessions_total }
 
   participateSession() {
-    this._sessionsTotal++
+    this._sessions_total++
   }
-  get sessionsWon() { return this._sessionsWon }
+  get sessionsWon() { return this._sessions_won }
   winSession() {
-    this._sessionsWon++
+    this._sessions_won++
   }
 }
 
 class Session {
-  constructor(sessionID, category, categoryArray, startTime) {
-    this._sessionID = sessionID
+  constructor(session_id, category, category_array, start_time) {
+    this._session_id = session_id
     this._category = category
-    this._categoryArray = categoryArray
-    this._startTime = startTime
-    this._unpopularOpinion = ''
-    this._endTime = ''
+    this._category_array = category_array
+    this._start_time = start_time
+    this._unpopular_opinion = ''
+    this._end_time = ''
     this._winner = ''
   }
-  get sessionID() { return this._sessionID }
+  get session_id() { return this._session_id }
   get category() { return this._category }
-  get categoryArray() { return this._categoryArray }
-  get startTime() { return this._startTime }
-  get unpopularOpinion() { return this._unpopularOpinion }
-  set endTime(timeStamp) {
-    this._endTime = timeStamp
+  get category_array() { return this._category_array }
+  get start_time() { return this._start_time }
+  get unpopular_opinion() { return this._unpopular_opinion }
+  set end_time(timeStamp) {
+    this._end_time = timeStamp
   }
-  get endTime() { return this._endTime }
+  get end_time() { return this._end_time }
   set winner(winningSelection) {
     this._winner = winningSelection
   }
@@ -70,25 +70,25 @@ class Session {
 }
 
 class VotingOption {
-  constructor(optionName) {
-    this._optionName = optionName
+  constructor(option_name) {
+    this._option_name = option_name
   }
-  get optionName() {return this._optionName }
-  set optionName(newName) {this._optionName = newName }
+  get option_name() {return this._option_name }
+  set option_name(newName) {this._option_name = newName }
   calculateVotes() {
     const totalVotes = databaseUSERS.filter(instance => 
-      (instance.activeSession === currentSessionID && instance.activeVote === this.optionName)
+      (instance.active_session === currentSessionID && instance.active_vote === this.option_name)
     ).length
     return totalVotes
   }
   newhtmlTableRow() {
-    return `<tr><td>${this.optionName}</td><td>${this.calculateVotes()}</td></tr>`
+    return `<tr><td>${this.option_name}</td><td>${this.calculateVotes()}</td></tr>`
   }
   newhtmlDatalistRow() {
-    return `<option value="${this.optionName}"></option>`
+    return `<option value="${this.option_name}"></option>`
   }
   addToCategoryDatabase(databaseCATEGORY) {
-    databaseCATEGORY.push({ 'optionName': this.optionName, 'currentVotes': this.calculateVotes() })
+    databaseCATEGORY.push({ 'option_name': this.option_name, 'currentVotes': this.calculateVotes() })
   }
 }
 
@@ -275,7 +275,7 @@ function UserPassCorrect(database, checkUsername, checkPassword) {
     if (database[entry]['username'] === checkUsername) {
       const checkSalt = database[entry]['salt']
       const checkHash = hashPassword(checkPassword, checkSalt)
-      if (database[entry]['passwordHash'] === checkHash) {
+      if (database[entry]['password_hash'] === checkHash) {
         document.getElementById('login_error').innerHTML = ''
         window.location.href = `./enter_session.html?user=${checkUsername}`
         return
@@ -350,7 +350,7 @@ function createLoginUsernamePassword() {
 
 function validateSessionID(checkSessionID) {
   for (let session in databaseSESSION) {
-    if (databaseSESSION[session]['sessionID'] === checkSessionID) {
+    if (databaseSESSION[session]['session_id'] === checkSessionID) {
       return true
     }
   }
@@ -396,7 +396,7 @@ function createSessionWithCategory() {
 
     let newSessionInstance = new Session(createSessionID(sessionCategory), sessionCategory, listCATEGORY, Date.now())
     databaseSESSION.push(newSessionInstance)
-    let newSessionID = newSessionInstance['sessionID']
+    let newSessionID = newSessionInstance['session_id']
     window.location.href = `./voting_session.html?user=${currentUser}&session=${newSessionID}`
     return
   }
@@ -450,7 +450,7 @@ function randomDigit(digitArray) {
 // =============================================================================
 
 function loadVotingSessionPage() {
-    currentSessionInstance = databaseSESSION.find((element) => element['sessionID'] === currentSessionID)
+    currentSessionInstance = databaseSESSION.find((element) => element['session_id'] === currentSessionID)
   if (currentSessionInstance === undefined) {
     // if session is missing from the database; create new session but log error
     let currentCategory
@@ -478,8 +478,8 @@ function loadVotingSessionPage() {
   }
   document.title = `Voting Session: ${currentSessionID}`
   const userIndex = databaseUSERS.findIndex(user => user.username === currentUser)
-  databaseUSERS[userIndex].activeSession = currentSessionID
-  populateTable(currentSessionInstance.category, currentSessionInstance.categoryArray)
+  databaseUSERS[userIndex].active_session = currentSessionID
+  populateTable(currentSessionInstance.category, currentSessionInstance.category_array)
   console.log(`Data populated correctly. Proceed with voting.`)
 }
 
@@ -536,8 +536,8 @@ function castVoteButton() {
 function castVote() {
   const selectedOption = document.getElementById('vote_selection').value
   const userIndex = databaseUSERS.findIndex(user => user.username === currentUser)
-  databaseUSERS[userIndex].activeVote = selectedOption
-  const optionDBIndex = categoryDatabase.findIndex((element) => element.optionName === selectedOption)
+  databaseUSERS[userIndex].active_vote = selectedOption
+  const optionDBIndex = categoryDatabase.findIndex((element) => element.option_name === selectedOption)
   if (optionDBIndex !== -1) {
     categoryDatabase[optionDBIndex].calculateVotes()
   } else {
@@ -547,7 +547,7 @@ function castVote() {
   }
   clearTable()
   clearDatalist()
-  populateTable(currentSessionInstance.category, currentSessionInstance.categoryArray, categoryDatabase)
+  populateTable(currentSessionInstance.category, currentSessionInstance.category_array, categoryDatabase)
 }
 
 function clearTable() {
@@ -571,9 +571,9 @@ function recommendUnpopularOpinion() {
 }
 
 function checkAllVotesCast() {
-  const sessionUsers = databaseUSERS.filter(instance => instance.activeSession === currentSessionID)
+  const sessionUsers = databaseUSERS.filter(instance => instance.active_session === currentSessionID)
   const totalUsers = sessionUsers.length
-  const totalVotes = sessionUsers.filter(instance => instance.activeVote !== '').length
+  const totalVotes = sessionUsers.filter(instance => instance.active_vote !== '').length
   return (totalUsers === totalVotes)
 }
 
@@ -581,7 +581,7 @@ function displayWinner(allVotesCast) {
   if (allVotesCast) {
     console.log('All users have cast their vote. Group decision will be displayed now.')
     categoryDatabase = categoryDatabase.sort((a, b) => b.calculateVotes() - a.calculateVotes())
-    let groupSelection = categoryDatabase[0]['optionName']
+    let groupSelection = categoryDatabase[0]['option_name']
 
     const currentCategory = currentSessionInstance.category
     let categoryVerb

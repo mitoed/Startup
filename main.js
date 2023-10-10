@@ -35,12 +35,11 @@ class User {
   set active_vote(useractive_vote) {this._active_vote = useractive_vote}
   get sessions_total() {return this._sessions_total }
 
-  participateSession() {
+  incrementParticipation(groupSelection) {
+    if (groupSelection === this.active_vote) {
+      this._sessions_won++
+    }
     this._sessions_total++
-  }
-  get sessionsWon() { return this._sessions_won }
-  winSession() {
-    this._sessions_won++
   }
 }
 
@@ -600,6 +599,13 @@ function displayWinner(allVotesCast) {
     document.getElementById('final_decision').style.visibility = 'visible'
     document.getElementById('category_verb').innerHTML = categoryVerb
     document.getElementById('group_selection').innerHTML = groupSelection
+
+    for (let user in databaseUSERS) {
+      if (databaseUSERS[user]['active_session'] === currentSessionID) {
+        databaseUSERS[user].incrementParticipation(groupSelection)
+      }
+    }
+    console.log(databaseUSERS)
     exitFromFinalSelection()
     disableCastVoteButton()
   }

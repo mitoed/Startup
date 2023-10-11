@@ -264,8 +264,7 @@ function infoToPage() {
 
 // Add current information to navigation menu
 function infoToMenu() {
-  const navigationMenu = document.getElementById('navigation_menu')
-  const navigationChildren = navigationMenu.children
+  const navigationChildren = document.getElementById('navigation_menu').children
   if (currentUser !== undefined) {
     for (let child = 1; child < navigationChildren.length; child++) {
       navigationChildren[child].href += `?user=${currentUser}`

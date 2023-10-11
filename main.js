@@ -2,29 +2,13 @@
 // GLOBAL VARIABLES
 // =============================================================================
 
-let DB_USERS = []
-fetch('./DB_USERS.json')
-  .then(response => response.json())
-  .then(data => {
-    DB_USERS = data
-    console.log(DB_USERS)
-  })
-  .catch(error => console.error('Error loading JSON data: ', error))
-
-let DB_SESSIONS = []
-fetch('./DB_SESSIONS.json')
-  .then(response => response.json())
-  .then(data => {
-    DB_SESSIONS = data
-    console.log(DB_SESSIONS)
-  })
-  .catch(error => console.error('Error loading JSON data: ', error))
-
+const DB_USERS = []
+const DB_SESSIONS = []
 const foodIDLetters = 'BCDFGHJ'
 const movieIDLetters = 'KLMNPQ'
 const gameIDLetters = 'RSTVWXZ'
-let currentUser
-let currentSessionID
+let currentUser = localStorage.getItem('currentUser') || ''
+let currentSessionID = localStorage.getItem('currentSessionID') || ''
 let currentSessionInstance
 let categoryDatabase
 
@@ -42,9 +26,9 @@ class User {
     this._sessions_total = sessions_total
     this._sessions_won = sessions_won
   }
-  get username() { return this._username }
+  get username() {return this._username}
   get salt() {return this._salt}
-  get password_hash() { return this._password_hash}
+  get password_hash() {return this._password_hash}
   get active_session() {return this._active_session}
   set active_session(useractive_session) {this._active_session = useractive_session}
   get active_vote() {return this._active_vote}
@@ -115,7 +99,7 @@ class VotingOption {
   // =============================================================================
 { // DUMMY VALUES -- TO BE DELETED WHEN CONNECTED TO PERSISTENT DATABASE
 
-  /*function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon) {
+  function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon) {
     let fakeUser = new User(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon)
     DB_USERS.push(fakeUser)
   }
@@ -124,9 +108,9 @@ class VotingOption {
   addFakeUser('RCSAULLS', '303udsd', 'DEFAULT', 'Five Sushi Bros', 7, 0)
   addFakeUser('ECSAULLS', '38&jdkf', 'DEFAULT', 'Brick Oven', 3, 0)
   addFakeUser('SSAULLS', '7329fd', 'DEFAULT', 'Burger Supreme', 3, 3)
-  addFakeUser('CSAULLS', '39fds', 'DEFAULT', 'Good Move', 7, 4)*/
+  addFakeUser('CSAULLS', '39fds', 'DEFAULT', 'Good Move', 7, 4)
   
-  /*function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
+  function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
     let fakeSession = new Session(fakeSessionID, fakeCategory, DB_CATEGORY, Date.now())
     DB_SESSIONS.push(fakeSession)
   }
@@ -195,7 +179,7 @@ class VotingOption {
   addFakeSession ("T5H9K5", 'game', listGAME)
   addFakeSession ("S2V2J9", 'game', listGAME)
   addFakeSession ("Z6L3X3", 'game', listGAME)
-  addFakeSession ("T7F3P7", 'game', listGAME)*/
+  addFakeSession ("T7F3P7", 'game', listGAME)
 } // =============================================================================
 
 // =============================================================================
@@ -209,19 +193,19 @@ switch (true) {
     createLoginUsernamePassword()
     break
   case window.location.href.includes('enter_session.html'):
-    infoFromURL()
+    infoToPage()
     infoToMenu()
     enterSessionWithID()
     createSessionWithCategory()
     break
   case window.location.href.includes('voting_session.html'):
-    infoFromURL()
+    infoToPage()
     infoToMenu()
     loadVotingSessionPage()
     castVoteButton()
     break
   case window.location.href.includes('about.html'):
-    infoFromURL()
+    infoToPage()
     infoToMenu()
     break
 }
@@ -258,15 +242,11 @@ function randomDigit(digitArray) {
 }
 
 // =============================================================================
-// INFORMATION-PASSING FUNCTIONS
+// INSERTING INFORMATION FUNCTIONS
 // =============================================================================
 
 // Retrieve current information from url
-function infoFromURL() {
-  const pageURL = window.location.href;
-  currentSessionID = pageURL.split('session=')[1];
-  try {currentUser = pageURL.split('user=')[1].split('&session')[0];} 
-  catch {currentUser = pageURL.split('user=')[1];}
+function infoToPage() {
   try {if (currentUser !== undefined) {
     document.getElementById('username').innerHTML = `Welcome, ${currentUser}!`;
     console.log(`Successfully logged in as: ${currentUser}`)
@@ -341,12 +321,18 @@ function createLoginUsernamePassword() {
 // Verify login credentials
 function UserPassCorrect(database, checkUsername, checkPassword) {
   checkUsername = checkUsername.toUpperCase()
+  console.log(checkUsername)
+  console.log(checkPassword)
+  console.log(database)
   for (let entry in database) {
+    console.log(entry)
+    console.log(database[entry]['username'])
     if (database[entry]['username'] === checkUsername) {
       const checkSalt = database[entry]['salt']
       const checkHash = hashPassword(checkPassword, checkSalt)
       if (database[entry]['password_hash'] === checkHash) {
         document.getElementById('login_error').innerHTML = ''
+        localStorage.setItem('currentUser', checkUsername)
         window.location.href = `./enter_session.html?user=${checkUsername}`
         return
       } else {
@@ -380,6 +366,7 @@ function UserPassCreate(database, newUsername, newPassword, confirmPassword) {
   }
   const newUserInstance = new User (newUsername, newPassword)
   DB_USERS.push(newUserInstance)
+  localStorage.setItem('currentUser', newUsername)
   window.location.href = `./enter_session.html?user=${newUsername}`
   return
 }

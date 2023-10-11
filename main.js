@@ -17,14 +17,14 @@ let categoryDatabase
 // =============================================================================
 
 class User {
-  constructor(username, password, active_session = '', active_vote = '') {
+  constructor(username, password, active_session = '', active_vote = '', sessions_total = 0, sessions_won = 0) {
     this._username = username
     this._salt = generateSalt()
     this._password_hash = hashPassword(password, this._salt)
     this._active_session = active_session
     this._active_vote = active_vote
-    this._sessions_total = 0
-    this._sessions_won = 0
+    this._sessions_total = sessions_total
+    this._sessions_won = sessions_won
   }
   get username() { return this._username }
   get salt() {return this._salt}
@@ -40,6 +40,14 @@ class User {
       this._sessions_won++
     }
     this._sessions_total++
+  }
+  significantLossRate() {
+    const lossRate = (this.sessions_total - this._sessions_won) / this.sessions_total
+    if (this.sessions_total >= 5 && lossRate >= .7) {
+        return lossRate
+    } else {
+      return 0
+    }
   }
 }
 
@@ -95,16 +103,16 @@ class VotingOption {
 // DUMMY VALUES
 // =============================================================================
 
-function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection) {
-  let fakeUser = new User(fakeUserName, fakePassword, fakeSessionID, fakeSelection)
+function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon) {
+  let fakeUser = new User(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon)
   databaseUSERS.push(fakeUser)
 }
 addFakeUser("MASAULLS", "1234")
-addFakeUser('CHSAULLS', '389d9*', 'DEFAULT', 'Costa Vida')
-addFakeUser('RCSAULLS', '303udsd', 'DEFAULT', 'Five Sushi Bros')
-addFakeUser('ECSAULLS', '38&jdkf', 'DEFAULT', 'Brick Oven')
-addFakeUser('SSAULLS', '7329fd', 'DEFAULT', 'Burger Supreme')
-addFakeUser('CSAULLS', '39fds', 'DEFAULT', 'Good Move')
+addFakeUser('CHSAULLS', '389d9*', 'DEFAULT', 'Costa Vida', 7, 1)
+addFakeUser('RCSAULLS', '303udsd', 'DEFAULT', 'Five Sushi Bros', 7, 0)
+addFakeUser('ECSAULLS', '38&jdkf', 'DEFAULT', 'Brick Oven', 3, 0)
+addFakeUser('SSAULLS', '7329fd', 'DEFAULT', 'Burger Supreme', 3, 3)
+addFakeUser('CSAULLS', '39fds', 'DEFAULT', 'Good Move', 7, 4)
 
 function addFakeSession(fakeSessionID, fakeCategory, databaseCATEGORY) {
   let fakeSession = new Session(fakeSessionID, fakeCategory, databaseCATEGORY, Date.now())
@@ -519,6 +527,10 @@ function castVoteButton() {
   const finalize_vote_button = document.getElementById('finalize_vote')
   finalize_vote_button.onclick = function (event) {
     event.preventDefault();
+    if (document.getElementById('vote_selection').value.trim().length === 0) {
+      document.getElementById('vote_selection').value = ''
+      return
+    }
     recommendUnpopularOpinion()
     castVote()
     displayWinner(checkAllVotesCast())
@@ -531,9 +543,46 @@ function castVoteButton() {
   })
 }
 
+function recommendUnpopularOpinion() {
+
+  let unpopularOpinionArray = []
+  for (let user in databaseUSERS) {
+    if (databaseUSERS[user].significantLossRate() > 0) {
+      unpopularOpinionArray.push(databaseUSERS[user].active_vote)
+    }
+  }
+  if (unpopularOpinionArray.length === 0 || Math.random() < .65) {
+    castVote()
+    displayWinner(checkAllVotesCast())
+    return
+  } else {
+    const randomUnpopularOpnion = unpopularOpinionArray[Math.floor(Math.random() * unpopularOpinionArray.length)]
+    document.getElementById('recommended_selection').innerHTML = randomUnpopularOpnion
+    document.getElementById('dark_background').style.visibility = 'visible'
+    document.getElementById('recommended_opinion').style.visibility = 'visible'
+  
+    const opinion_yes_button = document.getElementById('opinion_yes')
+    opinion_yes_button.onclick = () => {
+      castVote(randomUnpopularOpnion)
+      document.getElementById('vote_selection').value = randomUnpopularOpnion
+      document.getElementById('dark_background').style.visibility = 'hidden'
+      document.getElementById('recommended_opinion').style.visibility = 'hidden'
+      displayWinner(checkAllVotesCast())
+    }
+  
+    const opinion_no_button = document.getElementById('opinion_no')
+    opinion_no_button.onclick = () => {
+      castVote()
+      document.getElementById('dark_background').style.visibility = 'hidden'
+      document.getElementById('recommended_opinion').style.visibility = 'hidden'
+      displayWinner(checkAllVotesCast())
+    }
+  }
+}
+
 // Needs to be added to 'finalize vote' button on click
-function castVote() {
-  const selectedOption = document.getElementById('vote_selection').value
+function castVote(selectedOption = '') {
+  selectedOption = selectedOption || document.getElementById('vote_selection').value
   const userIndex = databaseUSERS.findIndex(user => user.username === currentUser)
   databaseUSERS[userIndex].active_vote = selectedOption
   const optionDBIndex = categoryDatabase.findIndex((element) => element.option_name === selectedOption)
@@ -565,10 +614,6 @@ function clearDatalist() {
   }
 }
 
-function recommendUnpopularOpinion() {
-
-}
-
 function checkAllVotesCast() {
   const sessionUsers = databaseUSERS.filter(instance => instance.active_session === currentSessionID)
   const totalUsers = sessionUsers.length
@@ -595,7 +640,7 @@ function displayWinner(allVotesCast) {
         categoryVerb = 'playing'
         break
     }
-    document.getElementById('final_decision_background').style.visibility = 'visible'
+    document.getElementById('dark_background').style.visibility = 'visible'
     document.getElementById('final_decision').style.visibility = 'visible'
     document.getElementById('category_verb').innerHTML = categoryVerb
     document.getElementById('group_selection').innerHTML = groupSelection
@@ -605,7 +650,7 @@ function displayWinner(allVotesCast) {
         databaseUSERS[user].incrementParticipation(groupSelection)
       }
     }
-    console.log(databaseUSERS)
+    
     exitFromFinalSelection()
     disableCastVoteButton()
   }
@@ -613,10 +658,10 @@ function displayWinner(allVotesCast) {
 
 // Add way out of final selection display
 function exitFromFinalSelection() {
-  const final_decision_background_button = document.getElementById('final_decision_background')
+  const dark_background_button = document.getElementById('dark_background')
 
-  final_decision_background_button.onclick = function () {
-    document.getElementById('final_decision_background').style.visibility = 'hidden'
+  dark_background_button.onclick = function () {
+    document.getElementById('dark_background').style.visibility = 'hidden'
     document.getElementById('final_decision').style.visibility = 'hidden'
     document.getElementById('category_verb').innerHTML = ""
     document.getElementById('group_selection').innerHTML = ""

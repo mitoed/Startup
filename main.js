@@ -45,8 +45,6 @@ class User {
     const lossRate = (this.sessions_total - this._sessions_won) / this.sessions_total
     if (this.sessions_total >= 5 && lossRate >= .7) {
         return lossRate
-    } else {
-      return 0
     }
   }
 }
@@ -100,93 +98,121 @@ class VotingOption {
 }
 
 // =============================================================================
-// DUMMY VALUES
+// DUMMY VALUES -- TO BE DELETED WHEN CONNECTED TO PERSISTENT DATABASE
 // =============================================================================
 
-function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon) {
-  let fakeUser = new User(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon)
-  DB_USERS.push(fakeUser)
-}
-addFakeUser("MASAULLS", "1234")
-addFakeUser('CHSAULLS', '389d9*', 'DEFAULT', 'Costa Vida', 7, 1)
-addFakeUser('RCSAULLS', '303udsd', 'DEFAULT', 'Five Sushi Bros', 7, 0)
-addFakeUser('ECSAULLS', '38&jdkf', 'DEFAULT', 'Brick Oven', 3, 0)
-addFakeUser('SSAULLS', '7329fd', 'DEFAULT', 'Burger Supreme', 3, 3)
-addFakeUser('CSAULLS', '39fds', 'DEFAULT', 'Good Move', 7, 4)
-
-function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
-  let fakeSession = new Session(fakeSessionID, fakeCategory, DB_CATEGORY, Date.now())
-  DB_SESSION.push(fakeSession)
-}
-
-  let listFOOD = [
-  "Wendy's",
-  "McDonald's",
-  "Chick-fil-A",
-  "Bumblebees",
-  "Se Llama Peru",
-  "India Palace",
-  "Burger Supreme",
-  "Cubby's",
-  "Good Move",
-  "Brick Oven",
-  "Costa Vida",
-  "Five Sushi Bros",
-  "Black Sheep Cafe",
-];
-
-let listMOVIE = [
-  "The Shawshank Redemption",
-  "The Godfather",
-  "The Dark Knight",
-  "Pulp Fiction",
-  "Schindler's List",
-  "The Lord of the Rings: The Return of the King",
-  "Fight Club",
-  "Forrest Gump",
-  "Inception",
-  "The Matrix",
-  "Gladiator",
-  "The Silence of the Lambs"
-];
-
-let listGAME = [
-  "Settlers of Catan",
-  "Ticket to Ride",
-  "Carcassonne",
-  "Pandemic",
-  "Dominion",
-  "Codenames",
-  "7 Wonders",
-  "Twilight Struggle",
-  "Agricola",
-  "Scythe",
-  "Splendor",
-  "Betrayal at Baldur's Gate"]
-
-addFakeSession ('DEFAULT', 'food', listFOOD)
-addFakeSession ("F7N7V4", 'food', listFOOD)
-addFakeSession ("C7T4H9", 'food', listFOOD)
-addFakeSession ("F2W7Q7", 'food', listFOOD)
-addFakeSession ("H6Q2N0", 'food', listFOOD)
-addFakeSession ("D2S4D6", 'food', listFOOD)
-addFakeSession ("K4X6J2", 'movie', listMOVIE)
-addFakeSession ("N7T5Q6", 'movie', listMOVIE)
-addFakeSession ("L3V9B4", 'movie', listMOVIE)
-addFakeSession ("N2K6M6", 'movie', listMOVIE)
-addFakeSession ("P7X5C7", 'movie', listMOVIE)
-addFakeSession ("K5F2K4", 'movie', listMOVIE)
-addFakeSession ("L2K3N3", 'movie', listMOVIE)
-addFakeSession ("R7M0X2", 'game', listGAME)
-addFakeSession ("X7H3J3", 'game', listGAME)
-addFakeSession ("S4C3Q5", 'game', listGAME)
-addFakeSession ("T5H9K5", 'game', listGAME)
-addFakeSession ("S2V2J9", 'game', listGAME)
-addFakeSession ("Z6L3X3", 'game', listGAME)
-addFakeSession ("T7F3P7", 'game', listGAME)
+  function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon) {
+    let fakeUser = new User(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon)
+    DB_USERS.push(fakeUser)
+  }
+  addFakeUser("MASAULLS", "1234")
+  addFakeUser('CHSAULLS', '389d9*', 'DEFAULT', 'Costa Vida', 7, 1)
+  addFakeUser('RCSAULLS', '303udsd', 'DEFAULT', 'Five Sushi Bros', 7, 0)
+  addFakeUser('ECSAULLS', '38&jdkf', 'DEFAULT', 'Brick Oven', 3, 0)
+  addFakeUser('SSAULLS', '7329fd', 'DEFAULT', 'Burger Supreme', 3, 3)
+  addFakeUser('CSAULLS', '39fds', 'DEFAULT', 'Good Move', 7, 4)
+  
+  function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
+    let fakeSession = new Session(fakeSessionID, fakeCategory, DB_CATEGORY, Date.now())
+    DB_SESSION.push(fakeSession)
+  }
+  
+    let listFOOD = [
+    "Wendy's",
+    "McDonald's",
+    "Chick-fil-A",
+    "Bumblebees",
+    "Se Llama Peru",
+    "India Palace",
+    "Burger Supreme",
+    "Cubby's",
+    "Good Move",
+    "Brick Oven",
+    "Costa Vida",
+    "Five Sushi Bros",
+    "Black Sheep Cafe",
+  ];
+  
+  let listMOVIE = [
+    "The Shawshank Redemption",
+    "The Godfather",
+    "The Dark Knight",
+    "Pulp Fiction",
+    "Schindler's List",
+    "The Lord of the Rings: The Return of the King",
+    "Fight Club",
+    "Forrest Gump",
+    "Inception",
+    "The Matrix",
+    "Gladiator",
+    "The Silence of the Lambs"
+  ];
+  
+  let listGAME = [
+    "Settlers of Catan",
+    "Ticket to Ride",
+    "Carcassonne",
+    "Pandemic",
+    "Dominion",
+    "Codenames",
+    "7 Wonders",
+    "Twilight Struggle",
+    "Agricola",
+    "Scythe",
+    "Splendor",
+    "Betrayal at Baldur's Gate"]
+  
+  addFakeSession ('DEFAULT', 'food', listFOOD)
+  addFakeSession ("F7N7V4", 'food', listFOOD)
+  addFakeSession ("C7T4H9", 'food', listFOOD)
+  addFakeSession ("F2W7Q7", 'food', listFOOD)
+  addFakeSession ("H6Q2N0", 'food', listFOOD)
+  addFakeSession ("D2S4D6", 'food', listFOOD)
+  addFakeSession ("K4X6J2", 'movie', listMOVIE)
+  addFakeSession ("N7T5Q6", 'movie', listMOVIE)
+  addFakeSession ("L3V9B4", 'movie', listMOVIE)
+  addFakeSession ("N2K6M6", 'movie', listMOVIE)
+  addFakeSession ("P7X5C7", 'movie', listMOVIE)
+  addFakeSession ("K5F2K4", 'movie', listMOVIE)
+  addFakeSession ("L2K3N3", 'movie', listMOVIE)
+  addFakeSession ("R7M0X2", 'game', listGAME)
+  addFakeSession ("X7H3J3", 'game', listGAME)
+  addFakeSession ("S4C3Q5", 'game', listGAME)
+  addFakeSession ("T5H9K5", 'game', listGAME)
+  addFakeSession ("S2V2J9", 'game', listGAME)
+  addFakeSession ("Z6L3X3", 'game', listGAME)
+  addFakeSession ("T7F3P7", 'game', listGAME)
 
 // =============================================================================
-// GENERAL FUNCTIONS
+// LOAD PAGE FUNCTIONALITY -- OCCURS EACH TIME A PAGE LOADS
+// =============================================================================
+
+switch (true) {
+  default: // for index.html or blank
+    disableEnterSession()
+    validateLoginUsernamePassword()
+    createLoginUsernamePassword()
+    break
+  case window.location.href.includes('enter_session.html'):
+    infoFromURL()
+    infoToMenu()
+    enterSessionWithID()
+    createSessionWithCategory()
+    break
+  case window.location.href.includes('voting_session.html'):
+    infoFromURL()
+    infoToMenu()
+    loadVotingSessionPage()
+    castVoteButton()
+    break
+  case window.location.href.includes('about.html'):
+    infoFromURL()
+    infoToMenu()
+    break
+}
+
+// =============================================================================
+// USER GENERATING/VALIDATING FUNCTIONS
 // =============================================================================
 
 // Generate Salt
@@ -212,21 +238,13 @@ function hashPassword(password, salt) {
   return hash;
 }
 
-// Validate a value from any field
-function DBInfoExist(database, checkField, checkValue, errorID = '') {
-  if (database === null || checkField === null || checkValue === null) {
-    console.log('Please provide all the inputs.')
-    return false
-  }
-  for (let entry in database) {
-    if (database[entry][checkField] === checkValue) {
-      document.getElementById(errorID).innerHTML = ''
-      return true
-    }
-  }
-  document.getElementById(errorID).innerHTML = `that ${checkField} does not exist`
-  return false
+function randomDigit(digitArray) {
+  return digitArray[Math.floor(Math.random() * digitArray.length)]
 }
+
+// =============================================================================
+// INFORMATION-PASSING FUNCTIONS
+// =============================================================================
 
 // Retrieve current information from url
 function infoFromURL() {
@@ -239,7 +257,7 @@ function infoFromURL() {
     console.log(`Successfully logged in as: ${currentUser}`)
   } else {
     document.getElementById('username').innerHTML = `Welcome!`;
-    console.log('Login unsuccessful.')
+    console.warn('Error: Login unsuccessful.')
   }}
   catch {} // no username to extract
   try {
@@ -263,7 +281,7 @@ function infoToMenu() {
 }
 
 // =============================================================================
-// LOGIN PAGE FUNCTIONS
+// LOGIN PAGE BUTTON INITIALIZING FUNCTIONS
 // =============================================================================
 
 // Disable navigation menu
@@ -274,6 +292,36 @@ function disableEnterSession() {
     alert('You must login or create an account before entering a session.')
   }
 }
+
+// Add user verification to button
+function validateLoginUsernamePassword() {
+  const login_exist_button = document.getElementById('login_exist')
+
+  login_exist_button.onclick = function (event) {
+    event.preventDefault();
+
+    let username_input = document.getElementById('username_input').value
+    let password_input = document.getElementById('password_input').value
+    UserPassCorrect(DB_USERS, username_input, password_input)
+  }
+}
+
+// Add new user verification to button
+function createLoginUsernamePassword() {
+  const login_create_button = document.getElementById('login_create')
+  login_create_button.onclick = function (event) {
+    event.preventDefault();
+
+    let new_username = document.getElementById('new_username').value
+    let new_password = document.getElementById('new_password').value
+    let confirm_password = document.getElementById('confirm_password').value
+    UserPassCreate(DB_USERS, new_username, new_password, confirm_password)
+  }
+}
+
+// -----------------------------------------------------------------------------
+// LOGIN PAGE SUPPORTING FUNCTIONS
+// -----------------------------------------------------------------------------
 
 // Verify login credentials
 function UserPassCorrect(database, checkUsername, checkPassword) {
@@ -296,73 +344,34 @@ function UserPassCorrect(database, checkUsername, checkPassword) {
   return
 }
 
-// Add user verification to button
-function validateLoginUsernamePassword() {
-  const login_exist_button = document.getElementById('login_exist')
-
-  login_exist_button.onclick = function (event) {
-    event.preventDefault();
-
-    let username_input = document.getElementById('username_input').value
-    let password_input = document.getElementById('password_input').value
-    UserPassCorrect(DB_USERS, username_input, password_input)
-  }
-}
-
 // Verify new user credentials
 function UserPassCreate(database, newUsername, newPassword, confirmPassword) {
-
+  newUsername = newUsername.toUpperCase();
   // RegEx that checks for 1 letter, 1 number, and 8 characters long
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/
-
-  newUsername = newUsername.toUpperCase();
-
   for (let entry in database) {
     if (database[entry]['username'] === newUsername) {
       document.getElementById('create_error').innerHTML = newUsername + ' already exists'
       return
     }
   }
-  if (passwordRegex.test(newPassword)) { } else {
+  if (passwordRegex.test(newPassword) !== true) {
     document.getElementById('create_error').innerHTML = 'password must contain 1 letter, 1 number, and be at least 8 characters long'
     return
   }
-  if (newPassword === confirmPassword) { } else {
+  if (newPassword !== confirmPassword) {
     document.getElementById('create_error').innerHTML = 'passwords must match'
     return
   }
   const newUserInstance = new User (newUsername, newPassword)
   DB_USERS.push(newUserInstance)
-  console.log(DB_USERS)
   window.location.href = `./enter_session.html?user=${newUsername}`
   return
 }
 
-// Add new user verification to button
-function createLoginUsernamePassword() {
-  const login_create_button = document.getElementById('login_create')
-  login_create_button.onclick = function (event) {
-    event.preventDefault();
-
-    let new_username = document.getElementById('new_username').value
-    let new_password = document.getElementById('new_password').value
-    let confirm_password = document.getElementById('confirm_password').value
-    UserPassCreate(DB_USERS, new_username, new_password, confirm_password)
-  }
-}
-
 // =============================================================================
-// ENTER SESSION PAGE FUNCTIONS
+// ENTER SESSION PAGE BUTTON INITIALIZING FUNCTIONS
 // =============================================================================
-
-function validateSessionID(checkSessionID) {
-  for (let session in DB_SESSION) {
-    if (DB_SESSION[session]['session_id'] === checkSessionID) {
-      return true
-    }
-  }
-  return false
-}
 
 // Add Session ID validation to button and enter session
 function enterSessionWithID() {
@@ -409,6 +418,19 @@ function createSessionWithCategory() {
   }
 }
 
+// -----------------------------------------------------------------------------
+// ENTER SESSION PAGE SUPPORTING FUNCTIONS
+// -----------------------------------------------------------------------------
+
+function validateSessionID(checkSessionID) {
+  for (let session in DB_SESSION) {
+    if (DB_SESSION[session]['session_id'] === checkSessionID) {
+      return true
+    }
+  }
+  return false
+}
+
 function createSessionID(sessionCategory) {
   let newSessionID
   let problem = false
@@ -444,16 +466,11 @@ function randomSessionID(sessionCategory) {
   sessionString.push(randomDigit(digitArray3))
 
   sessionString = sessionString.join('')
-  console.log(sessionString)
   return sessionString
 }
 
-function randomDigit(digitArray) {
-  return digitArray[Math.floor(Math.random() * digitArray.length)]
-}
-
 // =============================================================================
-// VOTING SESSION PAGE FUNCTIONALITY
+// VOTING SESSION PAGE BUTTON INITIALIZATING FUNCTIONS
 // =============================================================================
 
 function loadVotingSessionPage() {
@@ -477,7 +494,7 @@ function loadVotingSessionPage() {
         break
     }
     currentSessionInstance = new Session(currentSessionID, currentCategory, currentDatabase, Date.now())
-    console.log('Error: Session created and not loaded from database. ' + 
+    console.warn('Error: Session created and not loaded from database. ' + 
       'Please verify code for database entry creation and retrieval.')
   } else {
     // if session loaded correctly from database
@@ -489,6 +506,31 @@ function loadVotingSessionPage() {
   populateTable(currentSessionInstance.category, currentSessionInstance.category_array)
   console.log(`Data populated correctly. Proceed with voting.`)
 }
+
+// Add cast vote function to "finalize vote" button
+function castVoteButton() {
+  const finalize_vote_button = document.getElementById('finalize_vote')
+  finalize_vote_button.onclick = function (event) {
+    event.preventDefault();
+    if (document.getElementById('vote_selection').value.trim().length === 0) {
+      document.getElementById('vote_selection').value = ''
+      return
+    }
+    recommendUnpopularOpinion()
+    castVote()
+    displayWinner(checkAllVotesCast())
+  }
+  const vote_selection_input = document.getElementById('vote_selection')
+  vote_selection_input.addEventListener('keydown', function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+    }
+  })
+}
+
+// -----------------------------------------------------------------------------
+// VOTING SESSION PAGE SUPPORTING FUNCTIONS
+// -----------------------------------------------------------------------------
 
 // Populates data table and data list using the information gathered or inputted.
 function populateTable(category, categoryList, thisDatabase = null) {
@@ -522,29 +564,7 @@ function sortTableHighToLow() {
   })
 }
 
-// Add cast vote function to "finalize vote" button
-function castVoteButton() {
-  const finalize_vote_button = document.getElementById('finalize_vote')
-  finalize_vote_button.onclick = function (event) {
-    event.preventDefault();
-    if (document.getElementById('vote_selection').value.trim().length === 0) {
-      document.getElementById('vote_selection').value = ''
-      return
-    }
-    recommendUnpopularOpinion()
-    castVote()
-    displayWinner(checkAllVotesCast())
-  }
-  const vote_selection_input = document.getElementById('vote_selection')
-  vote_selection_input.addEventListener('keydown', function(event) {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-    }
-  })
-}
-
 function recommendUnpopularOpinion() {
-
   let unpopularOpinionArray = []
   for (let user in DB_USERS) {
     if (DB_USERS[user].significantLossRate() > 0) {
@@ -678,43 +698,8 @@ function disableCastVoteButton() {
 }
 
 /* Voting Page:
-- upon clicking "finalize vote":
-    - [based on users and chance] generate and display unpopular user's vote:
-        - check all users for most unpopular user
-        - pass that user's vote to document.getElementById('recommendation_opinion').innerHTML
-        - wait for user response
-        - if 'yes', replace their selection with recommended opinion
-    - sort table by votes (then alphabetically)
 - using user physical location:
     - scrape google for top nearby restaurants
     - pass website url to document.getElementById('recommendation_link').href
     - add restaurant name to document.getElementById('recommendation_internet').innerHTML
 */
-
-// =============================================================================
-// LOAD PAGE FUNCTIONALITY
-// =============================================================================
-
-switch (true) {
-  default:
-    disableEnterSession()
-    validateLoginUsernamePassword()
-    createLoginUsernamePassword()
-    break
-  case window.location.href.includes('enter_session.html'):
-    infoFromURL()
-    infoToMenu()
-    enterSessionWithID()
-    createSessionWithCategory()
-    break
-  case window.location.href.includes('voting_session.html'):
-    infoFromURL()
-    infoToMenu()
-    loadVotingSessionPage()
-    castVoteButton()
-    break
-  case window.location.href.includes('about.html'):
-    infoFromURL()
-    infoToMenu()
-    break
-}

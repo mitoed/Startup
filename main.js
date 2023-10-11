@@ -254,12 +254,12 @@ function infoToPage() {
     document.getElementById('username').innerHTML = `Welcome!`;
     console.warn('Error: Login unsuccessful.')
   }}
-  catch {} // no username to extract
+  catch {} // no place to insert username
   try {
     document.getElementById('session_id').innerHTML = `Session ID: ${currentSessionID}`;
     console.log(`Successfully entered Session: ${currentSessionID}`)
   }
-  catch {} // no session id to extract
+  catch {} // no place to insert session id
 }
 
 // Add current information to navigation menu

@@ -20,12 +20,12 @@ Below are the steps of this project and their descriptions:
 
 - [ ] Login to identify voters and track "sessions_won"
 - [ ] Create or join a session by Session ID
-- [ ] Live voting that shows all available options from database in order of votes received
-- [ ] Click (or tap) to vote on option; "Finalize Vote" button at bottom
+- [X] Live voting that shows all available options from database in order of number of votes
+- [X] Search (or type) to vote on option; "Finalize Vote" button at bottom
 - [ ] Timer to limit duration of live vote??
-- [ ] Database of pre-added suggestions by category (movies, restaurants, games)
-- [ ] Add new option to category's database during live vote
-- [ ] Upon clicking "Finalize Vote" and only 35% of the time, recommends selected option of user with lowest "sessions_won" value (iff below certain amount like 2)
+- [X] Database of pre-added suggestions by category (movies, restaurants, games)
+- [X] Add new option to category's database during live vote
+- [X] Upon clicking "Finalize Vote" and only 35% of the time, recommends selected option of user with lowest "sessions_won" value (iff below certain amount like 2)
 
 ### Technology Uses
 
@@ -113,14 +113,18 @@ About page
 
 ### JavaScript Deliverable
 
+**Support for Future Login** - Dummy database populated that includes set of users, password hashes, and salts. New user data added to dummy database. Login information checks against dummy values.
+
+**Support for Database Data** - Dummy database for past and current voting sessions (current sessions can be accessed and entered). User can enter a session, which maintains list of voting options. Votes for a given voting uption are tallied from the users in the current session and their current voting option. Database is refreshed upon any vote submit. User database information also called to populate a voting recommendation for users with low "agreed-with" rates (AKA their loss rate).
+
+**Support for Future WebSocket** - Prepared to receive WebSocket data, which will add values to the database as it's processed.
+
+**Application Logic** - As users vote on options, the populated table updates. When users vote, they are sometimes given a recommendation based on the votes of users with high "loss rates", which alters the user's vote if they accept the recommendation. When all users have voted, the final group selection is displayed in popup.
+
 ### JavaScript To-Dos
 
 - [X] Learn to pass variables through URLs (for populating the next html pages including the session table)
-- [ ] Alter css property to inherently hide recommendation popup. Only display if:
-
-- Finalize button is clicked(?)
-- There is only 1 user with a low "agreed-with" rate
-- ~35% of the time
+- [X] Alter css property to inherently hide recommendation popup. Only display if:
 
 ## Web Service
 

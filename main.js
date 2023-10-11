@@ -2,8 +2,8 @@
 // GLOBAL VARIABLES
 // =============================================================================
 
-const databaseUSERS = []
-const databaseSESSION = []
+const DB_USERS = []
+const DB_SESSION = []
 const foodIDLetters = 'BCDFGHJ'
 const movieIDLetters = 'KLMNPQ'
 const gameIDLetters = 'RSTVWXZ'
@@ -83,7 +83,7 @@ class VotingOption {
   get option_name() {return this._option_name }
   set option_name(newName) {this._option_name = newName }
   calculateVotes() {
-    const totalVotes = databaseUSERS.filter(instance => 
+    const totalVotes = DB_USERS.filter(instance => 
       (instance.active_session === currentSessionID && instance.active_vote === this.option_name)
     ).length
     return totalVotes
@@ -94,8 +94,8 @@ class VotingOption {
   newhtmlDatalistRow() {
     return `<option value="${this.option_name}"></option>`
   }
-  addToCategoryDatabase(databaseCATEGORY) {
-    databaseCATEGORY.push({ 'option_name': this.option_name, 'currentVotes': this.calculateVotes() })
+  addToCategoryDatabase(DB_CATEGORY) {
+    DB_CATEGORY.push({ 'option_name': this.option_name, 'currentVotes': this.calculateVotes() })
   }
 }
 
@@ -105,7 +105,7 @@ class VotingOption {
 
 function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon) {
   let fakeUser = new User(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon)
-  databaseUSERS.push(fakeUser)
+  DB_USERS.push(fakeUser)
 }
 addFakeUser("MASAULLS", "1234")
 addFakeUser('CHSAULLS', '389d9*', 'DEFAULT', 'Costa Vida', 7, 1)
@@ -114,9 +114,9 @@ addFakeUser('ECSAULLS', '38&jdkf', 'DEFAULT', 'Brick Oven', 3, 0)
 addFakeUser('SSAULLS', '7329fd', 'DEFAULT', 'Burger Supreme', 3, 3)
 addFakeUser('CSAULLS', '39fds', 'DEFAULT', 'Good Move', 7, 4)
 
-function addFakeSession(fakeSessionID, fakeCategory, databaseCATEGORY) {
-  let fakeSession = new Session(fakeSessionID, fakeCategory, databaseCATEGORY, Date.now())
-  databaseSESSION.push(fakeSession)
+function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
+  let fakeSession = new Session(fakeSessionID, fakeCategory, DB_CATEGORY, Date.now())
+  DB_SESSION.push(fakeSession)
 }
 
   let listFOOD = [
@@ -305,7 +305,7 @@ function validateLoginUsernamePassword() {
 
     let username_input = document.getElementById('username_input').value
     let password_input = document.getElementById('password_input').value
-    UserPassCorrect(databaseUSERS, username_input, password_input)
+    UserPassCorrect(DB_USERS, username_input, password_input)
   }
 }
 
@@ -332,8 +332,8 @@ function UserPassCreate(database, newUsername, newPassword, confirmPassword) {
     return
   }
   const newUserInstance = new User (newUsername, newPassword)
-  databaseUSERS.push(newUserInstance)
-  console.log(databaseUSERS)
+  DB_USERS.push(newUserInstance)
+  console.log(DB_USERS)
   window.location.href = `./enter_session.html?user=${newUsername}`
   return
 }
@@ -347,7 +347,7 @@ function createLoginUsernamePassword() {
     let new_username = document.getElementById('new_username').value
     let new_password = document.getElementById('new_password').value
     let confirm_password = document.getElementById('confirm_password').value
-    UserPassCreate(databaseUSERS, new_username, new_password, confirm_password)
+    UserPassCreate(DB_USERS, new_username, new_password, confirm_password)
   }
 }
 
@@ -356,8 +356,8 @@ function createLoginUsernamePassword() {
 // =============================================================================
 
 function validateSessionID(checkSessionID) {
-  for (let session in databaseSESSION) {
-    if (databaseSESSION[session]['session_id'] === checkSessionID) {
+  for (let session in DB_SESSION) {
+    if (DB_SESSION[session]['session_id'] === checkSessionID) {
       return true
     }
   }
@@ -402,7 +402,7 @@ function createSessionWithCategory() {
     }
 
     let newSessionInstance = new Session(createSessionID(sessionCategory), sessionCategory, listCATEGORY, Date.now())
-    databaseSESSION.push(newSessionInstance)
+    DB_SESSION.push(newSessionInstance)
     let newSessionID = newSessionInstance['session_id']
     window.location.href = `./voting_session.html?user=${currentUser}&session=${newSessionID}`
     return
@@ -457,7 +457,7 @@ function randomDigit(digitArray) {
 // =============================================================================
 
 function loadVotingSessionPage() {
-    currentSessionInstance = databaseSESSION.find((element) => element['session_id'] === currentSessionID)
+    currentSessionInstance = DB_SESSION.find((element) => element['session_id'] === currentSessionID)
   if (currentSessionInstance === undefined) {
     // if session is missing from the database; create new session but log error
     let currentCategory
@@ -484,8 +484,8 @@ function loadVotingSessionPage() {
     console.log(`Session ${currentSessionID} loaded correctly from database.`)
   }
   document.title = `Voting Session: ${currentSessionID}`
-  const userIndex = databaseUSERS.findIndex(user => user.username === currentUser)
-  databaseUSERS[userIndex].active_session = currentSessionID
+  const userIndex = DB_USERS.findIndex(user => user.username === currentUser)
+  DB_USERS[userIndex].active_session = currentSessionID
   populateTable(currentSessionInstance.category, currentSessionInstance.category_array)
   console.log(`Data populated correctly. Proceed with voting.`)
 }
@@ -546,9 +546,9 @@ function castVoteButton() {
 function recommendUnpopularOpinion() {
 
   let unpopularOpinionArray = []
-  for (let user in databaseUSERS) {
-    if (databaseUSERS[user].significantLossRate() > 0) {
-      unpopularOpinionArray.push(databaseUSERS[user].active_vote)
+  for (let user in DB_USERS) {
+    if (DB_USERS[user].significantLossRate() > 0) {
+      unpopularOpinionArray.push(DB_USERS[user].active_vote)
     }
   }
   if (unpopularOpinionArray.length === 0 || Math.random() < .65) {
@@ -583,8 +583,8 @@ function recommendUnpopularOpinion() {
 // Needs to be added to 'finalize vote' button on click
 function castVote(selectedOption = '') {
   selectedOption = selectedOption || document.getElementById('vote_selection').value
-  const userIndex = databaseUSERS.findIndex(user => user.username === currentUser)
-  databaseUSERS[userIndex].active_vote = selectedOption
+  const userIndex = DB_USERS.findIndex(user => user.username === currentUser)
+  DB_USERS[userIndex].active_vote = selectedOption
   const optionDBIndex = categoryDatabase.findIndex((element) => element.option_name === selectedOption)
   if (optionDBIndex !== -1) {
     categoryDatabase[optionDBIndex].calculateVotes()
@@ -615,7 +615,7 @@ function clearDatalist() {
 }
 
 function checkAllVotesCast() {
-  const sessionUsers = databaseUSERS.filter(instance => instance.active_session === currentSessionID)
+  const sessionUsers = DB_USERS.filter(instance => instance.active_session === currentSessionID)
   const totalUsers = sessionUsers.length
   const totalVotes = sessionUsers.filter(instance => instance.active_vote !== '').length
   return (totalUsers === totalVotes)
@@ -645,9 +645,9 @@ function displayWinner(allVotesCast) {
     document.getElementById('category_verb').innerHTML = categoryVerb
     document.getElementById('group_selection').innerHTML = groupSelection
 
-    for (let user in databaseUSERS) {
-      if (databaseUSERS[user]['active_session'] === currentSessionID) {
-        databaseUSERS[user].incrementParticipation(groupSelection)
+    for (let user in DB_USERS) {
+      if (DB_USERS[user]['active_session'] === currentSessionID) {
+        DB_USERS[user].incrementParticipation(groupSelection)
       }
     }
     

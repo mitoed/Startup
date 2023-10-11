@@ -2,8 +2,24 @@
 // GLOBAL VARIABLES
 // =============================================================================
 
-const DB_USERS = []
-const DB_SESSION = []
+let DB_USERS = []
+fetch('./DB_USERS.json')
+  .then(response => response.json())
+  .then(data => {
+    DB_USERS = data
+    console.log(DB_USERS)
+  })
+  .catch(error => console.error('Error loading JSON data: ', error))
+
+let DB_SESSIONS = []
+fetch('./DB_SESSIONS.json')
+  .then(response => response.json())
+  .then(data => {
+    DB_SESSIONS = data
+    console.log(DB_SESSIONS)
+  })
+  .catch(error => console.error('Error loading JSON data: ', error))
+
 const foodIDLetters = 'BCDFGHJ'
 const movieIDLetters = 'KLMNPQ'
 const gameIDLetters = 'RSTVWXZ'
@@ -96,12 +112,10 @@ class VotingOption {
     DB_CATEGORY.push({ 'option_name': this.option_name, 'currentVotes': this.calculateVotes() })
   }
 }
+  // =============================================================================
+{ // DUMMY VALUES -- TO BE DELETED WHEN CONNECTED TO PERSISTENT DATABASE
 
-// =============================================================================
-// DUMMY VALUES -- TO BE DELETED WHEN CONNECTED TO PERSISTENT DATABASE
-// =============================================================================
-
-  function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon) {
+  /*function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon) {
     let fakeUser = new User(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon)
     DB_USERS.push(fakeUser)
   }
@@ -110,11 +124,11 @@ class VotingOption {
   addFakeUser('RCSAULLS', '303udsd', 'DEFAULT', 'Five Sushi Bros', 7, 0)
   addFakeUser('ECSAULLS', '38&jdkf', 'DEFAULT', 'Brick Oven', 3, 0)
   addFakeUser('SSAULLS', '7329fd', 'DEFAULT', 'Burger Supreme', 3, 3)
-  addFakeUser('CSAULLS', '39fds', 'DEFAULT', 'Good Move', 7, 4)
+  addFakeUser('CSAULLS', '39fds', 'DEFAULT', 'Good Move', 7, 4)*/
   
-  function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
+  /*function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
     let fakeSession = new Session(fakeSessionID, fakeCategory, DB_CATEGORY, Date.now())
-    DB_SESSION.push(fakeSession)
+    DB_SESSIONS.push(fakeSession)
   }
   
     let listFOOD = [
@@ -181,7 +195,8 @@ class VotingOption {
   addFakeSession ("T5H9K5", 'game', listGAME)
   addFakeSession ("S2V2J9", 'game', listGAME)
   addFakeSession ("Z6L3X3", 'game', listGAME)
-  addFakeSession ("T7F3P7", 'game', listGAME)
+  addFakeSession ("T7F3P7", 'game', listGAME)*/
+} // =============================================================================
 
 // =============================================================================
 // LOAD PAGE FUNCTIONALITY -- OCCURS EACH TIME A PAGE LOADS
@@ -411,7 +426,7 @@ function createSessionWithCategory() {
     }
 
     let newSessionInstance = new Session(createSessionID(sessionCategory), sessionCategory, listCATEGORY, Date.now())
-    DB_SESSION.push(newSessionInstance)
+    DB_SESSIONS.push(newSessionInstance)
     let newSessionID = newSessionInstance['session_id']
     window.location.href = `./voting_session.html?user=${currentUser}&session=${newSessionID}`
     return
@@ -423,8 +438,8 @@ function createSessionWithCategory() {
 // -----------------------------------------------------------------------------
 
 function validateSessionID(checkSessionID) {
-  for (let session in DB_SESSION) {
-    if (DB_SESSION[session]['session_id'] === checkSessionID) {
+  for (let session in DB_SESSIONS) {
+    if (DB_SESSIONS[session]['session_id'] === checkSessionID) {
       return true
     }
   }
@@ -474,7 +489,7 @@ function randomSessionID(sessionCategory) {
 // =============================================================================
 
 function loadVotingSessionPage() {
-    currentSessionInstance = DB_SESSION.find((element) => element['session_id'] === currentSessionID)
+    currentSessionInstance = DB_SESSIONS.find((element) => element['session_id'] === currentSessionID)
   if (currentSessionInstance === undefined) {
     // if session is missing from the database; create new session but log error
     let currentCategory

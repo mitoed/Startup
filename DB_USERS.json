@@ -1,0 +1,56 @@
+[
+  {
+      "_username": "MASAULLS",
+      "_salt": "6TKOME",
+      "_password_hash": 2000633116,
+      "_active_session": "",
+      "_active_vote": "",
+      "_sessions_total": 0,
+      "_sessions_won": 0
+  },
+  {
+      "_username": "CHSAULLS",
+      "_salt": "YHLO71",
+      "_password_hash": -1616229971,
+      "_active_session": "DEFAULT",
+      "_active_vote": "Costa Vida",
+      "_sessions_total": 7,
+      "_sessions_won": 1
+  },
+  {
+      "_username": "RCSAULLS",
+      "_salt": "0MNNQU",
+      "_password_hash": 457554165,
+      "_active_session": "DEFAULT",
+      "_active_vote": "Five Sushi Bros",
+      "_sessions_total": 7,
+      "_sessions_won": 0
+  },
+  {
+      "_username": "ECSAULLS",
+      "_salt": "9NFSF6",
+      "_password_hash": -1114532156,
+      "_active_session": "DEFAULT",
+      "_active_vote": "Brick Oven",
+      "_sessions_total": 3,
+      "_sessions_won": 0
+  },
+  {
+      "_username": "SSAULLS",
+      "_salt": "MBYIXB",
+      "_password_hash": -1577822224,
+      "_active_session": "DEFAULT",
+      "_active_vote": "Burger Supreme",
+      "_sessions_total": 3,
+      "_sessions_won": 3
+  },
+  {
+      "_username": "CSAULLS",
+      "_salt": "3XM1DL",
+      "_password_hash": -1354782498,
+      "_active_session": "DEFAULT",
+      "_active_vote": "Good Move",
+      "_sessions_total": 7,
+      "_sessions_won": 4
+  }
+]

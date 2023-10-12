@@ -7,8 +7,8 @@ const DB_SESSIONS = []
 const foodIDLetters = 'BCDFGHJ'
 const movieIDLetters = 'KLMNPQ'
 const gameIDLetters = 'RSTVWXZ'
-let currentUser = localStorage.getItem('currentUser') || undefined
-let currentSessionID = localStorage.getItem('currentSessionID') || undefined
+let currentUser = localStorage.getItem('currentUser') || ''
+let currentSessionID = localStorage.getItem('currentSessionID') || ''
 let currentSessionInstance
 let categoryDatabase
 
@@ -96,10 +96,8 @@ class VotingOption {
     DB_CATEGORY.push({ 'option_name': this.option_name, 'currentVotes': this.calculateVotes() })
   }
 }
-
-// =============================================================================
-// DUMMY VALUES -- TO BE DELETED WHEN CONNECTED TO PERSISTENT DATABASE
-// =============================================================================
+  // =============================================================================
+{ // DUMMY VALUES -- TO BE DELETED WHEN CONNECTED TO PERSISTENT DATABASE
 
   function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon) {
     let fakeUser = new User(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon)
@@ -182,32 +180,33 @@ class VotingOption {
   addFakeSession ("S2V2J9", 'game', listGAME)
   addFakeSession ("Z6L3X3", 'game', listGAME)
   addFakeSession ("T7F3P7", 'game', listGAME)
+} // =============================================================================
 
 // =============================================================================
 // LOAD PAGE FUNCTIONALITY -- OCCURS EACH TIME A PAGE LOADS
 // =============================================================================
 
-infoToPage()
-infoToMenu()
-
 switch (true) {
   default: // for index.html or blank
-    localStorage.setItem('currentUser', '')
-    localStorage.setItem('currentSessionID', '')
+    disableEnterSession()
     validateLoginUsernamePassword()
     createLoginUsernamePassword()
     break
   case window.location.href.includes('enter_session.html'):
-    localStorage.setItem('currentSessionID', '')
+    infoToPage()
+    infoToMenu()
     enterSessionWithID()
     createSessionWithCategory()
     break
   case window.location.href.includes('voting_session.html'):
+    infoToPage()
+    infoToMenu()
     loadVotingSessionPage()
     castVoteButton()
     break
   case window.location.href.includes('about.html'):
-    localStorage.setItem('currentSessionID', '')
+    infoToPage()
+    infoToMenu()
     break
 }
 
@@ -271,17 +270,22 @@ function infoToMenu() {
       navigationChildren[child].href += `?user=${currentUser}`
     }
   } else if (currentUser === undefined) {
-    const navEnterSession = document.getElementById("nav_enter_session")
-    navEnterSession.href = ""
-    navEnterSession.onclick = function () {
-      alert('You must login or create an account before entering a session.')
-    }
+    disableEnterSession()
   }
 }
 
 // =============================================================================
 // LOGIN PAGE BUTTON INITIALIZING FUNCTIONS
 // =============================================================================
+
+// Disable navigation menu
+function disableEnterSession() {
+  const navEnterSession = document.getElementById("nav_enter_session")
+  navEnterSession.href = ""
+  navEnterSession.onclick = function () {
+    alert('You must login or create an account before entering a session.')
+  }
+}
 
 // Add user verification to button
 function validateLoginUsernamePassword() {
@@ -380,12 +384,9 @@ function enterSessionWithID() {
     currentSessionID = document.getElementById('join_session_id').value
     currentSessionID = currentSessionID.toUpperCase()
     if (validateSessionID(currentSessionID)) {
-      localStorage.setItem('currentSessionID', currentSessionID)
       window.location.href = `./voting_session.html?user=${currentUser}&session=${currentSessionID}`
-      return
     } else {
       document.getElementById('session_not_found_error').innerHTML = 'Session Not Found'
-      return
     }
   }
 }
@@ -413,7 +414,6 @@ function createSessionWithCategory() {
     let newSessionInstance = new Session(createSessionID(sessionCategory), sessionCategory, listCATEGORY, Date.now())
     DB_SESSIONS.push(newSessionInstance)
     let newSessionID = newSessionInstance['session_id']
-    localStorage.setItem('currentSessionID', newSessionID)
     window.location.href = `./voting_session.html?user=${currentUser}&session=${newSessionID}`
     return
   }
@@ -475,7 +475,7 @@ function randomSessionID(sessionCategory) {
 // =============================================================================
 
 function loadVotingSessionPage() {
-  currentSessionInstance = DB_SESSIONS.find((element) => element['session_id'] === currentSessionID)
+    currentSessionInstance = DB_SESSIONS.find((element) => element['session_id'] === currentSessionID)
   if (currentSessionInstance === undefined) {
     // if session is missing from the database; create new session but log error
     let currentCategory

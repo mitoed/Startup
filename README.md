@@ -171,4 +171,4 @@ About page
 **Client ID**: lEs-efBEI8Jrs-HkVdigCg
 
 
-**API Key**: _QMnakLDKnulX8Ion-dmUeiPWn5NCqOehLB5jzjNyyphPrWZikNB8rGHOks2InuxbCt3-c9cKHP949UbP8j46TflkQ-r9Q3zlun1-9Wlw6kZxnekgbL5Mq9ZKPImZXYx
+**API Key**: "~/JavaScript/apis/yelp_fusion.txt"

@@ -540,7 +540,7 @@ function castVoteButton() {
 // Populates recommendation bubble with google search link
 function populateRecommendation(category) {
 
-  let extraConditions
+  let extraConditions = ''
   switch (category) {
     case 'food':
       categoryPlural = 'restaurants'

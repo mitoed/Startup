@@ -487,7 +487,7 @@ function loadVotingSessionPage() {
       case foodIDLetters.includes(currentSessionID[0]):
         currentCategory = 'food'
         currentDatabase = listFOOD
-        populateRecommendation('restaurants',true)
+        populateRecommendation('restaurants', '+near+me')
         break
       case movieIDLetters.includes(currentSessionID[0]):
         currentCategory = 'movie'
@@ -540,21 +540,13 @@ function castVoteButton() {
 // -----------------------------------------------------------------------------
 
 // Populates recommendation bubble
-function populateRecommendation(category, shareLocation = false) {
-  console.log('entered function')
+function populateRecommendation(category, extraParams = '') {
   
   const recommendationTypeArray = ['classic', 'new', 'underrated']
   const randomNum = Math.floor(Math.random() * 3)
   let recommendationType = recommendationTypeArray[randomNum]
-  console.log(`recommending: ${recommendationType}`)
 
-  let recommendationHREF
-  if (shareLocation) {
-    recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${category.replace(' ', '+')}+near+me`
-  } else {
-    recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${category.replace(' ', '+')}`
-  }
-  console.log(`url: ${recommendationHREF}`)
+  const recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${category.replace(' ', '+')}${extraParams}`
 
   const recommendationBubble = document.getElementById('recommendation_bubble')
   recommendationBubble.innerHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the top <span>${recommendationType}</span> ${category}<br>from Google.com</p>`

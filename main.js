@@ -16,6 +16,20 @@ let categoryDatabase
 // YELP API
 // =============================================================================
 
+const handler = async (event) => {
+  // TODO implement
+  const response = {
+    statusCode: 200,
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
+    body: JSON.stringify({ message: 'Response with CORS support' }),
+  };
+  return response;
+};
+
 const yelpKey = 'kixlJu-PJEkYKBe0culZC8MeLZ-50FO2WK257jBAnCut8lJgcOSuF86UjscMRxaOUiNvSX9oaVSEiBmG7fGGWTPBZCrl6OkWi7BhpIrYtM1SSjlF0bjZXukEtr4nZXYx'
 const yelpLocation = 'provo%20ut'
 const yelpLimit = '10'
@@ -31,13 +45,33 @@ function yelpAPI() {
       accept: 'application/json',
       Authorization: 'Bearer kixlJu-PJEkYKBe0culZC8MeLZ-50FO2WK257jBAnCut8lJgcOSuF86UjscMRxaOUiNvSX9oaVSEiBmG7fGGWTPBZCrl6OkWi7BhpIrYtM1SSjlF0bjZXukEtr4nZXYx'
     },
-    mode: 'cors'
   };
 
   fetch(yelpURL, options)
     .then(response => response.json())
     .then(response => console.log(response))
     .catch(err => console.error(err));
+}
+
+const apiGatewayUrl = 'https://w0ys2aclsa.execute-api.us-east-1.amazonaws.com/Prod/CORS_Setup';
+
+function callAPI() {
+  // Make a GET request to your Lambda function
+  fetch(apiGatewayUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to fetch data from the Lambda function');
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Handle the data returned by your Lambda function
+      console.log(data);
+    })
+    .catch(error => {
+      // Handle any errors that occur during the request
+      console.error(error);
+    });
 }
 
 // =============================================================================

@@ -487,7 +487,7 @@ function loadVotingSessionPage() {
       case foodIDLetters.includes(currentSessionID[0]):
         currentCategory = 'food'
         currentDatabase = listFOOD
-        populateRecommendation('food')
+        populateRecommendation('restaurants',true)
         break
       case movieIDLetters.includes(currentSessionID[0]):
         currentCategory = 'movie'
@@ -540,7 +540,7 @@ function castVoteButton() {
 // -----------------------------------------------------------------------------
 
 // Populates recommendation bubble
-function populateRecommendation(category) {
+function populateRecommendation(category, shareLocation = false) {
   console.log('entered function')
   
   const recommendationTypeArray = ['classic', 'new', 'underrated']
@@ -548,12 +548,16 @@ function populateRecommendation(category) {
   let recommendationType = recommendationTypeArray[randomNum]
   console.log(`recommending: ${recommendationType}`)
 
-  const recommendationBubble = document.getElementById('recommendation_bubble')
-  const recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${category.replace(' ', '+')}`
-
+  let recommendationHREF
+  if (shareLocation) {
+    recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${category.replace(' ', '+')}+near+me`
+  } else {
+    recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${category.replace(' ', '+')}`
+  }
   console.log(`url: ${recommendationHREF}`)
 
-  recommendationBubble.innerHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the best ${recommendationType} ${category} from Google.com</p>`
+  const recommendationBubble = document.getElementById('recommendation_bubble')
+  recommendationBubble.innerHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the top <span>${recommendationType}</span> ${category}<br>from Google.com</p>`
 }
 
 // Populates data table and data list using the information gathered or inputted.

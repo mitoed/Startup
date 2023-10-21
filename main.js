@@ -487,17 +487,14 @@ function loadVotingSessionPage() {
       case foodIDLetters.includes(currentSessionID[0]):
         currentCategory = 'food'
         currentDatabase = listFOOD
-        populateRecommendation('restaurants', '+near+me')
         break
       case movieIDLetters.includes(currentSessionID[0]):
         currentCategory = 'movie'
         currentDatabase = listMOVIE
-        populateRecommendation('movies')
         break
       case gameIDLetters.includes(currentSessionID[0]):
         currentCategory = 'game'
         currentDatabase = listGAME
-        populateRecommendation('board games')
         break
     }
     currentSessionInstance = new Session(currentSessionID, currentCategory, currentDatabase, Date.now())
@@ -510,6 +507,7 @@ function loadVotingSessionPage() {
   document.title = `Voting Session: ${currentSessionID}`
   const userIndex = DB_USERS.findIndex(user => user.username === currentUser)
   DB_USERS[userIndex].active_session = currentSessionID
+  populateRecommendation(currentSessionInstance.category)
   populateTable(currentSessionInstance.category, currentSessionInstance.category_array)
   console.log(`Data populated correctly. Proceed with voting.`)
 }
@@ -539,17 +537,29 @@ function castVoteButton() {
 // VOTING SESSION PAGE SUPPORTING FUNCTIONS
 // -----------------------------------------------------------------------------
 
-// Populates recommendation bubble
-function populateRecommendation(category, extraParams = '') {
+// Populates recommendation bubble with google search link
+function populateRecommendation(category) {
+
+  switch (category) {
+    case 'food':
+      categoryPlural = 'restaurants'
+      break
+    case 'game':
+      categoryPlural = 'board games'
+      break
+    case 'movie':
+      categoryPlural = 'movies'
+      break
+  }
   
   const recommendationTypeArray = ['classic', 'new', 'underrated']
   const randomNum = Math.floor(Math.random() * 3)
   let recommendationType = recommendationTypeArray[randomNum]
 
-  const recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${category.replace(' ', '+')}${extraParams}`
+  const recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${categoryPlural}`
 
   const recommendationBubble = document.getElementById('recommendation_bubble')
-  recommendationBubble.innerHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the top <span>${recommendationType}</span> ${category}<br>from Google.com</p>`
+  recommendationBubble.innerHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the top <span>${recommendationType}</span> ${categoryPlural}<br>from Google.com</p>`
 }
 
 // Populates data table and data list using the information gathered or inputted.

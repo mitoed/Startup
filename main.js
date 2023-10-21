@@ -540,9 +540,11 @@ function castVoteButton() {
 // Populates recommendation bubble with google search link
 function populateRecommendation(category) {
 
+  let extraConditions
   switch (category) {
     case 'food':
       categoryPlural = 'restaurants'
+      extraConditions = 'near me'
       break
     case 'game':
       categoryPlural = 'board games'
@@ -556,7 +558,7 @@ function populateRecommendation(category) {
   const randomNum = Math.floor(Math.random() * 3)
   let recommendationType = recommendationTypeArray[randomNum]
 
-  const recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${categoryPlural}`
+  const recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${categoryPlural}+${extraConditions}`
 
   const recommendationBubble = document.getElementById('recommendation_bubble')
   recommendationBubble.innerHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the top <span>${recommendationType}</span> ${categoryPlural}<br>from Google.com</p>`

@@ -96,8 +96,10 @@ class VotingOption {
     DB_CATEGORY.push({ 'option_name': this.option_name, 'currentVotes': this.calculateVotes() })
   }
 }
-  // =============================================================================
-{ // DUMMY VALUES -- TO BE DELETED WHEN CONNECTED TO PERSISTENT DATABASE
+
+// =============================================================================
+// DUMMY VALUES -- TO BE DELETED WHEN CONNECTED TO PERSISTENT DATABASE
+// =============================================================================
 
   function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon) {
     let fakeUser = new User(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon)
@@ -180,7 +182,6 @@ class VotingOption {
   addFakeSession ("S2V2J9", 'game', listGAME)
   addFakeSession ("Z6L3X3", 'game', listGAME)
   addFakeSession ("T7F3P7", 'game', listGAME)
-} // =============================================================================
 
 // =============================================================================
 // LOAD PAGE FUNCTIONALITY -- OCCURS EACH TIME A PAGE LOADS
@@ -384,6 +385,7 @@ function enterSessionWithID() {
     currentSessionID = document.getElementById('join_session_id').value
     currentSessionID = currentSessionID.toUpperCase()
     if (validateSessionID(currentSessionID)) {
+      localStorage.setItem('currentSessionID', currentSessionID)
       window.location.href = `./voting_session.html?user=${currentUser}&session=${currentSessionID}`
     } else {
       document.getElementById('session_not_found_error').innerHTML = 'Session Not Found'
@@ -414,6 +416,7 @@ function createSessionWithCategory() {
     let newSessionInstance = new Session(createSessionID(sessionCategory), sessionCategory, listCATEGORY, Date.now())
     DB_SESSIONS.push(newSessionInstance)
     let newSessionID = newSessionInstance['session_id']
+    localStorage.setItem('currentSessionID', newSessionID)
     window.location.href = `./voting_session.html?user=${currentUser}&session=${newSessionID}`
     return
   }
@@ -475,7 +478,7 @@ function randomSessionID(sessionCategory) {
 // =============================================================================
 
 function loadVotingSessionPage() {
-    currentSessionInstance = DB_SESSIONS.find((element) => element['session_id'] === currentSessionID)
+  currentSessionInstance = DB_SESSIONS.find((element) => element['session_id'] === currentSessionID)
   if (currentSessionInstance === undefined) {
     // if session is missing from the database; create new session but log error
     let currentCategory
@@ -484,14 +487,17 @@ function loadVotingSessionPage() {
       case foodIDLetters.includes(currentSessionID[0]):
         currentCategory = 'food'
         currentDatabase = listFOOD
+        populateRecommendation('food')
         break
       case movieIDLetters.includes(currentSessionID[0]):
         currentCategory = 'movie'
         currentDatabase = listMOVIE
+        populateRecommendation('movies')
         break
       case gameIDLetters.includes(currentSessionID[0]):
         currentCategory = 'game'
         currentDatabase = listGAME
+        populateRecommendation('board games')
         break
     }
     currentSessionInstance = new Session(currentSessionID, currentCategory, currentDatabase, Date.now())
@@ -532,6 +538,23 @@ function castVoteButton() {
 // -----------------------------------------------------------------------------
 // VOTING SESSION PAGE SUPPORTING FUNCTIONS
 // -----------------------------------------------------------------------------
+
+// Populates recommendation bubble
+function populateRecommendation(category) {
+  console.log('entered function')
+  
+  const recommendationTypeArray = ['classic', 'new', 'underrated']
+  const randomNum = Math.floor(Math.random() * 3)
+  let recommendationType = recommendationTypeArray[randomNum]
+  console.log(`recommending: ${recommendationType}`)
+
+  const recommendationBubble = document.getElementById('recommendation_bubble')
+  const recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${category.replace(' ', '+')}`
+
+  console.log(`url: ${recommendationHREF}`)
+
+  recommendationBubble.innerHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the best ${recommendationType} ${category} from Google.com</p>`
+}
 
 // Populates data table and data list using the information gathered or inputted.
 function populateTable(category, categoryList, thisDatabase = null) {

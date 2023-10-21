@@ -345,7 +345,7 @@ button.submit {
 .VOT-internet {
   display: flex;
   align-items: center;
-  align-content: flex-start;
+  align-content: center;
   justify-content: center;
   flex-wrap: wrap;
   width: 250px;

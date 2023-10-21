@@ -34,13 +34,6 @@ function yelpAPI() {
     mode: 'cors'
   };
 
-  const express = require('express');
-  const cors = require('cors');
-  const app = express();
-
-  // Enable CORS for all routes
-  app.use(cors());
-
   fetch(yelpURL, options)
     .then(response => response.json())
     .then(response => console.log(response))

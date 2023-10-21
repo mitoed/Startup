@@ -13,6 +13,33 @@ let currentSessionInstance
 let categoryDatabase
 
 // =============================================================================
+// YELP API
+// =============================================================================
+
+const yelpKey = 'kixlJu-PJEkYKBe0culZC8MeLZ-50FO2WK257jBAnCut8lJgcOSuF86UjscMRxaOUiNvSX9oaVSEiBmG7fGGWTPBZCrl6OkWi7BhpIrYtM1SSjlF0bjZXukEtr4nZXYx'
+const yelpLocation = 'provo%20ut'
+const yelpLimit = '10'
+const yelpTerm = 'restaurant'
+const yelpOpenNow = 'true'
+const yelpSortBy = 'best_match'
+
+function yelpAPI() {
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: 'Bearer kixlJu-PJEkYKBe0culZC8MeLZ-50FO2WK257jBAnCut8lJgcOSuF86UjscMRxaOUiNvSX9oaVSEiBmG7fGGWTPBZCrl6OkWi7BhpIrYtM1SSjlF0bjZXukEtr4nZXYx'
+    },
+    mode: 'no-cors'
+  };
+
+  fetch('https://api.yelp.com/v3/businesses/search?location=provo%20ut&term=restaurant&open_now=true&sort_by=best_match&limit=10', options)
+    .then(response => response.json())
+    .then(response => console.log(response))
+    .catch(err => console.error(err));
+}
+
+// =============================================================================
 // CLASSES
 // =============================================================================
 

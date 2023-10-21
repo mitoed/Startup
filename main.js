@@ -730,8 +730,5 @@ function disableCastVoteButton() {
 }
 
 /* Voting Page:
-- using user physical location:
-    - scrape google for top nearby restaurants
-    - pass website url to document.getElementById('recommendation_link').href
-    - add restaurant name to document.getElementById('recommendation_internet').innerHTML
+- configure/troubleshoot Yelp API for restaurant recommendations in provo, ut
 */

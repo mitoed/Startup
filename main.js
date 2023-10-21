@@ -22,6 +22,7 @@ const yelpLimit = '10'
 const yelpTerm = 'restaurant'
 const yelpOpenNow = 'true'
 const yelpSortBy = 'best_match'
+const yelpURL = `https://api.yelp.com/v3/businesses/search?location=${yelpLocation}&term=${yelpTerm}&open_now=${yelpOpenNow}&sort_by=${yelpSortBy}&limit=${yelpLimit}`
 
 function yelpAPI() {
   const options = {
@@ -30,10 +31,17 @@ function yelpAPI() {
       accept: 'application/json',
       Authorization: 'Bearer kixlJu-PJEkYKBe0culZC8MeLZ-50FO2WK257jBAnCut8lJgcOSuF86UjscMRxaOUiNvSX9oaVSEiBmG7fGGWTPBZCrl6OkWi7BhpIrYtM1SSjlF0bjZXukEtr4nZXYx'
     },
-    mode: 'no-cors'
+    mode: 'cors'
   };
 
-  fetch('https://api.yelp.com/v3/businesses/search?location=provo%20ut&term=restaurant&open_now=true&sort_by=best_match&limit=10', options)
+  const express = require('express');
+  const cors = require('cors');
+  const app = express();
+
+  // Enable CORS for all routes
+  app.use(cors());
+
+  fetch(yelpURL, options)
     .then(response => response.json())
     .then(response => console.log(response))
     .catch(err => console.error(err));

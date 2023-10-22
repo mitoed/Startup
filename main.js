@@ -86,10 +86,10 @@ class VotingOption {
     ).length
     return totalVotes
   }
-  newhtmlTableRow() {
+  newHTMLTableRow() {
     return `<tr><td>${this.option_name}</td><td>${this.calculateVotes()}</td></tr>`
   }
-  newhtmlDatalistRow() {
+  newHTMLDatalistRow() {
     return `<option value="${this.option_name}"></option>`
   }
   addToCategoryDatabase(DB_CATEGORY) {
@@ -321,16 +321,12 @@ function createLoginUsernamePassword() {
 // Verify login credentials
 function UserPassCorrect(database, checkUsername, checkPassword) {
   checkUsername = checkUsername.toUpperCase()
-  console.log(checkUsername)
-  console.log(checkPassword)
   console.log(database)
-  for (let entry in database) {
-    console.log(entry)
-    console.log(database[entry]['username'])
-    if (database[entry]['username'] === checkUsername) {
-      const checkSalt = database[entry]['salt']
-      const checkHash = hashPassword(checkPassword, checkSalt)
-      if (database[entry]['password_hash'] === checkHash) {
+  for (let { username, salt, password_hash } of database) {
+    console.log(username)
+    if (username === checkUsername) {
+      const checkHash = hashPassword(checkPassword, salt)
+      if (password_hash === checkHash) {
         document.getElementById('login_error').innerHTML = ''
         localStorage.setItem('currentUser', checkUsername)
         window.location.href = `./enter_session.html?user=${checkUsername}`
@@ -350,8 +346,8 @@ function UserPassCreate(database, newUsername, newPassword, confirmPassword) {
   newUsername = newUsername.toUpperCase();
   // RegEx that checks for 1 letter, 1 number, and 8 characters long
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/
-  for (let entry in database) {
-    if (database[entry]['username'] === newUsername) {
+  for (const { username } of database) {
+    if (username === newUsername) {
       document.getElementById('create_error').innerHTML = newUsername + ' already exists'
       return
     }
@@ -384,7 +380,7 @@ function enterSessionWithID() {
 
     currentSessionID = document.getElementById('join_session_id').value
     currentSessionID = currentSessionID.toUpperCase()
-    if (validateSessionID(currentSessionID)) {
+    if (isValidSessionID(currentSessionID)) {
       localStorage.setItem('currentSessionID', currentSessionID)
       window.location.href = `./voting_session.html?user=${currentUser}&session=${currentSessionID}`
     } else {
@@ -401,17 +397,12 @@ function createSessionWithCategory() {
     event.preventDefault();
 
     const sessionCategory = document.querySelector('input[name="category"]:checked').value;
-    switch (true) {
-      case sessionCategory === 'movie':
-        listCATEGORY = listMOVIE
-        break
-      case sessionCategory === 'game':
-        listCATEGORY = listGAME
-        break
-      case sessionCategory === 'food':
-        listCATEGORY = listFOOD
-        break
+    const categoryMap = {
+      food: listFOOD,
+      movie: listMOVIE,
+      game: listGAME
     }
+    listCATEGORY = categoryMap[sessionCategory]
 
     let newSessionInstance = new Session(createSessionID(sessionCategory), sessionCategory, listCATEGORY, Date.now())
     DB_SESSIONS.push(newSessionInstance)
@@ -426,22 +417,15 @@ function createSessionWithCategory() {
 // ENTER SESSION PAGE SUPPORTING FUNCTIONS
 // -----------------------------------------------------------------------------
 
-function validateSessionID(checkSessionID) {
-  for (let session in DB_SESSIONS) {
-    if (DB_SESSIONS[session]['session_id'] === checkSessionID) {
-      return true
-    }
-  }
-  return false
+function isValidSessionID(checkSessionID) {
+  return DB_SESSIONS.some(session => session.session_id === checkSessionID)
 }
 
 function createSessionID(sessionCategory) {
   let newSessionID
-  let problem = false
   do {
     newSessionID = randomSessionID(sessionCategory)
-    problem = validateSessionID(newSessionID)
-  } while (problem)
+  } while (isValidSessionID(newSessionID))
   return newSessionID
 }
 
@@ -572,11 +556,9 @@ function populateTable(category, categoryList, thisDatabase = null) {
     categoryDatabase = createCategoryDB(category, categoryList)
   }
   sortTableHighToLow()
-  for (let entry in categoryDatabase) {
-    let htmlRowElement = categoryDatabase[entry].newhtmlTableRow()
-    tableElement.insertAdjacentHTML('beforeend', htmlRowElement)
-    let htmlDatalistString = categoryDatabase[entry].newhtmlDatalistRow()
-    datalistElement.insertAdjacentHTML('beforeend', htmlDatalistString)
+    for (let entry in categoryDatabase) {
+    tableElement.insertAdjacentHTML('beforeend', categoryDatabase[entry].newHTMLTableRow())
+    datalistElement.insertAdjacentHTML('beforeend', categoryDatabase[entry].newHTMLDatalistRow())
   }
 }
 
@@ -598,9 +580,9 @@ function sortTableHighToLow() {
 
 function recommendUnpopularOpinion() {
   let unpopularOpinionArray = []
-  for (let user in DB_USERS) {
-    if (DB_USERS[user].significantLossRate() > 0) {
-      unpopularOpinionArray.push(DB_USERS[user].active_vote)
+  for (let entry in DB_USERS) {
+    if (DB_USERS[entry].significantLossRate() > 0) {
+      unpopularOpinionArray.push(DB_USERS[entry].active_vote)
     }
   }
   if (unpopularOpinionArray.length === 0 || Math.random() < .65) {
@@ -697,9 +679,9 @@ function displayWinner(allVotesCast) {
     document.getElementById('category_verb').innerHTML = categoryVerb
     document.getElementById('group_selection').innerHTML = groupSelection
 
-    for (let user in DB_USERS) {
-      if (DB_USERS[user]['active_session'] === currentSessionID) {
-        DB_USERS[user].incrementParticipation(groupSelection)
+    for (let entry in DB_USERS) {
+      if (DB_USERS[entry].active_session === currentSessionID) {
+        DB_USERS[entry].incrementParticipation(groupSelection)
       }
     }
     

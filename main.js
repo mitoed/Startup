@@ -871,6 +871,7 @@ function displayWinner() {
 
     exitFromFinalSelection()
     disableCastVoteButton()
+    endSession()
 }
 
 /**
@@ -896,6 +897,24 @@ function disableCastVoteButton() {
         event.preventDefault();
         document.getElementById('disabled_finalize').innerHTML = 'Session has concluded'
         console.log('Session has concluded; Finalize Vote button has been disabled.')
+    }
+}
+
+/** Tasks when the session closes:
+ *      1. log end_time to session
+ *      2. clear each user's active_session
+ *      3. clear each user's active_vote
+ * 
+ * @returns nothing
+ */
+function endSession() {
+    currentSessionInstance.end_time = Date.now()
+    for (let entry in DB_USERS) {
+        if (DB_USERS[entry][active_session] === currentSessionID) {
+            DB_USERS[entry][active_vote] = ''
+            DB_USERS[entry][active_session] = ''
+            return
+        }
     }
 }
 

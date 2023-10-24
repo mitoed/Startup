@@ -664,9 +664,19 @@ function populateRecommendation(category) {
     let extraConditions = ''
     switch (category) {
         case 'food':
-            categoryPlural = 'restaurants'
-            extraConditions = 'near me'
-            break
+            /**
+             * This will try to call the yelp api.
+             * Upon error, uses same method as the other categories.
+             */
+            try {
+                displayYelpData()
+                callYelpAPI()
+                return
+            } catch {
+                categoryPlural = 'restaurants'
+                extraConditions = 'near me'
+                break
+            }
         case 'game':
             categoryPlural = 'board games'
             break
@@ -683,6 +693,53 @@ function populateRecommendation(category) {
 
     const recommendationBubble = document.getElementById('recommendation_bubble')
     recommendationBubble.innerHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the top <span>${recommendationType}</span> ${categoryPlural}<br>from Google.com</p>`
+}
+
+/**
+ * Call the yelp api (which won't work until CORS have been configured),
+ * then add the recommendation into the bubble.
+ * FOLLOW THE YELP DISPLAY REQUIREMENTS!!!!
+ */
+function displayYelpData() {
+    const yelpRestaurant = callYelpAPI()
+    const yelpName = yelpRestaurant.name
+    const yelpURL = yelpRestaurant.url
+    const recommendationBubble = document.getElementById('recommendation_bubble')
+    recommendationBubble.innerHTML = `<p>Based on Yelp reviews in Provo, Utah, you should try out <span>${yelpName}</span>!<br>Check out more about it <a href="${yelpURL}">here</a>!</p>`
+}
+
+/**
+ * Calls the Yelp API to return a recommendation based on:
+ * location (provo, utah), currently open, and highly rated.
+ * Randomized result based on top 10
+ * 
+ * @returns yelpRetaurant object containing name and url
+ */
+function callYelpAPI() {
+    const key = process.env.YELP_API_KEY
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${key}`
+        }
+    }
+    const location = 'provo%2C%20ut'
+    const term = 'restaurant'
+    const open_now = 'true'
+    const sort_by = 'best_match'
+    const limit = '10'
+    fetch(`https://api.yelp.com/v3/businesses/search?location=${location}&term=${term}&open_now=${open_now}&sort_by=${sort_by}&limit=${limit}`, options)
+        .then(response => response.json())
+        .then(response => console.log(response))
+    // Parse the information from a random result from top 10
+    // const yelpName = 
+    // const yelpURL = 
+    const yelpRestaurant = {
+        name: yelpName,
+        url: yelpURL
+    }
+    return yelpRestaurant
 }
 
 /** Populates data table and data list (both sorted)
@@ -917,7 +974,3 @@ function endSession() {
         }
     }
 }
-
-/* Voting Page:
-- configure/troubleshoot Yelp API for restaurant recommendations in provo, ut
-*/

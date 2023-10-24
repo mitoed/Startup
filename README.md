@@ -121,10 +121,7 @@ About page
 
 **Application Logic** - As users vote on options, the populated table updates. When users vote, they are sometimes given a recommendation based on the votes of users with high "loss rates", which alters the user's vote if they accept the recommendation. When all users have voted, the final group selection is displayed in popup.
 
-### JavaScript To-Dos
-
-- [X] Learn to pass variables through URLs (for populating the next html pages including the session table)
-- [X] Alter css property to inherently hide recommendation popup. Only display if:
+**API Preparation** - Logic added that will call the Yelp Fusion API to return a recommendation from Yelp to give users additional ideas for their voting. CORS not yet set up, so webpage currently returns a google.com link to good restaurants nearby.
 
 ## Web Service
 

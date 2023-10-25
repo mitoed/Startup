@@ -1,3 +1,7 @@
+### Run in console to deploy code:
+
+> ./deployFiles.sh -k ~/JavaScript/keys/prod.pem -h activityanarchy.click -s startup
+
 # Startup - Activity Anarchy
 
  For CS 260 - Web Programming
@@ -14,7 +18,7 @@ Below are the steps of this project and their descriptions:
 
 "Making simple decisions like "where to eat" or "what to watch" can be quite complicated...then you add 2, 5, 10 people to that decision and it can be impossible.
 
-"Introducing: Activity Anarchy! The next time you need to decide what movie to turn on, where to get food, what game to play, or generally pass a fun time with your friends and family, whip out this app to give your group ideas and to mediate a live, civilzed vote. Just login with your name and email, start or join a voting session, choose an option from our pre-added list, or add your own ideas! Plus, for those who like to try new things, you can get a recommendation based on the vote of a less-selected voter (those whose option isn't chosen very often). With Activity Anarchy, say "Good-bye" to wasting precious time (and sometimes to arguements) with loved ones. Join now for free!"
+"Introducing: Activity Anarchy! The next time you need to decide what movie to turn on, where to get food, what game to play, or generally pass a fun time with your friends and family, whip out this app to give your group ideas and to mediate a live, civilzed vote. Just login with your name and password, start or join a voting session, choose an option from our pre-added list, or add your own ideas! Plus, for those who like to try new things, you can get a recommendation from Google or based on the vote of a less-selected voter (those whose option isn't chosen very often). With Activity Anarchy, say "Good-bye" to wasting precious time (and sometimes to arguements) with loved ones. Join now for free!"
 
 ### Key Features
 

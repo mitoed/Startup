@@ -1,8 +1,8 @@
 Link to [README file](/README.md) for startup application
 
-Code to run in console:
+### Run in console to deploy code:
 
-./deployFiles.sh -k ~/JavaScript/keys/prod.pem -h activityanarchy.click -s startup
+> ./deployFiles.sh -k ~/JavaScript/keys/prod.pem -h activityanarchy.click -s startup
 
 ## CS 260 Notes (by topic)
 

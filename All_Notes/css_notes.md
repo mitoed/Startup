@@ -126,3 +126,34 @@ When elements are floating together, clear will prohibit a side, left or right, 
 
 Options are left (no floats to the left), right (no floats to the right), both (no floats on either side), or none (floats on any side).
 
+## Animation
+
+Add `animation-name` and `animation-duration` properties to element
+
+Define CSS keyframe using @keyframes [animation-name]
+1. starting position/styling: `from {}`
+1. middle styling: `50% {}`
+1. ending styling: `to {}`
+
+## Fonts
+
+You can access font-family files stored on your server using:
+```
+@font-face {
+  font-family: Quicksand;
+  src: url( 'https://cs260.click/fonts/quicksand.woff2' );
+}
+
+p {
+  font-family: Quicksand
+}
+```
+
+You can also import fonts hosted online (websites like fonts.googleapis.com). You access them using:
+```
+@import url( 'https://fonts.googlespis.com/...' )
+
+p {
+  font-family: [as given by website]
+}
+```

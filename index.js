@@ -30,19 +30,20 @@ app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
-const sdk = require('api')('@yelp-developers/v1.0#3f3jj1zflo6f1uzh');
 const key = process.env.YELP_API_KEY
 
-sdk.auth(`Bearer ${key}`);
-sdk.v3_business_search({
-  location: 'provo%20utah',
-  term: 'restaurant',
-  open_now: 'true',
-  sort_by: 'best_match',
-  limit: '10'
-})
-  .then(({ data }) => console.log(data))
-  .catch(err => console.error(err));
+const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${key}`
+    }
+  };
+  
+  fetch('https://api.yelp.com/v3/businesses/search?location=provo%20utah&term=restaurant&open_now=true&sort_by=best_match&limit=10', options)
+    .then(response => response.json())
+    .then(response => console.log(response))
+    .catch(err => console.error(err));
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

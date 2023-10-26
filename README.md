@@ -1,6 +1,6 @@
 ### Run in console to deploy code:
 
-> ./deployFiles.sh -k ~/JavaScript/keys/prod.pem -h activityanarchy.click -s startup
+> ./deployService.sh -k ~/JavaScript/keys/prod.pem -h activityanarchy.click -s startup
 
 # Startup - Activity Anarchy
 
@@ -47,19 +47,19 @@ Seperate data for votes finalized?
 
 ### Design Sketches
 
-![Sketch of Login page](/images/Design_login_page.jpg)
+![Sketch of Login page](/all_notes/design_images/Design_login_page.jpg)
 Home / login page
 
-![Sketch of Join/Create Session page](/images/Design_create_join_session_page.jpg)
+![Sketch of Join/Create Session page](/all_notes/design_images/Design_create_join_session_page.jpg)
 Users join an existing session or create a new one by category
 
-![Sketch of live voting page](/images/Design_live_voting_page.jpg)
+![Sketch of live voting page](/all_notes/design_images/Design_live_voting_page.jpg)
 Votes are seen live to the right of each option. Options are sorted by number of votes. User can search for and add new options at the top.
 
-![Sketch of recommendation popup upon clicking "Finalize Vote" on the live voting page](/images/Design_recommendation_popup.jpg)
+![Sketch of recommendation popup upon clicking "Finalize Vote" on the live voting page](/all_notes/design_images/Design_recommendation_popup.jpg)
 Once the user clicks on "Finalize Vote" (only ~35% of the time), they may receive a recommendation based on the vote of the one "least sessions_won".
 
-![Sketch of about page](/images/Design_about_page.jpg)
+![Sketch of about page](/all_notes/design_images/Design_about_page.jpg)
 About page
 
 ## HTML

@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+const yelp_api = require('yelp_api.js')
+
 // The service port. In production the frontend code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 

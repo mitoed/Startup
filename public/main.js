@@ -974,8 +974,3 @@ function endSession() {
         }
     }
 }
-
-async function loadYelpData() {
-
-    const response = await fetch('/api/yelpdata')
-}

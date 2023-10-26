@@ -45,7 +45,7 @@ const options = {
     }
 };
 
-await fetch('https://api.yelp.com/v3/businesses/search?location=provo%20utah&term=restaurant&open_now=true&sort_by=best_match&limit=10', options)
+fetch('https://api.yelp.com/v3/businesses/search?location=provo%20utah&term=restaurant&open_now=true&sort_by=best_match&limit=10', options)
     .then(response => response.json())
     .then(response => returnedData = response)
     .then(response => console.log(response))

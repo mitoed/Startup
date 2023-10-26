@@ -30,20 +30,22 @@ app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
-const key = process.env.YELP_API_KEY
+app.use((req, res) => {
+    const key = process.env.YELP_API_KEY
 
-const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: `Bearer ${key}`
-    }
-  };
-  
-  fetch('https://api.yelp.com/v3/businesses/search?location=provo%20utah&term=restaurant&open_now=true&sort_by=best_match&limit=10', options)
-    .then(response => response.json())
-    .then(response => console.log(response))
-    .catch(err => console.error(err));
+    const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${key}`
+        }
+      };
+      
+      fetch('https://api.yelp.com/v3/businesses/search?location=provo%20utah&term=restaurant&open_now=true&sort_by=best_match&limit=10', options)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
+})
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

@@ -44,7 +44,10 @@ app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
+app.get('/callapi', (req, res) => {
+    yelp_api()
+})
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
-  yelp_api()
 });

@@ -20,7 +20,7 @@ const apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
 // GetScores
-apiRouter.get('/yelpdata', (_req, res) => {
+app.use((_req, res) => {
     client.search({
         term: 'restaurant',
         location: 'provo, ut',

@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 
 const yelp_api = () => {
+    'use strict';
+    
     const yelp = require('yelp-fusion');
     const client = yelp.client(process.env.YELP_API_KEY);
 

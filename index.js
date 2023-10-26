@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express();
 
-const yelpAPI = require('./public/api/yelp_data.js')
-
 // The service port. In production the frontend code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -32,9 +30,19 @@ app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
-app.use((req, res) => {
-    yelpAPI()
+const yelp = require('yelp-fusion');
+const client = yelp.client(process.env.YELP_API_KEY);
+
+client.search({
+    term: 'Four Barrel Coffee',
+    location: 'san francisco, ca',
 })
+.then(response => {
+    console.log(response.jsonBody.businesses[0].name);
+})
+.catch(e => {
+    console.log(e);
+});
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

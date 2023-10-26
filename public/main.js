@@ -981,4 +981,3 @@ function loadYelpData() {
     console.log(response)
 }
 
-loadYelpData()

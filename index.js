@@ -30,19 +30,19 @@ app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
-const yelp = require('yelp-fusion');
-const client = yelp.client(process.env.YELP_API_KEY);
+const sdk = require('api')('@yelp-developers/v1.0#3f3jj1zflo6f1uzh');
+const key = process.env.YELP_API_KEY
 
-client.search({
-    term: 'Four Barrel Coffee',
-    location: 'san francisco, ca',
+sdk.auth(`Bearer ${key}`);
+sdk.v3_business_search({
+  location: 'provo%20utah',
+  term: 'restaurant',
+  open_now: 'true',
+  sort_by: 'best_match',
+  limit: '10'
 })
-.then(response => {
-    console.log(response.jsonBody.businesses[0].name);
-})
-.catch(e => {
-    console.log(e);
-});
+  .then(({ data }) => console.log(data))
+  .catch(err => console.error(err));
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

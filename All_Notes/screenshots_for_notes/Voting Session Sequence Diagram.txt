@@ -1,0 +1,24 @@
+title Activity Anarchy
+
+actor Alice
+actor Bob
+actor Matt
+
+Alice->Server:Enter voting session
+Bob->Server:Enter voting session
+Alice<<--Server:1 more active users
+Matt->Server: Enter voting session
+Bob<<--Server:1 more active user
+Alice<<--Server:1 more active users
+Alice->Server:Vote for McDonald's
+Matt<<--Server:McDonald's has 1 vote
+Bob<<--Server:McDonald's has 1 vote
+Bob->Server:Vote for Wendy's
+Matt<<--Server:Wendy's has 1 vote
+Alice<<--Server:Wendy's has 1 vote
+Matt->Server:Vote for McDonald's
+Bob<<--Server:McDonald's has 2 votes
+Alice<<--Server:McDonald's has 2 votes
+Server->Matt:McDonald's wins
+Server->Bob:McDonald's wins
+Server->Alice:McDonald's wins

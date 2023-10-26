@@ -23,6 +23,22 @@ TCP/IP Layers:
 | Internet | IP | Establishing connections |
 | Link | Fiber, hardware | Physical connections |
 
+## Common Ports
+
+| Port | Protocol                                             |
+|------|-----------------------------------------------------|
+| 20   | File Transfer Protocol (FTP) for data transfer      |
+| 22   | Secure Shell (SSH) for connecting to remote devices |
+| 25   | Simple Mail Transfer Protocol (SMTP) for sending email |
+| 53   | Domain Name System (DNS) for looking up IP addresses |
+| 80   | Hypertext Transfer Protocol (HTTP) for web requests  |
+| 110  | Post Office Protocol (POP3) for retrieving email     |
+| 123  | Network Time Protocol (NTP) for managing time       |
+| 161  | Simple Network Management Protocol (SNMP) for managing network devices such as routers or printers |
+| 194  | Internet Relay Chat (IRC) for chatting              |
+| 443  | HTTP Secure (HTTPS) for secure web requests         |
+
+
 # Setting up webpage
 
 For this class, we used an AMI (Amazon Machine Image) which is the base for our server. It came installed with Ubuntu, Node.js, NVM, Caddy Server, and PM2 (see AMI below).

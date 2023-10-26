@@ -1,7 +1,19 @@
 const express = require('express');
 const app = express();
 
-const yelp_api = require('yelp_api.js')
+const yelp_api = () => {
+    const yelp = require('yelp-fusion');
+    const client = yelp.client(process.env.YELP_API_KEY);
+
+    client.search({
+    term: 'Four Barrel Coffee',
+    location: 'san francisco, ca',
+    }).then(response => {
+    console.log(response.jsonBody.businesses[0].name);
+    }).catch(e => {
+    console.log(e);
+    });
+}
 
 // The service port. In production the frontend code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;

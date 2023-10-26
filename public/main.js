@@ -975,9 +975,9 @@ function endSession() {
     }
 }
 
-async function loadYelpData() {
+function loadYelpData() {
 
-    const response = await fetch('/api/yelpdata')
+    const response = fetch('/api/yelpdata')
     console.log(response)
 }
 

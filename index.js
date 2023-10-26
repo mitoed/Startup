@@ -16,7 +16,20 @@ app.use(`/api`, apiRouter);
 
 // GetScores
 apiRouter.get('/yelpdata', (_req, res) => {
-  console.log(returnedData)
+    const key = process.env.YELP_API_KEY
+    
+    const options = {
+        method: 'GET',
+        headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${key}`
+        }
+    };
+    
+    fetch('https://api.yelp.com/v3/businesses/search?location=provo%20utah&term=restaurant&open_now=true&sort_by=best_match&limit=10', options)
+        .then(response => response.json())
+        .then(response => returnedData = response)
+        .then(response => console.log(response))
 });
 
 // SubmitScore
@@ -33,19 +46,3 @@ app.use((_req, res) => {
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
-
-let returnedData
-const key = process.env.YELP_API_KEY
-
-const options = {
-    method: 'GET',
-    headers: {
-    accept: 'application/json',
-    Authorization: `Bearer ${key}`
-    }
-};
-
-fetch('https://api.yelp.com/v3/businesses/search?location=provo%20utah&term=restaurant&open_now=true&sort_by=best_match&limit=10', options)
-    .then(response => response.json())
-    .then(response => returnedData = response)
-    .then(response => console.log(response))

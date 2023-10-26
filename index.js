@@ -1,6 +1,11 @@
 const express = require('express');
 const app = express();
 
+const apiKey = process.env.YELP_API_KEY
+
+const yelp = require('yelp-fusion');
+const client = yelp.client(apiKey);
+
 // The service port. In production the frontend code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -16,26 +21,14 @@ app.use(`/api`, apiRouter);
 
 // GetScores
 apiRouter.get('/yelpdata', (_req, res) => {
-    const key = process.env.YELP_API_KEY
-    
-    const options = {
-        method: 'GET',
-        headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${key}`
-        }
-    };
-    
-    fetch('https://api.yelp.com/v3/businesses/search?location=provo%20utah&term=restaurant&open_now=true&sort_by=best_match&limit=10', options)
-        .then(response => response.json())
-        .then(response => returnedData = response)
-        .then(response => console.log(response))
-});
-
-// SubmitScore
-apiRouter.post('/score', (req, res) => {
-  scores = updateScores(req.body, scores);
-  res.send(scores);
+    client.search({
+        term: 'restaurant',
+        location: 'provo, ut',
+      }).then(response => {
+        console.log(response.jsonBody.businesses[0].name);
+      }).catch(e => {
+        console.log(e);
+      });
 });
 
 // Return the application's default page if the path is unknown

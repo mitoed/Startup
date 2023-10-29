@@ -266,7 +266,7 @@ switch (true) {
     case window.location.href.includes('voting_session.html'):
         infoToPage()
         infoToMenu()
-        runYelpAPI()
+        //runYelpAPI()
         loadVotingSessionPage()
         castVoteButton()
         break

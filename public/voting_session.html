@@ -87,7 +87,7 @@
                     href="https://github.com/mitoed/Startup.git">GitHub
                     Repository</a></p>
         </footer>
-        <script>
+        <!--<script>
             fetch('/get-yelp-data')
                 //.then(response => response.json())
                 .then(data => console.log(data))
@@ -98,6 +98,11 @@
                 .catch(error => {
                     console.error('Failed to fetch and store Yelp data:', error);
                 });
-          </script>
+          </script>-->
+        <script>
+            fetch('/test1')
+            .then(() => console.log('HTML - success'))
+            .catch(() => console.log('HTML - failure'))
+        </script>
     </body>
 </html>

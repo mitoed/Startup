@@ -15,6 +15,11 @@ app.use(express.json());
 // Use CORS
 app.use(cors())
 
+// test
+app.get('/test1', (req, res) => {
+    console.log('node.js - success')
+})
+
 // Node.js search example function
 const sdk = require('api')('@yelp-developers/v1.0#420s3alobgub91');
 

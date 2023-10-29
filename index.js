@@ -1,12 +1,12 @@
 const express = require('express');
 const app = express();
-const cors = require('cors')
 require('dotenv').config();
+const cors = require('cors')
 const yelp = require('yelp-fusion');
-//const axios = require('axios')
+const axios = require('axios')
 const apiKey = process.env.YELP_API_KEY
 console.log(apiKey)
-//const portYelp = 4000;
+const portYelp = 6000;
 
 // The service port. In production the frontend code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -14,8 +14,8 @@ const port = process.argv.length > 2 ? process.argv[2] : 4000;
 // JSON body parsing using built-in middleware
 app.use(express.json());
 
-// Setup server using CORS
-app.use(cors());
+// Use CORS
+app.use(cors())
 
 // Serve up the frontend static content hosting
 app.use(express.static('public'));
@@ -26,7 +26,7 @@ app.use(`/api`, apiRouter);
 
 const client = yelp.client(apiKey);
 
-/*function callGetYelpData() {
+function callGetYelpData() {
   return axios.get(`http://localhost:${portYelp}/get-yelp-data`)
 }
 
@@ -41,11 +41,10 @@ app.get('/', (req, res) => {
     .catch(error => {
       res.status(500).send('Failed to fetch Yelp data')
     })
-})*/
+})
 
 // get yelp api data
 app.get('/get-yelp-data', (req, res) => {
-  console.log('app.get entered. client.search about to begin.')
   client.search({
     term: 'restaurant',
     location: 'provo, ut',
@@ -53,9 +52,7 @@ app.get('/get-yelp-data', (req, res) => {
     sort_by: 'best_match',
   })
   .then(response => {
-    console.log('client.search successful. trying to pull out a business name')
     const businessName = response.jsonBody.businesses[0].name;
-    console.log('business name pulled out. trying to convert to json to return')
     res.json({name: businessName})
   })
   .catch(error => {

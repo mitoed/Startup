@@ -24,7 +24,7 @@ app.get('/test1', (req, res) => {
 const sdk = require('api')('@yelp-developers/v1.0#420s3alobgub91');
 
 // Route for fetching Yelp data and returning it as JSON
-app.use(async (req, res) => {
+app.use(async (req, res, next) => {
     sdk.auth(`Bearer ${apiKey}`);
     sdk.v3_business_search({
         location: 'provo%2C%20ut',
@@ -35,6 +35,7 @@ app.use(async (req, res) => {
     })
     .then(({ data }) => console.log(data))
     .catch(err => console.error(err));
+    next()
 });
 
 // Serve up the frontend static content hosting

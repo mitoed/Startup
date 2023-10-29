@@ -5,7 +5,7 @@ const yelp = require('yelp-fusion');
 const axios = require('axios')
 const apiKey = process.env.YELP_API_KEY
 console.log(apiKey)
-const portYelp = 6000;
+const portYelp = 4000;
 
 // The service port. In production the frontend code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;

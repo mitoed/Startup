@@ -21,7 +21,6 @@ const client = yelp.client(apiKey)
 app.get('/get-yelp-data', async (req, res) => {
     // Yelp Search Example Function
     const options = {
-        method: 'GET',
         headers: {
           accept: 'application/json',
           Authorization: `Bearer ${apiKey}`

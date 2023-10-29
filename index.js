@@ -18,20 +18,20 @@ const client = yelp.client(apiKey)
 
 // Route for fetching Yelp data and returning it as JSON
 app.get('/get-yelp-data', async (req, res) => {
-  try {
-    // Fetch data from Yelp Fusion API
-    const response = await client.search({
-      term: 'Four Barrel Coffee',
-      location: 'san francisco, ca',
-    });
+    try {
+        // Fetch data from Yelp Fusion API
+        const response = await client.search({
+            term: 'Four Barrel Coffee',
+            location: 'san francisco, ca',
+        });
 
-    // Extract the name of the first business
-    const businessName = response.jsonBody.businesses[0].name;
+        // Extract the name of the first business
+        const businessName = response.jsonBody.businesses[0].name;
 
-    res.json({ name: businessName });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch Yelp data' });
-  }
+        res.json({ name: businessName });
+    } catch (error) {
+        res.status(300).json({ error: 'Failed to fetch Yelp data' });
+    }
 });
 
 // Serve up the frontend static content hosting
@@ -39,9 +39,9 @@ app.use(express.static('public'));
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
-  res.sendFile('index.html', { root: 'public' });
+    res.sendFile('index.html', { root: 'public' });
 });
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+    console.log(`Listening on port ${port}`);
 });

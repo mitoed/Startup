@@ -61,7 +61,6 @@ app.get('/get-yelp-data', (req, res) => {
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
-  callGetYelpData()
   res.sendFile('index.html', { root: 'public' });
 });
 

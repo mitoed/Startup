@@ -2,6 +2,8 @@
 // GLOBAL VARIABLES
 // =============================================================================
 
+const { url } = require("inspector")
+
 const DB_USERS = []
 const DB_SESSIONS = []
 const foodIDLetters = 'BCDFGHJ'
@@ -266,6 +268,7 @@ switch (true) {
     case window.location.href.includes('voting_session.html'):
         infoToPage()
         infoToMenu()
+        runYelpAPI()
         loadVotingSessionPage()
         castVoteButton()
         break
@@ -577,6 +580,14 @@ function randomSessionID(sessionCategory) {
 // =============================================================================
 // VOTING SESSION PAGE BUTTON INITIALIZATING FUNCTIONS
 // =============================================================================
+
+async function runYelpAPI() {
+    const response = await fetch('/get-yelp-data')
+    const data = await response.json()
+    console.log(data)
+    localStorage.setItem('yelpName', data.name)
+    localStorage.setItem('yelpURL', data.url)
+}
 
 /**
  * Using the session id:

@@ -41,6 +41,7 @@ app.get('/', (req, res) => {
 
 // get yelp api data
 app.get('/get-yelp-data', (req, res) => {
+  console.log('app.get entered. client.search about to begin.')
   client.search({
     term: 'restaurant',
     location: 'provo, ut',
@@ -48,7 +49,9 @@ app.get('/get-yelp-data', (req, res) => {
     sort_by: 'best_match',
   })
   .then(response => {
+    console.log('client.search successful. trying to pull out a business name')
     const businessName = response.jsonBody.businesses[0].name;
+    console.log('business name pulled out. trying to convert to json to return')
     res.json({name: businessName})
   })
   .catch(error => {

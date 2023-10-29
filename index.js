@@ -1,10 +1,9 @@
 const express = require('express');
 const app = express();
-
-const apiKey = process.env.YELP_API_KEY
-
 const yelp = require('yelp-fusion');
-const client = yelp.client(apiKey);
+const axios = require('axios')
+const apiKey = process.env.YELP_API_KEY
+const portYelp = 6000;
 
 // The service port. In production the frontend code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -19,17 +18,40 @@ app.use(express.static('public'));
 const apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
-// GetScores
-app.use((_req, res) => {
-    client.search({
-        term: 'restaurant',
-        location: 'provo, ut',
-      }).then(response => {
-        console.log(response.jsonBody.businesses[0].name);
-      }).catch(e => {
-        console.log(e);
-      });
-});
+const client = yelp.client(apiKey);
+
+function callGetYelpData() {
+  return axios.get(`'http://localhost:${portYelp}/get-yelp-data'`)
+}
+
+app.get('/', (req, res) => {
+  callGetYelpData()
+    .then(response => {
+      const yelpData = response.yelpData
+      console.log('Yelp Data:', yelpData)
+      res.send(`Yelp Data: ${JSON.stringify(yelpData)}`)
+    })
+    .catch(error => {
+      res.status(500).send('Failed to fetch Yelp data')
+    })
+})
+
+// get yelp api data
+app.get('/get-yelp-data', (req, res) => {
+  client.search({
+    term: 'restaurant',
+    location: 'provo, ut',
+    open_now: 'true',
+    sort_by: 'best_match',
+  })
+  .then(response => {
+    const businessName = response.jsonBody.businessName[0].name;
+    res.json({name: businessName})
+  })
+  .catch(error => {
+    res.status(500).json({error: 'Failed to fetch Yelp data'})
+  })
+})
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {

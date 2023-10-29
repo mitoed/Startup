@@ -4,6 +4,7 @@
   "description": "> ./deployFiles.sh -k ~/JavaScript/keys/prod.pem -h activityanarchy.click -s startup",
   "main": "main.js",
   "dependencies": {
+    "api": "^6.1.1",
     "axios": "^1.6.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

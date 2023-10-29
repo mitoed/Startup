@@ -22,6 +22,8 @@ app.get('/get-yelp-data', async (req, res) => {
     res.json(yelpData)
 })
 
+console.log(window.location.origin)
+
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });

@@ -28,7 +28,7 @@ app.get('/get-yelp-data', async (req, res) => {
       };
       
       fetch('https://api.yelp.com/v3/businesses/search?location=provo%2C%20ut&term=restaurant&open_now=true&sort_by=best_match&limit=10', options)
-        .then(response => response.json())
+        //.then(response => response.json())
         .then(response => console.log(response))
         .catch(err => console.error(err));
 

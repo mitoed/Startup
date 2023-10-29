@@ -18,7 +18,22 @@ const client = yelp.client(apiKey)
 
 // Route for fetching Yelp data and returning it as JSON
 app.get('/get-yelp-data', async (req, res) => {
-    try {
+    // Yelp Search Example Function
+    const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${apiKey}`
+        }
+      };
+      
+      fetch('https://api.yelp.com/v3/businesses/search?location=provo%2C%20ut&term=restaurant&open_now=true&sort_by=best_match&limit=10', options)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
+
+    // GitHub function
+    /*try {
         // Fetch data from Yelp Fusion API
         const response = await client.search({
             term: 'Four Barrel Coffee',
@@ -33,7 +48,7 @@ app.get('/get-yelp-data', async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({ error: 'Failed to fetch Yelp data' });
-    }
+    }*/
 });
 
 // Serve up the frontend static content hosting

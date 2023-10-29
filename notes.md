@@ -28,9 +28,11 @@ Link to [README file](/README.md) for startup application
 
 All Midterm 1 Notes:
 
-# The Internet
+# Web Server
 
-## Tracking Connections (done in console)
+## The Internet
+
+### Tracking Connections (done in console)
 
 What is the domain's IP address?
 > dig [domain]
@@ -38,7 +40,7 @@ What is the domain's IP address?
 What is the internet path that leads from my computer to domain's IP address?
 > tracert [domain]
 
-## Network Internals
+### Network Internals
 
 TCP/IP Layers:
 
@@ -49,7 +51,7 @@ TCP/IP Layers:
 | Internet | IP | Establishing connections |
 | Link | Fiber, hardware | Physical connections |
 
-## Common Ports
+### Common Ports
 
 | Port | Protocol                                             |
 |------|-----------------------------------------------------|
@@ -65,7 +67,7 @@ TCP/IP Layers:
 | 443  | HTTP Secure (HTTPS) for secure web requests         |
 
 
-# Setting up webpage
+### Setting up webpage
 
 For this class, we used an AMI (Amazon Machine Image) which is the base for our server. It came installed with Ubuntu, Node.js, NVM, Caddy Server, and PM2 (see AMI below).
 
@@ -73,7 +75,7 @@ We created an elastic IP address, which will allow me to continue to use the IP 
 
 We then allowed for SSH, HTTP, and HTTPS traffic for the website.
 
-### Startup Web Address information
+#### Startup Web Address information
 
 Elastic IP Address (click to go to page)
 > [3.209.236.159](http://3.209.236.159)
@@ -84,16 +86,16 @@ PEM file location:
 CS 260 class AMI (Community AMI)
 > ami-0b009f6c56cdd83ed
 
-# Domain Names
+## Domain Names
 
-## Basic Structure (with example)
+### Basic Structure (with example)
 
 | Part of Domain Name | Subdomain | Secondary | Top |
 | ------------- | -- | -- | -- |
 | Entire Domain | react.simon | cs260 | .click |
 | Root | | cs260 | .click |
 
-## Domain Name System (DNS)
+### Domain Name System (DNS)
 
 We used Route 53, the AWS service that handles everything DNS-related. From there, I bought my domain name ('activityanarchy.click') and created DNS records on their DNS server. Here are two types of DNS records (I just did the first one):
 
@@ -107,73 +109,39 @@ Here are a list of console commands to see the actual DNS records as hosted by A
 
 `whois domain.com` console to get all registration information about domain name from registry
 
-# Console Commands
+## Console Commands
 
 Basic Console Commands:
 
-`echo` - Output the parameters of the command
-
-`cd` - Change directory
-
-`mkdir` - Make directory
-
-`rmdir` - Remove directory
-
-`rm` - Remove file(s)
-
-`mv` - Move file(s)
-
-`cp` - Copy files
-
-`ls` - List files
-
-`curl` - Command line client URL browser
-
-`grep` - Regular expression search
-
-`find` - Find files
-
-`top` - View running processes with CPU and memory 
-usage
-
-`df` - View disk statistics
-
-`cat` - Output the contents of a file
-
-`less` - Interactively output the contents of a file
-
-`wc` - Count the words in a file
-
-`ps` - View the currently running processes
-
-`kill` - Kill a currently running process
-
-`sudo` - Execute a command as a super user (admin)
-
-`ssh` - Create a secure shell on a remote computer
-
-`scp` - Securely copy files to a remote computer
-
-`history` - Show the history of commands
-
-`ping` - Check if a website is up
-
-`tracert` - Trace the connections to a website
-
-`dig` - Show the DNS information for a domain
-
-`man` - Look up a command in the manual
+| Command   | Meaning                                   | Command   | Meaning                              |
+|-----------|-------------------------------------------|-----------|--------------------------------------|
+| echo      | Output the parameters of the command     | cd        | Change directory                     |
+| mkdir     | Make directory                           | rmdir     | Remove directory                     |
+| rm        | Remove file(s)                           | mv        | Move or rename file(s)               |
+| cp        | Copy files                               | ls        | List files (add -la) to show hidden files  |
+| curl      | Command line client URL browser          | grep      | Regular expression search            |
+| find      | Find files                               | top       | View running processes with CPU and memory usage  |
+| df        | View disk statistics                     | cat       | Output the contents of a file        |
+| less      | Interactively output the contents of a file      | wc        | Count the words in a file    |
+| ps        | View the currently running processes      | kill     | Kill a currently running process     |
+| sudo      | Execute a command as a super user (admin)       | ssh      | Create a secure shell on a remote computer         |
+| scp       | Securely copy files to a remote computer   | history  | Show the history of commands        |
+| ping      | Check if a website is up                  | tracert  | Trace the connections to a website   |
+| dig       | Show the DNS information for a domain    | man      | Look up a command in the manual       |
+| chmod     | Change permissions of files and directories | pwd | Return the Present Working Directory    |
+| vim       | Edit a file in the VIM editor            | nano      | Edit a file in the NANO editor       |
+| wget      | Download a file(s) from the internet     |
 
 Remote shell into server command:
 > ssh -i /keys/Startup-Production.pem ubuntu@3.209.236.159
 
-# Caddy
+## Caddy
 
-## What is Caddy?
+### What is Caddy?
 
 Caddy is a Web Service that handles incoming HTTP requests by then sending requested static files or routes the request to another webservice. Think of it as a mail center that routes letters and packages to the correct mail truck.
 
-## Why use Caddy?
+### Why use Caddy?
 
 - Caddy handles all of the creation and rotation of web certificates. This allows us to easily support HTTPS.
 
@@ -181,7 +149,7 @@ Caddy is a Web Service that handles incoming HTTP requests by then sending reque
 
 - Caddy acts as a gateway for subdomain requests to your Simon and startup application services. For example, when a request is made to simon.yourdomain Caddy will proxy the request to the Simon application running with node.js as an internal web service.
 
-## Important Caddy Files
+### Important Caddy Files
 
 - Configuration File, which defines the operations for dealing with requests.
 
@@ -191,7 +159,7 @@ Caddy is a Web Service that handles incoming HTTP requests by then sending reque
 
 > ~/public_html
 
-# HTTPS, TLS, and Web Certificates
+## HTTPS, TLS, and Web Certificates
 
 HTTPS: protected way to transfer documents without user information
 
@@ -331,6 +299,7 @@ Default page loaded for webpage: `index.html`
 | title     | Title of the page                                |
 | meta      | Metadata for the page such as character set or viewport settings |
 | script    | JavaScript reference. Either an external reference, or inline |
+| link      | Connect file to external resources such as CSS files
 | include   | External content reference                       |
 | body      | The entire content body of the page              |
 | header    | Header of the main content                       |

@@ -581,7 +581,8 @@ function randomSessionID(sessionCategory) {
 
 async function runYelpAPI() {
     console.log('trying runYelpAPI')
-    const response = await fetch('/get-yelp-data')
+    const serverOrigin = window.location.origin
+    const response = await fetch(`${serverOrigin}/get-yelp-data`)
     const data = await response.json()
     console.log(data)
     localStorage.setItem('yelpName', data.name)

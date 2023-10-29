@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const cors = require('cors')
+const fetch = require('node-fetch')
 const yelp = require('yelp-fusion')
 const apiKey = process.env.YELP_API_KEY
 

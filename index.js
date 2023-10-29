@@ -23,15 +23,16 @@ app.use(`/api`, apiRouter);
 const client = yelp.client(apiKey);
 
 function callGetYelpData() {
-  return axios.get(`'http://localhost:${portYelp}/get-yelp-data'`)
+  return axios.get(`http://localhost:${portYelp}/get-yelp-data`)
 }
 
 app.get('/', (req, res) => {
+  console.log('get "/" successful')
   callGetYelpData()
     .then(response => {
-      const yelpData = response.yelpData
-      console.log('Yelp Data:', yelpData)
-      res.send(`Yelp Data: ${JSON.stringify(yelpData)}`)
+      const yelpData = response.data
+      console.log('Yelp Data:', data)
+      res.send(`Yelp Data: ${JSON.stringify(data)}`)
     })
     .catch(error => {
       res.status(500).send('Failed to fetch Yelp data')
@@ -47,7 +48,7 @@ app.get('/get-yelp-data', (req, res) => {
     sort_by: 'best_match',
   })
   .then(response => {
-    const businessName = response.jsonBody.businessName[0].name;
+    const businessName = response.jsonBody.businesses[0].name;
     res.json({name: businessName})
   })
   .catch(error => {

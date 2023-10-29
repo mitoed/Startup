@@ -88,18 +88,15 @@
                     Repository</a></p>
         </footer>
         <script>
-            const options = {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: 'Bearer kixlJu-PJEkYKBe0culZC8MeLZ-50FO2WK257jBAnCut8lJgcOSuF86UjscMRxaOUiNvSX9oaVSEiBmG7fGGWTPBZCrl6OkWi7BhpIrYtM1SSjlF0bjZXukEtr4nZXYx'
-            }
-            };
-
-            fetch('https://api.yelp.com/v3/businesses/search?location=provo%2C%20ut&term=restaurant&open_now=true&sort_by=best_match&limit=10', options)
-            .then(response => response.json())
-            .then(response => console.log(response))
-            .catch(err => console.error(err));
+            fetch('/get-yelp-data')
+                .then(response => response.json())
+                .then(data => {
+                    // Store the business name in localStorage
+                    localStorage.setItem('yelpBusinessName', data.name);
+                })
+                .catch(error => {
+                    console.error('Failed to fetch and store Yelp data:', error);
+                });
           </script>
     </body>
 </html>

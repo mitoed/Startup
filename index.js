@@ -2,10 +2,8 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const cors = require('cors')
-const yelp = require('yelp-fusion');
-const axios = require('axios')
+const yelp = require('yelp-fusion')
 const apiKey = process.env.YELP_API_KEY
-console.log(apiKey)
 
 // The service port. In production the frontend code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -16,48 +14,28 @@ app.use(express.json());
 // Use CORS
 app.use(cors())
 
+const client = yelp.client(apiKey)
+
+// Route for fetching Yelp data and returning it as JSON
+app.get('/get-yelp-data', async (req, res) => {
+  try {
+    // Fetch data from Yelp Fusion API
+    const response = await client.search({
+      term: 'Four Barrel Coffee',
+      location: 'san francisco, ca',
+    });
+
+    // Extract the name of the first business
+    const businessName = response.jsonBody.businesses[0].name;
+
+    res.json({ name: businessName });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch Yelp data' });
+  }
+});
+
 // Serve up the frontend static content hosting
 app.use(express.static('public'));
-
-// Router for service endpoints
-const apiRouter = express.Router();
-app.use(`/api`, apiRouter);
-
-const client = yelp.client(apiKey);
-
-function callGetYelpData() {
-  return axios.get(`http://localhost:${port}/get-yelp-data`)
-}
-
-app.get('/', (req, res) => {
-  console.log('get "/" successful')
-  callGetYelpData()
-    .then(response => {
-      const yelpData = response.data
-      console.log('Yelp Data:', data)
-      res.send(`Yelp Data: ${JSON.stringify(data)}`)
-    })
-    .catch(error => {
-      res.status(500).send('Failed to fetch Yelp data')
-    })
-})
-
-// get yelp api data
-app.get('/get-yelp-data', (req, res) => {
-  client.search({
-    term: 'restaurant',
-    location: 'provo, ut',
-    open_now: 'true',
-    sort_by: 'best_match',
-  })
-  .then(response => {
-    const businessName = response.jsonBody.businesses[0].name;
-    res.json({name: businessName})
-  })
-  .catch(error => {
-    res.status(500).json({error: 'Failed to fetch Yelp data'})
-  })
-})
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {

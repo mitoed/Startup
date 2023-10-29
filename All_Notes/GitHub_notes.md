@@ -1,5 +1,7 @@
 ### Link to [all notes](/notes.md).
 
+# GitHub
+
 ## Using Github
 Github houses repositories in the cloud that can be accessed or updated from code editors (like Visual Studio Code) or consoles (like Git Bash or Command Line). Such interactions include:
 - **cloning**: creating a copy of the repository which is linked to the original housed in Github

@@ -22,7 +22,7 @@ app.use(`/api`, apiRouter);
 
 const client = yelp.client(apiKey);
 
-function callGetYelpData() {
+/*function callGetYelpData() {
   return axios.get(`http://localhost:${portYelp}/get-yelp-data`)
 }
 
@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
     .catch(error => {
       res.status(500).send('Failed to fetch Yelp data')
     })
-})
+})*/
 
 // get yelp api data
 app.get('/get-yelp-data', (req, res) => {
@@ -58,6 +58,7 @@ app.get('/get-yelp-data', (req, res) => {
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
+  callGetYelpData()
   res.sendFile('index.html', { root: 'public' });
 });
 

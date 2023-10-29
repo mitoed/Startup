@@ -87,5 +87,16 @@
                     href="https://github.com/mitoed/Startup.git">GitHub
                     Repository</a></p>
         </footer>
+        <script>
+            fetch('/get-yelp-data')
+              .then(response => response.json())
+              .then(data => {
+                console.log('Yelp Data:', data);
+                // Use the data as needed on your webpage
+              })
+              .catch(error => {
+                console.error('Failed to fetch Yelp data:', error);
+              });
+          </script>
     </body>
 </html>

@@ -39,6 +39,8 @@ async function setupServer() {
   }
 }
 
+setupServer()
+
 const yelpAPI = process.env.YELP_API_KEY
 const location = 'provo%2C%20ut'
 const term = 'restaurant'

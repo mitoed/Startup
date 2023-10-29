@@ -30,7 +30,8 @@ app.get('/get-yelp-data', async (req, res) => {
 
         res.json({ name: businessName });
     } catch (error) {
-        res.status(300).json({ error: 'Failed to fetch Yelp data' });
+        console.log(error)
+        res.status(500).json({ error: 'Failed to fetch Yelp data' });
     }
 });
 

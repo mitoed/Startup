@@ -2,8 +2,6 @@
 // GLOBAL VARIABLES
 // =============================================================================
 
-const { url } = require("inspector")
-
 const DB_USERS = []
 const DB_SESSIONS = []
 const foodIDLetters = 'BCDFGHJ'

@@ -18,6 +18,7 @@ const client = yelp.client(apiKey)
 
 // Route for fetching Yelp data and returning it as JSON
 app.get('/get-yelp-data', async (req, res) => {
+    console.log('trying to fetch data')
     try {
         // Fetch data from Yelp Fusion API
         const response = await client.search({

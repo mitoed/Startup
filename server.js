@@ -19,10 +19,14 @@ async function setupServer() {
   try {
     // Listen for yelp api call from main.js
     app.get('/get-yelp-data', async (req, res) => {
-      console.log('trying /get-yelp-data')
-      const yelpData = await getYelpData()
-      console.log('/get-yelp-data successful')
-      res.json(yelpData)
+      try {
+        console.log('trying /get-yelp-data')
+        const yelpData = await getYelpData()
+        console.log('/get-yelp-data successful')
+        res.json(yelpData)
+      } catch (error) {
+        console.error('/get-yelp-data unsuccessful:', error)
+      }
     })
 
     // Return the application's default page if the path is unknown
@@ -49,28 +53,32 @@ const sort_by = 'best_match'
 const limit = '10'
 
 async function getYelpData() {
-  console.log('trying getYelpData')
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: `Bearer ${yelpAPI}`
-    }
-  };
+  try {
+    console.log('trying getYelpData')
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${yelpAPI}`
+      }
+    };
+    
+    let data
+    console.log('trying API fetch')
+    await fetch(`https://api.yelp.com/v3/businesses/search?location=${location}&term=${term}&open_now=${open_now}&sort_by=${sort_by}&limit=${limit}`, options)
+      .then(response => response.json())
+      .then(response => data = response)
+      .catch(err => console.error(err));
   
-  let data
-  console.log('trying API fetch')
-  await fetch(`https://api.yelp.com/v3/businesses/search?location=${location}&term=${term}&open_now=${open_now}&sort_by=${sort_by}&limit=${limit}`, options)
-    .then(response => response.json())
-    .then(response => data = response)
-    .catch(err => console.error(err));
-
-  console.log('APT fetch successful')
-  const yelpData = restaurantData(data.businesses)
-  
-  console.log('YELPDATA', yelpData)
-  console.log('getYelpData successful')
-  return yelpData
+    console.log('APT fetch successful')
+    const yelpData = restaurantData(data.businesses)
+    
+    console.log('YELPDATA', yelpData)
+    console.log('getYelpData successful')
+    return yelpData
+  } catch (error) {
+    console.error('getYelpData unsuccessful:',error)
+  }
 }
 
 function restaurantData(yelpData) {

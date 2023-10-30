@@ -581,12 +581,16 @@ function randomSessionID(sessionCategory) {
 
 async function runYelpAPI() {
     console.log('trying runYelpAPI')
-    const response = await fetch('/get-yelp-data')
-    const data = await response.json()
-    console.log(data)
-    localStorage.setItem('yelpName', data.name)
-    localStorage.setItem('yelpURL', data.url)
-    console.log('runYelpAPI successful')
+    try {
+        const response = await fetch('/get-yelp-data')
+        const data = await response.json()
+        console.log(data)
+        localStorage.setItem('yelpName', data.name)
+        localStorage.setItem('yelpURL', data.url)
+        console.log('runYelpAPI successful')
+    } catch (error) {
+        console.error('Error has occurred:', error)
+    }
 }
 
 /**

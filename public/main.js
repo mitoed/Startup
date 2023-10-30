@@ -582,13 +582,26 @@ function randomSessionID(sessionCategory) {
 async function runYelpAPI() {
     console.log('trying runYelpAPI')
     try {
+        
+        // Make the fetch request
         const response = await fetch('/get-yelp-data')
         console.log('RESPONSE:',response)
+
+        // Check if the ersponse status is OK (status code 200)
+        if (!response.ok) {
+            console.error('Request failed with status:',response.status)
+            return
+        }
+
+        // Extract the JSON data from the response
         const data = await response.json()
         console.log('DATA:',data)
+
+        // Store the JSON data in Local Storage
         localStorage.setItem('yelpName', data.name)
         localStorage.setItem('yelpURL', data.url)
         console.log('runYelpAPI successful')
+        
     } catch (error) {
         console.error('Error has occurred:', error)
     }

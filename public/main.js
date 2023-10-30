@@ -594,14 +594,20 @@ async function runYelpAPI() {
         }
 
         // Extract the JSON data from the response
-        const data = await response.json()
+        const { data, error } = await response.json()
+
+        if (error) {
+            console.error('Server error:', error)
+            return
+        }
+
         console.log('DATA:',data)
 
         // Store the JSON data in Local Storage
         localStorage.setItem('yelpName', data.name)
         localStorage.setItem('yelpURL', data.url)
         console.log('runYelpAPI successful')
-        
+
     } catch (error) {
         console.error('Error has occurred:', error)
     }

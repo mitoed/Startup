@@ -583,8 +583,9 @@ async function runYelpAPI() {
     console.log('trying runYelpAPI')
     try {
         const response = await fetch('/get-yelp-data')
+        console.log('RESPONSE:',response)
         const data = await response.json()
-        console.log(data)
+        console.log('DATA:',data)
         localStorage.setItem('yelpName', data.name)
         localStorage.setItem('yelpURL', data.url)
         console.log('runYelpAPI successful')

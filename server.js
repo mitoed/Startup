@@ -65,19 +65,23 @@ async function getYelpData() {
     
     let data
     console.log('trying API fetch')
-    await fetch(`https://api.yelp.com/v3/businesses/search?location=${location}&term=${term}&open_now=${open_now}&sort_by=${sort_by}&limit=${limit}`, options)
-      .then(response => response.json())
-      .then(response => data = response)
-      .catch(err => console.error(err));
-  
-    console.log('APT fetch successful')
+    const response = await fetch(`https://api.yelp.com/v3/businesses/search?location=${location}&term=${term}&open_now=${open_now}&sort_by=${sort_by}&limit=${limit}`, options)
+    if (!response.ok) {
+      // Handle HTTP error status
+      console.error('HTTP error:', response.status);
+      return { data: null, error: `HTTP error: ${response.status}` };
+    }
+    
+    data = await response.json();
+    console.log('API fetch successful');
     const yelpData = restaurantData(data.businesses)
     
     console.log('YELPDATA', yelpData)
     console.log('getYelpData successful')
-    return yelpData
+    return {data: yelpData, error: null}
   } catch (error) {
     console.error('getYelpData unsuccessful:',error)
+    return {data: null, error: 'An error has occured while fetching data: '+error}
   }
 }
 

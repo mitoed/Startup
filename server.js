@@ -6,7 +6,8 @@ const cors = require('cors')
 // Setup cors
 app.use(cors({
   origin: '*',
-  methods: 'GET'
+  methods: 'GET',
+  allowedHeaders: 'Content-Type, Authorization'
 }));
 
 // The service port. In production the frontend code is statically hosted by the service on the same port.

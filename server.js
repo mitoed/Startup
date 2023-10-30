@@ -111,10 +111,7 @@ async function getYelpData() {
     console.log('trying getYelpData')
     const response = await client.search({
       location: 'provo%2C%20ut',
-      term: 'restaurant',
-      open_now: 'true',
-      sort_by: 'best_match',
-      limit: '10'
+      term: 'restaurant'
     })
 
     const data = {

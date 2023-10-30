@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const cors = require('cors')
+const yelp = require('yelp-fusion')
 
 // Setup cors
 app.use(cors({
@@ -49,6 +50,7 @@ async function setupServer() {
 
 setupServer()
 
+/*
 const yelpAPI = process.env.YELP_API_KEY
 const location = 'provo%2C%20ut'
 const term = 'restaurant'
@@ -96,6 +98,34 @@ function restaurantData(yelpData) {
   return {
     name: randRestaurant.name,
     url: randRestaurant.url
+  }
+}
+*/
+
+const yelpAPI = process.env.YELP_API_KEY
+
+const client = yelp.client(yelpAPI)
+
+async function getYelpData() {
+  try {
+    console.log('trying getYelpData')
+    const response = await client.search({
+      location: 'provo%2C%20ut',
+      term: 'restaurant',
+      open_now: 'true',
+      sort_by: 'best_match',
+      limit: '10'
+    })
+
+    const data = {
+      name: response.jsonBody.businesses[0].name,
+      url: response.jsonBody.businesses[0].url
+    }
+
+    return {data: data, error: null}
+  } catch (error) {
+    console.error('getYelpData unsuccessful:',error)
+    return {data: null, error: 'An error has occured while fetching data: '+error}
   }
 }
 

@@ -4,7 +4,10 @@ require('dotenv').config();
 const cors = require('cors')
 
 // Setup cors
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: 'GET'
+}));
 
 // The service port. In production the frontend code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;

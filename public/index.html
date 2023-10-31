@@ -9,7 +9,8 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
-        <script src="./main.js" defer></script>
+        <script src="./main.js" defer type="module"></script>
+        <script src="./modules/login.mjs" defer type="module"></script>
     </head>
     <body>
         <header class="ALL-l-header">
@@ -58,7 +59,7 @@
                             placeholder="confirm password">
                         <br>
                         <p id="create_error"></p>
-                        <button class="submit" id="login_create">Create New Account</button>
+                        <button class="submit" id="login_create" onclick="createLogin()">Create New Account</button>
                     </form>
                 </section>
             </section>

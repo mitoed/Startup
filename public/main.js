@@ -2,13 +2,13 @@
 // GLOBAL VARIABLES
 // =============================================================================
 
-const DB_USERS = localStorage.getItem('DB_USERS') || ''
-const DB_SESSIONS = localStorage.getItem('DB_SESSIONS') || ''
+const DB_USERS = localStorage.getItem('DB_USERS') || undefined
+const DB_SESSIONS = localStorage.getItem('DB_SESSIONS') || undefined
 const foodIDLetters = 'BCDFGHJ'
 const movieIDLetters = 'KLMNPQ'
 const gameIDLetters = 'RSTVWXZ'
-let currentUser = localStorage.getItem('currentUser') || ''
-let currentSessionID = localStorage.getItem('currentSessionID') || ''
+let currentUser = localStorage.getItem('currentUser') || undefined
+let currentSessionID = localStorage.getItem('currentSessionID') || undefined
 let currentSessionInstance
 let categoryDatabase
 
@@ -17,29 +17,15 @@ let categoryDatabase
 // =============================================================================
 
 /**
- * When page is loaded, checks which series of setup functions to run
+ * When page is loaded, get and display user/session information if available
  */
-switch (true) {
-    default: // for index.html or blank
-        disableEnterSession()
-        break
-    case window.location.href.includes('enter_session.html'):
-        infoToPage()
-        infoToMenu()
-        enterSessionWithID()
-        createSessionWithCategory()
-        break
-    case window.location.href.includes('voting_session.html'):
-        infoToPage()
-        infoToMenu()
-        runYelpAPI()
-        loadVotingSessionPage()
-        castVoteButton()
-        break
-    case window.location.href.includes('about.html'):
-        infoToPage()
-        infoToMenu()
-        break
+infoToPage()
+infoToMenu()
+
+if( window.location.href.includes('voting_session.html') ){
+    //runYelpAPI()
+    loadVotingSessionPage()
+    castVoteButton()
 }
 
 // =============================================================================
@@ -83,10 +69,6 @@ function infoToMenu() {
     }
 }
 
-// =============================================================================
-// LOGIN PAGE BUTTON INITIALIZING FUNCTIONS
-// =============================================================================
-
 /**
  * Disable the "enter session" button on the navigation menu
  */
@@ -96,115 +78,6 @@ function disableEnterSession() {
     navEnterSession.onclick = function () {
         alert('You must login or create an account before entering a session.')
     }
-}
-
-// =============================================================================
-// ENTER SESSION PAGE BUTTON INITIALIZING FUNCTIONS
-// =============================================================================
-
-/**
- * Add Session ID validation to button and enter session
- */
-function enterSessionWithID() {
-    const join_session_button = document.getElementById('join_session')
-
-    join_session_button.onclick = function (event) {
-        event.preventDefault();
-
-        currentSessionID = document.getElementById('join_session_id').value
-        currentSessionID = currentSessionID.toUpperCase()
-        if (isValidSessionID(currentSessionID)) {
-            localStorage.setItem('currentSessionID', currentSessionID)
-            window.location.href = `./voting_session.html?user=${currentUser}&session=${currentSessionID}`
-        } else {
-            document.getElementById('session_not_found_error').innerHTML = 'Session Not Found'
-        }
-    }
-}
-
-/**
- * Add Session ID validation to button, create session, and enter session
- */
-function createSessionWithCategory() {
-    const create_session_button = document.getElementById('create_session')
-
-    create_session_button.onclick = function (event) {
-        event.preventDefault();
-
-        const sessionCategory = document.querySelector('input[name="category"]:checked').value;
-        const categoryMap = {
-            food: listFOOD,
-            movie: listMOVIE,
-            game: listGAME
-        }
-        listCATEGORY = categoryMap[sessionCategory]
-
-        let newSessionInstance = new Session(createSessionID(sessionCategory), sessionCategory, listCATEGORY, Date.now())
-        DB_SESSIONS.push(newSessionInstance)
-        let newSessionID = newSessionInstance['session_id']
-        localStorage.setItem('currentSessionID', newSessionID)
-        window.location.href = `./voting_session.html?user=${currentUser}&session=${newSessionID}`
-        return
-    }
-}
-
-// -----------------------------------------------------------------------------
-// ENTER SESSION PAGE SUPPORTING FUNCTIONS
-// -----------------------------------------------------------------------------
-
-/** Check to see if a given session id is in the session database
- * 
- * @param {string} checkSessionID - the session id to be checked
- * @returns does the session already exist in the database?
- */
-function isValidSessionID(checkSessionID) {
-    return DB_SESSIONS.some(session => session.session_id === checkSessionID)
-}
-
-/** Create a session id and verify that it doesn't already exist
- * 
- * @param {string} sessionCategory - the category (movie, game, food) to send to randomSessionID()
- * @returns the new session id
- */
-function createSessionID(sessionCategory) {
-    let newSessionID
-    do {
-        newSessionID = randomSessionID(sessionCategory)
-    } while (isValidSessionID(newSessionID))
-    return newSessionID
-}
-
-/** Create a random session id using the category
- * 
- * @param {string} sessionCategory - the category (movie, game, food) for which a session will be created
- * @returns the created session id
- */
-function randomSessionID(sessionCategory) {
-    let sessionString = []
-    let digitArray1
-    switch (true) {
-        case sessionCategory === 'food':
-            digitArray1 = foodIDLetters.split('')
-            break
-        case sessionCategory === 'movie':
-            digitArray1 = movieIDLetters.split('')
-            break
-        case sessionCategory === 'game':
-            digitArray1 = gameIDLetters.split('')
-            break
-    }
-    let digitArray2 = 'BCDFGHJKLMNPQRSTVWXZ'.split('')
-    let digitArray3 = '23456789'.split('')
-
-    sessionString.push(randomDigit(digitArray1))
-    sessionString.push(randomDigit(digitArray3))
-    sessionString.push(randomDigit(digitArray2))
-    sessionString.push(randomDigit(digitArray3))
-    sessionString.push(randomDigit(digitArray2))
-    sessionString.push(randomDigit(digitArray3))
-
-    sessionString = sessionString.join('')
-    return sessionString
 }
 
 // =============================================================================

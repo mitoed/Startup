@@ -12,17 +12,13 @@ class User {
      * @constructor
      * @param {string} username - username (always capitalized in DB)
      * @param {string} password - never maintained but is used (with salt) to generate the password_hash
-     * @param {string} active_session - if currently in a session, what's the session id
-     * @param {string} active_vote - if currently in a session, what did this user vote (finalized only)
      * @param {number} sessions_total - how many sessions has this user participated in?
      * @param {number} sessions_won - how many times was this user's vote selected by the group?
      */
-    constructor(username, password, active_session = '', active_vote = '', sessions_total = 0, sessions_won = 0) {
+    constructor(username, password, sessions_total = 0, sessions_won = 0) {
         this.username = username
         this.salt = generateSalt()
         this.password_hash = hashPassword(password, this.salt)
-        this.active_session = active_session
-        this.active_vote = active_vote
         this.sessions_total = sessions_total
         this.sessions_won = sessions_won
     }
@@ -63,17 +59,49 @@ class Session {
      * 
      * @param {string} session_id 
      * @param {string} category 
-     * @param {string} category_array 
+     * @param {array} active_users_array - {user: <username>, vote: <current_vote>}
      * @param {integer} start_time 
      */
-    constructor(session_id, category, category_array, start_time) {
+    constructor(session_id, category, active_users_array = [], start_time = Date.now()) {
         this.session_id = session_id
         this.category = category
-        this.category_array = category_array
+        this.active_users_array = active_users_array
         this.start_time = start_time
         this.unpopular_opinion = ''
         this.end_time = ''
-        this.winner = ''
+        this.group_selection = ''
+    }
+
+    /** User joins the session
+     * 
+     * @param {string} addUser - Username of additional user
+     */
+    addActiveUser(addUsername) {
+        const addUserObject = {name: addUsername, vote: null}
+        this.active_users_array.push(addUserObject)
+    }
+
+    /** User leaves the session
+     * 
+     * @param {string} removeUser 
+     */
+    removeActiveUser(removeUsername) {
+        const removeUserObject = {name: removeUsername, vote: null}
+        const removeUserIndex = this.active_users_array.indexOf(removeUserObject)
+
+        if (removeUserIndex > -1) {
+            this.active_users_array.splice(removeUserIndex, 1)
+        }
+    }
+
+    /** Ends the session, recording the final decision and timestamp and clearning the usernames
+     * 
+     * @param {string} groupSelection 
+     */
+    endSession(groupSelection) {
+        this.active_users_array = []
+        this.group_selection = groupSelection
+        this.end_time = Date.now()
     }
 }
 
@@ -165,5 +193,6 @@ module.exports = {
     User,
     Session,
     VotingOption,
-    hashPassword
+    hashPassword,
+    randomDigit
 }

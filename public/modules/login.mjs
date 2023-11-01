@@ -1,11 +1,16 @@
 /**
+ * Remove user data from local storage
+ */
+localStorage.removeItem('currentUser')
+
+/**
  * Assign the function to the Login Button
  */
 const login_exist_button = document.getElementById('login_exist')
 
 login_exist_button.onclick = function (event) {
     event.preventDefault();
-    validateLogin()
+    validateLogin() 
 }
 
 /**
@@ -13,8 +18,8 @@ login_exist_button.onclick = function (event) {
  */
 async function validateLogin() {
 
-    let username_input = document.getElementById('username_input').value.toUpperCase()
-    let password_input = document.getElementById('password_input').value
+    let username_input = document.getElementById('username_input').value.toUpperCase() || 'error'
+    let password_input = document.getElementById('password_input').value || 'error'
 
     const response = await fetch(`/api/validate-login/${username_input}/${password_input}`)
     const parsedData = await response.json()

@@ -5,8 +5,6 @@ const DB_SESSIONS = []
 const foodIDLetters = 'BCDFGHJ'
 const movieIDLetters = 'KLMNPQ'
 const gameIDLetters = 'RSTVWXZ'
-let currentSessionInstance
-let categoryDatabase
 
 // =============================================================================
 // CLASSES
@@ -22,17 +20,13 @@ class User {
      * @constructor
      * @param {string} username - username (always capitalized in DB)
      * @param {string} password - never maintained but is used (with salt) to generate the password_hash
-     * @param {string} active_session - if currently in a session, what's the session id
-     * @param {string} active_vote - if currently in a session, what did this user vote (finalized only)
      * @param {number} sessions_total - how many sessions has this user participated in?
      * @param {number} sessions_won - how many times was this user's vote selected by the group?
      */
-    constructor(username, password, active_session = '', active_vote = '', sessions_total = 0, sessions_won = 0) {
+    constructor(username, password, sessions_total = 0, sessions_won = 0) {
         this.username = username
         this.salt = generateSalt()
         this.password_hash = hashPassword(password, this.salt)
-        this.active_session = active_session
-        this.active_vote = active_vote
         this.sessions_total = sessions_total
         this.sessions_won = sessions_won
     }
@@ -74,18 +68,49 @@ class Session {
      * @param {string} session_id 
      * @param {string} category 
      * @param {string} category_array 
+     * @param {array} active_users_array - {user: <username>, vote: <current_vote>}
      * @param {integer} start_time 
      */
-    constructor(session_id, category, category_array, start_time) {
+    constructor(session_id, category, category_array) {
         this.session_id = session_id
         this.category = category
         this.category_array = category_array
-        this.start_time = start_time
+        this.active_users_array = []
+        this.start_time = Date.now()
         this.unpopular_opinion = ''
         this.end_time = ''
-        this.winner = ''
+        this.group_selection = ''
     }
 
+    /** User joins the session
+     * 
+     * @param {string} addUser - Username of additional user
+     */
+    addActiveUser(addUserVote) {
+        this.active_users_array.push(addUserVote)
+    }
+
+    /** User leaves the session
+     * 
+     * @param {string} removeUser 
+     */
+    removeActiveUser(removeUserVote) {
+        const userIndex = this.active_users_array.indexOf(removeUserVote)
+
+        if (userIndex > -1) {
+            this.active_users_array.splice(userIndex, 1)
+        }
+    }
+
+    /** Ends the session, recording the final decision and timestamp and clearning the usernames
+     * 
+     * @param {string} groupSelection 
+     */
+    endSession(groupSelection) {
+        this.active_users_array = []
+        this.group_selection = groupSelection
+        this.end_time = Date.now()
+    }
 }
 
 /** Represents any given voting option, which is created from each entry from a session's category_array.
@@ -137,18 +162,30 @@ class VotingOption {
 // =============================================================================
 
 function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon) {
-    let fakeUser = new User(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon)
+    let fakeUser = new User(fakeUserName, fakePassword, fakeTotal, fakeWon)
     DB_USERS.push(fakeUser)
 }
 addFakeUser("MASAULLS", "1234")
-addFakeUser('CHSAULLS', '389d9*', 'DEFAULT', 'Costa Vida', 7, 1)
-addFakeUser('RCSAULLS', '303udsd', 'DEFAULT', 'Five Sushi Bros', 7, 0)
-addFakeUser('ECSAULLS', '38&jdkf', 'DEFAULT', 'Brick Oven', 3, 0)
-addFakeUser('SSAULLS', '7329fd', 'DEFAULT', 'Burger Supreme', 3, 3)
-addFakeUser('CSAULLS', '39fds', 'DEFAULT', 'Good Move', 7, 4)
+addFakeUser('CHSAULLS', '389d9*', 7, 1)
+addFakeUser('RCSAULLS', '303udsd',  7, 0)
+addFakeUser('ECSAULLS', '38&jdkf', 3, 0)
+addFakeUser('SSAULLS', '7329fd', 3, 3)
+addFakeUser('CSAULLS', '39fds', 7, 4)
 
 function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
-    let fakeSession = new Session(fakeSessionID, fakeCategory, DB_CATEGORY, Date.now())
+    let fakeSession = new Session(fakeSessionID, fakeCategory, DB_CATEGORY)
+    const fakeUserArray = [
+        {name: 'CHSAULLS', vote: 'Costa Vida'},
+        {name: 'RCSAULLS', vote: 'Five Sushi Bros'},
+        {name: 'ECSAULLS', vote: 'Good Move'},
+        {name: 'SSAULLS', vote: 'Burger Supreme'},
+        {name: 'CSAULLS', vote: "Cubby's"},
+    ]
+    if (fakeSession.session_id === 'DEFAULT') {
+        for (let newUser of fakeUserArray) {
+            fakeSession.addActiveUser(newUser)
+        }
+    }
     DB_SESSIONS.push(fakeSession)
 }
 
@@ -264,8 +301,6 @@ function createDummyJSON() {
       username: user.username,
       password_hash: user.password_hash,
       salt: user.salt,
-      active_session: user.active_session,
-      active_vote: user.active_vote,
       sessions_total: user.sessions_total,
       sessions_won: user.sessions_won,
     })),
@@ -273,6 +308,7 @@ function createDummyJSON() {
       session_id: session.session_id,
       category: session.category,
       start_time: session.start_time,
+      active_users_array: session.active_users_array,
       unpopular_opinion: session.unpopular_opinion,
       end_time: session.end_time,
       winner: session.winner,

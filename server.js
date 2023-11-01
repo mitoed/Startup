@@ -3,6 +3,7 @@ const app = express();
 require('dotenv').config();
 const cors = require('cors')
 const myAPI = require('./myAPI.js')
+require('./public/create_dummy_values.js')
 const fs = require('fs')
 
 // Setup cors
@@ -24,6 +25,7 @@ app.use(express.static('public'));
 async function setupServer() {
   try {
     myAPI.loginSetup (app)
+    myAPI.enterSessionSetup (app)
 
     // Listen for yelp api call from main.js
     app.get('/get-yelp-data', async (req, res) => {

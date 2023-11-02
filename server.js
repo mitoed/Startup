@@ -1,10 +1,13 @@
+// Initialize general modules
 const express = require('express');
 const app = express();
 require('dotenv').config();
 const cors = require('cors')
-const myAPI = require('./myAPI.js')
-require('./public/create_dummy_values.js')
-const fs = require('fs')
+
+// Initialize page modules
+const login = require('./api/login.js')
+const enter_session = require('./api/enter_session.js')
+const voting_session = require('./api/voting_session.js')
 
 // Setup cors
 app.use(cors({
@@ -24,8 +27,9 @@ app.use(express.static('public'));
 
 async function setupServer() {
   try {
-    myAPI.loginSetup (app)
-    myAPI.enterSessionSetup (app)
+    login.pageSetup (app)
+    enter_session.pageSetup (app)
+    voting_session.pageSetup (app)
 
     // Listen for yelp api call from main.js
     app.get('/get-yelp-data', async (req, res) => {

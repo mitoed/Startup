@@ -302,6 +302,8 @@ function callYelpAPI() {
  * 
  * @returns nothing => adds functions to "yes" and "no" buttons which appear when recommendation displays
  */
+
+/* REMOVED FROM APPLICATION
 function recommendUnpopularOpinion() {
     let unpopularOpinionArray = []
     for (let entry in DB_USERS) {
@@ -342,7 +344,7 @@ function recommendUnpopularOpinion() {
             }
         }
     }
-}
+}*/
 
 /** Using the value in the selection box or a value adopted from the recommended opinion,
  * adds to the user's active_vote value.
@@ -367,28 +369,6 @@ function castVote(selectedOption = '') {
     clearTable()
     clearDatalist()
     populateTable(currentSessionInstance.category, currentSessionInstance.category_array, categoryDatabase)
-}
-
-/**
- * Removes all elements from table (to be repopulated in order)
- */
-function clearTable() {
-    const parentElement = document.getElementById('count_table')
-    const parentElementSize = parentElement.childElementCount
-    for (let child = 1; child < parentElementSize; child++) {
-        parentElement.removeChild(parentElement.children[1])
-    }
-}
-
-/**
- * Removes all elements from datalist (to be repopulated in order)
- */
-function clearDatalist() {
-    const parentElement = document.getElementById('voting_options')
-    const parentElementSize = parentElement.childElementCount
-    for (let child = 0; child < parentElementSize; child++) {
-        parentElement.removeChild(parentElement.children[0])
-    }
 }
 
 /** Have all the users cast a vote (does total users = total votes)

@@ -1,4 +1,9 @@
 /**
+ * Remove current data from local storage
+ */
+localStorage.removeItem('currentSessionID')
+
+/**
  * Assign the function to the Join Session Button
  */
 const join_session_button = document.getElementById('join_session')

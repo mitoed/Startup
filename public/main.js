@@ -4,11 +4,13 @@
 
 const DB_USERS = localStorage.getItem('DB_USERS') || undefined
 const DB_SESSIONS = localStorage.getItem('DB_SESSIONS') || undefined
-const foodIDLetters = 'BCDFGHJ'
-const movieIDLetters = 'KLMNPQ'
-const gameIDLetters = 'RSTVWXZ'
 let currentUser = localStorage.getItem('currentUser') || undefined
-let currentSessionID = localStorage.getItem('currentSessionID') || undefined
+let currentSessionID = localStorage.getItem('currentSessionID')
+// If unavailable, get the session ID from the url
+if (!currentSessionID) {
+    currentSessionID = window.location.href.split('&session=')[1]
+    localStorage.setItem('currentSessionID', currentSessionID)
+}
 let currentSessionInstance
 let categoryDatabase
 
@@ -24,8 +26,8 @@ infoToMenu()
 
 if( window.location.href.includes('voting_session.html') ){
     //runYelpAPI()
-    loadVotingSessionPage()
-    castVoteButton()
+    //loadVotingSessionPage()
+    //castVoteButton()
 }
 
 // =============================================================================
@@ -39,16 +41,27 @@ if( window.location.href.includes('voting_session.html') ){
  */
 function infoToPage() {
     try {
-        if (currentUser !== undefined) {
-            document.getElementById('username').innerHTML = `Welcome, ${currentUser}!`;
-            console.log(`Successfully logged in as: ${currentUser}`)
-        } else {
-            document.getElementById('username').innerHTML = `Welcome!`;
-            console.warn('Error: Login unsuccessful.')
+        const currentUser = localStorage.getItem('currentUser')
+
+        if (currentUser === null) {
+            currentUser = window.location.href.split('&session=')[0].split('&user=')[1]
+            localStorage.setItem('currentUser', currentUser)
         }
+
+        document.getElementById('username').innerHTML = `Welcome, ${currentUser}!`;
+        console.log(`Successfully logged in as: ${currentUser}`)
+
     }
     catch { } // no place to insert username, ignore
+
     try {
+        const currentSessionID = localStorage.getItem('currentSessionID')
+
+        if (currentSessionID === null) {
+            currentSessionID = window.location.href.split('&session=')[1]
+            localStorage.setItem('currentSessionID', currentSessionID)
+        }
+
         document.getElementById('session_id').innerHTML = `Session ID: ${currentSessionID}`;
         console.log(`Successfully entered Session: ${currentSessionID}`)
     }
@@ -280,48 +293,6 @@ function callYelpAPI() {
         url: yelpURL
     }
     return yelpRestaurant
-}
-
-/** Populates data table and data list (both sorted)
- * 
- * @param {string} category - current category
- * @param {array} categoryList - list of options in category
- * @param {array} thisDatabase - (optional) current list with any new options
- */
-function populateTable(category, categoryList, thisDatabase = null) {
-    const tableElement = document.getElementById('count_table')
-    const datalistElement = document.getElementById('voting_options')
-    if (thisDatabase === null) {
-        categoryDatabase = createCategoryDB(categoryList)
-    }
-    sortTableHighToLow()
-    for (let entry in categoryDatabase) {
-        tableElement.insertAdjacentHTML('beforeend', categoryDatabase[entry].newHTMLTableRow())
-        datalistElement.insertAdjacentHTML('beforeend', categoryDatabase[entry].newHTMLDatalistRow())
-    }
-}
-
-/** Transforms the list of options into a database of option objects
- * 
- * @param {*} categoryList - list to be transformed into object
- * @returns array of option objects
- */
-function createCategoryDB(categoryList) {
-    categoryDatabase = []
-    for (let entry in categoryList) {
-        let newOption = new VotingOption(categoryList[entry])
-        categoryDatabase.push(newOption)
-    }
-    return categoryDatabase
-}
-
-/**
- * Sorts the database of option objects from high to low based on current votes
- */
-function sortTableHighToLow() {
-    categoryDatabase = categoryDatabase.sort((a, b) => {
-        return b.calculateVotes() - a.calculateVotes()
-    })
 }
 
 /** Determines which users have significant loss rate,

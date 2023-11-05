@@ -167,7 +167,7 @@ function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, f
 }
 addFakeUser("MASAULLS", "1234")
 addFakeUser('CHSAULLS', '389d9*', 7, 1)
-addFakeUser('RCSAULLS', '303udsd',  7, 0)
+addFakeUser('RCSAULLS', '303udsd', 7, 0)
 addFakeUser('ECSAULLS', '38&jdkf', 3, 0)
 addFakeUser('SSAULLS', '7329fd', 3, 3)
 addFakeUser('CSAULLS', '39fds', 7, 4)
@@ -175,11 +175,11 @@ addFakeUser('CSAULLS', '39fds', 7, 4)
 function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
     let fakeSession = new Session(fakeSessionID, fakeCategory, DB_CATEGORY)
     const fakeUserArray = [
-        {name: 'CHSAULLS', vote: 'Costa Vida'},
-        {name: 'RCSAULLS', vote: 'Five Sushi Bros'},
-        {name: 'ECSAULLS', vote: 'Good Move'},
-        {name: 'SSAULLS', vote: 'Burger Supreme'},
-        {name: 'CSAULLS', vote: "Cubby's"},
+        { name: 'CHSAULLS', vote: 'Costa Vida' },
+        { name: 'RCSAULLS', vote: 'Five Sushi Bros' },
+        { name: 'ECSAULLS', vote: 'Good Move' },
+        { name: 'SSAULLS', vote: 'Burger Supreme' },
+        { name: 'CSAULLS', vote: "Cubby's" },
     ]
     if (fakeSession.session_id === 'DEFAULT') {
         for (let newUser of fakeUserArray) {
@@ -211,7 +211,7 @@ let listMOVIE = [
     "The Dark Knight",
     "Pulp Fiction",
     "Schindler's List",
-    "The Lord of the Rings: The Return of the King",
+    "The Return of the King",
     "Fight Club",
     "Forrest Gump",
     "Inception",
@@ -291,33 +291,49 @@ function randomDigit(digitArray) {
     return digitArray[Math.floor(Math.random() * digitArray.length)]
 }
 
+function convertArrayToObjects(list) {
+    let objectsArray = []
+
+    for (let index in list) {
+        let obj = { name: list[index], votes: 0 }
+
+        objectsArray.push(obj)
+    }
+    return objectsArray
+}
+
 // =============================================================================
 // 
 // =============================================================================
 
 function createDummyJSON() {
-  const dummyData = {
-    users: DB_USERS.map(user => ({
-      username: user.username,
-      password_hash: user.password_hash,
-      salt: user.salt,
-      sessions_total: user.sessions_total,
-      sessions_won: user.sessions_won,
-    })),
-    sessions: DB_SESSIONS.map(session => ({
-      session_id: session.session_id,
-      category: session.category,
-      start_time: session.start_time,
-      active_users_array: session.active_users_array,
-      unpopular_opinion: session.unpopular_opinion,
-      end_time: session.end_time,
-      winner: session.winner,
-    })),
-  };
+    const dummyData = {
+        users: DB_USERS.map(user => ({
+            username: user.username,
+            password_hash: user.password_hash,
+            salt: user.salt,
+            sessions_total: user.sessions_total,
+            sessions_won: user.sessions_won,
+        })),
+        sessions: DB_SESSIONS.map(session => ({
+            session_id: session.session_id,
+            category: session.category,
+            start_time: session.start_time,
+            active_users_array: session.active_users_array,
+            unpopular_opinion: session.unpopular_opinion,
+            end_time: session.end_time,
+            winner: session.winner,
+        })),
+        live_servers: {
+            serverFOOD: convertArrayToObjects(listFOOD),
+            serverGAME: convertArrayToObjects(listGAME),
+            serverMOVIE: convertArrayToObjects(listMOVIE)
+        }
+    }
 
-  // Save the JSON to a file
-  const jsonContent = JSON.stringify(dummyData, null, 2);
-  fs.writeFileSync('./dummy_values.json', jsonContent);
+    // Save the JSON to a file
+    const jsonContent = JSON.stringify(dummyData, null, 2);
+    fs.writeFileSync('./dummy_values.json', jsonContent);
 }
 
 // Call the function to create and save the JSON file

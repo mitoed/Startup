@@ -2,43 +2,43 @@
   "users": [
     {
       "username": "MASAULLS",
-      "password_hash": 1434232018,
-      "salt": "IT4U48",
+      "password_hash": -329643029,
+      "salt": "YTIED6",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "CHSAULLS",
-      "password_hash": -480300691,
-      "salt": "8UZTMB",
+      "password_hash": 426633284,
+      "salt": "ZQ3ACA",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "RCSAULLS",
-      "password_hash": 1184803570,
-      "salt": "3HBNWZ",
+      "password_hash": -508106723,
+      "salt": "5IWUK2",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "ECSAULLS",
-      "password_hash": 592150197,
-      "salt": "K81VBQ",
+      "password_hash": -1805250615,
+      "salt": "1EMJ84",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "SSAULLS",
-      "password_hash": 408184233,
-      "salt": "TDIXN7",
+      "password_hash": 723009961,
+      "salt": "PPQ6VY",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "CSAULLS",
-      "password_hash": -357852140,
-      "salt": "43JF6V",
+      "password_hash": 1436107692,
+      "salt": "Y80GMZ",
       "sessions_total": 0,
       "sessions_won": 0
     }
@@ -47,7 +47,7 @@
     {
       "session_id": "DEFAULT",
       "category": "food",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [
         {
           "name": "CHSAULLS",
@@ -76,7 +76,7 @@
     {
       "session_id": "F7N7V4",
       "category": "food",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -84,7 +84,7 @@
     {
       "session_id": "C7T4H9",
       "category": "food",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -92,7 +92,7 @@
     {
       "session_id": "F2W7Q7",
       "category": "food",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -100,7 +100,7 @@
     {
       "session_id": "H6Q2N0",
       "category": "food",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -108,7 +108,7 @@
     {
       "session_id": "D2S4D6",
       "category": "food",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -116,7 +116,7 @@
     {
       "session_id": "K4X6J2",
       "category": "movie",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -124,7 +124,7 @@
     {
       "session_id": "N7T5Q6",
       "category": "movie",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -132,7 +132,7 @@
     {
       "session_id": "L3V9B4",
       "category": "movie",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -140,7 +140,7 @@
     {
       "session_id": "N2K6M6",
       "category": "movie",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -148,7 +148,7 @@
     {
       "session_id": "P7X5C7",
       "category": "movie",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -156,7 +156,7 @@
     {
       "session_id": "K5F2K4",
       "category": "movie",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -164,7 +164,7 @@
     {
       "session_id": "L2K3N3",
       "category": "movie",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -172,7 +172,7 @@
     {
       "session_id": "R7M0X2",
       "category": "game",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -180,7 +180,7 @@
     {
       "session_id": "X7H3J3",
       "category": "game",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -188,7 +188,7 @@
     {
       "session_id": "S4C3Q5",
       "category": "game",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -196,7 +196,7 @@
     {
       "session_id": "T5H9K5",
       "category": "game",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -204,7 +204,7 @@
     {
       "session_id": "S2V2J9",
       "category": "game",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -212,7 +212,7 @@
     {
       "session_id": "Z6L3X3",
       "category": "game",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -220,10 +220,180 @@
     {
       "session_id": "T7F3P7",
       "category": "game",
-      "start_time": 1698865967335,
+      "start_time": 1699168783930,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
+    },
+    {
+      "session_id": "C4S9G5",
+      "category": "food",
+      "active_users_array": [
+        {
+          "name": "MASAULLS",
+          "vote": null
+        }
+      ],
+      "start_time": 1699169248672,
+      "unpopular_opinion": "",
+      "end_time": "",
+      "group_selection": ""
     }
-  ]
+  ],
+  "live_servers": {
+    "serverFOOD": [
+      {
+        "name": "Wendy's",
+        "votes": 0
+      },
+      {
+        "name": "McDonald's",
+        "votes": 0
+      },
+      {
+        "name": "Chick-fil-A",
+        "votes": 0
+      },
+      {
+        "name": "Bumblebees",
+        "votes": 0
+      },
+      {
+        "name": "Se Llama Peru",
+        "votes": 0
+      },
+      {
+        "name": "India Palace",
+        "votes": 0
+      },
+      {
+        "name": "Burger Supreme",
+        "votes": 0
+      },
+      {
+        "name": "Cubby's",
+        "votes": 0
+      },
+      {
+        "name": "Good Move",
+        "votes": 0
+      },
+      {
+        "name": "Brick Oven",
+        "votes": 0
+      },
+      {
+        "name": "Costa Vida",
+        "votes": 0
+      },
+      {
+        "name": "Five Sushi Bros",
+        "votes": 0
+      },
+      {
+        "name": "Black Sheep Cafe",
+        "votes": 0
+      }
+    ],
+    "serverGAME": [
+      {
+        "name": "Settlers of Catan",
+        "votes": 0
+      },
+      {
+        "name": "Ticket to Ride",
+        "votes": 0
+      },
+      {
+        "name": "Carcassonne",
+        "votes": 0
+      },
+      {
+        "name": "Pandemic",
+        "votes": 0
+      },
+      {
+        "name": "Dominion",
+        "votes": 0
+      },
+      {
+        "name": "Codenames",
+        "votes": 0
+      },
+      {
+        "name": "7 Wonders",
+        "votes": 0
+      },
+      {
+        "name": "Twilight Struggle",
+        "votes": 0
+      },
+      {
+        "name": "Agricola",
+        "votes": 0
+      },
+      {
+        "name": "Scythe",
+        "votes": 0
+      },
+      {
+        "name": "Splendor",
+        "votes": 0
+      },
+      {
+        "name": "Betrayal at Baldur's Gate",
+        "votes": 0
+      }
+    ],
+    "serverMOVIE": [
+      {
+        "name": "The Shawshank Redemption",
+        "votes": 0
+      },
+      {
+        "name": "The Godfather",
+        "votes": 0
+      },
+      {
+        "name": "The Dark Knight",
+        "votes": 0
+      },
+      {
+        "name": "Pulp Fiction",
+        "votes": 0
+      },
+      {
+        "name": "Schindler's List",
+        "votes": 0
+      },
+      {
+        "name": "The Return of the King",
+        "votes": 0
+      },
+      {
+        "name": "Fight Club",
+        "votes": 0
+      },
+      {
+        "name": "Forrest Gump",
+        "votes": 0
+      },
+      {
+        "name": "Inception",
+        "votes": 0
+      },
+      {
+        "name": "The Matrix",
+        "votes": 0
+      },
+      {
+        "name": "Gladiator",
+        "votes": 0
+      },
+      {
+        "name": "The Silence of the Lambs",
+        "votes": 0
+      }
+    ]
+  }
 }

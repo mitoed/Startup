@@ -238,6 +238,62 @@
       "unpopular_opinion": "",
       "end_time": "",
       "group_selection": ""
+    },
+    {
+      "session_id": "Z3R3F6",
+      "category": "game",
+      "active_users_array": [
+        {
+          "name": "MASAULLS",
+          "vote": null
+        }
+      ],
+      "start_time": 1699175386176,
+      "unpopular_opinion": "",
+      "end_time": "",
+      "group_selection": ""
+    },
+    {
+      "session_id": "Q4Z4N7",
+      "category": "movie",
+      "active_users_array": [
+        {
+          "name": "MASAULLS",
+          "vote": null
+        }
+      ],
+      "start_time": 1699175393457,
+      "unpopular_opinion": "",
+      "end_time": "",
+      "group_selection": ""
+    },
+    {
+      "session_id": "W5M3S6",
+      "category": "game",
+      "active_users_array": [
+        {
+          "name": "MASAULLS",
+          "vote": null
+        }
+      ],
+      "start_time": 1699175410064,
+      "unpopular_opinion": "",
+      "end_time": "",
+      "group_selection": ""
+    },
+    {
+      "session_id": "H3N2V9",
+      "category": "food",
+      "active_users_array": [
+        {
+          "name": "MASAULLS",
+          "vote": null
+        }
+      ],
+      "start_time": 1699175419701,
+      "unpopular_opinion": "",
+      "end_time": "",
+      "group_selection": ""
     }
   ],
   "live_servers": {

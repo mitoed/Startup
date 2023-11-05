@@ -1,5 +1,6 @@
 // =============================================================================
 // 3.1 Populate page and connect to servers
+// 3.2 Display internet recommendations
 // =============================================================================
 
 async function pagePopulation() {
@@ -13,12 +14,17 @@ async function pagePopulation() {
 
         // 3.1.2 Retrieve list of voting options from database
         const response = await fetch(`/api/populate-page/${sessionID}`)
-        const sessionVotesArray = await response.json()
+        const data = await response.json()
+        const sessionVotesArray = data.votesArray
         //localStorage.setItem('currentSessionVotes', JSON.stringify(sessionVotesArray))
         
         // 3.1.4 Produce and display table of options and datalist to be updated with votes
         populateTableAndList(sessionVotesArray)
         console.log(`Data populated correctly. Proceed with voting.`)
+
+        // 3.2.1 Display internet recommendations
+        const recommendationHTML = data.recommendation
+        populateRecommendation(recommendationHTML)
 
     // Unexpected errors
     } catch (error) {
@@ -28,17 +34,6 @@ async function pagePopulation() {
 }
 
 pagePopulation()
-
-// =============================================================================
-// 3.2 Display internet recommendations
-// =============================================================================
-
-async function internetRecommendation () {
-
-
-}
-
-internetRecommendation()
 
 // =============================================================================
 // 3.3 Record Votes and page and servers
@@ -99,4 +94,9 @@ function populateTableAndList(sessionVotesArray) {
         tableElement.insertAdjacentHTML('beforeend', option['tableHTML'])
         datalistElement.insertAdjacentHTML('beforeend', option['listHTML'])
     }
+}
+
+function populateRecommendation(recommendationHTML) {
+    const recommendationBubble = document.getElementById('recommendation_bubble')
+    recommendationBubble.innerHTML = recommendationHTML
 }

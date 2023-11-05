@@ -23,8 +23,10 @@ async function loadDatabase() {
     }
 }
 
-/**
- * Send new data to the database
+/** Refresh array of given objects in the database
+ * 
+ * @param {*} jsonObject - name of array to be refreshed
+ * @param {*} newData - new data to be sent
  */
 async function refreshDatabase(jsonObject, newData) {
     try {
@@ -37,6 +39,35 @@ async function refreshDatabase(jsonObject, newData) {
         // Save the JSON to Dummy Data file
         const jsonContent = JSON.stringify(dummyData, null, 2);
         fs.promises.writeFile(dummyDirectory, jsonContent);
+
+    } catch {
+        console.log('Internal Server Error: cannot connect to database')
+    }
+}
+
+/** Refresh array of votes in the live server
+ * 
+ * @param {string} sessionServer - name of liver server to be refreshed
+ * @param {array} newServerData - new data to be sent
+ */
+async function refreshLiveData(sessionID, sessionUsersArray, category, tableListHTML) {
+    try {
+        // Access server data and update
+        // When this code is written, remove the dummy data
+
+        const dummyData = await loadDatabase()
+
+        // Update the sessions Database
+        const sessionInstance = dummyData['sessions'].filter(session => session.session_id === sessionID)[0]
+        sessionInstance.active_users_array = sessionUsersArray
+        
+        // Update the server lists
+        dummyData['live_servers']['server' + category.toUpperCase()] = tableListHTML
+
+        // Save the JSON to Dummy Data file
+        const jsonContent = JSON.stringify(dummyData, null, 2);
+        fs.promises.writeFile(dummyDirectory, jsonContent)
+
     } catch {
         console.log('Internal Server Error: cannot connect to database')
     }
@@ -126,4 +157,4 @@ function randomSessionID(sessionCategory) {
     return sessionString
 }
 
-module.exports = { loadDatabase, refreshDatabase, joinSession, createSessionID }
+module.exports = { loadDatabase, refreshDatabase, refreshLiveData, joinSession, createSessionID }

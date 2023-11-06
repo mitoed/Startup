@@ -285,10 +285,10 @@ function createDummyJSON() {
             end_time: session.end_time,
             winner: session.winner,
         })),
-        live_servers: {
-            serverFOOD: convertArrayToObjects(listFOOD),
-            serverGAME: convertArrayToObjects(listGAME),
-            serverMOVIE: convertArrayToObjects(listMOVIE)
+        options: {
+            food: convertArrayToObjects(listFOOD),
+            game: convertArrayToObjects(listGAME),
+            movie: convertArrayToObjects(listMOVIE)
         }
     }
 

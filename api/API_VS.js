@@ -17,14 +17,14 @@ function pageSetup(app) {
         const { sessionID } = req.params
 
         // Create session object from database data
-        const response = await database.loadDatabase()
-        const data = response['sessions'].filter((session) => session.session_id === sessionID)[0]
+        const { sessions, options } = await database.loadDatabase()
+        const data = sessions.find(s => s.session_id === sessionID)
         sessionInstance = new classes.Session(data.session_id, data.category, data.active_users_array)
         sessionUsersArray = sessionInstance.active_users_array
 
         // 3.1.2 Retrieve list of voting options from database (dummy_data.json)
         const category = sessionInstance.category
-        sessionOptionsArray = response['live_servers']['server' + category.toUpperCase()]
+        sessionOptionsArray = options[category]
 
         // 3.1.4 Amend html for table of options
         const tableListHTML = generateTableHTML(sessionOptionsArray, sessionUsersArray)
@@ -47,11 +47,11 @@ function pageSetup(app) {
         const { username, newVote} = req.params
 
         // Add user's vote to their object in the session array
-        const userInstance = sessionUsersArray.filter(user => user.user === username)[0]
+        const userInstance = sessionUsersArray.find(user => user.user === username)
         userInstance['vote'] = newVote
 
         // Create a new option if doesn't exist in the options database
-        let newSelection = sessionOptionsArray.filter(option => option.name === newVote)[0]
+        let newSelection = sessionOptionsArray.find(option => option.name === newVote)
         if (!newSelection) {
             const table = `<tr><td>${newVote}</td><td>optionVotes</td></tr>`
             const list = `<option value="${newVote}"></option>`
@@ -72,10 +72,10 @@ function pageSetup(app) {
             return
         }
 
-        // Check for and declare group selection
-        const popularVote = 'null'//checkAllVotesCast()
+        // 3.4 Check for and declare group selection
+        const popularVote = await checkAllVotesCast(sessionInstance)
 
-        res.json({votesArray: tableListHTML, groupSelection: popularVote})
+        res.json({votesArray: tableListHTML, groupSelection: popularVote, category: sessionInstance.category})
         
     })
     
@@ -143,24 +143,87 @@ function generateRecommendationHTML(category) {
     
 }
 
-function checkAllVotesCast() {
-
-    // Load user data
+/** Check the session array of active users if all have cast a vote
+ * 
+ * @param {object} sessionInstance - session data for the check and the session closing
+ * @returns which option was voted most?
+ */
+async function checkAllVotesCast(sessionInstance) {
 
     // Load live server votes
+    const sessionUsersArray = sessionInstance.active_users_array
 
-    // Total Votes === Active Users
-    const totalVotes = ''
-    const activeUsers = ''
+    // 3.4.1 Check if all votes are cast
+    const activeUsers = sessionUsersArray.length
+    const activeVotes = sessionUsersArray.filter(user => user.vote !== null)
+    const totalVotes = activeVotes.length
 
     if (totalVotes === activeUsers) {
-        popularVote = ''
+
+        // 3.4.2 Calculate the most common vote
+        const voteCounts = {};
+
+        // Count the occurrences of each restaurant choice
+        for (const voteObj of activeVotes) {
+            const vote = voteObj.vote;
+            if (voteCounts[vote]) {
+                voteCounts[vote]++;
+            } else {
+                voteCounts[vote] = 1;
+            }
+        }
+
+        let popularVote;
+        let highestCount = 0;
+
+        // Find the most common restaurant choice
+        for (const vote in voteCounts) {
+            if (voteCounts[vote] > highestCount) {
+                highestCount = voteCounts[vote];
+                popularVote = vote;
+            }
+        }
+
+        // 3.4.5 End sesion in database and live server
+        closeSession(sessionInstance, popularVote)
 
         return popularVote
+
+    // If not all votes are cast, do not calculate and display
     } else {
         return 'null'
     }
+}
 
+/** Finalizes all database data for session and users
+ * 
+ * @param {object} sessionInstance - session data for the session closing
+ * @param {*} popularVote - which option was voted most to increment sessions_won for users
+ */
+async function closeSession(sessionInstance, popularVote) {
+
+    // Load the database
+    const { sessions, users } = await database.loadDatabase();
+    const sessionInfo = sessions.find(session => session.session_id === sessionInstance.session_id);
+
+    // 3.4.5.2 Update user database information
+    for (let activeUser of sessionInfo.active_users_array) {
+        const user = users.find(u => u.username === activeUser.name);
+        if (user) {
+            user.sessions_total++
+            if (activeUser.vote === popularVote) {
+                user.sessions_won++
+            }
+        }
+    }
+        
+    // 3.4.5.3 Note the time in session's end_time in database
+    sessionInfo.end_time = Date.now()
+    // 3.4.5.4 Clear session's active_users_array
+    sessionInfo.active_users_array = []
+
+    // Refresh the databases with the new data
+    await database.refreshDatabase(sessions, users, null)
 
 }
 

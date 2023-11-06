@@ -74,7 +74,7 @@ function pageSetup (app) {
             DB_USERS.push(createUser)
 
             // Save the updated JSON data to the database
-            database.refreshDatabase('users', DB_USERS)
+            database.refreshDatabase(null, DB_USERS, null)
         }
 
         const createLogin = {

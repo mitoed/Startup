@@ -28,13 +28,15 @@ async function loadDatabase() {
  * @param {*} jsonObject - name of array to be refreshed
  * @param {*} newData - new data to be sent
  */
-async function refreshDatabase(jsonObject, newData) {
+async function refreshDatabase(newSessionData = null, newUserData= null, newOptionsData= null) {
     try {
         // Access database and update
         // When this code is written, remove the dummy data
 
         const dummyData = await loadDatabase()
-        dummyData[jsonObject] = newData
+        dummyData['sessions'] = newSessionData || dummyData['sessions']
+        dummyData['users'] = newUserData || dummyData['users']
+        dummyData['options'] = newOptionsData || dummyData['options']
 
         // Save the JSON to Dummy Data file
         const jsonContent = JSON.stringify(dummyData, null, 2);
@@ -62,7 +64,7 @@ async function refreshLiveData(sessionID, sessionUsersArray, category, tableList
         sessionInstance.active_users_array = sessionUsersArray
         
         // Update the server lists
-        dummyData['live_servers']['server' + category.toUpperCase()] = tableListHTML
+        dummyData['options'][category] = tableListHTML
 
         // Save the JSON to Dummy Data file
         const jsonContent = JSON.stringify(dummyData, null, 2);
@@ -91,7 +93,7 @@ async function joinSession(username, sessionID, DB_SESSIONS = []) {
             active_users_array.push({user: username, vote: null})
 
             // Refresh the database with the updated data
-            await refreshDatabase('sessions', DB_SESSIONS)
+            await refreshDatabase(DB_SESSIONS, null, null)
 
             // Data updated
             return true

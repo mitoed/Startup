@@ -21,6 +21,12 @@ async function joinSession() {
     const currentUser = localStorage.getItem('currentUser')
     const sessionID = document.getElementById('join_session_id').value.toUpperCase()
 
+    // Make sure input is filled before continuing
+    if (sessionID.trim() === '') {
+        document.getElementById('join_session_id').value = ''
+        return
+    }
+
     try {
         const response = await fetch(`/api/join-session/${currentUser}/${sessionID}`)
         const success = response.status

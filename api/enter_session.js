@@ -44,7 +44,7 @@ function pageSetup(app) {
         
         // Add the instance to the sessions array, then update the database
         DB_SESSIONS.push(newSession)
-        database.refreshDatabase('sessions', DB_SESSIONS)
+        database.refreshDatabase(DB_SESSIONS, null, null)
         
         res.status(200).json({sessionID: newSessionID})
     })

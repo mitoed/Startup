@@ -83,8 +83,9 @@ async function finalizeVote() {
 
         // Check if winner is declared
         const groupSelection = data.groupSelection
+        const sessionCategory = data.category
         if (groupSelection !== 'null') {
-            declareWinner(groupSelection)
+            declareWinner(groupSelection, sessionCategory)
         }
 
         // Unexpected errors
@@ -99,7 +100,32 @@ async function finalizeVote() {
 // 3.4 Declare winning selection
 // =============================================================================
 
-function declareWinner(groupSelection) {
+/** If all votes have been cast, display the group selection
+ * 
+ * @param {string} groupSelection - option calculated to have the most votes
+ */
+function declareWinner(groupSelection, sessionCategory) {
+
+    // Display the winning vote
+    let categoryVerb
+    switch (sessionCategory) {
+        case 'food':
+            categoryVerb = 'eating at'
+            break
+        case 'movie':
+            categoryVerb = 'watching'
+            break
+        case 'game':
+            categoryVerb = 'playing'
+            break
+    }
+    document.getElementById('dark_background').style.visibility = 'visible'
+    document.getElementById('final_decision').style.visibility = 'visible'
+    document.getElementById('category_verb').innerHTML = categoryVerb
+    document.getElementById('group_selection').innerHTML = groupSelection
+
+    exitFromFinalSelection()
+    disableCastVoteButton()
 
 }
 
@@ -155,4 +181,30 @@ function clearTableAndList() {
 function populateRecommendation(recommendationHTML) {
     const recommendationBubble = document.getElementById('recommendation_bubble')
     recommendationBubble.innerHTML = recommendationHTML
+}
+
+/**
+ * Add way out of final selection display
+ */
+function exitFromFinalSelection() {
+    const dark_background_button = document.getElementById('dark_background')
+
+    dark_background_button.onclick = function () {
+        document.getElementById('dark_background').style.visibility = 'hidden'
+        document.getElementById('final_decision').style.visibility = 'hidden'
+        document.getElementById('category_verb').innerHTML = ""
+        document.getElementById('group_selection').innerHTML = ""
+    }
+}
+
+/**
+ * Disable further voting code and display message if user tries to continue
+ */
+function disableCastVoteButton() {
+    const finalize_vote_button = document.getElementById('finalize_vote')
+    finalize_vote_button.onclick = function (event) {
+        event.preventDefault();
+        document.getElementById('disabled_finalize').innerHTML = 'Session has concluded'
+        console.log('Session has concluded. Finalize Vote button has been disabled.')
+    }
 }

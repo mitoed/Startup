@@ -7,7 +7,7 @@ const cors = require('cors')
 // Initialize page modules
 const login = require('./api/login.js')
 const enter_session = require('./api/enter_session.js')
-const voting_session = require('./api/API_VS.js')
+const voting_session = require('./api/voting_session.js')
 
 // Setup cors
 app.use(cors({

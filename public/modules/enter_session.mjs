@@ -1,4 +1,9 @@
 /**
+ * Remove current data from local storage
+ */
+localStorage.removeItem('currentSessionID')
+
+/**
  * Assign the function to the Join Session Button
  */
 const join_session_button = document.getElementById('join_session')
@@ -15,6 +20,12 @@ const join_session_button = document.getElementById('join_session')
 async function joinSession() {
     const currentUser = localStorage.getItem('currentUser')
     const sessionID = document.getElementById('join_session_id').value.toUpperCase()
+
+    // Make sure input is filled before continuing
+    if (sessionID.trim() === '') {
+        document.getElementById('join_session_id').value = ''
+        return
+    }
 
     try {
         const response = await fetch(`/api/join-session/${currentUser}/${sessionID}`)

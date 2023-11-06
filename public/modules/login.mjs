@@ -1,7 +1,8 @@
 /**
- * Remove user data from local storage
+ * Remove current data from local storage
  */
 localStorage.removeItem('currentUser')
+localStorage.removeItem('currentSessionID')
 
 /**
  * Assign the function to the Login Button

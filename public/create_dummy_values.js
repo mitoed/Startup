@@ -113,50 +113,6 @@ class Session {
     }
 }
 
-/** Represents any given voting option, which is created from each entry from a session's category_array.
- * 
- * @class
- */
-class VotingOption {
-    /** Creates a new voting option instance
-     * 
-     * @param {string} option_name 
-     */
-    constructor(option_name) {
-        this.option_name = option_name
-    }
-    calculateVotes() {
-        const totalVotes = DB_USERS.filter(instance =>
-            (instance.active_session === currentSessionID && instance.active_vote === this.option_name)
-        ).length
-        return totalVotes
-    }
-
-    /** Using the option_name and the current votes, create html row for Table
-     * 
-     * @returns html for for Table
-     */
-    newHTMLTableRow() {
-        return `<tr><td>${this.option_name}</td><td>${this.calculateVotes()}</td></tr>`
-    }
-
-    /** Using the option_name and the current votes, create html row for Datalist
-     * 
-     * @returns html for for Datalist
-     */
-    newHTMLDatalistRow() {
-        return `<option value="${this.option_name}"></option>`
-    }
-
-    /** Adds "this" option to the appropriate category database
-     * 
-     * @param {array} DB_CATEGORY 
-     */
-    addToCategoryDatabase(DB_CATEGORY) {
-        DB_CATEGORY.push({ 'option_name': this.option_name, 'currentVotes': this.calculateVotes() })
-    }
-}
-
 // =============================================================================
 // DUMMY VALUES -- TO BE DELETED WHEN CONNECTED TO PERSISTENT DATABASE
 // =============================================================================
@@ -167,7 +123,7 @@ function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, f
 }
 addFakeUser("MASAULLS", "1234")
 addFakeUser('CHSAULLS', '389d9*', 7, 1)
-addFakeUser('RCSAULLS', '303udsd',  7, 0)
+addFakeUser('RCSAULLS', '303udsd', 7, 0)
 addFakeUser('ECSAULLS', '38&jdkf', 3, 0)
 addFakeUser('SSAULLS', '7329fd', 3, 3)
 addFakeUser('CSAULLS', '39fds', 7, 4)
@@ -175,11 +131,11 @@ addFakeUser('CSAULLS', '39fds', 7, 4)
 function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
     let fakeSession = new Session(fakeSessionID, fakeCategory, DB_CATEGORY)
     const fakeUserArray = [
-        {name: 'CHSAULLS', vote: 'Costa Vida'},
-        {name: 'RCSAULLS', vote: 'Five Sushi Bros'},
-        {name: 'ECSAULLS', vote: 'Good Move'},
-        {name: 'SSAULLS', vote: 'Burger Supreme'},
-        {name: 'CSAULLS', vote: "Cubby's"},
+        { name: 'CHSAULLS', vote: 'Costa Vida' },
+        { name: 'RCSAULLS', vote: 'Five Sushi Bros' },
+        { name: 'ECSAULLS', vote: 'Good Move' },
+        { name: 'SSAULLS', vote: 'Burger Supreme' },
+        { name: 'CSAULLS', vote: "Cubby's" },
     ]
     if (fakeSession.session_id === 'DEFAULT') {
         for (let newUser of fakeUserArray) {
@@ -211,7 +167,7 @@ let listMOVIE = [
     "The Dark Knight",
     "Pulp Fiction",
     "Schindler's List",
-    "The Lord of the Rings: The Return of the King",
+    "The Return of the King",
     "Fight Club",
     "Forrest Gump",
     "Inception",
@@ -291,33 +247,54 @@ function randomDigit(digitArray) {
     return digitArray[Math.floor(Math.random() * digitArray.length)]
 }
 
+/** Convert the lists to objects with the proper table and list html structures */
+function convertArrayToObjects(list) {
+    let objectsArray = []
+
+    for (let option of list) {
+
+        const table = `<tr><td>${option}</td><td>optionVotes</td></tr>`
+        const list = `<option value="${option}"></option>`
+
+        let obj = { name: option, tableHTML: table, listHTML: list }
+
+        objectsArray.push(obj)
+    }
+    return objectsArray
+}
+
 // =============================================================================
 // 
 // =============================================================================
 
 function createDummyJSON() {
-  const dummyData = {
-    users: DB_USERS.map(user => ({
-      username: user.username,
-      password_hash: user.password_hash,
-      salt: user.salt,
-      sessions_total: user.sessions_total,
-      sessions_won: user.sessions_won,
-    })),
-    sessions: DB_SESSIONS.map(session => ({
-      session_id: session.session_id,
-      category: session.category,
-      start_time: session.start_time,
-      active_users_array: session.active_users_array,
-      unpopular_opinion: session.unpopular_opinion,
-      end_time: session.end_time,
-      winner: session.winner,
-    })),
-  };
+    const dummyData = {
+        users: DB_USERS.map(user => ({
+            username: user.username,
+            password_hash: user.password_hash,
+            salt: user.salt,
+            sessions_total: user.sessions_total,
+            sessions_won: user.sessions_won,
+        })),
+        sessions: DB_SESSIONS.map(session => ({
+            session_id: session.session_id,
+            category: session.category,
+            start_time: session.start_time,
+            active_users_array: session.active_users_array,
+            unpopular_opinion: session.unpopular_opinion,
+            end_time: session.end_time,
+            winner: session.winner,
+        })),
+        options: {
+            food: convertArrayToObjects(listFOOD),
+            game: convertArrayToObjects(listGAME),
+            movie: convertArrayToObjects(listMOVIE)
+        }
+    }
 
-  // Save the JSON to a file
-  const jsonContent = JSON.stringify(dummyData, null, 2);
-  fs.writeFileSync('./dummy_values.json', jsonContent);
+    // Save the JSON to a file
+    const jsonContent = JSON.stringify(dummyData, null, 2);
+    fs.writeFileSync('./dummy_values.json', jsonContent);
 }
 
 // Call the function to create and save the JSON file

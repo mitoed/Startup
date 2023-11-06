@@ -25,8 +25,8 @@ app.use(express.json());
 // Serve up the frontend static content hosting
 app.use(express.static('public'));
 
-async function setupServer() {
-  try {
+
+try {
     login.pageSetup (app)
     enter_session.pageSetup (app)
     voting_session.pageSetup (app)
@@ -54,10 +54,7 @@ async function setupServer() {
   } catch (error) {
     console.error('An error occured during the server setup:', error)
     process.exit(1)
-  }
 }
-
-setupServer()
 
 const yelpAPI = process.env.YELP_API_KEY
 const location = 'provo%2C%20ut'

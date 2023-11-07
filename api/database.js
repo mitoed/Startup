@@ -90,11 +90,11 @@ async function joinSession(username, sessionID, sessions = []) {
         if (sessionID === session_id && end_time === '') {
             
             // check if user is already added to server
-            const userInSession = active_users_array.find(user => user.user === username)
+            const userInSession = active_users_array.find(user => user.name === username)
 
             if (!userInSession) {
                 // Add user to the active users array
-                active_users_array.push({user: username, vote: null})
+                active_users_array.push({name: username, vote: null})
             }
 
             if (userInSession) {

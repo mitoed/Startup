@@ -2,44 +2,44 @@
   "users": [
     {
       "username": "MASAULLS",
-      "password_hash": 73354650,
-      "salt": "2DDQW0",
-      "sessions_total": 0,
-      "sessions_won": 0
+      "password_hash": -1503768680,
+      "salt": "84E8LS",
+      "sessions_total": 1,
+      "sessions_won": 1
     },
     {
       "username": "CHSAULLS",
-      "password_hash": -314780122,
-      "salt": "FJKKS4",
-      "sessions_total": 0,
+      "password_hash": -1530789599,
+      "salt": "50UJZJ",
+      "sessions_total": 1,
       "sessions_won": 0
     },
     {
       "username": "RCSAULLS",
-      "password_hash": 1373941971,
-      "salt": "U38UPX",
-      "sessions_total": 0,
+      "password_hash": -558213979,
+      "salt": "1JDXDH",
+      "sessions_total": 1,
       "sessions_won": 0
     },
     {
       "username": "ECSAULLS",
-      "password_hash": -935833401,
-      "salt": "1L9WOE",
-      "sessions_total": 0,
+      "password_hash": -2064848420,
+      "salt": "4MX911",
+      "sessions_total": 1,
       "sessions_won": 0
     },
     {
       "username": "SSAULLS",
-      "password_hash": 606046701,
-      "salt": "QFGRYE",
-      "sessions_total": 0,
-      "sessions_won": 0
+      "password_hash": 1858380489,
+      "salt": "ZCDP3F",
+      "sessions_total": 1,
+      "sessions_won": 1
     },
     {
       "username": "CSAULLS",
-      "password_hash": 1834269946,
-      "salt": "BXWVXX",
-      "sessions_total": 0,
+      "password_hash": 954459484,
+      "salt": "FK7VBQ",
+      "sessions_total": 1,
       "sessions_won": 0
     }
   ],
@@ -47,36 +47,15 @@
     {
       "session_id": "DEFAULT",
       "category": "food",
-      "start_time": 1699264718150,
-      "active_users_array": [
-        {
-          "name": "CHSAULLS",
-          "vote": "Costa Vida"
-        },
-        {
-          "name": "RCSAULLS",
-          "vote": "Five Sushi Bros"
-        },
-        {
-          "name": "ECSAULLS",
-          "vote": "Good Move"
-        },
-        {
-          "name": "SSAULLS",
-          "vote": "Burger Supreme"
-        },
-        {
-          "name": "CSAULLS",
-          "vote": "Cubby's"
-        }
-      ],
+      "start_time": 1699339935840,
+      "active_users_array": [],
       "unpopular_opinion": "",
-      "end_time": ""
+      "end_time": 1699340171262
     },
     {
       "session_id": "F7N7V4",
       "category": "food",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -84,7 +63,7 @@
     {
       "session_id": "C7T4H9",
       "category": "food",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -92,7 +71,7 @@
     {
       "session_id": "F2W7Q7",
       "category": "food",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -100,7 +79,7 @@
     {
       "session_id": "H6Q2N0",
       "category": "food",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -108,7 +87,7 @@
     {
       "session_id": "D2S4D6",
       "category": "food",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -116,7 +95,7 @@
     {
       "session_id": "K4X6J2",
       "category": "movie",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -124,7 +103,7 @@
     {
       "session_id": "N7T5Q6",
       "category": "movie",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -132,7 +111,7 @@
     {
       "session_id": "L3V9B4",
       "category": "movie",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -140,7 +119,7 @@
     {
       "session_id": "N2K6M6",
       "category": "movie",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -148,7 +127,7 @@
     {
       "session_id": "P7X5C7",
       "category": "movie",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -156,7 +135,7 @@
     {
       "session_id": "K5F2K4",
       "category": "movie",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -164,7 +143,7 @@
     {
       "session_id": "L2K3N3",
       "category": "movie",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -172,7 +151,7 @@
     {
       "session_id": "R7M0X2",
       "category": "game",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -180,7 +159,7 @@
     {
       "session_id": "X7H3J3",
       "category": "game",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -188,7 +167,7 @@
     {
       "session_id": "S4C3Q5",
       "category": "game",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -196,7 +175,7 @@
     {
       "session_id": "T5H9K5",
       "category": "game",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -204,7 +183,7 @@
     {
       "session_id": "S2V2J9",
       "category": "game",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -212,7 +191,7 @@
     {
       "session_id": "Z6L3X3",
       "category": "game",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -220,7 +199,7 @@
     {
       "session_id": "T7F3P7",
       "category": "game",
-      "start_time": 1699264718150,
+      "start_time": 1699339935840,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -230,67 +209,67 @@
     "food": [
       {
         "name": "Wendy's",
-        "tableHTML": "<tr><td>Wendy's</td><td>optionVotes</td></tr>",
+        "tableHTML": "<tr><td>Wendy's</td><td>0</td></tr>",
         "listHTML": "<option value=\"Wendy's\"></option>"
       },
       {
         "name": "McDonald's",
-        "tableHTML": "<tr><td>McDonald's</td><td>optionVotes</td></tr>",
+        "tableHTML": "<tr><td>McDonald's</td><td>0</td></tr>",
         "listHTML": "<option value=\"McDonald's\"></option>"
       },
       {
         "name": "Chick-fil-A",
-        "tableHTML": "<tr><td>Chick-fil-A</td><td>optionVotes</td></tr>",
+        "tableHTML": "<tr><td>Chick-fil-A</td><td>0</td></tr>",
         "listHTML": "<option value=\"Chick-fil-A\"></option>"
       },
       {
         "name": "Bumblebees",
-        "tableHTML": "<tr><td>Bumblebees</td><td>optionVotes</td></tr>",
+        "tableHTML": "<tr><td>Bumblebees</td><td>0</td></tr>",
         "listHTML": "<option value=\"Bumblebees\"></option>"
       },
       {
         "name": "Se Llama Peru",
-        "tableHTML": "<tr><td>Se Llama Peru</td><td>optionVotes</td></tr>",
+        "tableHTML": "<tr><td>Se Llama Peru</td><td>0</td></tr>",
         "listHTML": "<option value=\"Se Llama Peru\"></option>"
       },
       {
         "name": "India Palace",
-        "tableHTML": "<tr><td>India Palace</td><td>optionVotes</td></tr>",
+        "tableHTML": "<tr><td>India Palace</td><td>0</td></tr>",
         "listHTML": "<option value=\"India Palace\"></option>"
       },
       {
         "name": "Burger Supreme",
-        "tableHTML": "<tr><td>Burger Supreme</td><td>optionVotes</td></tr>",
+        "tableHTML": "<tr><td>Burger Supreme</td><td>2</td></tr>",
         "listHTML": "<option value=\"Burger Supreme\"></option>"
       },
       {
         "name": "Cubby's",
-        "tableHTML": "<tr><td>Cubby's</td><td>optionVotes</td></tr>",
+        "tableHTML": "<tr><td>Cubby's</td><td>1</td></tr>",
         "listHTML": "<option value=\"Cubby's\"></option>"
       },
       {
         "name": "Good Move",
-        "tableHTML": "<tr><td>Good Move</td><td>optionVotes</td></tr>",
+        "tableHTML": "<tr><td>Good Move</td><td>1</td></tr>",
         "listHTML": "<option value=\"Good Move\"></option>"
       },
       {
         "name": "Brick Oven",
-        "tableHTML": "<tr><td>Brick Oven</td><td>optionVotes</td></tr>",
+        "tableHTML": "<tr><td>Brick Oven</td><td>0</td></tr>",
         "listHTML": "<option value=\"Brick Oven\"></option>"
       },
       {
         "name": "Costa Vida",
-        "tableHTML": "<tr><td>Costa Vida</td><td>optionVotes</td></tr>",
+        "tableHTML": "<tr><td>Costa Vida</td><td>1</td></tr>",
         "listHTML": "<option value=\"Costa Vida\"></option>"
       },
       {
         "name": "Five Sushi Bros",
-        "tableHTML": "<tr><td>Five Sushi Bros</td><td>optionVotes</td></tr>",
+        "tableHTML": "<tr><td>Five Sushi Bros</td><td>1</td></tr>",
         "listHTML": "<option value=\"Five Sushi Bros\"></option>"
       },
       {
         "name": "Black Sheep Cafe",
-        "tableHTML": "<tr><td>Black Sheep Cafe</td><td>optionVotes</td></tr>",
+        "tableHTML": "<tr><td>Black Sheep Cafe</td><td>0</td></tr>",
         "listHTML": "<option value=\"Black Sheep Cafe\"></option>"
       }
     ],

@@ -9,11 +9,10 @@ function pageSetup(app) {
         const { sessionID } = req.params
         
         // Connect to live server
-        const data = await database.loadDatabase()
-        const DB_SESSIONS = data.sessions
+        const { sessions } = await database.loadDatabase()
 
         // Add user data to server, if session is open
-        const updatedData = await database.joinSession(username, sessionID, DB_SESSIONS)
+        const updatedData = await database.joinSession(username, sessionID, sessions)
 
         if (!updatedData) {
             console.log('Error: Session Not Found')

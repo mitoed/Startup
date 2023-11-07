@@ -82,25 +82,35 @@ async function refreshLiveData(sessionID, sessionUsersArray, category, tableList
  * @param {array} DB_SESSIONS - the array of session data
  * @returns 
  */
-async function joinSession(username, sessionID, DB_SESSIONS = []) {
+async function joinSession(username, sessionID, sessions = []) {
 
     // Access server and push username to that open session
     // Without access to server's live data, access and push new data to JSON
-    for (let { session_id, active_users_array, end_time } of DB_SESSIONS) {
+    for (let { session_id, active_users_array, end_time } of sessions) {
         if (sessionID === session_id && end_time === '') {
             
-            // Add user to the active users array
-            active_users_array.push({user: username, vote: null})
+            // check if user is already added to server
+            const userInSession = active_users_array.find(user => user.user === username)
+
+            if (!userInSession) {
+                // Add user to the active users array
+                active_users_array.push({user: username, vote: null})
+            }
+
+            if (userInSession) {
+                // Remove the user's vote from the array
+                userInSession['vote'] = null
+            }
 
             // Refresh the database with the updated data
-            await refreshDatabase(DB_SESSIONS, null, null)
+            await refreshDatabase(sessions, null, null)
 
-            // Data updated
+            // User added to session (if not already) and database is updated
             return true
         }
     }
     
-    // Data not updated
+    // Session is closed or does not exist
     return false
 }
 

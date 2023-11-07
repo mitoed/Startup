@@ -2,44 +2,44 @@
   "users": [
     {
       "username": "MASAULLS",
-      "password_hash": -1503768680,
-      "salt": "84E8LS",
-      "sessions_total": 1,
-      "sessions_won": 1
+      "password_hash": 1772525446,
+      "salt": "4N8P4F",
+      "sessions_total": 2,
+      "sessions_won": 2
     },
     {
       "username": "CHSAULLS",
-      "password_hash": -1530789599,
-      "salt": "50UJZJ",
-      "sessions_total": 1,
-      "sessions_won": 0
+      "password_hash": -1117490311,
+      "salt": "AWOP8Y",
+      "sessions_total": 2,
+      "sessions_won": 2
     },
     {
       "username": "RCSAULLS",
-      "password_hash": -558213979,
-      "salt": "1JDXDH",
-      "sessions_total": 1,
+      "password_hash": -719059730,
+      "salt": "7D772M",
+      "sessions_total": 2,
       "sessions_won": 0
     },
     {
       "username": "ECSAULLS",
-      "password_hash": -2064848420,
-      "salt": "4MX911",
-      "sessions_total": 1,
+      "password_hash": 54208784,
+      "salt": "LFK4V9",
+      "sessions_total": 2,
       "sessions_won": 0
     },
     {
       "username": "SSAULLS",
-      "password_hash": 1858380489,
-      "salt": "ZCDP3F",
-      "sessions_total": 1,
-      "sessions_won": 1
+      "password_hash": -414253765,
+      "salt": "ECYCD6",
+      "sessions_total": 2,
+      "sessions_won": 0
     },
     {
       "username": "CSAULLS",
-      "password_hash": 954459484,
-      "salt": "FK7VBQ",
-      "sessions_total": 1,
+      "password_hash": 1249078707,
+      "salt": "329JJV",
+      "sessions_total": 2,
       "sessions_won": 0
     }
   ],
@@ -47,15 +47,40 @@
     {
       "session_id": "DEFAULT",
       "category": "food",
-      "start_time": 1699339935840,
-      "active_users_array": [],
+      "start_time": 1699342244941,
+      "active_users_array": [
+        {
+          "name": "CHSAULLS",
+          "vote": "Costa Vida"
+        },
+        {
+          "name": "RCSAULLS",
+          "vote": "Five Sushi Bros"
+        },
+        {
+          "name": "ECSAULLS",
+          "vote": "Good Move"
+        },
+        {
+          "name": "SSAULLS",
+          "vote": "Burger Supreme"
+        },
+        {
+          "name": "CSAULLS",
+          "vote": "Cubby's"
+        },
+        {
+          "name": "MASAULLS",
+          "vote": "Costa Vida"
+        }
+      ],
       "unpopular_opinion": "",
-      "end_time": 1699340171262
+      "end_time": 1699342262561
     },
     {
       "session_id": "F7N7V4",
       "category": "food",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -63,7 +88,7 @@
     {
       "session_id": "C7T4H9",
       "category": "food",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -71,7 +96,7 @@
     {
       "session_id": "F2W7Q7",
       "category": "food",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -79,7 +104,7 @@
     {
       "session_id": "H6Q2N0",
       "category": "food",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -87,7 +112,7 @@
     {
       "session_id": "D2S4D6",
       "category": "food",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -95,7 +120,7 @@
     {
       "session_id": "K4X6J2",
       "category": "movie",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -103,7 +128,7 @@
     {
       "session_id": "N7T5Q6",
       "category": "movie",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -111,7 +136,7 @@
     {
       "session_id": "L3V9B4",
       "category": "movie",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -119,7 +144,7 @@
     {
       "session_id": "N2K6M6",
       "category": "movie",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -127,7 +152,7 @@
     {
       "session_id": "P7X5C7",
       "category": "movie",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -135,7 +160,7 @@
     {
       "session_id": "K5F2K4",
       "category": "movie",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -143,7 +168,7 @@
     {
       "session_id": "L2K3N3",
       "category": "movie",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -151,7 +176,7 @@
     {
       "session_id": "R7M0X2",
       "category": "game",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -159,7 +184,7 @@
     {
       "session_id": "X7H3J3",
       "category": "game",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -167,7 +192,7 @@
     {
       "session_id": "S4C3Q5",
       "category": "game",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -175,7 +200,7 @@
     {
       "session_id": "T5H9K5",
       "category": "game",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -183,7 +208,7 @@
     {
       "session_id": "S2V2J9",
       "category": "game",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -191,7 +216,7 @@
     {
       "session_id": "Z6L3X3",
       "category": "game",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -199,7 +224,7 @@
     {
       "session_id": "T7F3P7",
       "category": "game",
-      "start_time": 1699339935840,
+      "start_time": 1699342244941,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -239,7 +264,7 @@
       },
       {
         "name": "Burger Supreme",
-        "tableHTML": "<tr><td>Burger Supreme</td><td>2</td></tr>",
+        "tableHTML": "<tr><td>Burger Supreme</td><td>1</td></tr>",
         "listHTML": "<option value=\"Burger Supreme\"></option>"
       },
       {
@@ -259,7 +284,7 @@
       },
       {
         "name": "Costa Vida",
-        "tableHTML": "<tr><td>Costa Vida</td><td>1</td></tr>",
+        "tableHTML": "<tr><td>Costa Vida</td><td>2</td></tr>",
         "listHTML": "<option value=\"Costa Vida\"></option>"
       },
       {

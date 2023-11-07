@@ -72,8 +72,13 @@ function pageSetup(app) {
             return
         }
 
-        // 3.4 Check for and declare group selection
-        const popularVote = await checkAllVotesCast(sessionInstance)
+        // 3.4 Check for and declare group selection after 5 seconds
+        const popularVote = await checkDelay(10)
+        
+        async function checkDelay(waitSeconds) {
+            await new Promise(resolve => setTimeout(resolve, 1000 * waitSeconds));
+            return await checkAllVotesCast(sessionInstance.session_id);
+        }
 
         res.json({votesArray: tableListHTML, groupSelection: popularVote, category: sessionInstance.category})
         
@@ -145,13 +150,17 @@ function generateRecommendationHTML(category) {
 
 /** Check the session array of active users if all have cast a vote
  * 
- * @param {object} sessionInstance - session data for the check and the session closing
+ * @param {object} sessionID - sessionID for the check and the session closing
  * @returns which option was voted most?
  */
-async function checkAllVotesCast(sessionInstance) {
+async function checkAllVotesCast(sessionID) {
 
     // Load live server votes
-    const sessionUsersArray = sessionInstance.active_users_array
+    // Create session object from database data
+    const { sessions, options } = await database.loadDatabase()
+    const data = sessions.find(s => s.session_id === sessionID)
+    sessionInstance = new classes.Session(data.session_id, data.category, data.active_users_array)
+    sessionUsersArray = sessionInstance.active_users_array
 
     // 3.4.1 Check if all votes are cast
     const activeUsers = sessionUsersArray.length
@@ -219,8 +228,6 @@ async function closeSession(sessionInstance, popularVote) {
         
     // 3.4.5.3 Note the time in session's end_time in database
     sessionInfo.end_time = Date.now()
-    // 3.4.5.4 Clear session's active_users_array
-    sessionInfo.active_users_array = []
 
     // Refresh the databases with the new data
     await database.refreshDatabase(sessions, users, null)

@@ -35,7 +35,8 @@ function pageSetup(app) {
         }
 
         res.json({optionsHTML: tableListHTML,
-            recommendation: recommendationHTML
+            recommendation: recommendationHTML,
+            activeUsers: sessionUsersArray.length
         })
     })
 

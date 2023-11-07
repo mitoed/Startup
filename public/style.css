@@ -266,6 +266,12 @@ button.submit {
   letter-spacing: 2px;
 }
 
+.VOT-session.VOT-user-count h1 {
+  font-size: 12pt;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
 .VOT-count_selection.VOT-container {
   display: flex;
   flex-wrap: wrap;

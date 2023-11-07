@@ -198,7 +198,7 @@ button.submit {
 
 #login_error,
 #create_error,
-#disabled_finalize,
+#finalize_msg,
 #session_not_found_error {
   max-width: 300px;
   margin: 0;

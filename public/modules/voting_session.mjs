@@ -7,7 +7,6 @@ let isCountdownRunning = false
 
 // =============================================================================
 // 3.1 Populate page and connect to servers
-// 3.2 Display internet recommendations
 // =============================================================================
 
 pagePopulation()
@@ -15,24 +14,28 @@ pagePopulation()
 async function pagePopulation() {
 
     try {
-        // Get session ID from local storage and set page title
+// 3.1.1 -- Display current session ID
         const sessionID = localStorage.getItem('currentSessionID')
         document.title = `Voting Session: ${sessionID}`
 
-        // 3.1.2 Retrieve list of voting options from database
+// 3.1.2 -- Retrieve list of voting options from database
+// 3.1.3 -- Connect to live server and add options
+// 3.1.4 -- Retrieve list of active users from live server
+// 3.1.5 -- Produce table of options and datalist html
+// 3.1.6 -- Produce internet recommendation html
         const response = await fetch(`/api/populate-page/${sessionID}`)
         const data = await response.json()
         const optionsArrayHTML = data.optionsHTML
 
-        // Display total users
-        const activeUsers = data.activeUsers
-        document.getElementById('user_count').innerHTML = `Active Users: ${activeUsers}`
-
-        // 3.1.4 Produce and display table of options and datalist to be updated with votes
+// 3.1.7 -- Display table of options and datalist to be updated with votes
         clearTableAndList()
         populateTableAndList(optionsArrayHTML)
 
-        // 3.2.1 Display internet recommendations
+// 3.1.8 -- Display active user count
+        const activeUsers = data.activeUsers
+        document.getElementById('user_count').innerHTML = `Active Users: ${activeUsers}`
+
+// 3.1.9 -- Display internet recommendation
         const recommendationHTML = data.recommendation
         populateRecommendation(recommendationHTML)
 
@@ -44,13 +47,10 @@ async function pagePopulation() {
 }
 
 // =============================================================================
-// 3.3 Record Votes and page and servers
-// 3.4 Check for winning selection
+// 3.2 Record votes and page and servers
 // =============================================================================
 
-/**
- * Assign the function to the Finalize Vote button
- */
+// Assign the function to the Finalize Vote button
 const finalize_vote_button = document.getElementById('finalize_vote')
 
 finalize_vote_button.onclick = function (event) {
@@ -62,32 +62,30 @@ finalize_vote_button.onclick = function (event) {
 async function finalizeVote() {
     try {
 
-        // 3.3.2 Gather selection from user input
+// 3.2.1 -- Gather selection from user input
         const sessionID = localStorage.getItem('currentSessionID')
         const currentUser = localStorage.getItem('currentUser')
         const newVote = document.getElementById('vote_selection').value.trim() || 'null'
         const pastVote = localStorage.getItem('voteSelection') || 'null'
 
-        // If vote has not changed, exit function
+        // Just stop if vote has not changed
         if (newVote === pastVote ) {
-            console.log('same as last time')
             return
         }
 
+// 3.2.2 -- Add user vote
         if (newVote !== 'null') {
-            // 3.3.2 Add vote in live server (dummy_data.json)
-            console.log('selection cleared')
+            
+// 3.2.2.1 -- Update the data in the live server (dummy_data.json)
             const response = await fetch(`/api/record-vote/${sessionID}/${currentUser}/${newVote}`)
 
             if (response.ok) {
-
-                // Retain selection in local storage
                 localStorage.setItem('voteSelection', newVote)
 
-                // Repopulate the table and list
+// 3.2.2.2 ---- Display updated data on page
                 pagePopulation()
 
-                // Check if all votes have been cast
+// 3.2.2.3 ---- Proceed to 3.3
                 checkVotes()
 
             } else {
@@ -95,9 +93,8 @@ async function finalizeVote() {
             }
         }
         
-
+// 3.2.3 -- Clear vote in live server (dummy_data.json)
         if (newVote === 'null') {
-            // 3.3.2 Clear vote in live server (dummy_data.json)
             clearVote(sessionID, currentUser)
         }
 
@@ -109,10 +106,7 @@ async function finalizeVote() {
 
 }
 
-/**
- * Assign the function to the Clear Vote button
- */
-
+// Assign the function to the Clear Vote button
 const clear_vote_button = document.getElementById('clear_vote')
 
 clear_vote_button.onclick = function (event) {
@@ -121,71 +115,71 @@ clear_vote_button.onclick = function (event) {
     clearVote()
 }
 
+// 3.2.3 -- Clear user vote
 async function clearVote(sessionID = '', currentUser = '') {
 
-    // Get values from local storage if needed
     sessionID = sessionID || localStorage.getItem('currentSessionID')
     currentUser = currentUser || localStorage.getItem('currentUser')
 
-    // 3.3.2 Clear vote in live server (dummy_data.json)
+// 3.2.3.1 -- Update the data in the live server (dummy_data.json)
     const response = await fetch(`/api/clear-vote/${sessionID}/${currentUser}`)
 
     if (response.ok) {
-
-        // Remove selection in local storage
         localStorage.removeItem('voteSelection')
         document.getElementById('vote_selection').value = ''
 
-        // Repopulate the table and list
+// 3.2.3.2 -- Display updated data on page
         pagePopulation()
 
-        // Cancel the countdown timer, if any
+// 3.2.3.3 -- Clear any timer started from 3.3.3
         resetCountdown(false)
     }
 }
 
 // =============================================================================
-// 3.4 Declare winning selection
+// 3.3 Check for group selection
 // =============================================================================
 
-/**
- * If all votes have been cast, display the group selection
- */
 async function checkVotes() {
 
-    // Get session ID from local storage
     const sessionID = localStorage.getItem('currentSessionID')
 
-    // 3.4.1 Check if all votes are cast
-    // 3.4.2 Calculate the most common vote (this is the group selection)
+// 3.3.1 -- Check if all votes are cast
+// 3.3.2 -- Calculate the most common vote (this is the group selection)
     const response = await fetch(`/api/check-votes/${sessionID}`)
     const { groupSelection } = await response.json()
 
-    // If not all votes are cast, do not proceed
-    if (groupSelection !== 'null') {
+    // If all votes are cast...
+    if (groupSelection !== 'null') { 
 
-        // Reset and start the countdown (adjust delay duration as needed)
+// 3.3.3 -- Countdown timer until group selection declared
         const delayInSeconds = 10
         
-        // Call closeSession when the countdown is finished
+// 3.3.3.1 -- When timer finishes, proceed to 3.5
         resetCountdown(true, delayInSeconds, closeSession, sessionID, groupSelection);
     }
 
     if (groupSelection === 'null') {
         
-        // Cancel the countdown timer
+// 3.3.3.2 -- If votes are changed, cancel timer
         resetCountdown(false)
     }
 
 }
 
+// =============================================================================
+// 3.4 Close the session
+// =============================================================================
+
 async function closeSession(sessionID, groupSelection) {
 
+// 3.4.1 -- End session in database and live server (dummy_data.json)
     const response = await fetch(`/api/close-session/${sessionID}/${groupSelection}`)
     
     if (response.ok) {
 
-        // If all votes are cast, display the winning vote
+// 3.4.2 ---- Display selection on screen from 3.3.2
+// 3.4.2.1 -- Select appropriate language for selection display
         let categoryVerb
         switch (response.category) {
             case 'food':
@@ -198,13 +192,19 @@ async function closeSession(sessionID, groupSelection) {
                 categoryVerb = 'playing'
                 break
         }
+// 3.4.2.2 -- Display html for group selection
         document.getElementById('dark_background').style.visibility = 'visible'
         document.getElementById('final_decision').style.visibility = 'visible'
         document.getElementById('category_verb').innerHTML = categoryVerb
         document.getElementById('group_selection').innerHTML = groupSelection
 
+// 3.4.3 ---- Disable voting functionality
+// 3.4.3.1 -- Create html element to hide group selection
         exitFromFinalSelection()
+
+// 3.4.3.2 -- Disable the vote buttons
         disableCastVoteButton()
+
     } else {
         throw new Error('Status code:', response.status)
     }
@@ -215,7 +215,7 @@ async function closeSession(sessionID, groupSelection) {
 // Supporting Functions
 // =============================================================================
 
-/** Send html of options to page to be populated
+/** Creates and prepares html of options to page to be populated
  * 
  * @param {array} sessionOptionsArray - Array of option objects (name, votes, tableHTML, listHTML)
  */
@@ -243,6 +243,10 @@ function populateTableAndList(optionsArrayHTML) {
     }
 }
 
+/**
+ * Clears all table elements after the header
+ * Clears all datalist elements
+ */
 function clearTableAndList() {
 
     // Clear table elements
@@ -288,18 +292,26 @@ function disableCastVoteButton() {
     document.getElementById('finalize_msg').innerHTML = 'Session has concluded'
     console.log('Session has concluded. Finalize Vote button has been disabled.')
 
-    // Disable buttons
+    // Disable Finalize button
     const finalize_vote_button = document.getElementById('finalize_vote')
     finalize_vote_button.onclick = function (event) {
         event.preventDefault();
     }
+
+    // Disable Clear button
     const clear_vote_button = document.getElementById('clear_vote')
     clear_vote_button.onclick = function (event) {
         event.preventDefault()
     }
 }
 
-// Function to start the countdown
+/** Function to start the countdown
+ * 
+ * @param {number} duration - seconds to be delayed
+ * @param {function} onCountdownFinished - ran when countdown is complete
+ * @param {*} parameter1 - parameter 1 for function
+ * @param {*} parameter2 - parameter 2 for function
+ */
 function startCountdown(duration, onCountdownFinished, parameter1, parameter2) {
     
     isCountdownRunning = true
@@ -321,7 +333,14 @@ function startCountdown(duration, onCountdownFinished, parameter1, parameter2) {
     }, 1000); // Update countdown every 1 second
 }
 
-// Function to reset and restart the countdown timer
+/** Reset and restart the countdown timer
+ * 
+ * @param {boolean} begin - if true, restarts timer; if false, stops timer
+ * @param {number} duration - seconds to be delayed
+ * @param {function} onCountdownFinished - ran when countdown is complete
+ * @param {*} parameter1 - parameter 1 for function
+ * @param {*} parameter2 - parameter 2 for function
+ */
 function resetCountdown(begin, duration = '', onCountdownFinished = '', parameter1 = '', parameter2 = '') {
     if (isCountdownRunning) {
         clearInterval(countdownTimer); // Clear the existing timer if it exists

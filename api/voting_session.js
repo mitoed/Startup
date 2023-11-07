@@ -1,4 +1,4 @@
-const database = require('./database.js')
+const database = require('finalize_msg./database.js')
 const classes = require('./classes.js')
 
 function pageSetup(app) {
@@ -9,29 +9,43 @@ function pageSetup(app) {
     let sessionOptionsArray
     let recommendationHTML = ''
 
-    // 3.1 Populate page and connect to servers
-    // 3.2 Display internet recommendation
+// 3.1 -- Populate page and connect to servers
     app.get('/api/populate-page/:sessionID', async (req, res) => {
         
-        // 3.1 Populate page and connect to servers
         const { sessionID } = req.params
 
-        // Refresh session data from database data
+// 3.1.2 -- Retrieve list of voting options from database (dummy_data.json)
         const { sessions, options } = await database.loadDatabase()
         const data = sessions.find(s => s.session_id === sessionID)
         sessionInstance = new classes.Session(data.session_id, data.category, data.active_users_array)
-        sessionUsersArray = sessionInstance.active_users_array
 
-        // 3.1.2 Retrieve list of voting options from database (dummy_data.json)
         const category = sessionInstance.category
         sessionOptionsArray = options[category]
 
-        // 3.1.4 Amend html for table of options
+// 3.1.3 -- Connect to live server and add options
+        // something with this function -> database.refreshLiveData()
+
+// 3.1.4 -- Retrieve list of active users from live server (dummy_data.json)
+        sessionUsersArray = sessionInstance.active_users_array
+
+// 3.1.5 -- Produce table of options and datalist html
         const tableListHTML = generateTableHTML(sessionOptionsArray, sessionUsersArray)
 
-        // 3.2 Display internet recommendations
+// 3.1.6 -- Produce internet recommendation html
         if (!recommendationHTML) {
-            recommendationHTML = generateRecommendationHTML(sessionInstance.category)
+
+            try {
+
+// 3.1.6.1 ---- [For food sessions] Retrieve and produce Yelp recommendation and url
+                // Something with Yelp API, if it ever works
+                throw new Error('yelp API not connected')
+            
+            } catch {
+
+// 3.1.6.2 ---- [For movie and game sessions] Display link to google search
+                // Until Yelp API works, use this always
+                recommendationHTML = generateRecommendationHTML(sessionInstance.category)
+            }
         }
 
         res.json({optionsHTML: tableListHTML,
@@ -40,24 +54,26 @@ function pageSetup(app) {
         })
     })
 
-    // 3.3 Record votes on page and servers
+// 3.2 ---- Record votes on page and servers
+// 3.2.2 -- Add user vote
     app.get('/api/record-vote/:sessionID/:username/:newVote', async (req, res) => {
 
-        // 3.3.1 Gather selection from user input
         let { sessionID, username, newVote } = req.params
 
+// 3.2.2.1 -- Update the data in the live server
         try {
-            // Refresh session data from database data
+
+// 3.2.2.1.1 -- Connect to live server and database (dummy_data.json)
             const { sessions } = await database.loadDatabase()
             const data = sessions.find(s => s.session_id === sessionID)
             sessionInstance = new classes.Session(data.session_id, data.category, data.active_users_array)
             sessionUsersArray = sessionInstance.active_users_array
 
-            // Add user's vote to their object in the session array
+// 3.2.2.1.2 -- Add user's vote to their object in the session array
             const userInstance = sessionUsersArray.find(user => user.name === username)
             userInstance['vote'] = newVote
 
-            // Create a new option if doesn't exist in the options database
+// 3.2.2.1.3 -- Create a new option if doesn't exist in the options database
             let newSelection = sessionOptionsArray.find(option => option.name === newVote)
             if (!newSelection) {
                 const table = `<tr><td>${newVote}</td><td>optionVotes</td></tr>`
@@ -67,10 +83,10 @@ function pageSetup(app) {
                 sessionOptionsArray.push(newOption)
             }
 
-            // Amend html for table of options and datalist
+// 3.2.2.1.4 -- Create updated html for table of options and datalist
             const tableListHTML = generateTableHTML(sessionOptionsArray, sessionUsersArray)
 
-            // 3.3.2 Change vote in live server (dummy_data.json)
+// 3.2.2.1.5 -- Update the live server (dummy_data.json) with the new session info
             await database.refreshLiveData(sessionInstance.session_id, sessionUsersArray, sessionInstance.category, tableListHTML)
             
             res.status(200).send('Everything worked')
@@ -82,26 +98,28 @@ function pageSetup(app) {
 
     })
 
-    // Clear vote
+// 3.2.3 -- Clear user vote
     app.get('/api/clear-vote/:sessionID/:username', async (req, res) => {
 
         const { sessionID, username } = req.params
 
+// 3.2.3.1 -- Update the data in the live server
         try {
-            // Refresh session data from database data
+
+// 3.2.3.1.1 -- Connect to live server and database (dummy_data.json)
             const { sessions } = await database.loadDatabase()
             const data = sessions.find(s => s.session_id === sessionID)
             sessionInstance = new classes.Session(data.session_id, data.category, data.active_users_array)
             sessionUsersArray = sessionInstance.active_users_array
 
-            // Clear user's vote from array
+// 3.2.3.1.2 -- Clear user's vote in their object in the session array
             const userInstance = sessionUsersArray.find(user => user.name === username)
             userInstance['vote'] = null
 
-            // Amend html for table of options and datalist
+// 3.2.3.1.3 -- Create updated html for table of options
             const tableListHTML = generateTableHTML(sessionOptionsArray, sessionUsersArray)
 
-            // 3.3.2 Change vote in live server (dummy_data.json)
+// 3.2.3.1.4 -- Update the live server (dummy_data.json) with the new session info
             await database.refreshLiveData(sessionInstance.session_id, sessionUsersArray, sessionInstance.category, tableListHTML)
 
             res.status(200).send('Success')
@@ -113,60 +131,66 @@ function pageSetup(app) {
 
     })
 
-    // 3.4 Check for and declare group selection
+// 3.3 -- Check for group selection
     app.get('/api/check-votes/:sessionID', async (req, res) => {
 
         const { sessionID } = req.params
-            
-        // Request refreshed database data
+
+// 3.3.1 ---- Check if all votes are cast
+// 3.3.1.1 -- Connect to live server (dummy_data.json)
         const { sessions } = await database.loadDatabase()
         const sessionInstance = sessions.find(s => s.session_id === sessionID)
         sessionUsersArray = sessionInstance.active_users_array
 
-        // 3.4.1 Check if all votes are cast
+// 3.3.1.2 -- Compare total active users with total votes cast
         const activeUsers = sessionUsersArray.length
         const activeVotes = sessionUsersArray.filter(user => user.vote !== null)
         const totalVotes = activeVotes.length
         let popularVote = ''
 
-        if (totalVotes === activeUsers) {
-            // 3.4.2 Calculate the most common vote
-            const voteCounts = {};
+// 3.3.1.3 -- If not all users have voted, exit.
+        if (totalVotes !== activeUsers) {
+            popularVote = 'null'
+        }
 
+        if (totalVotes === activeUsers ) {
+
+// 3.3.2 -- Calculate the most common vote (this is the group selection)
             // Count the occurrences of each restaurant choice
+            const voteCounts = {};
+            
             for (const voteObj of activeVotes) {
                 const vote = voteObj.vote;
                 (voteCounts[vote]) ? voteCounts[vote]++ : voteCounts[vote] = 1;
             }
 
+            // Find the most common restaurant choice
             let highestCount = 0;
 
-            // Find the most common restaurant choice
             for (const vote in voteCounts) {
                 if (voteCounts[vote] > highestCount) {
                     highestCount = voteCounts[vote];
                     popularVote = vote;
                 }
             }
-
-        // If not all votes are cast, do not calculate or display
-        } else {
-            popularVote = 'null'
         }
 
         res.json({groupSelection: popularVote})
     })
     
-    // 3.4.5 End sesion in database and live server
+// 3.4.1 -- End sesion in database and live server
     app.get('/api/close-session/:sessionID/:groupSelection', async (req, res) => {
 
         const { sessionID, groupSelection } = req.params
 
-        // Load the database
+// 3.4.1.1 -- End live server for session
+        // something with this function -> database.refreshLiveData()
+
+// 3.4.1.2 -- Update user database information
         const { sessions, users } = await database.loadDatabase();
         const sessionInfo = sessions.find(session => session.session_id === sessionID);
 
-        // 3.4.5.2 Update user database information
+// 3.4.1.3 -- Mark user as completed and, if picked selection, won
         for (let activeUser of sessionInfo.active_users_array) {
             const user = users.find(u => u.username === activeUser.name);
             if (user) {
@@ -177,10 +201,10 @@ function pageSetup(app) {
             }
         }
             
-        // 3.4.5.3 Note the time in session's end_time in database
+// 3.4.1.4 -- Note the time in session's end_time in database
         sessionInfo.end_time = Date.now()
 
-        // Refresh the databases with the new data
+// 3.4.1.5 -- Update the database (dummy_data.json) with the updated session info
         await database.refreshDatabase(sessions, users, null)
 
         res.json({category: sessionInstance.category})

@@ -21,12 +21,13 @@ function pageSetup(app) {
         if (sessionInstance && sessionInstance.end_time === '') {
 
 // 2.1.3.1 -- Check if user is already added
-            const userInSession = sessionInstance.active_users_array.find(user => user.name === username)
+            const sessionUsersArray = sessionInstance.active_users_array
+            const userInSession = sessionUsersArray.find(user => user.name === username)
 
 // 2.1.3.2 -- If not already in session, add user to active_users_array
             if (!userInSession) {
                 // Add user to the active users array
-                active_users_array.push({name: username, vote: null})
+                sessionUsersArray.push({name: username, vote: null})
             }
     
 // 2.1.3.3 -- If already in session, remove user's previous vote
@@ -36,12 +37,10 @@ function pageSetup(app) {
             }
     
 // 2.1.3.4 -- Update the live server (dummy_data.json) with the new session info
-            const response = await refreshDatabase(sessions, null, null)
+            const response = await database.refreshDatabase(sessions, null, null)
             
-            if (response.ok) {
-                res.status(200).send('Session found')
-                return
-            }
+            res.status(200).send('Session found')
+
         }
 
 // 2.1.4 -- If session is not available or not open, respond with error message to user
@@ -67,20 +66,16 @@ function pageSetup(app) {
 // 2.2.2.2 -- Create new session using Session class
         const newSessionID = createSessionID(category, DB_SESSIONS)
         const newSession = new classes.Session(newSessionID, category)
-        console.log('New Session:', newSession)
 
 // 2.2.2.3 -- Add the user to this new session
         newSession.addActiveUser(username)
-        console.log('Added User:', newSession)
         
 // 2.2.2.4 -- Send to live server (or dummy_data.json)
         DB_SESSIONS.push(newSession)
         const response = await database.refreshDatabase(DB_SESSIONS, null, null)
 
-        if (response.ok) {
-            res.status(200).json({sessionID: newSessionID})
-            return
-        }
+        res.status(200).json({sessionID: newSessionID})
+
     })
 }
 

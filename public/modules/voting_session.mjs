@@ -259,8 +259,8 @@ function clearTableAndList() {
     // Clear list elements
     parentElement = document.getElementById('voting_options')
     parentElementSize = parentElement.childElementCount
-    for (let child = 1; child < parentElementSize; child++) {
-        parentElement.removeChild(parentElement.children[1])
+    for (let child = 0; child < parentElementSize; child++) {
+        parentElement.removeChild(parentElement.children[0])
     }
 }
 

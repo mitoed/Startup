@@ -2,43 +2,43 @@
   "users": [
     {
       "username": "MASAULLS",
-      "password_hash": 132321839,
-      "salt": "WQOG5P",
+      "password_hash": 456868409,
+      "salt": "CF096A",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "CHSAULLS",
-      "password_hash": -1081631962,
-      "salt": "F8L8K2",
+      "password_hash": -810085254,
+      "salt": "4K573S",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "RCSAULLS",
-      "password_hash": -148850035,
-      "salt": "G4S7KC",
+      "password_hash": -1364416769,
+      "salt": "1J8CVI",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "ECSAULLS",
-      "password_hash": -1403666806,
-      "salt": "KRV4GN",
+      "password_hash": 771217585,
+      "salt": "3NNFGY",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "SSAULLS",
-      "password_hash": -1397698384,
-      "salt": "TQ87UH",
+      "password_hash": 686645187,
+      "salt": "6GSA03",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "CSAULLS",
-      "password_hash": 2073883679,
-      "salt": "XJO21L",
+      "password_hash": -1186188617,
+      "salt": "FRP5AH",
       "sessions_total": 0,
       "sessions_won": 0
     }
@@ -47,7 +47,7 @@
     {
       "session_id": "DEFAULT",
       "category": "food",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [
         {
           "name": "CHSAULLS",
@@ -68,10 +68,6 @@
         {
           "name": "CSAULLS",
           "vote": "Cubby's"
-        },
-        {
-          "name": "MASAULLS",
-          "vote": null
         }
       ],
       "unpopular_opinion": "",
@@ -80,7 +76,7 @@
     {
       "session_id": "F7N7V4",
       "category": "food",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -88,7 +84,7 @@
     {
       "session_id": "C7T4H9",
       "category": "food",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -96,7 +92,7 @@
     {
       "session_id": "F2W7Q7",
       "category": "food",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -104,7 +100,7 @@
     {
       "session_id": "H6Q2N0",
       "category": "food",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -112,7 +108,7 @@
     {
       "session_id": "D2S4D6",
       "category": "food",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -120,7 +116,7 @@
     {
       "session_id": "K4X6J2",
       "category": "movie",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -128,7 +124,7 @@
     {
       "session_id": "N7T5Q6",
       "category": "movie",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -136,7 +132,7 @@
     {
       "session_id": "L3V9B4",
       "category": "movie",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -144,7 +140,7 @@
     {
       "session_id": "N2K6M6",
       "category": "movie",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -152,7 +148,7 @@
     {
       "session_id": "P7X5C7",
       "category": "movie",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -160,7 +156,7 @@
     {
       "session_id": "K5F2K4",
       "category": "movie",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -168,7 +164,7 @@
     {
       "session_id": "L2K3N3",
       "category": "movie",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -176,7 +172,7 @@
     {
       "session_id": "R7M0X2",
       "category": "game",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -184,7 +180,7 @@
     {
       "session_id": "X7H3J3",
       "category": "game",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -192,7 +188,7 @@
     {
       "session_id": "S4C3Q5",
       "category": "game",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -200,7 +196,7 @@
     {
       "session_id": "T5H9K5",
       "category": "game",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -208,7 +204,7 @@
     {
       "session_id": "S2V2J9",
       "category": "game",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -216,7 +212,7 @@
     {
       "session_id": "Z6L3X3",
       "category": "game",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -224,7 +220,7 @@
     {
       "session_id": "T7F3P7",
       "category": "game",
-      "start_time": 1699363500615,
+      "start_time": 1699380900121,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""

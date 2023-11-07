@@ -1,4 +1,4 @@
-const database = require('finalize_msg./database.js')
+const database = require('./database.js')
 const classes = require('./classes.js')
 
 function pageSetup(app) {
@@ -156,7 +156,7 @@ function pageSetup(app) {
         if (totalVotes === activeUsers ) {
 
 // 3.3.2 -- Calculate the most common vote (this is the group selection)
-            // Count the occurrences of each restaurant choice
+// 3.3.2.1 -- Count the occurrences of each restaurant choice
             const voteCounts = {};
             
             for (const voteObj of activeVotes) {
@@ -164,7 +164,7 @@ function pageSetup(app) {
                 (voteCounts[vote]) ? voteCounts[vote]++ : voteCounts[vote] = 1;
             }
 
-            // Find the most common restaurant choice
+// 3.3.2.2 -- Find the most common choice(s)
             let highestCount = 0;
 
             for (const vote in voteCounts) {
@@ -173,6 +173,15 @@ function pageSetup(app) {
                     popularVote = vote;
                 }
             }
+
+// 3.3.2.3 -- If there is a tie, randomly choose one of the top choices
+            const tiedOptions = Object.keys(voteCounts).filter(vote => voteCounts[vote] === highestCount)
+            if (tiedOptions.length > 1) {
+                const randomNum = Math.floor(Math.random() * tiedOptions.length)
+                console.log('randomNum:', randomNum)
+                popularVote = tiedOptions[randomNum]
+            }
+
         }
 
         res.json({groupSelection: popularVote})
@@ -229,7 +238,7 @@ function generateTableHTML (sessionOptionsArray, sessionUsersArray) {
         // Replace the placeholder if first render
         option.tableHTML = option.tableHTML.replace('optionVotes', activeVotes)
         // Replace the previous submission if after first render
-        option.tableHTML = option.tableHTML.replace(/\d+/g, activeVotes)
+        option.tableHTML = option.tableHTML.replace(/<\/td><td>(\d+)<\/td>/, '</td><td>' + activeVotes + '</td>')
     }
 
     return sessionOptionsArray

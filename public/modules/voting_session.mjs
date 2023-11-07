@@ -24,6 +24,10 @@ async function pagePopulation() {
         const data = await response.json()
         const optionsArrayHTML = data.optionsHTML
 
+        // Display total users
+        const activeUsers = data.activeUsers
+        document.getElementById('user_count').innerHTML = `Active Users: ${activeUsers}`
+
         // 3.1.4 Produce and display table of options and datalist to be updated with votes
         clearTableAndList()
         populateTableAndList(optionsArrayHTML)

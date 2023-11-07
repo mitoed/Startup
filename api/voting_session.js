@@ -47,7 +47,7 @@ function pageSetup(app) {
         const { username, newVote} = req.params
 
         // Add user's vote to their object in the session array
-        const userInstance = sessionUsersArray.find(user => user.user === username)
+        const userInstance = sessionUsersArray.find(user => user.name === username)
         userInstance['vote'] = newVote
 
         // Create a new option if doesn't exist in the options database

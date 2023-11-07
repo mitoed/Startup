@@ -72,13 +72,8 @@ function pageSetup(app) {
             return
         }
 
-        // 3.4 Check for and declare group selection after 5 seconds
-        const popularVote = await checkDelay(10)
-        
-        async function checkDelay(waitSeconds) {
-            await new Promise(resolve => setTimeout(resolve, 1000 * waitSeconds));
-            return await checkAllVotesCast(sessionInstance.session_id);
-        }
+        // 3.4 Check for and declare group selection
+        const popularVote = await checkAllVotesCast(sessionInstance.session_id);
 
         res.json({votesArray: tableListHTML, groupSelection: popularVote, category: sessionInstance.category})
         

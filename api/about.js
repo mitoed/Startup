@@ -1,6 +1,6 @@
 function pageSetup (app) {
 
-// 4.1 -- Request quote through api
+// 4.1 -- Get quote and citation
     app.get('/api/get-quote', async (req, res) => {
 
 // 4.1.1 -- Send request through "Quotable" api

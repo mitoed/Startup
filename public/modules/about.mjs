@@ -12,7 +12,7 @@ async function insertQuote() {
 
     try {
 
-// 4.1 ---- Request quote through api
+// 4.1 ---- Get quote and citation
 // 4.1.1 -- Send request through "Quotable" api
         const response = await fetch('/api/get-quote')
         const data = await response.json()

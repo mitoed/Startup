@@ -1,6 +1,74 @@
 const fs = require('fs')
 const classes = require('./classes.js')
 const dummyDirectory = './dummy_values.json'
+const { MongoClient } = require('mongodb')
+const config = require('./dbConfig.json')
+
+// Access Mongo Database
+const url = `mongodb+srv://${config.username}:${config.password}@${config.hostname}`
+const client = new MongoClient(url)
+const dbName = 'voting'
+const sessionsCollection = client.db(dbName).collection('sessions')
+
+// Test connection with Mongo Database
+const connectToDatabase = async () => {
+    try {
+        await client.connect();
+        console.log(`Connected to the ${dbName} database \nFull connection string: ${url}`)
+    } catch (err) {
+        console.error(`Error connecting to the database: ${err}`)
+    }
+}
+
+
+async function addSessionToMongo(sessionInstance) {
+
+    try {
+        await connectToDatabase()
+        const result = await sessionsCollection.insertOne(sessionInstance);
+        console.log('Success Inserting:', result)
+
+    } catch (ex) {
+        console.log(`Unable to connect to database with ${url} because ${ex.message}`);
+        process.exit(1);
+
+    } finally {
+        await client.close()
+    }
+}
+
+
+async function getSessionFromMongo(getSessionID) {
+
+    try {
+        await connectToDatabase()
+        const result = await sessionsCollection.insertOne({ session_id: getSessionID });
+        console.log('Success Inserting:', result)
+        return re
+
+    } catch (ex) {
+        console.log(`Unable to connect to database with ${url} because ${ex.message}`);
+        process.exit(1);
+
+    } finally {
+        await client.close()
+    }
+
+}
+
+const sessionInstance = {
+    session_id: 'DK37DS',
+    category: 'food',
+    active_users_array: [
+        { name: 'MASAULLS', vote: null }
+    ],
+    start_time: Date.now(),
+    unpopular_vote: '',
+    end_time: ''
+}
+
+//addSessionToMongo(sessionInstance)
+getSessionFromMongo('DK37DS')
 
 // =============================================================================
 // SUPPORTING FUNCTIONS
@@ -14,7 +82,7 @@ function loadDatabase() {
         try {
             // Access database
             // When this code is written, remove the dummy data
-            
+
             const jsonData = await fs.promises.readFile(dummyDirectory, 'utf8');
             const data = JSON.parse(jsonData);
             resolve(data); // Resolve the promise with the data.
@@ -46,7 +114,7 @@ async function refreshDatabase(newSessionData = null, newUserData = null, newOpt
             // Save the JSON to Dummy Data file
             const jsonContent = JSON.stringify(dummyData, null, 2);
             await fs.promises.writeFile(dummyDirectory, jsonContent);
-            
+
             resolve(); // Resolve the promise when everything is done.
 
         } catch (error) {
@@ -72,7 +140,7 @@ async function refreshLiveData(sessionID, sessionUsersArray, category, tableList
         // Update the sessions Database
         const sessionInstance = dummyData['sessions'].find(session => session.session_id === sessionID)
         sessionInstance.active_users_array = sessionUsersArray
-        
+
         // Update the server lists
         dummyData['options'][category] = tableListHTML
 

@@ -24,11 +24,11 @@ Below are the steps of this project and their descriptions:
 
 - [ ] Login to identify voters and track "sessions_won"
 - [ ] Create or join a session by Session ID
-- [X] Live voting that shows all available options from database in order of number of votes
+- [ ] Live voting that shows all available options from database in order of number of votes
 - [X] Search (or type) to vote on option; "Finalize Vote" button at bottom
-- [ ] Timer to limit duration of live vote??
+- [X] Timer that counts down before final tally is recorded and displayed
 - [X] Database of pre-added suggestions by category (movies, restaurants, games)
-- [X] Add new option to category's database during live vote
+- [ ] Add new option to category's database during live vote
 - [X] Upon clicking "Finalize Vote" and only 35% of the time, recommends selected option of user with lowest "sessions_won" value (iff below certain amount like 2)
 
 ### Technology Uses
@@ -84,11 +84,6 @@ About page
 
 **Git Commits** - Done
 
-### HTML To-Dos
-
-- [X] Create html files for each page. All pages will be accessible via hyperlinks in the header except the "hidden" page that users will use when participating in a live vote.
-- [X] Add error messages to login page (display: "none")
-
 ## CSS
 
 ### CSS Deliverable
@@ -107,12 +102,6 @@ About page
 
 **Multiple Git Commits** - Done with (mostly) detailed comments.
 
-### CSS To-Dos
-
-- [X] Create property to hide or display the popup on the voting page (to be changed using JS); section is named "recommendation_popup"
-- [X] Format error messages as small, red text
-- [ ] Add additional dark background when the vote has been finalized
-
 ## JavaScript
 
 ### JavaScript Deliverable
@@ -125,14 +114,21 @@ About page
 
 **Application Logic** - As users vote on options, the populated table updates. When users vote, they are sometimes given a recommendation based on the votes of users with high "loss rates", which alters the user's vote if they accept the recommendation. When all users have voted, the final group selection is displayed in popup.
 
-**API Preparation** - Logic added that will call the Yelp Fusion API to return a recommendation from Yelp to give users additional ideas for their voting. CORS not yet set up, so webpage currently returns a google.com link to good restaurants nearby.
+**API Preparation** - ~~Logic added that will call the Yelp Fusion API to return a recommendation from Yelp to give users additional ideas for their voting. CORS not yet set up, so webpage currently returns a google.com link to good restaurants nearby.~~ About page will call a random quote generator. For now, there is a placeholder for those random quotes.
 
 ## Web Service
 
 ### Web Service Deliverable
 
-### Web Service To-Dos
-- [ ]
+**HTTP Service with Node.js and Express** - Done. Index.js is loaded first, then calls server.js, which houses all the main code. Various node.js files (in api folder) contain the http request setup for each page.
+
+**Frontend Served Using Express Static** - Done.
+
+**Frontend Calls Third Party Endpoints** - About page posts a random quote as requested from "Quotable".
+
+**Backend Provides Service Sndpoints** - As explained above, the backend holds a lot of the code for each page, particularly the parts that request database information, login validation/creation, or live server information (all to be developed in future deliverable).
+
+**Frondend Calls Backend Service Endpoints** - Each of the pages has a dedicated backend page that is regularly called to retrieve and/or update database or live server information. Frontend takes the requested data and applies it to the webpages.
 
 ## Database
 
@@ -163,13 +159,5 @@ About page
 ### React Deliverable
 
 ### React To-Dos
+
 - [ ]
-
-## API
-
-### Yelp API
-
-**Client ID**: lEs-efBEI8Jrs-HkVdigCg
-
-
-**API Key**: "~/JavaScript/apis/yelp_fusion.txt"

@@ -117,7 +117,7 @@ class Session {
 // DUMMY VALUES -- TO BE DELETED WHEN CONNECTED TO PERSISTENT DATABASE
 // =============================================================================
 
-function addFakeUser(fakeUserName, fakePassword, fakeSessionID, fakeSelection, fakeTotal, fakeWon) {
+function addFakeUser(fakeUserName, fakePassword, fakeTotal, fakeWon) {
     let fakeUser = new User(fakeUserName, fakePassword, fakeTotal, fakeWon)
     DB_USERS.push(fakeUser)
 }

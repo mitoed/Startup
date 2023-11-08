@@ -8,7 +8,6 @@ const cors = require('cors')
 const login = require('./api/login.js')
 const enter_session = require('./api/enter_session.js')
 const voting_session = require('./api/voting_session.js')
-const about = require('./api/about.js')
 
 // Setup cors
 app.use(cors({
@@ -31,7 +30,6 @@ async function setupServer() {
     login.pageSetup (app)
     enter_session.pageSetup (app)
     voting_session.pageSetup (app)
-    about.pageSetup (app)
 
     // Listen for yelp api call from main.js
     app.get('/get-yelp-data', async (req, res) => {

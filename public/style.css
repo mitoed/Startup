@@ -470,19 +470,30 @@ button.submit {
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .ABT-why {
   display: inline-block;
   width: 500px;
-  margin: 20px 20px 0px 20px;
+  margin: 30px 20px 0px 20px;
 }
 
 .ABT-how {
   display: inline-block;
   width: 500px;
-  margin: 20px 20px 0px 20px;
+  margin: 30px 20px 0px 20px;
+}
+
+.ABT-quote {
+  width: 700px;
+  background-color: var(--blue-light);
+  border-radius: 5pt;
+  opacity: .85;
+  & * {
+    margin: 5px;
+    opacity: 1;
+  }
 }
 
 /* ---------- Style Rules ----------*/

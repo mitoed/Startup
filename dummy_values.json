@@ -2,43 +2,43 @@
   "users": [
     {
       "username": "MASAULLS",
-      "password_hash": 1725109,
-      "salt": "WVSRPE",
-      "sessions_total": 1,
-      "sessions_won": 1
+      "password_hash": -216511069,
+      "salt": "S1ECLQ",
+      "sessions_total": 0,
+      "sessions_won": 0
     },
     {
       "username": "CHSAULLS",
-      "password_hash": -281637097,
-      "salt": "LIM1DY",
+      "password_hash": 1767399183,
+      "salt": "A0NFNU",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "RCSAULLS",
-      "password_hash": -1406190835,
-      "salt": "4OBQVU",
+      "password_hash": 525803300,
+      "salt": "V41KGA",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "ECSAULLS",
-      "password_hash": -848380331,
-      "salt": "NY158J",
+      "password_hash": -712837384,
+      "salt": "ZD727P",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "SSAULLS",
-      "password_hash": 411767358,
-      "salt": "F9RHPD",
+      "password_hash": 1430120798,
+      "salt": "RB2Z38",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "CSAULLS",
-      "password_hash": -1752417825,
-      "salt": "N1GUON",
+      "password_hash": 1898527693,
+      "salt": "L4ZFZH",
       "sessions_total": 0,
       "sessions_won": 0
     }
@@ -47,7 +47,7 @@
     {
       "session_id": "DEFAULT",
       "category": "food",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [
         {
           "name": "CHSAULLS",
@@ -68,6 +68,10 @@
         {
           "name": "CSAULLS",
           "vote": "Cubby's"
+        },
+        {
+          "name": "MASAULLS",
+          "vote": null
         }
       ],
       "unpopular_opinion": "",
@@ -76,7 +80,7 @@
     {
       "session_id": "F7N7V4",
       "category": "food",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -84,7 +88,7 @@
     {
       "session_id": "C7T4H9",
       "category": "food",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -92,7 +96,7 @@
     {
       "session_id": "F2W7Q7",
       "category": "food",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -100,7 +104,7 @@
     {
       "session_id": "H6Q2N0",
       "category": "food",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -108,7 +112,7 @@
     {
       "session_id": "D2S4D6",
       "category": "food",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -116,7 +120,7 @@
     {
       "session_id": "K4X6J2",
       "category": "movie",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -124,7 +128,7 @@
     {
       "session_id": "N7T5Q6",
       "category": "movie",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -132,7 +136,7 @@
     {
       "session_id": "L3V9B4",
       "category": "movie",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -140,7 +144,7 @@
     {
       "session_id": "N2K6M6",
       "category": "movie",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -148,7 +152,7 @@
     {
       "session_id": "P7X5C7",
       "category": "movie",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -156,7 +160,7 @@
     {
       "session_id": "K5F2K4",
       "category": "movie",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -164,7 +168,7 @@
     {
       "session_id": "L2K3N3",
       "category": "movie",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -172,7 +176,7 @@
     {
       "session_id": "R7M0X2",
       "category": "game",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -180,7 +184,7 @@
     {
       "session_id": "X7H3J3",
       "category": "game",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -188,7 +192,7 @@
     {
       "session_id": "S4C3Q5",
       "category": "game",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -196,7 +200,7 @@
     {
       "session_id": "T5H9K5",
       "category": "game",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -204,7 +208,7 @@
     {
       "session_id": "S2V2J9",
       "category": "game",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -212,7 +216,7 @@
     {
       "session_id": "Z6L3X3",
       "category": "game",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -220,24 +224,10 @@
     {
       "session_id": "T7F3P7",
       "category": "game",
-      "start_time": 1699447473517,
+      "start_time": 1699448667350,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
-    },
-    {
-      "session_id": "Z9S4S5",
-      "category": "game",
-      "active_users_array": [
-        {
-          "name": "MASAULLS",
-          "vote": "7 Wonders"
-        }
-      ],
-      "start_time": 1699447477799,
-      "unpopular_opinion": "",
-      "end_time": 1699447489820,
-      "group_selection": ""
     }
   ],
   "options": {
@@ -311,62 +301,62 @@
     "game": [
       {
         "name": "Settlers of Catan",
-        "tableHTML": "<tr><td>Settlers of Catan</td><td>0</td></tr>",
+        "tableHTML": "<tr><td>Settlers of Catan</td><td>optionVotes</td></tr>",
         "listHTML": "<option value=\"Settlers of Catan\"></option>"
       },
       {
         "name": "Ticket to Ride",
-        "tableHTML": "<tr><td>Ticket to Ride</td><td>0</td></tr>",
+        "tableHTML": "<tr><td>Ticket to Ride</td><td>optionVotes</td></tr>",
         "listHTML": "<option value=\"Ticket to Ride\"></option>"
       },
       {
         "name": "Carcassonne",
-        "tableHTML": "<tr><td>Carcassonne</td><td>0</td></tr>",
+        "tableHTML": "<tr><td>Carcassonne</td><td>optionVotes</td></tr>",
         "listHTML": "<option value=\"Carcassonne\"></option>"
       },
       {
         "name": "Pandemic",
-        "tableHTML": "<tr><td>Pandemic</td><td>0</td></tr>",
+        "tableHTML": "<tr><td>Pandemic</td><td>optionVotes</td></tr>",
         "listHTML": "<option value=\"Pandemic\"></option>"
       },
       {
         "name": "Dominion",
-        "tableHTML": "<tr><td>Dominion</td><td>0</td></tr>",
+        "tableHTML": "<tr><td>Dominion</td><td>optionVotes</td></tr>",
         "listHTML": "<option value=\"Dominion\"></option>"
       },
       {
         "name": "Codenames",
-        "tableHTML": "<tr><td>Codenames</td><td>0</td></tr>",
+        "tableHTML": "<tr><td>Codenames</td><td>optionVotes</td></tr>",
         "listHTML": "<option value=\"Codenames\"></option>"
       },
       {
         "name": "7 Wonders",
-        "tableHTML": "<tr><td>7 Wonders</td><td>1</td></tr>",
+        "tableHTML": "<tr><td>7 Wonders</td><td>optionVotes</td></tr>",
         "listHTML": "<option value=\"7 Wonders\"></option>"
       },
       {
         "name": "Twilight Struggle",
-        "tableHTML": "<tr><td>Twilight Struggle</td><td>0</td></tr>",
+        "tableHTML": "<tr><td>Twilight Struggle</td><td>optionVotes</td></tr>",
         "listHTML": "<option value=\"Twilight Struggle\"></option>"
       },
       {
         "name": "Agricola",
-        "tableHTML": "<tr><td>Agricola</td><td>0</td></tr>",
+        "tableHTML": "<tr><td>Agricola</td><td>optionVotes</td></tr>",
         "listHTML": "<option value=\"Agricola\"></option>"
       },
       {
         "name": "Scythe",
-        "tableHTML": "<tr><td>Scythe</td><td>0</td></tr>",
+        "tableHTML": "<tr><td>Scythe</td><td>optionVotes</td></tr>",
         "listHTML": "<option value=\"Scythe\"></option>"
       },
       {
         "name": "Splendor",
-        "tableHTML": "<tr><td>Splendor</td><td>0</td></tr>",
+        "tableHTML": "<tr><td>Splendor</td><td>optionVotes</td></tr>",
         "listHTML": "<option value=\"Splendor\"></option>"
       },
       {
         "name": "Betrayal at Baldur's Gate",
-        "tableHTML": "<tr><td>Betrayal at Baldur's Gate</td><td>0</td></tr>",
+        "tableHTML": "<tr><td>Betrayal at Baldur's Gate</td><td>optionVotes</td></tr>",
         "listHTML": "<option value=\"Betrayal at Baldur's Gate\"></option>"
       }
     ],

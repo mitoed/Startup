@@ -42,9 +42,9 @@ async function getSessionFromMongo(getSessionID) {
 
     try {
         await connectToDatabase()
-        const result = await sessionsCollection.insertOne({ session_id: getSessionID });
-        console.log('Success Inserting:', result)
-        return re
+        const sessionInstance = await sessionsCollection.findOne({ session_id: getSessionID });
+        console.log(sessionInstance)
+        return sessionInstance
 
     } catch (ex) {
         console.log(`Unable to connect to database with ${url} because ${ex.message}`);

@@ -175,14 +175,13 @@ async function closeSession(sessionID, groupSelection) {
 
 // 3.4.1 -- End session in database and live server (dummy_data.json)
     const response = await fetch(`/api/close-session/${sessionID}/${groupSelection}`)
-    const data = await response.json()
-
+    
     if (response.ok) {
 
 // 3.4.2 ---- Display selection on screen from 3.3.2
 // 3.4.2.1 -- Select appropriate language for selection display
         let categoryVerb
-        switch (data.category) {
+        switch (response.category) {
             case 'food':
                 categoryVerb = 'eating at'
                 break

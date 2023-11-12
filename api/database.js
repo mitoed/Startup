@@ -21,7 +21,7 @@ const connectToDatabase = async () => {
 }
 
 
-async function addSessionToMongo(sessionInstance) {
+async function addMongoSession(sessionInstance) {
 
     try {
         await connectToDatabase()
@@ -38,22 +38,43 @@ async function addSessionToMongo(sessionInstance) {
 }
 
 
-async function getSessionFromMongo(getSessionID) {
+async function getMongoSession(getSessionID) {
 
     try {
-        await connectToDatabase()
-        const sessionInstance = await sessionsCollection.findOne({ session_id: getSessionID });
-        console.log(sessionInstance)
-        return sessionInstance
+        //await connectToDatabase()
+        const result = await sessionsCollection.findOne({ session_id: getSessionID });
+        console.log(result)
+        return result
 
     } catch (ex) {
         console.log(`Unable to connect to database with ${url} because ${ex.message}`);
         process.exit(1);
 
     } finally {
-        await client.close()
+        //await client.close()
     }
 
+}
+
+
+async function addUserToMongoSession(sessionID, username) {
+
+    const filter = {session_id: sessionID}
+    const newUser = {name: username, vote: null}
+    const updates = { $push: { active_users_array: newUser}}
+
+    try {
+        //await connectToDatabase()
+        const result = await sessionsCollection.updateMany(filter, updates)
+        console.log('Update successful')
+        console.log(result)
+    } catch (ex) {
+        console.log(`Unable to connect to database with ${url} because ${ex.message}`);
+        process.exit(1);
+
+    } finally {
+        //await client.close()
+    }
 }
 
 const sessionInstance = {
@@ -67,8 +88,36 @@ const sessionInstance = {
     end_time: ''
 }
 
-//addSessionToMongo(sessionInstance)
-getSessionFromMongo('DK37DS')
+//addMongoSession(sessionInstance)
+async function addNewUser() {
+    try {
+        await connectToDatabase()
+        await addUserToMongoSession('DK37DS', 'SSAULLS')
+        await getMongoSession('DK37DS')
+    
+    } catch (ex) {
+        console.log(`Unable to connect to database with ${url} because ${ex.message}`);
+        process.exit(1);
+    } finally {
+        await client.close()
+    }
+}
+
+async function mongoSetup() {
+    try {
+        await connectToDatabase()
+    } catch (ex) {
+        console.log(`Unable to connect to database with ${url} because ${ex.message}`);
+        await client.close()
+        console.log('Connection severed to database.')
+        process.exit(1);
+    } finally {
+        //await client.close()
+    }
+}
+
+mongoSetup()
+
 
 // =============================================================================
 // SUPPORTING FUNCTIONS

@@ -74,7 +74,7 @@ class Session {
     constructor(session_id, category, category_array) {
         this.session_id = session_id
         this.category = category
-        this.category_array = category_array
+        this.options = category_array
         this.active_users_array = []
         this.start_time = Date.now()
         this.unpopular_opinion = ''
@@ -279,6 +279,7 @@ function createDummyJSON() {
         sessions: DB_SESSIONS.map(session => ({
             session_id: session.session_id,
             category: session.category,
+            options: session.options,
             start_time: session.start_time,
             active_users_array: session.active_users_array,
             unpopular_opinion: session.unpopular_opinion,

@@ -11,12 +11,11 @@ const config = require('./dbConfig.json')
 // Access Mongo Database
 const url = `mongodb+srv://${config.username}:${config.password}@${config.hostname}`
 const client = new MongoClient(url)
-const dbName = 'voting'
-const sessionsCollection = client.db(dbName).collection('sessions')
-const usersCollection = client.db(dbName).collection('users')
-const foodCollection = client.db(dbName).collection('food')
-const gameCollection = client.db(dbName).collection('game')
-const movieCollection = client.db(dbName).collection('movie')
+const sessionsCollection = client.db('voting').collection('sessions')
+const usersCollection = client.db('voting').collection('users')
+const foodCollection = client.db('options').collection('food')
+const gameCollection = client.db('options').collection('game')
+const movieCollection = client.db('options').collection('movie')
 
 // LIVE SERVER Initialization
 const LIVE_SERVER = []
@@ -32,43 +31,44 @@ async function resetMongo() {
     try {
         await clearMongoDB()
         await addDummyData()
-        console.log('Mongo DB has been reset to dummy values.')
+        console.log('\nMongo DB has been reset to dummy values.')
+        client.close()
     } catch (ex) {
-        console.log('Something went wrong:', ex.message)
+        console.log('\nSomething went wrong:', ex.message)
     }
 }
 
 async function clearMongoDB() {
     try {
-        usersCollection.deleteMany()
-        sessionsCollection.deleteMany()
-        foodCollection.deleteMany()
-        gameCollection.deleteMany()
-        movieCollection.deleteMany()
-        console.log('Cleared all Mongo collections')
+        await usersCollection.deleteMany()
+        await sessionsCollection.deleteMany()
+        await foodCollection.deleteMany()
+        await gameCollection.deleteMany()
+        await movieCollection.deleteMany()
+        console.log('\nCleared all Mongo collections')
 
     } catch (err) {
-        console.error(`Error clearing the database: ${err}`)
+        console.error(`\nError clearing the database: ${err}`)
     }
 }
 
 async function addDummyData() {
     try {
-        const { users, sessions, options } = await loadDatabase()
+        const { users, sessions, options } = await loadDummyData()
 
         let result = await usersCollection.insertMany(users)
-        console.log('Successfully added ', result.insertedCount, 'users')
+        console.log('\nSuccessfully added ', result.insertedCount, 'users')
 
         result = await sessionsCollection.insertMany(sessions)
-        console.log('Successfully added ', result.insertedCount, 'sessions')
+        console.log('\nSuccessfully added ', result.insertedCount, 'sessions')
 
         const { food, game, movie } = options
         result = await foodCollection.insertMany(food)
-        console.log('Successfully added ', result.insertedCount, 'food')
+        console.log('\nSuccessfully added ', result.insertedCount, 'food')
         result = await gameCollection.insertMany(game)
-        console.log('Successfully added ', result.insertedCount, 'games')
+        console.log('\nSuccessfully added ', result.insertedCount, 'games')
         result = await movieCollection.insertMany(movie)
-        console.log('Successfully added ', result.insertedCount, 'movies')
+        console.log('\nSuccessfully added ', result.insertedCount, 'movies')
 
     } catch (err) {
         console.error(`Error adding options to the database: ${err}`)
@@ -90,7 +90,7 @@ async function MASTERCONNECT() {
 async function connectToDatabase () {
     try {
         await client.connect();
-        console.log(`\nConnected to the ${dbName} database \n\nFull connection string: ${url}`)
+        console.log(`\nConnected to the Mongo database \n\nFull connection string: ${url}`)
     } catch (err) {
         console.error(`\nError connecting to the database: ${err}`)
     }
@@ -101,7 +101,7 @@ async function startLiveServer() {
     if (LIVE_SERVER.length === 0) {
 
         try {
-            const result = await sessionsCollection.find()
+            const result = await sessionsCollection.find({ end_time: "" })
             for await (const session of result) {
                 LIVE_SERVER.push(session)
             }
@@ -159,7 +159,6 @@ async function addUserInfo(userInstance) {
 async function addMongoSession(sessionInstance) {
     try {
         const result = await sessionsCollection.insertOne(sessionInstance);
-        console.log('Success adding session ' + sessionInstance.session_id)
         return result
 
     } catch (ex) {
@@ -174,7 +173,7 @@ async function addMongoSession(sessionInstance) {
  */
 async function getMongoOptions(category) {
     try {
-        const optionsCollection = client.db(dbName).collection(category)
+        const optionsCollection = client.db('options').collection(category)
         const result = await optionsCollection.find()
 
         const sessionOptions = []
@@ -202,8 +201,17 @@ async function userToMongoSession(sessionID, username) {
     const updates = { $push: { active_users_array: newUser}}
 
     try {
-        const result = await sessionsCollection.updateOne(filter, updates)
-        return result
+
+        const session = await sessionsCollection.findOne(filter)
+        const isActiveUser = session.active_users_array.some(u => u.name === username)
+
+        // Only add the user if they are not already in the session
+        if (!isActiveUser) {
+            const result = await sessionsCollection.updateOne(filter, updates)
+            return result
+        }
+
+        return
         
     } catch (ex) {
         console.log(`\nUnable to add user to session in database with ${url} because ${ex.message}`);
@@ -215,43 +223,49 @@ async function userToMongoSession(sessionID, username) {
 // Interacting with Mongo -- Voting Page
 // =============================================================================
 
-
-
-
-
-
-
-
-async function getMongoSession(getSessionID) {
+/** Updates session with an end time, 'closing' the session
+ * 
+ * @param {string} sessionID - id of session to be closed
+ * @returns - confirmation of success
+ */
+async function endSession(sessionID) {
+    
+    const filter = { session_id: sessionID }
+    const updates = { end_time: Date.now() }
 
     try {
-        //await connectToDatabase()
-        const result = await sessionsCollection.findOne({ session_id: getSessionID });
+        const result = await usersCollection.updateOne(filter, updates)
         return result
 
     } catch (ex) {
-        console.log(`Unable to connect to database with ${url} because ${ex.message}`);
+        console.log(`\nUnable to update user at end of session in database with ${url} because ${ex.message}`);
         process.exit(1);
-
-    } finally {
-        //await client.close()
     }
-
 }
 
+/** Increments the total and winning counts for the users of a completed session
+ * 
+ * @param {array} allUsers - array of all users in session
+ * @param {array} winUsers - array of users that picked the group selection
+ * @returns - confirmation of success
+ */
+async function updateUsers(allUsers, winUsers) {
 
-async function addUserToMongoSession(sessionID, username) {
+    console.log('All:', allUsers)
+    console.log('Winners:', winUsers)
 
-    const filter = {session_id: sessionID}
-    const newUser = {name: username, vote: null}
-    const updates = { $push: { active_users_array: newUser}}
+    const allFilter = { username: { $in: allUsers } };
+    const allUpdates = { $inc: { sessions_total: 1 } };
+    const winFilter = { username: { $in: winUsers } };
+    const winUpdates = { $inc: { sessions_won: 1 } };
 
     try {
-        const result = await sessionsCollection.updateMany(filter, updates)
-        console.log('Update successful')
-        console.log(result)
+        let result = await usersCollection.updateMany(allFilter, allUpdates)
+        result = await usersCollection.updateMany(winFilter, winUpdates)
+        return result
+
     } catch (ex) {
-        console.log(`Unable to add user to session in database with ${url} because ${ex.message}`);
+        console.log(`\nUnable to update user at end of session in database with ${url} because ${ex.message}`);
         process.exit(1);
     }
 }
@@ -263,7 +277,7 @@ async function addUserToMongoSession(sessionID, username) {
 /**
  * Load data from database
  */
-function loadDatabase() {
+function loadDummyData() {
     return new Promise(async (resolve, reject) => {
         try {
             // Access database
@@ -280,65 +294,6 @@ function loadDatabase() {
     });
 }
 
-
-/** Refresh array of given objects in the database
- * 
- * @param {*} jsonObject - name of array to be refreshed
- * @param {*} newData - new data to be sent
- */
-async function refreshDatabase(newSessionData = null, newUserData = null, newOptionsData = null) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            // Access database and update
-            // When this code is written, remove the dummy data
-
-            const dummyData = await loadDatabase();
-            dummyData['sessions'] = newSessionData || dummyData['sessions'];
-            dummyData['users'] = newUserData || dummyData['users'];
-            dummyData['options'] = newOptionsData || dummyData['options'];
-
-            // Save the JSON to Dummy Data file
-            const jsonContent = JSON.stringify(dummyData, null, 2);
-            await fs.promises.writeFile(dummyDirectory, jsonContent);
-
-            resolve(); // Resolve the promise when everything is done.
-
-        } catch (error) {
-            console.log('Internal Server Error: cannot connect to database');
-            reject(error); // Reject the promise in case of an error.
-        }
-    });
-}
-
-
-/** Refresh array of votes in the live server
- * 
- * @param {string} sessionServer - name of liver server to be refreshed
- * @param {array} newServerData - new data to be sent
- */
-async function refreshLiveData(sessionID, sessionUsersArray, category, tableListHTML) {
-    try {
-        // Access server data and update
-        // When this code is written, remove the dummy data
-
-        const dummyData = await loadDatabase()
-
-        // Update the sessions Database
-        const sessionInstance = dummyData['sessions'].find(session => session.session_id === sessionID)
-        sessionInstance.active_users_array = sessionUsersArray
-
-        // Update the server lists
-        dummyData['options'][category] = tableListHTML
-
-        // Save the JSON to Dummy Data file
-        const jsonContent = JSON.stringify(dummyData, null, 2);
-        fs.promises.writeFile(dummyDirectory, jsonContent)
-
-    } catch {
-        console.log('Internal Server Error: cannot connect to database')
-    }
-}
-
 module.exports = {
     connectToDatabase,
     LIVE_SERVER,
@@ -347,4 +302,6 @@ module.exports = {
     addMongoSession,
     getMongoOptions,
     userToMongoSession,
+    endSession,
+    updateUsers,
 }

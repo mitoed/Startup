@@ -21,7 +21,7 @@ function pageSetup(app) {
 
 // 2.1.3.2 -- Check if user is already added
             const sessionUsersArray = sessionInstance.active_users_array
-            const userInSession = sessionUsersArray.find(user => user.name === username)
+            const userInSession = sessionUsersArray.find(u => u.name === username)
 
 // 2.1.3.3 -- If not already in session, add user to active_users_array in LIVE SERVER
             if (!userInSession) {
@@ -67,12 +67,11 @@ function pageSetup(app) {
 
 // 2.2.2.4 -- Request options list from Mongo DB
         const sessionOptions = await db.getMongoOptions(category)
-        newSessionInstance['options_list'] = sessionOptions
 
 // 2.2.2.5 -- Add the new session to LIVE SERVER (including options list)
+        newSessionInstance['options'] = sessionOptions
         db.LIVE_SERVER.push(newSessionInstance)
 
-        //res.status(500).json({sessionID: newSessionID})
         res.status(200).json({sessionID: newSessionID})
 
     })

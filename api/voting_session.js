@@ -1,12 +1,9 @@
-const database = require('./database.js')
+const db = require('./database.js')
 const classes = require('./classes.js')
 
 function pageSetup(app) {
 
     // Initialize global variables for backend
-    let sessionInstance
-    let sessionUsersArray
-    let sessionOptionsArray
     let recommendationHTML = ''
 
 // 3.1 -- Populate page and connect to servers
@@ -14,80 +11,62 @@ function pageSetup(app) {
         
         const { sessionID } = req.params
 
-// 3.1.2 -- Retrieve list of voting options from database (dummy_data.json)
-        const { sessions, options } = await database.loadDatabase()
-        const data = sessions.find(s => s.session_id === sessionID)
-        sessionInstance = new classes.Session(data.session_id, data.category, data.active_users_array)
+// 3.1.2 -- Retrieve session info from from LIVE SERVER
+        const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
 
-        const category = sessionInstance.category
-        sessionOptionsArray = options[category]
+// 3.1.3 -- Count list of active users in session
+        const numSessionUsers = sessionInstance.active_users_array.length
 
-// 3.1.3 -- Connect to live server and add options
-        // something with this function -> database.refreshLiveData()
+// 3.1.4 -- Produce table of options and datalist html
+        const sessionOptionsArray = sessionInstance['options']
+        const sessionUsersArray = sessionInstance['active_users_array']
+        const optionsHTML = generateTableHTML(sessionOptionsArray, sessionUsersArray)
 
-// 3.1.4 -- Retrieve list of active users from live server (dummy_data.json)
-        sessionUsersArray = sessionInstance.active_users_array
-
-// 3.1.5 -- Produce table of options and datalist html
-        const tableListHTML = generateTableHTML(sessionOptionsArray, sessionUsersArray)
-
-// 3.1.6 -- Produce internet recommendation html
+// 3.1.5 -- Produce internet recommendation html
         if (!recommendationHTML) {
 
             try {
 
-// 3.1.6.1 ---- [For food sessions] Retrieve and produce Yelp recommendation and url
+// 3.1.5.1 ---- [For food sessions] Retrieve and produce Yelp recommendation and url
                 // Something with Yelp API, if it ever works
                 throw new Error('yelp API not connected')
             
             } catch {
 
-// 3.1.6.2 ---- [For movie and game sessions] Display link to google search
+// 3.1.5.2 ---- [For movie and game sessions] Display link to google search
                 // Until Yelp API works, use this always
                 recommendationHTML = generateRecommendationHTML(sessionInstance.category)
             }
         }
 
-        res.json({optionsHTML: tableListHTML,
+        res.json({optionsHTML: optionsHTML,
             recommendation: recommendationHTML,
-            activeUsers: sessionUsersArray.length
+            activeUsers: numSessionUsers
         })
     })
 
 // 3.2 ---- Record votes on page and servers
 // 3.2.2 -- Add user vote
-    app.get('/api/record-vote/:sessionID/:username/:newVote', async (req, res) => {
+    app.get('/api/record-vote/:sessionID/:username/:userVote', async (req, res) => {
 
-        let { sessionID, username, newVote } = req.params
+        let { sessionID, username, userVote } = req.params
 
-// 3.2.2.1 -- Update the data in the live server
         try {
+// 3.2.2.1 -- Retrieve session info from from LIVE SERVER
+            const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
 
-// 3.2.2.1.1 -- Connect to live server and database (dummy_data.json)
-            const { sessions } = await database.loadDatabase()
-            const data = sessions.find(s => s.session_id === sessionID)
-            sessionInstance = new classes.Session(data.session_id, data.category, data.active_users_array)
-            sessionUsersArray = sessionInstance.active_users_array
+// 3.2.2.2 ---- Update the session info
+// 3.2.2.2.1 -- Add user's vote to their object in LIVE SERVER
+            const sessionUsersArray = sessionInstance.active_users_array
+            const userInstance = sessionUsersArray.find(u => u.name === username)
+            userInstance['vote'] = userVote
 
-// 3.2.2.1.2 -- Add user's vote to their object in the session array
-            const userInstance = sessionUsersArray.find(user => user.name === username)
-            userInstance['vote'] = newVote
-
-// 3.2.2.1.3 -- Create a new option if doesn't exist in the options database
-            let newSelection = sessionOptionsArray.find(option => option.name === newVote)
+// 3.2.2.2.2 -- Create a new option in LIVE SERVER if new
+            const sessionOptionsArray = sessionInstance.options
+            const newSelection = sessionOptionsArray.find(option => option === userVote)
             if (!newSelection) {
-                const table = `<tr><td>${newVote}</td><td>optionVotes</td></tr>`
-                const list = `<option value="${newVote}"></option>`
-                const newOption = { name: newVote, tableHTML: table, listHTML: list }
-
-                sessionOptionsArray.push(newOption)
+                sessionOptionsArray.push(userVote)
             }
-
-// 3.2.2.1.4 -- Create updated html for table of options and datalist
-            const tableListHTML = generateTableHTML(sessionOptionsArray, sessionUsersArray)
-
-// 3.2.2.1.5 -- Update the live server (dummy_data.json) with the new session info
-            await database.refreshLiveData(sessionInstance.session_id, sessionUsersArray, sessionInstance.category, tableListHTML)
             
             res.status(200).send('Everything worked')
 
@@ -103,24 +82,14 @@ function pageSetup(app) {
 
         const { sessionID, username } = req.params
 
-// 3.2.3.1 -- Update the data in the live server
         try {
+// 3.2.3.1 -- Retrieve session info from from LIVE SERVER
+            const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
 
-// 3.2.3.1.1 -- Connect to live server and database (dummy_data.json)
-            const { sessions } = await database.loadDatabase()
-            const data = sessions.find(s => s.session_id === sessionID)
-            sessionInstance = new classes.Session(data.session_id, data.category, data.active_users_array)
-            sessionUsersArray = sessionInstance.active_users_array
-
-// 3.2.3.1.2 -- Clear user's vote in their object in the session array
-            const userInstance = sessionUsersArray.find(user => user.name === username)
+// 3.2.3.2 -- Clear user's vote to their object in LIVE SERVER
+            const sessionUsersArray = sessionInstance.active_users_array
+            const userInstance = sessionUsersArray.find(u => u.name === username)
             userInstance['vote'] = null
-
-// 3.2.3.1.3 -- Create updated html for table of options
-            const tableListHTML = generateTableHTML(sessionOptionsArray, sessionUsersArray)
-
-// 3.2.3.1.4 -- Update the live server (dummy_data.json) with the new session info
-            await database.refreshLiveData(sessionInstance.session_id, sessionUsersArray, sessionInstance.category, tableListHTML)
 
             res.status(200).send('Success')
 
@@ -137,10 +106,9 @@ function pageSetup(app) {
         const { sessionID } = req.params
 
 // 3.3.1 ---- Check if all votes are cast
-// 3.3.1.1 -- Connect to live server (dummy_data.json)
-        const { sessions } = await database.loadDatabase()
-        const sessionInstance = sessions.find(s => s.session_id === sessionID)
-        sessionUsersArray = sessionInstance.active_users_array
+// 3.3.1.1 -- Retrieve session info from LIVE SERVER
+        const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
+        const sessionUsersArray = sessionInstance.active_users_array
 
 // 3.3.1.2 -- Compare total active users with total votes cast
         const activeUsers = sessionUsersArray.length
@@ -178,7 +146,6 @@ function pageSetup(app) {
             const tiedOptions = Object.keys(voteCounts).filter(vote => voteCounts[vote] === highestCount)
             if (tiedOptions.length > 1) {
                 const randomNum = Math.floor(Math.random() * tiedOptions.length)
-                console.log('randomNum:', randomNum)
                 popularVote = tiedOptions[randomNum]
             }
 
@@ -192,29 +159,23 @@ function pageSetup(app) {
 
         const { sessionID, groupSelection } = req.params
 
-// 3.4.1.1 -- End live server for session
-        // something with this function -> database.refreshLiveData()
+// 3.4.1.1 -- End session in LIVE SERVER
+        const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
+        sessionInstance.end_time = Date.now()
 
-// 3.4.1.2 -- Update user database information
-        const { sessions, users } = await database.loadDatabase();
-        const sessionInfo = sessions.find(session => session.session_id === sessionID);
+// 3.4.1.2 -- End session in Mongo DB
+        db.endSession(sessionID)
 
-// 3.4.1.3 -- Mark user as completed and, if picked selection, won
-        for (let activeUser of sessionInfo.active_users_array) {
-            const user = users.find(u => u.username === activeUser.name);
-            if (user) {
-                user.sessions_total++
-                if (activeUser.vote === groupSelection) {
-                    user.sessions_won++
-                }
-            }
-        }
-            
-// 3.4.1.4 -- Note the time in session's end_time in database
-        sessionInfo.end_time = Date.now()
+// 3.4.1.3 ---- Update user information in Mongo DB
+        const users = sessionInstance.active_users_array
 
-// 3.4.1.5 -- Update the database (dummy_data.json) with the updated session info
-        await database.refreshDatabase(sessions, users, null)
+// 3.4.1.3.1 -- Increment user total sessions
+        const allUsers = users.map(obj => obj.name)
+
+// 3.4.1.3.2 -- If user picked group selection, increment user sessions won
+        const winUsers = users.filter(u => u.vote === groupSelection).map(obj => obj.name)
+
+        db.updateUsers(allUsers, winUsers)
 
         res.json({category: sessionInfo.category})
     })
@@ -232,16 +193,21 @@ function pageSetup(app) {
  */
 function generateTableHTML (sessionOptionsArray, sessionUsersArray) {
 
+    const optionsHTML = []
+
     for (let option of sessionOptionsArray) {
-        const activeVotes = sessionUsersArray.filter(user => user.vote === option.name).length
+        const activeVotes = sessionUsersArray.filter(user => user.vote === option).length
         
-        // Replace the placeholder if first render
-        option.tableHTML = option.tableHTML.replace('optionVotes', activeVotes)
-        // Replace the previous submission if after first render
-        option.tableHTML = option.tableHTML.replace(/<\/td><td>(\d+)<\/td>/, '</td><td>' + activeVotes + '</td>')
+        const table = `<tr><td>${option}</td><td>${activeVotes}</td></tr>`
+        const list = `<option value="${option}"></option>`
+
+        let obj = { name: option, tableHTML: table, listHTML: list }
+
+        optionsHTML.push(obj)
+
     }
 
-    return sessionOptionsArray
+    return optionsHTML
 }
 
 

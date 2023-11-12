@@ -2,43 +2,43 @@
   "users": [
     {
       "username": "MASAULLS",
-      "password_hash": -1478515977,
-      "salt": "ONZWX1",
+      "password_hash": 137198574,
+      "salt": "7OTO7P",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "CHSAULLS",
-      "password_hash": 1943921912,
-      "salt": "WJHP2N",
+      "password_hash": -1440300681,
+      "salt": "FOYW4C",
       "sessions_total": 7,
       "sessions_won": 1
     },
     {
       "username": "RCSAULLS",
-      "password_hash": 1957184339,
-      "salt": "YZR0MQ",
+      "password_hash": -786189566,
+      "salt": "KGQG0R",
       "sessions_total": 7,
       "sessions_won": 0
     },
     {
       "username": "ECSAULLS",
-      "password_hash": 1704522733,
-      "salt": "HTBBUR",
+      "password_hash": -335387450,
+      "salt": "46H7DC",
       "sessions_total": 3,
       "sessions_won": 0
     },
     {
       "username": "SSAULLS",
-      "password_hash": -1163949566,
-      "salt": "KNFAVY",
+      "password_hash": -80379782,
+      "salt": "S1FGKE",
       "sessions_total": 3,
       "sessions_won": 3
     },
     {
       "username": "CSAULLS",
-      "password_hash": -760015839,
-      "salt": "BNXX4V",
+      "password_hash": -910882856,
+      "salt": "XEHKJ1",
       "sessions_total": 7,
       "sessions_won": 4
     }
@@ -47,7 +47,22 @@
     {
       "session_id": "DEFAULT",
       "category": "food",
-      "start_time": 1699468289986,
+      "options": [
+        "Wendy's",
+        "McDonald's",
+        "Chick-fil-A",
+        "Bumblebees",
+        "Se Llama Peru",
+        "India Palace",
+        "Burger Supreme",
+        "Cubby's",
+        "Good Move",
+        "Brick Oven",
+        "Costa Vida",
+        "Five Sushi Bros",
+        "Black Sheep Cafe"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [
         {
           "name": "CHSAULLS",
@@ -76,7 +91,22 @@
     {
       "session_id": "F7N7V4",
       "category": "food",
-      "start_time": 1699468289986,
+      "options": [
+        "Wendy's",
+        "McDonald's",
+        "Chick-fil-A",
+        "Bumblebees",
+        "Se Llama Peru",
+        "India Palace",
+        "Burger Supreme",
+        "Cubby's",
+        "Good Move",
+        "Brick Oven",
+        "Costa Vida",
+        "Five Sushi Bros",
+        "Black Sheep Cafe"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -84,7 +114,22 @@
     {
       "session_id": "C7T4H9",
       "category": "food",
-      "start_time": 1699468289986,
+      "options": [
+        "Wendy's",
+        "McDonald's",
+        "Chick-fil-A",
+        "Bumblebees",
+        "Se Llama Peru",
+        "India Palace",
+        "Burger Supreme",
+        "Cubby's",
+        "Good Move",
+        "Brick Oven",
+        "Costa Vida",
+        "Five Sushi Bros",
+        "Black Sheep Cafe"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -92,7 +137,22 @@
     {
       "session_id": "F2W7Q7",
       "category": "food",
-      "start_time": 1699468289986,
+      "options": [
+        "Wendy's",
+        "McDonald's",
+        "Chick-fil-A",
+        "Bumblebees",
+        "Se Llama Peru",
+        "India Palace",
+        "Burger Supreme",
+        "Cubby's",
+        "Good Move",
+        "Brick Oven",
+        "Costa Vida",
+        "Five Sushi Bros",
+        "Black Sheep Cafe"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -100,7 +160,22 @@
     {
       "session_id": "H6Q2N0",
       "category": "food",
-      "start_time": 1699468289986,
+      "options": [
+        "Wendy's",
+        "McDonald's",
+        "Chick-fil-A",
+        "Bumblebees",
+        "Se Llama Peru",
+        "India Palace",
+        "Burger Supreme",
+        "Cubby's",
+        "Good Move",
+        "Brick Oven",
+        "Costa Vida",
+        "Five Sushi Bros",
+        "Black Sheep Cafe"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -108,7 +183,22 @@
     {
       "session_id": "D2S4D6",
       "category": "food",
-      "start_time": 1699468289986,
+      "options": [
+        "Wendy's",
+        "McDonald's",
+        "Chick-fil-A",
+        "Bumblebees",
+        "Se Llama Peru",
+        "India Palace",
+        "Burger Supreme",
+        "Cubby's",
+        "Good Move",
+        "Brick Oven",
+        "Costa Vida",
+        "Five Sushi Bros",
+        "Black Sheep Cafe"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -116,7 +206,21 @@
     {
       "session_id": "K4X6J2",
       "category": "movie",
-      "start_time": 1699468289986,
+      "options": [
+        "The Shawshank Redemption",
+        "The Godfather",
+        "The Dark Knight",
+        "Pulp Fiction",
+        "Schindler's List",
+        "The Return of the King",
+        "Fight Club",
+        "Forrest Gump",
+        "Inception",
+        "The Matrix",
+        "Gladiator",
+        "The Silence of the Lambs"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -124,7 +228,21 @@
     {
       "session_id": "N7T5Q6",
       "category": "movie",
-      "start_time": 1699468289986,
+      "options": [
+        "The Shawshank Redemption",
+        "The Godfather",
+        "The Dark Knight",
+        "Pulp Fiction",
+        "Schindler's List",
+        "The Return of the King",
+        "Fight Club",
+        "Forrest Gump",
+        "Inception",
+        "The Matrix",
+        "Gladiator",
+        "The Silence of the Lambs"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -132,7 +250,21 @@
     {
       "session_id": "L3V9B4",
       "category": "movie",
-      "start_time": 1699468289986,
+      "options": [
+        "The Shawshank Redemption",
+        "The Godfather",
+        "The Dark Knight",
+        "Pulp Fiction",
+        "Schindler's List",
+        "The Return of the King",
+        "Fight Club",
+        "Forrest Gump",
+        "Inception",
+        "The Matrix",
+        "Gladiator",
+        "The Silence of the Lambs"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -140,7 +272,21 @@
     {
       "session_id": "N2K6M6",
       "category": "movie",
-      "start_time": 1699468289986,
+      "options": [
+        "The Shawshank Redemption",
+        "The Godfather",
+        "The Dark Knight",
+        "Pulp Fiction",
+        "Schindler's List",
+        "The Return of the King",
+        "Fight Club",
+        "Forrest Gump",
+        "Inception",
+        "The Matrix",
+        "Gladiator",
+        "The Silence of the Lambs"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -148,7 +294,21 @@
     {
       "session_id": "P7X5C7",
       "category": "movie",
-      "start_time": 1699468289986,
+      "options": [
+        "The Shawshank Redemption",
+        "The Godfather",
+        "The Dark Knight",
+        "Pulp Fiction",
+        "Schindler's List",
+        "The Return of the King",
+        "Fight Club",
+        "Forrest Gump",
+        "Inception",
+        "The Matrix",
+        "Gladiator",
+        "The Silence of the Lambs"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -156,7 +316,21 @@
     {
       "session_id": "K5F2K4",
       "category": "movie",
-      "start_time": 1699468289986,
+      "options": [
+        "The Shawshank Redemption",
+        "The Godfather",
+        "The Dark Knight",
+        "Pulp Fiction",
+        "Schindler's List",
+        "The Return of the King",
+        "Fight Club",
+        "Forrest Gump",
+        "Inception",
+        "The Matrix",
+        "Gladiator",
+        "The Silence of the Lambs"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -164,7 +338,21 @@
     {
       "session_id": "L2K3N3",
       "category": "movie",
-      "start_time": 1699468289986,
+      "options": [
+        "The Shawshank Redemption",
+        "The Godfather",
+        "The Dark Knight",
+        "Pulp Fiction",
+        "Schindler's List",
+        "The Return of the King",
+        "Fight Club",
+        "Forrest Gump",
+        "Inception",
+        "The Matrix",
+        "Gladiator",
+        "The Silence of the Lambs"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -172,7 +360,21 @@
     {
       "session_id": "R7M0X2",
       "category": "game",
-      "start_time": 1699468289986,
+      "options": [
+        "Settlers of Catan",
+        "Ticket to Ride",
+        "Carcassonne",
+        "Pandemic",
+        "Dominion",
+        "Codenames",
+        "7 Wonders",
+        "Twilight Struggle",
+        "Agricola",
+        "Scythe",
+        "Splendor",
+        "Betrayal at Baldur's Gate"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -180,7 +382,21 @@
     {
       "session_id": "X7H3J3",
       "category": "game",
-      "start_time": 1699468289986,
+      "options": [
+        "Settlers of Catan",
+        "Ticket to Ride",
+        "Carcassonne",
+        "Pandemic",
+        "Dominion",
+        "Codenames",
+        "7 Wonders",
+        "Twilight Struggle",
+        "Agricola",
+        "Scythe",
+        "Splendor",
+        "Betrayal at Baldur's Gate"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -188,7 +404,21 @@
     {
       "session_id": "S4C3Q5",
       "category": "game",
-      "start_time": 1699468289986,
+      "options": [
+        "Settlers of Catan",
+        "Ticket to Ride",
+        "Carcassonne",
+        "Pandemic",
+        "Dominion",
+        "Codenames",
+        "7 Wonders",
+        "Twilight Struggle",
+        "Agricola",
+        "Scythe",
+        "Splendor",
+        "Betrayal at Baldur's Gate"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -196,7 +426,21 @@
     {
       "session_id": "T5H9K5",
       "category": "game",
-      "start_time": 1699468289986,
+      "options": [
+        "Settlers of Catan",
+        "Ticket to Ride",
+        "Carcassonne",
+        "Pandemic",
+        "Dominion",
+        "Codenames",
+        "7 Wonders",
+        "Twilight Struggle",
+        "Agricola",
+        "Scythe",
+        "Splendor",
+        "Betrayal at Baldur's Gate"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -204,7 +448,21 @@
     {
       "session_id": "S2V2J9",
       "category": "game",
-      "start_time": 1699468289986,
+      "options": [
+        "Settlers of Catan",
+        "Ticket to Ride",
+        "Carcassonne",
+        "Pandemic",
+        "Dominion",
+        "Codenames",
+        "7 Wonders",
+        "Twilight Struggle",
+        "Agricola",
+        "Scythe",
+        "Splendor",
+        "Betrayal at Baldur's Gate"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -212,7 +470,21 @@
     {
       "session_id": "Z6L3X3",
       "category": "game",
-      "start_time": 1699468289986,
+      "options": [
+        "Settlers of Catan",
+        "Ticket to Ride",
+        "Carcassonne",
+        "Pandemic",
+        "Dominion",
+        "Codenames",
+        "7 Wonders",
+        "Twilight Struggle",
+        "Agricola",
+        "Scythe",
+        "Splendor",
+        "Betrayal at Baldur's Gate"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -220,7 +492,21 @@
     {
       "session_id": "T7F3P7",
       "category": "game",
-      "start_time": 1699468289986,
+      "options": [
+        "Settlers of Catan",
+        "Ticket to Ride",
+        "Carcassonne",
+        "Pandemic",
+        "Dominion",
+        "Codenames",
+        "7 Wonders",
+        "Twilight Struggle",
+        "Agricola",
+        "Scythe",
+        "Splendor",
+        "Betrayal at Baldur's Gate"
+      ],
+      "start_time": 1699797195796,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""

@@ -256,7 +256,7 @@ function convertArrayToObjects(list) {
         const table = `<tr><td>${option}</td><td>optionVotes</td></tr>`
         const list = `<option value="${option}"></option>`
 
-        let obj = { name: option, tableHTML: table, listHTML: list }
+        let obj = { name: option }
 
         objectsArray.push(obj)
     }

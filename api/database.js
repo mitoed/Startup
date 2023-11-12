@@ -178,9 +178,8 @@ async function getMongoOptions(category) {
 
         const sessionOptions = []
         for await (const option of result) {
-            sessionOptions.push(option)
+            sessionOptions.push(option.name)
         }
-
         return sessionOptions
 
     } catch (ex) {

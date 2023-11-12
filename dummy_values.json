@@ -2,43 +2,43 @@
   "users": [
     {
       "username": "MASAULLS",
-      "password_hash": 137198574,
-      "salt": "7OTO7P",
+      "password_hash": 1164300522,
+      "salt": "JD499B",
       "sessions_total": 0,
       "sessions_won": 0
     },
     {
       "username": "CHSAULLS",
-      "password_hash": -1440300681,
-      "salt": "FOYW4C",
+      "password_hash": -348835961,
+      "salt": "P7YTNR",
       "sessions_total": 7,
       "sessions_won": 1
     },
     {
       "username": "RCSAULLS",
-      "password_hash": -786189566,
-      "salt": "KGQG0R",
+      "password_hash": 1315263807,
+      "salt": "OX07FM",
       "sessions_total": 7,
       "sessions_won": 0
     },
     {
       "username": "ECSAULLS",
-      "password_hash": -335387450,
-      "salt": "46H7DC",
+      "password_hash": -215520835,
+      "salt": "8J56MS",
       "sessions_total": 3,
       "sessions_won": 0
     },
     {
       "username": "SSAULLS",
-      "password_hash": -80379782,
-      "salt": "S1FGKE",
+      "password_hash": 1502073914,
+      "salt": "77DTL5",
       "sessions_total": 3,
       "sessions_won": 3
     },
     {
       "username": "CSAULLS",
-      "password_hash": -910882856,
-      "salt": "XEHKJ1",
+      "password_hash": -1464708564,
+      "salt": "OM1E7H",
       "sessions_total": 7,
       "sessions_won": 4
     }
@@ -62,7 +62,7 @@
         "Five Sushi Bros",
         "Black Sheep Cafe"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [
         {
           "name": "CHSAULLS",
@@ -106,7 +106,7 @@
         "Five Sushi Bros",
         "Black Sheep Cafe"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -129,7 +129,7 @@
         "Five Sushi Bros",
         "Black Sheep Cafe"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -152,7 +152,7 @@
         "Five Sushi Bros",
         "Black Sheep Cafe"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -175,7 +175,7 @@
         "Five Sushi Bros",
         "Black Sheep Cafe"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -198,7 +198,7 @@
         "Five Sushi Bros",
         "Black Sheep Cafe"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -220,7 +220,7 @@
         "Gladiator",
         "The Silence of the Lambs"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -242,7 +242,7 @@
         "Gladiator",
         "The Silence of the Lambs"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -264,7 +264,7 @@
         "Gladiator",
         "The Silence of the Lambs"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -286,7 +286,7 @@
         "Gladiator",
         "The Silence of the Lambs"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -308,7 +308,7 @@
         "Gladiator",
         "The Silence of the Lambs"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -330,7 +330,7 @@
         "Gladiator",
         "The Silence of the Lambs"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -352,7 +352,7 @@
         "Gladiator",
         "The Silence of the Lambs"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -374,7 +374,7 @@
         "Splendor",
         "Betrayal at Baldur's Gate"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -396,7 +396,7 @@
         "Splendor",
         "Betrayal at Baldur's Gate"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -418,7 +418,7 @@
         "Splendor",
         "Betrayal at Baldur's Gate"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -440,7 +440,7 @@
         "Splendor",
         "Betrayal at Baldur's Gate"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -462,7 +462,7 @@
         "Splendor",
         "Betrayal at Baldur's Gate"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -484,7 +484,7 @@
         "Splendor",
         "Betrayal at Baldur's Gate"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -506,7 +506,7 @@
         "Splendor",
         "Betrayal at Baldur's Gate"
       ],
-      "start_time": 1699797195796,
+      "start_time": 1699810971569,
       "active_users_array": [],
       "unpopular_opinion": "",
       "end_time": ""
@@ -515,193 +515,119 @@
   "options": {
     "food": [
       {
-        "name": "Wendy's",
-        "tableHTML": "<tr><td>Wendy's</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Wendy's\"></option>"
+        "name": "Wendy's"
       },
       {
-        "name": "McDonald's",
-        "tableHTML": "<tr><td>McDonald's</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"McDonald's\"></option>"
+        "name": "McDonald's"
       },
       {
-        "name": "Chick-fil-A",
-        "tableHTML": "<tr><td>Chick-fil-A</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Chick-fil-A\"></option>"
+        "name": "Chick-fil-A"
       },
       {
-        "name": "Bumblebees",
-        "tableHTML": "<tr><td>Bumblebees</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Bumblebees\"></option>"
+        "name": "Bumblebees"
       },
       {
-        "name": "Se Llama Peru",
-        "tableHTML": "<tr><td>Se Llama Peru</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Se Llama Peru\"></option>"
+        "name": "Se Llama Peru"
       },
       {
-        "name": "India Palace",
-        "tableHTML": "<tr><td>India Palace</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"India Palace\"></option>"
+        "name": "India Palace"
       },
       {
-        "name": "Burger Supreme",
-        "tableHTML": "<tr><td>Burger Supreme</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Burger Supreme\"></option>"
+        "name": "Burger Supreme"
       },
       {
-        "name": "Cubby's",
-        "tableHTML": "<tr><td>Cubby's</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Cubby's\"></option>"
+        "name": "Cubby's"
       },
       {
-        "name": "Good Move",
-        "tableHTML": "<tr><td>Good Move</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Good Move\"></option>"
+        "name": "Good Move"
       },
       {
-        "name": "Brick Oven",
-        "tableHTML": "<tr><td>Brick Oven</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Brick Oven\"></option>"
+        "name": "Brick Oven"
       },
       {
-        "name": "Costa Vida",
-        "tableHTML": "<tr><td>Costa Vida</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Costa Vida\"></option>"
+        "name": "Costa Vida"
       },
       {
-        "name": "Five Sushi Bros",
-        "tableHTML": "<tr><td>Five Sushi Bros</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Five Sushi Bros\"></option>"
+        "name": "Five Sushi Bros"
       },
       {
-        "name": "Black Sheep Cafe",
-        "tableHTML": "<tr><td>Black Sheep Cafe</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Black Sheep Cafe\"></option>"
+        "name": "Black Sheep Cafe"
       }
     ],
     "game": [
       {
-        "name": "Settlers of Catan",
-        "tableHTML": "<tr><td>Settlers of Catan</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Settlers of Catan\"></option>"
+        "name": "Settlers of Catan"
       },
       {
-        "name": "Ticket to Ride",
-        "tableHTML": "<tr><td>Ticket to Ride</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Ticket to Ride\"></option>"
+        "name": "Ticket to Ride"
       },
       {
-        "name": "Carcassonne",
-        "tableHTML": "<tr><td>Carcassonne</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Carcassonne\"></option>"
+        "name": "Carcassonne"
       },
       {
-        "name": "Pandemic",
-        "tableHTML": "<tr><td>Pandemic</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Pandemic\"></option>"
+        "name": "Pandemic"
       },
       {
-        "name": "Dominion",
-        "tableHTML": "<tr><td>Dominion</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Dominion\"></option>"
+        "name": "Dominion"
       },
       {
-        "name": "Codenames",
-        "tableHTML": "<tr><td>Codenames</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Codenames\"></option>"
+        "name": "Codenames"
       },
       {
-        "name": "7 Wonders",
-        "tableHTML": "<tr><td>7 Wonders</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"7 Wonders\"></option>"
+        "name": "7 Wonders"
       },
       {
-        "name": "Twilight Struggle",
-        "tableHTML": "<tr><td>Twilight Struggle</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Twilight Struggle\"></option>"
+        "name": "Twilight Struggle"
       },
       {
-        "name": "Agricola",
-        "tableHTML": "<tr><td>Agricola</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Agricola\"></option>"
+        "name": "Agricola"
       },
       {
-        "name": "Scythe",
-        "tableHTML": "<tr><td>Scythe</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Scythe\"></option>"
+        "name": "Scythe"
       },
       {
-        "name": "Splendor",
-        "tableHTML": "<tr><td>Splendor</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Splendor\"></option>"
+        "name": "Splendor"
       },
       {
-        "name": "Betrayal at Baldur's Gate",
-        "tableHTML": "<tr><td>Betrayal at Baldur's Gate</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Betrayal at Baldur's Gate\"></option>"
+        "name": "Betrayal at Baldur's Gate"
       }
     ],
     "movie": [
       {
-        "name": "The Shawshank Redemption",
-        "tableHTML": "<tr><td>The Shawshank Redemption</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"The Shawshank Redemption\"></option>"
+        "name": "The Shawshank Redemption"
       },
       {
-        "name": "The Godfather",
-        "tableHTML": "<tr><td>The Godfather</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"The Godfather\"></option>"
+        "name": "The Godfather"
       },
       {
-        "name": "The Dark Knight",
-        "tableHTML": "<tr><td>The Dark Knight</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"The Dark Knight\"></option>"
+        "name": "The Dark Knight"
       },
       {
-        "name": "Pulp Fiction",
-        "tableHTML": "<tr><td>Pulp Fiction</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Pulp Fiction\"></option>"
+        "name": "Pulp Fiction"
       },
       {
-        "name": "Schindler's List",
-        "tableHTML": "<tr><td>Schindler's List</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Schindler's List\"></option>"
+        "name": "Schindler's List"
       },
       {
-        "name": "The Return of the King",
-        "tableHTML": "<tr><td>The Return of the King</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"The Return of the King\"></option>"
+        "name": "The Return of the King"
       },
       {
-        "name": "Fight Club",
-        "tableHTML": "<tr><td>Fight Club</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Fight Club\"></option>"
+        "name": "Fight Club"
       },
       {
-        "name": "Forrest Gump",
-        "tableHTML": "<tr><td>Forrest Gump</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Forrest Gump\"></option>"
+        "name": "Forrest Gump"
       },
       {
-        "name": "Inception",
-        "tableHTML": "<tr><td>Inception</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Inception\"></option>"
+        "name": "Inception"
       },
       {
-        "name": "The Matrix",
-        "tableHTML": "<tr><td>The Matrix</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"The Matrix\"></option>"
+        "name": "The Matrix"
       },
       {
-        "name": "Gladiator",
-        "tableHTML": "<tr><td>Gladiator</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"Gladiator\"></option>"
+        "name": "Gladiator"
       },
       {
-        "name": "The Silence of the Lambs",
-        "tableHTML": "<tr><td>The Silence of the Lambs</td><td>optionVotes</td></tr>",
-        "listHTML": "<option value=\"The Silence of the Lambs\"></option>"
+        "name": "The Silence of the Lambs"
       }
     ]
   }

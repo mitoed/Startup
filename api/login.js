@@ -1,8 +1,5 @@
-const database = require('./database.js')
+const db = require('./database.js')
 const classes = require('./classes.js')
-
-// Connect to database
-database.connectToDatabase()
 
 function pageSetup (app) {
 
@@ -15,7 +12,7 @@ function pageSetup (app) {
         
 // 1.1.2 ---- Compare against database of current users
 // 1.1.2.1 -- Request persistent database data
-        const existingUser = await database.checkUserInfo(checkUsername)
+        const existingUser = await db.checkUserInfo(checkUsername)
 
         let goodUsername = false
         let goodPassword = false
@@ -51,7 +48,7 @@ function pageSetup (app) {
         
 // 1.2.2 ---- Compare against database of current users
 // 1.2.2.1 -- Check new username against Mongo Database
-        const existingUser = await database.checkUserInfo(checkUsername)
+        const existingUser = await db.checkUserInfo(checkUsername)
 
 // 1.2.2.2 -- Check that user does not already exist in database
         let goodUsername = true
@@ -77,7 +74,7 @@ function pageSetup (app) {
             const createUser = new classes.User(checkUsername, checkPassword)
 
 // 1.2.5.2 -- Send new user info to Mongo database
-            database.addUserInfo(createUser)
+            db.addUserInfo(createUser)
         }
 
         const createLogin = {

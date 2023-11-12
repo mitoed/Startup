@@ -10,7 +10,7 @@ function pageSetup(app) {
         const { username } = req.params
         const { sessionID } = req.params
         
-// 2.1.2 ---- Check if session is open
+// 2.1.2 ---- Check if session is open in LIVE SERVER
         const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
 
 // 2.1.3 ---- If session is open, enter the session
@@ -62,8 +62,8 @@ function pageSetup(app) {
 // 2.2.2.2 -- Add the user to this new session
         newSessionInstance.addActiveUser(username)
         
-// 2.2.2.3 -- Update the Mongo DB with new session info
-        await db.addMongoSession(newSessionInstance)
+// 2.2.2.3 -- Begin to update the Mongo DB with new session info
+        db.addMongoSession(newSessionInstance)
 
 // 2.2.2.4 -- Request options list from Mongo DB
         const sessionOptions = await db.getMongoOptions(category)

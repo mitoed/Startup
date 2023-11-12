@@ -23,16 +23,16 @@ async function validateLogin() {
 
 // 1.1.2 -- Compare against database of current users
     const response = await fetch(`/api/validate-login/${username_input}/${password_input}`)
-    const parsedData = await response.json()
+    const dataValidation = await response.json()
 
 // 1.1.3 -- If info is not all correct, respond with appropriate error message to user; exit
 // 1.1.3.1
-    if (!parsedData.goodUsername) {
+    if (!dataValidation.goodUsername) {
         document.getElementById('login_error').innerHTML = 'username does not exist'
         return
 
 // 1.1.3.2
-    } else if (!parsedData.goodPassword) {
+    } else if (!dataValidation.goodPassword) {
         document.getElementById('login_error').innerHTML = 'incorrect password'
         return
 
@@ -72,21 +72,21 @@ async function createLogin() {
 // 1.2.3 -- Ensure given password complies with password requirements
 // 1.2.4 -- If unique and complete, create a new user with usernamd and password_hash
     const response = await fetch (`/api/create-login/${new_username}/${new_password}/${confirm_password}`)
-    const parsedData = await response.json()
+    const dataValidation = await response.json()
 
 // 1.2.5 -- If not all info is good, create new user with username and password; exit
 // 1.2.5.1
-    if (!parsedData.goodUsername) {
+    if (!dataValidation.goodUsername) {
         document.getElementById('create_error').innerHTML = `${new_username} already exists`
         return
 
 // 1.2.5.2
-    } else if (!parsedData.goodPassword) {
+    } else if (!dataValidation.goodPassword) {
         document.getElementById('create_error').innerHTML = 'password must contain 1 letter, 1 number, and be at least 8 characters long'
         return
 
 // 1.2.5.3
-    } else if (!parsedData.goodConfirmation) {
+    } else if (!dataValidation.goodConfirmation) {
         document.getElementById('create_error').innerHTML = 'passwords must match'
         return
 

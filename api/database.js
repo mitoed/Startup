@@ -9,6 +9,7 @@ const url = `mongodb+srv://${config.username}:${config.password}@${config.hostna
 const client = new MongoClient(url)
 const dbName = 'voting'
 const sessionsCollection = client.db(dbName).collection('sessions')
+const usersCollection = client.db(dbName).collection('users')
 
 // Test connection with Mongo Database
 const connectToDatabase = async () => {
@@ -20,104 +21,31 @@ const connectToDatabase = async () => {
     }
 }
 
-
-async function addMongoSession(sessionInstance) {
-
+/** Requests an entry by username from the Mongo DB
+ * 
+ * @param {string} checkUsername - username of requested data
+ * @returns - user object from Mongo DB
+ */
+async function checkUserInfo(checkUsername) {
     try {
-        await connectToDatabase()
-        const result = await sessionsCollection.insertOne(sessionInstance);
-        console.log('Success Inserting:', result)
-
-    } catch (ex) {
-        console.log(`Unable to connect to database with ${url} because ${ex.message}`);
-        process.exit(1);
-
-    } finally {
-        await client.close()
-    }
-}
-
-
-async function getMongoSession(getSessionID) {
-
-    try {
-        //await connectToDatabase()
-        const result = await sessionsCollection.findOne({ session_id: getSessionID });
-        console.log(result)
+        const result = await usersCollection.findOne({ username: checkUsername });
         return result
-
     } catch (ex) {
         console.log(`Unable to connect to database with ${url} because ${ex.message}`);
-        process.exit(1);
-
-    } finally {
-        //await client.close()
     }
-
 }
 
-
-async function addUserToMongoSession(sessionID, username) {
-
-    const filter = {session_id: sessionID}
-    const newUser = {name: username, vote: null}
-    const updates = { $push: { active_users_array: newUser}}
-
+/** Adds a user entry to Mongo DB
+ * 
+ * @param {object} userInstance - user object to be added
+ */
+async function addUserInfo(userInstance) {
     try {
-        //await connectToDatabase()
-        const result = await sessionsCollection.updateMany(filter, updates)
-        console.log('Update successful')
-        console.log(result)
+        await usersCollection.insertOne(userInstance);
     } catch (ex) {
         console.log(`Unable to connect to database with ${url} because ${ex.message}`);
-        process.exit(1);
-
-    } finally {
-        //await client.close()
     }
 }
-
-const sessionInstance = {
-    session_id: 'DK37DS',
-    category: 'food',
-    active_users_array: [
-        { name: 'MASAULLS', vote: null }
-    ],
-    start_time: Date.now(),
-    unpopular_vote: '',
-    end_time: ''
-}
-
-//addMongoSession(sessionInstance)
-async function addNewUser() {
-    try {
-        await connectToDatabase()
-        await addUserToMongoSession('DK37DS', 'SSAULLS')
-        await getMongoSession('DK37DS')
-    
-    } catch (ex) {
-        console.log(`Unable to connect to database with ${url} because ${ex.message}`);
-        process.exit(1);
-    } finally {
-        await client.close()
-    }
-}
-
-async function mongoSetup() {
-    try {
-        await connectToDatabase()
-    } catch (ex) {
-        console.log(`Unable to connect to database with ${url} because ${ex.message}`);
-        await client.close()
-        console.log('Connection severed to database.')
-        process.exit(1);
-    } finally {
-        //await client.close()
-    }
-}
-
-mongoSetup()
-
 
 // =============================================================================
 // SUPPORTING FUNCTIONS
@@ -202,4 +130,5 @@ async function refreshLiveData(sessionID, sessionUsersArray, category, tableList
     }
 }
 
-module.exports = { loadDatabase, refreshDatabase, refreshLiveData }
+module.exports = { connectToDatabase, checkUserInfo, addUserInfo }
+//module.exports = { loadDatabase, refreshDatabase, refreshLiveData, testDB, changeVote }

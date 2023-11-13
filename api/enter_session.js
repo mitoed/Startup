@@ -14,7 +14,7 @@ function pageSetup(app) {
         const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
 
 // 2.1.3 ---- If session is open, enter the session
-        if (sessionInstance && sessionInstance.end_time === '') {
+        if (sessionInstance && sessionInstance.end_time === 0) {
 
 // 2.1.3.1 -- Begin to update the Mongo DB with the updated session info
             db.userToMongoSession(sessionID, username)
@@ -40,7 +40,7 @@ function pageSetup(app) {
         }
 
 // 2.1.4 -- If session is not available or not open, respond with error message to user
-        if (!sessionInstance || sessionInstance.end_time !== '') {
+        if (!sessionInstance || sessionInstance.end_time !== 0) {
             console.log('Error: Session Not Found')
             res.status(204).send('Session Not Found')
             return

@@ -2,9 +2,6 @@ const fs = require('fs');
 
 const DB_USERS = []
 const DB_SESSIONS = []
-const foodIDLetters = 'BCDFGHJ'
-const movieIDLetters = 'KLMNPQ'
-const gameIDLetters = 'RSTVWXZ'
 
 // =============================================================================
 // CLASSES
@@ -31,30 +28,6 @@ class User {
         this.sessions_won = sessions_won
     }
 
-    /** Once voting has finished, increment the user's total count.
-     * If group selected what the user did, increment the user's winning count.
-     * 
-     * @param {string} groupSelection 
-     */
-    incrementParticipation(groupSelection) {
-        if (groupSelection === this.active_vote) {
-            this._sessions_won++
-        }
-        this._sessions_total++
-    }
-
-    /** Calculates the loss rate.
-     * If user has participated in more than 5 sessions
-     * and has lost at least 70% of the time, returns their loss rate
-     * 
-     * @returns {double}
-     */
-    significantLossRate() {
-        const lossRate = (this.sessions_total - this._sessions_won) / this.sessions_total
-        if (this.sessions_total >= 5 && lossRate >= .7) {
-            return lossRate
-        }
-    }
 }
 
 /** Represents a session with the sesssion id, the category, the list of options, when it started/ended,
@@ -78,38 +51,12 @@ class Session {
         this.active_users_array = []
         this.start_time = Date.now()
         this.unpopular_opinion = ''
-        this.end_time = ''
+        this.end_time = 0
         this.group_selection = ''
     }
 
-    /** User joins the session
-     * 
-     * @param {string} addUser - Username of additional user
-     */
-    addActiveUser(addUserVote) {
-        this.active_users_array.push(addUserVote)
-    }
-
-    /** User leaves the session
-     * 
-     * @param {string} removeUser 
-     */
-    removeActiveUser(removeUserVote) {
-        const userIndex = this.active_users_array.indexOf(removeUserVote)
-
-        if (userIndex > -1) {
-            this.active_users_array.splice(userIndex, 1)
-        }
-    }
-
-    /** Ends the session, recording the final decision and timestamp and clearning the usernames
-     * 
-     * @param {string} groupSelection 
-     */
-    endSession(groupSelection) {
-        this.active_users_array = []
-        this.group_selection = groupSelection
-        this.end_time = Date.now()
+    addActiveUser (userObject) {
+        this.active_users_array.push(userObject)
     }
 }
 
@@ -121,23 +68,23 @@ function addFakeUser(fakeUserName, fakePassword, fakeTotal, fakeWon) {
     let fakeUser = new User(fakeUserName, fakePassword, fakeTotal, fakeWon)
     DB_USERS.push(fakeUser)
 }
-addFakeUser("MASAULLS", "1234")
-addFakeUser('CHSAULLS', '389d9*', 7, 1)
-addFakeUser('RCSAULLS', '303udsd', 7, 0)
-addFakeUser('ECSAULLS', '38&jdkf', 3, 0)
-addFakeUser('SSAULLS', '7329fd', 3, 3)
-addFakeUser('CSAULLS', '39fds', 7, 4)
+addFakeUser("ADMIN", "1234", 100000, 100000)
+addFakeUser('BILLY', '389d9*', 7, 1)
+addFakeUser('JOE', '303udsd', 7, 0)
+addFakeUser('SAMMY', '38&jdkf', 3, 0)
+addFakeUser('KATIE', '7329fd', 3, 3)
+addFakeUser('BOB', '39fds', 7, 4)
 
 function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
     let fakeSession = new Session(fakeSessionID, fakeCategory, DB_CATEGORY)
     const fakeUserArray = [
-        { name: 'CHSAULLS', vote: 'Costa Vida' },
-        { name: 'RCSAULLS', vote: 'Five Sushi Bros' },
-        { name: 'ECSAULLS', vote: 'Good Move' },
-        { name: 'SSAULLS', vote: 'Burger Supreme' },
-        { name: 'CSAULLS', vote: "Cubby's" },
+        { name: 'BILLY', vote: 'Costa Vida' },
+        { name: 'JOE', vote: 'Five Sushi Bros' },
+        { name: 'SAMMY', vote: 'Good Move' },
+        { name: 'KATIE', vote: 'Burger Supreme' },
+        { name: 'BOB', vote: "Cubby's" },
     ]
-    if (fakeSession.session_id === 'DEFAULT') {
+    if (fakeSession.session_id === 'SAMPLE') {
         for (let newUser of fakeUserArray) {
             fakeSession.addActiveUser(newUser)
         }
@@ -190,26 +137,15 @@ let listGAME = [
     "Splendor",
     "Betrayal at Baldur's Gate"]
 
-addFakeSession('DEFAULT', 'food', listFOOD)
+addFakeSession('SAMPLE', 'food', listFOOD)
 addFakeSession("F7N7V4", 'food', listFOOD)
 addFakeSession("C7T4H9", 'food', listFOOD)
-addFakeSession("F2W7Q7", 'food', listFOOD)
-addFakeSession("H6Q2N0", 'food', listFOOD)
-addFakeSession("D2S4D6", 'food', listFOOD)
 addFakeSession("K4X6J2", 'movie', listMOVIE)
 addFakeSession("N7T5Q6", 'movie', listMOVIE)
 addFakeSession("L3V9B4", 'movie', listMOVIE)
-addFakeSession("N2K6M6", 'movie', listMOVIE)
-addFakeSession("P7X5C7", 'movie', listMOVIE)
-addFakeSession("K5F2K4", 'movie', listMOVIE)
-addFakeSession("L2K3N3", 'movie', listMOVIE)
 addFakeSession("R7M0X2", 'game', listGAME)
 addFakeSession("X7H3J3", 'game', listGAME)
 addFakeSession("S4C3Q5", 'game', listGAME)
-addFakeSession("T5H9K5", 'game', listGAME)
-addFakeSession("S2V2J9", 'game', listGAME)
-addFakeSession("Z6L3X3", 'game', listGAME)
-addFakeSession("T7F3P7", 'game', listGAME)
 
 /** Creates a salt to be appended to password--used for password hashing
  * 
@@ -249,17 +185,13 @@ function randomDigit(digitArray) {
 
 /** Convert the lists to objects with the proper table and list html structures */
 function convertArrayToObjects(list) {
+
     let objectsArray = []
 
     for (let option of list) {
-
-        const table = `<tr><td>${option}</td><td>optionVotes</td></tr>`
-        const list = `<option value="${option}"></option>`
-
-        let obj = { name: option }
-
-        objectsArray.push(obj)
+        objectsArray.push({ name: option })
     }
+
     return objectsArray
 }
 
@@ -268,7 +200,7 @@ function convertArrayToObjects(list) {
 // =============================================================================
 
 function createDummyJSON() {
-    const dummyData = {
+    const sampleData = {
         users: DB_USERS.map(user => ({
             username: user.username,
             password_hash: user.password_hash,
@@ -294,8 +226,8 @@ function createDummyJSON() {
     }
 
     // Save the JSON to a file
-    const jsonContent = JSON.stringify(dummyData, null, 2);
-    fs.writeFileSync('./dummy_values.json', jsonContent);
+    const jsonContent = JSON.stringify(sampleData, null, 2);
+    fs.writeFileSync('./sample_values.json', jsonContent);
 }
 
 // Call the function to create and save the JSON file

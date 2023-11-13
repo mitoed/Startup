@@ -70,7 +70,7 @@ function pageSetup(app) {
             
             res.status(200).send('Everything worked')
 
-        } catch (error){
+        } catch (error) {
             console.error('An error occurred:', error)
             res.status(500).send('Internal Server Error')
         }
@@ -177,7 +177,7 @@ function pageSetup(app) {
 
         db.updateUsers(allUsers, winUsers)
 
-        res.json({category: sessionInfo.category})
+        res.json({category: sessionInstance.category})
     })
 
 }

@@ -163,8 +163,8 @@ function pageSetup(app) {
         const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
         sessionInstance.end_time = Date.now()
 
-// 3.4.1.2 -- End session in Mongo DB
-        db.endSession(sessionID)
+// 3.4.1.2 -- End session in Mongo DB (including adding any new voting options)
+        db.endSession(sessionID, sessionInstance.category, sessionInstance.options)
 
 // 3.4.1.3 ---- Update user information in Mongo DB
         const users = sessionInstance.active_users_array

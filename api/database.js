@@ -217,24 +217,39 @@ async function userToMongoSession(sessionID, username) {
  * @param {string} sessionID - id of session to be closed
  * @returns - confirmation of success
  */
-async function endSession(sessionID) {
+async function endSession(sessionID, category, optionsArray) {
 
-    if (sessionID === 'SAMPLE') {
-        console.log('\nSAMPLE session will not be ended in database.')
-        return
-    }
+    const session = client.startSession()
     
     const filter = { "session_id": sessionID }
     const updates = { $inc: { end_time: Date.now() } }
 
     try {
-        await sessionsCollection.updateOne(filter, updates)
-        console.log('\nSuccess updating SESSION in Mongo')
-        return
+
+        // Replace the options DB with the new set of options
+        const optionsCollection = client.db('options').collection(category)
+        for await (const option of optionsArray) {
+            await optionsCollection.updateOne({ "name" : option }, { $set: { "name" : option } }, { upsert: true, session })
+        }
+        
+        //await optionsCollection.deleteMany()
+        //await optionsCollection.insertMany(optionUpdates)
+
+        if (sessionID === 'SAMPLE') {
+            console.log('\nSAMPLE session will not be ended in database.')
+
+        // End the session in Mongo
+        } else if (sessionID !== 'SAMPLE') {
+            await sessionsCollection.updateOne(filter, updates, {session})
+            console.log('\nSuccess updating SESSION in Mongo')
+        }
 
     } catch (ex) {
-        console.log(`\nUnable to update user at end of session in database with ${url} because ${ex.message}`);
+        console.log(`\nUnable to end session in database with ${url} because ${ex.message}`);
         process.exit(1);
+    } finally {
+        session.endSession()
+        return
     }
 }
 

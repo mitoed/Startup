@@ -3,8 +3,7 @@
 // =============================================================================
 
 const fs = require('fs')
-const classes = require('./classes.js')
-const dummyDirectory = './dummy_values.json'
+const sampleDirectory = './sample_values.json'
 const { MongoClient } = require('mongodb')
 const config = require('./dbConfig.json')
 
@@ -13,9 +12,6 @@ const url = `mongodb+srv://${config.username}:${config.password}@${config.hostna
 const client = new MongoClient(url)
 const sessionsCollection = client.db('voting').collection('sessions')
 const usersCollection = client.db('voting').collection('users')
-const foodCollection = client.db('options').collection('food')
-const gameCollection = client.db('options').collection('game')
-const movieCollection = client.db('options').collection('movie')
 
 // LIVE SERVER Initialization
 const LIVE_SERVER = []
@@ -29,10 +25,13 @@ const LIVE_SERVER = []
 
 async function resetMongo() {
     try {
+
+        // This will completely clear user and session collections
         await clearMongoDB()
-        await addDummyData()
-        console.log('\nMongo DB has been reset to dummy values.')
-        client.close()
+
+        // This will add sample values to user and session collections
+        await addSampleData()
+        
     } catch (ex) {
         console.log('\nSomething went wrong:', ex.message)
     }
@@ -42,9 +41,6 @@ async function clearMongoDB() {
     try {
         await usersCollection.deleteMany()
         await sessionsCollection.deleteMany()
-        await foodCollection.deleteMany()
-        await gameCollection.deleteMany()
-        await movieCollection.deleteMany()
         console.log('\nCleared all Mongo collections')
 
     } catch (err) {
@@ -52,9 +48,9 @@ async function clearMongoDB() {
     }
 }
 
-async function addDummyData() {
+async function addSampleData() {
     try {
-        const { users, sessions, options } = await loadDummyData()
+        const { users, sessions } = await loadSampleData()
 
         let result = await usersCollection.insertMany(users)
         console.log('\nSuccessfully added ', result.insertedCount, 'users')
@@ -62,13 +58,7 @@ async function addDummyData() {
         result = await sessionsCollection.insertMany(sessions)
         console.log('\nSuccessfully added ', result.insertedCount, 'sessions')
 
-        const { food, game, movie } = options
-        result = await foodCollection.insertMany(food)
-        console.log('\nSuccessfully added ', result.insertedCount, 'food')
-        result = await gameCollection.insertMany(game)
-        console.log('\nSuccessfully added ', result.insertedCount, 'games')
-        result = await movieCollection.insertMany(movie)
-        console.log('\nSuccessfully added ', result.insertedCount, 'movies')
+        console.log('\nMongo DB has been reset to sample values.')
 
     } catch (err) {
         console.error(`Error adding options to the database: ${err}`)
@@ -101,7 +91,7 @@ async function startLiveServer() {
     if (LIVE_SERVER.length === 0) {
 
         try {
-            const result = await sessionsCollection.find({ end_time: "" })
+            const result = await sessionsCollection.find({ end_time: 0 })
             for await (const session of result) {
                 LIVE_SERVER.push(session)
             }
@@ -228,13 +218,19 @@ async function userToMongoSession(sessionID, username) {
  * @returns - confirmation of success
  */
 async function endSession(sessionID) {
+
+    if (sessionID === 'SAMPLE') {
+        console.log('\nSAMPLE session will not be ended in database.')
+        return
+    }
     
-    const filter = { session_id: sessionID }
-    const updates = { end_time: Date.now() }
+    const filter = { "session_id": sessionID }
+    const updates = { $inc: { end_time: Date.now() } }
 
     try {
-        const result = await usersCollection.updateOne(filter, updates)
-        return result
+        await sessionsCollection.updateOne(filter, updates)
+        console.log('\nSuccess updating SESSION in Mongo')
+        return
 
     } catch (ex) {
         console.log(`\nUnable to update user at end of session in database with ${url} because ${ex.message}`);
@@ -250,22 +246,30 @@ async function endSession(sessionID) {
  */
 async function updateUsers(allUsers, winUsers) {
 
-    console.log('All:', allUsers)
-    console.log('Winners:', winUsers)
-
-    const allFilter = { username: { $in: allUsers } };
-    const allUpdates = { $inc: { sessions_total: 1 } };
-    const winFilter = { username: { $in: winUsers } };
-    const winUpdates = { $inc: { sessions_won: 1 } };
+    const session = client.startSession()
 
     try {
-        let result = await usersCollection.updateMany(allFilter, allUpdates)
-        result = await usersCollection.updateMany(winFilter, winUpdates)
-        return result
+        for await (const user of allUsers) {
+            const filter = { "username": user }
+            const update = { $inc: { sessions_total: 1 } }
+            await usersCollection.updateOne(filter, update, {session})
+        }
+
+        for await (const winner of winUsers) {
+            const filter = { "username": winner }
+            const update = { $inc: { sessions_won: 1 } }
+            await usersCollection.updateOne(filter, update, {session})
+        }
+
+        console.log('\nSuccess updating USERS in Mongo')
 
     } catch (ex) {
         console.log(`\nUnable to update user at end of session in database with ${url} because ${ex.message}`);
         process.exit(1);
+
+    } finally {
+        await session.endSession()
+        return
     }
 }
 
@@ -276,13 +280,12 @@ async function updateUsers(allUsers, winUsers) {
 /**
  * Load data from database
  */
-function loadDummyData() {
+function loadSampleData() {
     return new Promise(async (resolve, reject) => {
         try {
-            // Access database
-            // When this code is written, remove the dummy data
+            // Access sample data
 
-            const jsonData = await fs.promises.readFile(dummyDirectory, 'utf8');
+            const jsonData = await fs.promises.readFile(sampleDirectory, 'utf8');
             const data = JSON.parse(jsonData);
             resolve(data); // Resolve the promise with the data.
 

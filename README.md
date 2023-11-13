@@ -134,6 +134,12 @@ About page
 
 ### Database Deliverable
 
+**MongoDB Atlas Database Created** - Done. Hostname, username, and password all in dbConfig.json file (which is included in .gitignore)
+
+**Backend Endpoints for Manipulating Application Data** - Endpoints include calling for user/session data and updating the same once a session is completed.
+
+**Stores Application Data in MongoDB** - Startup uses 2 collections: "voting", which holds the session and user info, and "options", which contains the voting options to be called when creating a session
+
 ### Database To-Dos
 
 - [ ]

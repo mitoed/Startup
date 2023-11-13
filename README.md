@@ -140,10 +140,6 @@ About page
 
 **Stores Application Data in MongoDB** - Startup uses 2 collections: "voting", which holds the session and user info, and "options", which contains the voting options to be called when creating a session
 
-### Database To-Dos
-
-- [ ]
-
 ## Login
 
 ### Login Deliverable

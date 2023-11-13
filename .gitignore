@@ -4,3 +4,4 @@
 /playwright-report/
 /playwright/.cache/
 dummy_values.json
+api/dbConfig.json

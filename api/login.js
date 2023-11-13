@@ -1,4 +1,4 @@
-const database = require('./database.js')
+const db = require('./database.js')
 const classes = require('./classes.js')
 
 function pageSetup (app) {
@@ -12,21 +12,20 @@ function pageSetup (app) {
         
 // 1.1.2 ---- Compare against database of current users
 // 1.1.2.1 -- Request persistent database data
-        const data = await database.loadDatabase()
-        const DB_USERS = data.users
+        const existingUser = await db.checkUserInfo(checkUsername)
 
-// 1.1.2.2 -- Compare given username and recorded username
         let goodUsername = false
         let goodPassword = false
 
-        for ( let { username, salt, password_hash } of DB_USERS) {
-            if (username === checkUsername) {
+// 1.1.2.2 -- Compare given username and recorded username
+        if (existingUser) {
+            if (existingUser.username === checkUsername) {
 
                 goodUsername = true
 
 // 1.1.2.3 ---- Compare hash of given password and recorded salt with recorded password_hash
-                const checkHash = classes.hashPassword(checkPassword, salt)
-                password_hash === checkHash ? goodPassword = true : goodPassword = false
+                const checkHash = classes.hashPassword(checkPassword, existingUser.salt)
+                existingUser.password_hash === checkHash ? goodPassword = true : goodPassword = false
             }
         }
 
@@ -48,18 +47,13 @@ function pageSetup (app) {
         const checkConfirmation = req.params.confirmation
         
 // 1.2.2 ---- Compare against database of current users
-// 1.2.2.1 -- Request persistent database data (dummy_data.json)
-        const data = await database.loadDatabase()
-        const DB_USERS = data.users
+// 1.2.2.1 -- Check new username against Mongo Database
+        const existingUser = await db.checkUserInfo(checkUsername)
 
-// 1.2.2.2 -- Compare given username and all recorded usernames
+// 1.2.2.2 -- Check that user does not already exist in database
         let goodUsername = true
-
-        for (let { username } of DB_USERS) {
-            if (checkUsername === username) {
-                goodUsername = false
-                break
-            } 
+        if (existingUser) {
+            goodUsername = false
         }
 
 // 1.2.3 -- Ensure given password complies with password requirements
@@ -78,10 +72,9 @@ function pageSetup (app) {
 
 // 1.2.5.1 -- Create new user
             const createUser = new classes.User(checkUsername, checkPassword)
-            DB_USERS.push(createUser)
 
-// 1.2.5.2 -- Send to persistent database (dummy_data.json)
-            database.refreshDatabase(null, DB_USERS, null)
+// 1.2.5.2 -- Send new user info to Mongo database
+            db.addUserInfo(createUser)
         }
 
         const createLogin = {

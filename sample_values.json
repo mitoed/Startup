@@ -1,0 +1,389 @@
+{
+  "users": [
+    {
+      "username": "ADMIN",
+      "password_hash": 1596375320,
+      "salt": "MVWA2U",
+      "sessions_total": 100000,
+      "sessions_won": 100000
+    },
+    {
+      "username": "BILLY",
+      "password_hash": -1797260855,
+      "salt": "17VBLB",
+      "sessions_total": 7,
+      "sessions_won": 1
+    },
+    {
+      "username": "JOE",
+      "password_hash": -1344252088,
+      "salt": "LO5PDT",
+      "sessions_total": 7,
+      "sessions_won": 0
+    },
+    {
+      "username": "SAMMY",
+      "password_hash": 136750196,
+      "salt": "H44HVX",
+      "sessions_total": 3,
+      "sessions_won": 0
+    },
+    {
+      "username": "KATIE",
+      "password_hash": 1486524555,
+      "salt": "86DFOY",
+      "sessions_total": 3,
+      "sessions_won": 3
+    },
+    {
+      "username": "BOB",
+      "password_hash": -1917036839,
+      "salt": "TSGTM7",
+      "sessions_total": 7,
+      "sessions_won": 4
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "SAMPLE",
+      "category": "food",
+      "options": [
+        "Wendy's",
+        "McDonald's",
+        "Chick-fil-A",
+        "Bumblebees",
+        "Se Llama Peru",
+        "India Palace",
+        "Burger Supreme",
+        "Cubby's",
+        "Good Move",
+        "Brick Oven",
+        "Costa Vida",
+        "Five Sushi Bros",
+        "Black Sheep Cafe"
+      ],
+      "start_time": 1699882687505,
+      "active_users_array": [
+        {
+          "name": "BILLY",
+          "vote": "Costa Vida"
+        },
+        {
+          "name": "JOE",
+          "vote": "Five Sushi Bros"
+        },
+        {
+          "name": "SAMMY",
+          "vote": "Good Move"
+        },
+        {
+          "name": "KATIE",
+          "vote": "Burger Supreme"
+        },
+        {
+          "name": "BOB",
+          "vote": "Cubby's"
+        }
+      ],
+      "unpopular_opinion": "",
+      "end_time": 0
+    },
+    {
+      "session_id": "F7N7V4",
+      "category": "food",
+      "options": [
+        "Wendy's",
+        "McDonald's",
+        "Chick-fil-A",
+        "Bumblebees",
+        "Se Llama Peru",
+        "India Palace",
+        "Burger Supreme",
+        "Cubby's",
+        "Good Move",
+        "Brick Oven",
+        "Costa Vida",
+        "Five Sushi Bros",
+        "Black Sheep Cafe"
+      ],
+      "start_time": 1699882687505,
+      "active_users_array": [],
+      "unpopular_opinion": "",
+      "end_time": 0
+    },
+    {
+      "session_id": "C7T4H9",
+      "category": "food",
+      "options": [
+        "Wendy's",
+        "McDonald's",
+        "Chick-fil-A",
+        "Bumblebees",
+        "Se Llama Peru",
+        "India Palace",
+        "Burger Supreme",
+        "Cubby's",
+        "Good Move",
+        "Brick Oven",
+        "Costa Vida",
+        "Five Sushi Bros",
+        "Black Sheep Cafe"
+      ],
+      "start_time": 1699882687505,
+      "active_users_array": [],
+      "unpopular_opinion": "",
+      "end_time": 0
+    },
+    {
+      "session_id": "K4X6J2",
+      "category": "movie",
+      "options": [
+        "The Shawshank Redemption",
+        "The Godfather",
+        "The Dark Knight",
+        "Pulp Fiction",
+        "Schindler's List",
+        "The Return of the King",
+        "Fight Club",
+        "Forrest Gump",
+        "Inception",
+        "The Matrix",
+        "Gladiator",
+        "The Silence of the Lambs"
+      ],
+      "start_time": 1699882687505,
+      "active_users_array": [],
+      "unpopular_opinion": "",
+      "end_time": 0
+    },
+    {
+      "session_id": "N7T5Q6",
+      "category": "movie",
+      "options": [
+        "The Shawshank Redemption",
+        "The Godfather",
+        "The Dark Knight",
+        "Pulp Fiction",
+        "Schindler's List",
+        "The Return of the King",
+        "Fight Club",
+        "Forrest Gump",
+        "Inception",
+        "The Matrix",
+        "Gladiator",
+        "The Silence of the Lambs"
+      ],
+      "start_time": 1699882687505,
+      "active_users_array": [],
+      "unpopular_opinion": "",
+      "end_time": 0
+    },
+    {
+      "session_id": "L3V9B4",
+      "category": "movie",
+      "options": [
+        "The Shawshank Redemption",
+        "The Godfather",
+        "The Dark Knight",
+        "Pulp Fiction",
+        "Schindler's List",
+        "The Return of the King",
+        "Fight Club",
+        "Forrest Gump",
+        "Inception",
+        "The Matrix",
+        "Gladiator",
+        "The Silence of the Lambs"
+      ],
+      "start_time": 1699882687505,
+      "active_users_array": [],
+      "unpopular_opinion": "",
+      "end_time": 0
+    },
+    {
+      "session_id": "R7M0X2",
+      "category": "game",
+      "options": [
+        "Settlers of Catan",
+        "Ticket to Ride",
+        "Carcassonne",
+        "Pandemic",
+        "Dominion",
+        "Codenames",
+        "7 Wonders",
+        "Twilight Struggle",
+        "Agricola",
+        "Scythe",
+        "Splendor",
+        "Betrayal at Baldur's Gate"
+      ],
+      "start_time": 1699882687505,
+      "active_users_array": [],
+      "unpopular_opinion": "",
+      "end_time": 0
+    },
+    {
+      "session_id": "X7H3J3",
+      "category": "game",
+      "options": [
+        "Settlers of Catan",
+        "Ticket to Ride",
+        "Carcassonne",
+        "Pandemic",
+        "Dominion",
+        "Codenames",
+        "7 Wonders",
+        "Twilight Struggle",
+        "Agricola",
+        "Scythe",
+        "Splendor",
+        "Betrayal at Baldur's Gate"
+      ],
+      "start_time": 1699882687505,
+      "active_users_array": [],
+      "unpopular_opinion": "",
+      "end_time": 0
+    },
+    {
+      "session_id": "S4C3Q5",
+      "category": "game",
+      "options": [
+        "Settlers of Catan",
+        "Ticket to Ride",
+        "Carcassonne",
+        "Pandemic",
+        "Dominion",
+        "Codenames",
+        "7 Wonders",
+        "Twilight Struggle",
+        "Agricola",
+        "Scythe",
+        "Splendor",
+        "Betrayal at Baldur's Gate"
+      ],
+      "start_time": 1699882687505,
+      "active_users_array": [],
+      "unpopular_opinion": "",
+      "end_time": 0
+    }
+  ],
+  "options": {
+    "food": [
+      {
+        "name": "Wendy's"
+      },
+      {
+        "name": "McDonald's"
+      },
+      {
+        "name": "Chick-fil-A"
+      },
+      {
+        "name": "Bumblebees"
+      },
+      {
+        "name": "Se Llama Peru"
+      },
+      {
+        "name": "India Palace"
+      },
+      {
+        "name": "Burger Supreme"
+      },
+      {
+        "name": "Cubby's"
+      },
+      {
+        "name": "Good Move"
+      },
+      {
+        "name": "Brick Oven"
+      },
+      {
+        "name": "Costa Vida"
+      },
+      {
+        "name": "Five Sushi Bros"
+      },
+      {
+        "name": "Black Sheep Cafe"
+      }
+    ],
+    "game": [
+      {
+        "name": "Settlers of Catan"
+      },
+      {
+        "name": "Ticket to Ride"
+      },
+      {
+        "name": "Carcassonne"
+      },
+      {
+        "name": "Pandemic"
+      },
+      {
+        "name": "Dominion"
+      },
+      {
+        "name": "Codenames"
+      },
+      {
+        "name": "7 Wonders"
+      },
+      {
+        "name": "Twilight Struggle"
+      },
+      {
+        "name": "Agricola"
+      },
+      {
+        "name": "Scythe"
+      },
+      {
+        "name": "Splendor"
+      },
+      {
+        "name": "Betrayal at Baldur's Gate"
+      }
+    ],
+    "movie": [
+      {
+        "name": "The Shawshank Redemption"
+      },
+      {
+        "name": "The Godfather"
+      },
+      {
+        "name": "The Dark Knight"
+      },
+      {
+        "name": "Pulp Fiction"
+      },
+      {
+        "name": "Schindler's List"
+      },
+      {
+        "name": "The Return of the King"
+      },
+      {
+        "name": "Fight Club"
+      },
+      {
+        "name": "Forrest Gump"
+      },
+      {
+        "name": "Inception"
+      },
+      {
+        "name": "The Matrix"
+      },
+      {
+        "name": "Gladiator"
+      },
+      {
+        "name": "The Silence of the Lambs"
+      }
+    ]
+  }
+}

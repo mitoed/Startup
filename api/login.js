@@ -9,18 +9,19 @@ function pageSetup (app) {
 
     // Check for user token before allowing access to Enter Session page
     app.get('/api/auth/user/me', async (req, res) => {
-        console.log('Entered API')
+
         const authToken = req.cookies['token']
         const user = await DB.getUserByToken(authToken)
+
         if (user) {
-            console.log('User:', user)
             res.json({ "username": user.username })
-            return
+
         } else {
-            console.log('Not logged in')
+            console.log('User not found (missing token)')
             res.json({ "username": null })
         }
-        
+
+        return
     })
 
 // 1.1 -- Validate current user login
@@ -47,8 +48,6 @@ function pageSetup (app) {
                 if (await bcrypt.compare(checkPassword, existingUser.password_hash)) {
                     goodPassword = true
                 }
-                //const checkHash = classes.hashPassword(checkPassword, existingUser.salt)
-                //existingUser.password_hash === checkHash ? goodPassword = true : goodPassword = false
             }
         }
 
@@ -119,6 +118,7 @@ function pageSetup (app) {
 
     })
 
+// 5.2 -- Clear user token
     app.get('/api/auth/logout', async (req, res) => {
         res.clearCookie('token');
         res.status(204).end();

@@ -232,9 +232,6 @@ async function endSession(sessionID, category, optionsArray) {
         for await (const option of optionsArray) {
             await optionsCollection.updateOne({ "name" : option }, { $set: { "name" : option } }, { upsert: true, session })
         }
-        
-        //await optionsCollection.deleteMany()
-        //await optionsCollection.insertMany(optionUpdates)
 
         if (sessionID === 'SAMPLE') {
             console.log('\nSAMPLE session will not be ended in database.')

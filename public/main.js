@@ -18,6 +18,7 @@ async function allPageLoad() {
     // If logged in...
     if (username) {
         const userInLocalStorage = localStorage.getItem('currentUser')
+        console.log('User in Local Storage:', userInLocalStorage)
 
         // Store the user as the username
         if (!userInLocalStorage || userInLocalStorage !== username) {

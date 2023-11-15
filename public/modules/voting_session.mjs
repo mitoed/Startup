@@ -17,6 +17,7 @@ async function pagePopulation() {
 // 3.1.1 -- Display current session ID
         const sessionID = localStorage.getItem('currentSessionID')
         document.title = `Voting Session: ${sessionID}`
+        document.getElementById('session_id').innerHTML = `Session ID: ${sessionID}`;
 
 // 3.1.2 -- Retrieve list of voting options from database
 // 3.1.3 -- Connect to live server and add options

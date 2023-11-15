@@ -36,7 +36,7 @@ async function joinSession() {
         if (success === 200) {
             localStorage.setItem('currentSessionID', sessionID)
             document.getElementById('session_not_found_error').innerHTML = ''
-            window.location.href = `./voting_session.html?user=${currentUser}&session=${sessionID}`
+            window.location.href = `./voting_session.html`
             return
 
 // 2.1.4 -- If session is not open, respond with error message to user
@@ -81,7 +81,7 @@ async function createSession() {
 
 // 2.2.3 -- If successful, enter the session
         if (success === 200) {
-            window.location.href = `./voting_session.html?user=${currentUser}&session=${data.sessionID}`
+            window.location.href = `./voting_session.html`
         }
 
     // Unexpected errors

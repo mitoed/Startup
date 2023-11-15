@@ -55,7 +55,7 @@ async function validateLogin() {
         localStorage.setItem('currentUser', username_input)
 
 // 1.1.4.2 -- Go to next page
-        window.location.href = `./enter_session.html?user=${username_input}`
+        window.location.href = `./enter_session.html`
     }
 
 }
@@ -109,7 +109,7 @@ async function createLogin() {
         localStorage.setItem('currentUser', new_username)
 
 // 1.2.6.2 -- Go to next page
-        window.location.href = `./enter_session.html?user=${new_username}`
+        window.location.href = `./enter_session.html`
         return
     }
 }

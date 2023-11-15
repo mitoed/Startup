@@ -1,12 +1,17 @@
-// Remove current data from local storage
 logout()
 
 async function logout() {
+
+    // Remove current data from local storage
     localStorage.removeItem('currentUser')
     localStorage.removeItem('currentSessionID')
     localStorage.removeItem('voteSelection')
+
+    // Clear token cookie and notify user of logout
     const response = await fetch('/api/auth/logout')
-    return response
+    if (response.status === 204) {
+        console.log('User successfully logged out.')
+    }
 }
 
 // =============================================================================

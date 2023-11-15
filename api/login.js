@@ -99,7 +99,7 @@ function pageSetup (app) {
         if (goodUsername && goodPassword && goodConfirmation) {
 
 // 1.2.5.1 -- Create new user
-            const passwordHash = await bcrypt.hash(checkPassword, 'abcde')
+            const passwordHash = await bcrypt.hash(checkPassword, 10)
             const createUser = new classes.User(checkUsername, passwordHash)
 
 // 1.2.4.2 -- Store authentication cookie

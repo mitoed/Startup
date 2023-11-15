@@ -1,4 +1,4 @@
-const db = require('./database.js')
+const DB = require('./database.js')
 const classes = require('./classes.js')
 
 function pageSetup(app) {
@@ -12,7 +12,7 @@ function pageSetup(app) {
         const { sessionID } = req.params
 
 // 3.1.2 -- Retrieve session info from from LIVE SERVER
-        const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
+        const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
 
 // 3.1.3 -- Count list of active users in session
         const numSessionUsers = sessionInstance.active_users_array.length
@@ -53,7 +53,7 @@ function pageSetup(app) {
 
         try {
 // 3.2.2.1 -- Retrieve session info from from LIVE SERVER
-            const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
+            const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
 
 // 3.2.2.2 ---- Update the session info
 // 3.2.2.2.1 -- Add user's vote to their object in LIVE SERVER
@@ -84,7 +84,7 @@ function pageSetup(app) {
 
         try {
 // 3.2.3.1 -- Retrieve session info from from LIVE SERVER
-            const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
+            const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
 
 // 3.2.3.2 -- Clear user's vote to their object in LIVE SERVER
             const sessionUsersArray = sessionInstance.active_users_array
@@ -107,7 +107,7 @@ function pageSetup(app) {
 
 // 3.3.1 ---- Check if all votes are cast
 // 3.3.1.1 -- Retrieve session info from LIVE SERVER
-        const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
+        const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
         const sessionUsersArray = sessionInstance.active_users_array
 
 // 3.3.1.2 -- Compare total active users with total votes cast
@@ -160,11 +160,11 @@ function pageSetup(app) {
         const { sessionID, groupSelection } = req.params
 
 // 3.4.1.1 -- End session in LIVE SERVER
-        const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
+        const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
         sessionInstance.end_time = Date.now()
 
 // 3.4.1.2 -- End session in Mongo DB (including adding any new voting options)
-        db.endSession(sessionID, sessionInstance.category, sessionInstance.options)
+        DB.endSession(sessionID, sessionInstance.category, sessionInstance.options)
 
 // 3.4.1.3 ---- Update user information in Mongo DB
         const users = sessionInstance.active_users_array
@@ -175,7 +175,7 @@ function pageSetup(app) {
 // 3.4.1.3.2 -- If user picked group selection, increment user sessions won
         const winUsers = users.filter(u => u.vote === groupSelection).map(obj => obj.name)
 
-        db.updateUsers(allUsers, winUsers)
+        DB.updateUsers(allUsers, winUsers)
 
         res.json({category: sessionInstance.category})
     })

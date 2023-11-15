@@ -74,10 +74,10 @@ function pageSetup (app) {
         const checkConfirmation = req.params.confirmation
         
 // 1.2.2 ---- Compare against database of current users
-// 1.2.2.1 -- Check new username against Mongo Database
+// 1.2.2.1 -- Search Mongo DB for given username
         const existingUser = await DB.getUser(checkUsername)
 
-// 1.2.2.2 -- Check that user does not already exist in database
+// 1.2.2.2 -- Ensure that username is unique
         let goodUsername = true
         if (existingUser) {
             goodUsername = false
@@ -94,17 +94,17 @@ function pageSetup (app) {
 // 1.2.3.2 -- Password confirmation must match the given password
         goodConfirmation = ( checkPassword === checkConfirmation )
 
-// 1.2.5 -- If info is good, create new user with username and password, proceed to 2
+// 1.2.4 -- If unique and complete, create new user with username and password_hash
         if (goodUsername && goodPassword && goodConfirmation) {
 
-// 1.2.5.1 -- Create new user
+// 1.2.4.1 -- Create new user
             const passwordHash = await bcrypt.hash(checkPassword, 10)
             const createUser = new classes.User(checkUsername, passwordHash)
 
 // 1.2.4.2 -- Store authentication cookie
             setauthCookie(res, createUser.token)
 
-// 1.2.5.2 -- Send new user info to Mongo database
+// 1.2.5.3 -- Send new user info to Mongo DB
             DB.createUser(createUser)
         }
 
@@ -118,7 +118,7 @@ function pageSetup (app) {
 
     })
 
-// 5.2 -- Clear user token
+// 5.2.2.2 -- Clear user token cookie
     app.get('/api/auth/logout', async (req, res) => {
         res.clearCookie('token');
         res.status(204).end();

@@ -1,14 +1,22 @@
+// =============================================================================
+// 5.2 Logout user
+// =============================================================================
+
+// 5.2.1 -- [Trigger] Upon loading Login page...
 logout()
 
 async function logout() {
 
-    // Remove current data from local storage
+// 5.2.2 ---- [Response] ... Logout for user
+// 5.2.2.1 -- [Action] Clear current data from local storage
     localStorage.removeItem('currentUser')
     localStorage.removeItem('currentSessionID')
     localStorage.removeItem('voteSelection')
 
-    // Clear token cookie and notify user of logout
+// 5.2.2.2 -- [Action] Clear user token cookie
     const response = await fetch('/api/auth/logout')
+
+// 5.2.2.3 -- [Action] Notify user of logout
     if (response.status === 204) {
         console.log('User successfully logged out.')
     }
@@ -38,7 +46,7 @@ async function validateLogin() {
     const dataValidation = await response.json()
 
 // 1.1.3 ---- If info is not all correct, respond with appropriate error message to user; exit
-// 1.1.3.1 -- "username does not exist"
+// 1.1.3.1 -- "username does not exist" OR
     if (!dataValidation.goodUsername) {
         document.getElementById('login_error').innerHTML = 'username does not exist'
         return
@@ -80,19 +88,19 @@ async function createLogin() {
     let new_password = document.getElementById('new_password').value || 'error'
     let confirm_password = document.getElementById('confirm_password').value || 'error'
 
-// 1.2.2 -- Compare against databse of current users (Mongo DB)
+// 1.2.2 -- Compare against databse of current users
 // 1.2.3 -- Ensure given password complies with password requirements
-// 1.2.4 -- If unique and complete, create a new user with usernamd and password_hash
+// 1.2.4 -- If unique and complete, create a new user with username and password_hash
     const response = await fetch (`/api/auth/create-login/${new_username}/${new_password}/${confirm_password}`)
     const dataValidation = await response.json()
 
-// 1.2.5 ---- If not all info is good, create new user with username and password; exit
-// 1.2.5.1 -- "<given username> already exists"
+// 1.2.5 ---- If not all info is good, respond with appropriate error message; exit
+// 1.2.5.1 -- "<given username> already exists" OR
     if (!dataValidation.goodUsername) {
         document.getElementById('create_error').innerHTML = `${new_username} already exists`
         return
 
-// 1.2.5.2 -- "password must contain 1 letter, 1 number, and be at least 8 characters long"
+// 1.2.5.2 -- "password must contain 1 letter, 1 number, and be at least 8 characters long" OR
     } else if (!dataValidation.goodPassword) {
         document.getElementById('create_error').innerHTML = 'password must contain 1 letter, 1 number, and be at least 8 characters long'
         return

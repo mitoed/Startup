@@ -7,53 +7,48 @@
  * If token is present, adds username to the local storage.
  * If token not present, disables navigation to the Enter Session page.
  */
+
+// 5.1.1 -- [Trigger] Upon loading a page
 allPageLoad()
 
 async function allPageLoad() {
     
+// 5.1.2 -- [Response] Check for user token in cookies
     const response = await fetch('/api/auth/user/me')
     const data = await response.json()
     const { username } = data
 
-    // If logged in...
+// 5.1.3 -- [Action] If authenticated:
     if (username) {
-        const userInLocalStorage = localStorage.getItem('currentUser')
-        console.log('User in Local Storage:', userInLocalStorage)
+        console.log(`Successfully logged in as ${username}`)
 
-        // Store the user as the username
-        if (!userInLocalStorage || userInLocalStorage !== username) {
-            localStorage.setItem('currentUser', username)
-        }
+// 5.1.3.1 -- Store username in local storage
+        localStorage.setItem('currentUser', username)
 
-        // Insert username into the correct html elements
-        infoToPage(username)
+// 5.1.3.2 -- Insert username into the correct html elements
+        try {document.getElementById('username').innerHTML = `Welcome, ${username}!`}
+        catch {} // If no element, ignore
     }
 
-    // If not logged in...
+// 5.1.4 -- [Action] If not authenticated:
     if (!username) {
 
-        // Remove user from local storage
+// 5.1.4.1 -- Remove any username in local storage
         localStorage.removeItem('currentUser')
 
-        // Disable the Enter Session navigation
+// 5.1.4.2 -- Disable the Enter Session navigation
         const navEnterSession = document.getElementById("nav_enter_session")
         navEnterSession.href = ""
         navEnterSession.onclick = function () {
             alert('You must login or create an account before entering a session.')
         }
+// 5.1.4.3 -- If on Enter Session or Voting Session pages, send back to login page with alert
+        const currentPage = window.location.href
+        if (currentPage.includes('session')) {
+            window.location.href = './index.html'
+            alert('Something went wrong.\nPlease log in before proceeding.')
+        }
     }
-}
-
-/**
- * Inserts username into the correct html elements
- */
-function infoToPage(username) {
-
-    try {
-        document.getElementById('username').innerHTML = `Welcome, ${username}!`;
-        console.log(`Successfully logged in as: ${username}`)
-
-    } catch { } // if no place to insert username, ignore
 }
 
 // =============================================================================

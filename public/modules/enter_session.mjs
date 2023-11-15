@@ -30,17 +30,17 @@ async function joinSession() {
     try {
 // 2.1.2 -- Check if session is open on LIVE SERVER
         const response = await fetch(`/api/join-session/${currentUser}/${sessionID}`)
-        const success = response.status
+        const { status } = response
 
 // 2.1.3 -- If session is open, enter the session
-        if (success === 200) {
+        if (status === 200) {
             localStorage.setItem('currentSessionID', sessionID)
             document.getElementById('session_not_found_error').innerHTML = ''
             window.location.href = `./voting_session.html`
             return
 
 // 2.1.4 -- If session is not available or not open, respond with error message to user
-        } else if (success === 204) {
+        } else if (status === 204) {
             console.log('Error: Session Not Found')
             document.getElementById('session_not_found_error').innerHTML = 'Session Not Found'
             return
@@ -76,11 +76,12 @@ async function createSession() {
 
 // 2.2.2 -- Create a new session
         const response = await fetch(`/api/create-session/${currentUser}/${category}`)
-        const success = response.status
-        const data = await response.json()
+        const { status } = response
 
 // 2.2.3 -- If successful, enter the session
-        if (success === 200) {
+        if (status === 200) {
+            localStorage.setItem('currentSessionID', sessionID)
+            document.getElementById('session_not_found_error').innerHTML = ''
             window.location.href = `./voting_session.html`
         }
 

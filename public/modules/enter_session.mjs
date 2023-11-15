@@ -77,6 +77,7 @@ async function createSession() {
 // 2.2.2 -- Create a new session
         const response = await fetch(`/api/create-session/${currentUser}/${category}`)
         const { status } = response
+        const { sessionID } = await response.json()
 
 // 2.2.3 -- If successful, enter the session
         if (status === 200) {

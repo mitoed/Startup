@@ -2,43 +2,43 @@
   "users": [
     {
       "username": "ADMIN",
-      "password_hash": 1596375320,
-      "salt": "MVWA2U",
+      "password_hash": "$2b$10$yi3sDlwAXGYwqiF4ov1s5OBkQLrc96KFBVElXT6LdIXD/gWHRjV9.",
+      "token": "700b7ba8-c744-4cbd-90c3-28f463d9d78d",
       "sessions_total": 100000,
       "sessions_won": 100000
     },
     {
       "username": "BILLY",
-      "password_hash": -1797260855,
-      "salt": "17VBLB",
+      "password_hash": "$2b$10$1CWDrxFiUxwpF7I8rsy2eewH5xK5.4N2BDZe0NJVpVWWX4lM.P5vC",
+      "token": "e2b67555-7d2f-4e1a-a520-5af507eda2e8",
       "sessions_total": 7,
       "sessions_won": 1
     },
     {
       "username": "JOE",
-      "password_hash": -1344252088,
-      "salt": "LO5PDT",
+      "password_hash": "$2b$10$eYBE.KFC6DBrdLmhoK4nFejcrOwu/v3yi2Y4WXQQnUOIkbhFvqvVe",
+      "token": "0b6dd193-53e0-4c85-add6-dc7d66d74afd",
       "sessions_total": 7,
       "sessions_won": 0
     },
     {
       "username": "SAMMY",
-      "password_hash": 136750196,
-      "salt": "H44HVX",
+      "password_hash": "$2b$10$K4mv/Y4FqtZViiXfJhv86.CHiylhswSQNPEOjIZLUReGKLiRttMfa",
+      "token": "c84fb0fb-a30b-402f-af32-375ee5b38bb6",
       "sessions_total": 3,
       "sessions_won": 0
     },
     {
       "username": "KATIE",
-      "password_hash": 1486524555,
-      "salt": "86DFOY",
+      "password_hash": "$2b$10$5qYk5Cj5HDhMNr1c/QCQR.ow3pRbda8L9olr/DCuvBuy.DBAe5OH6",
+      "token": "e0bf894f-63ad-487d-9219-0a8d14f0e378",
       "sessions_total": 3,
       "sessions_won": 3
     },
     {
       "username": "BOB",
-      "password_hash": -1917036839,
-      "salt": "TSGTM7",
+      "password_hash": "$2b$10$r6l5eOVkqxPrTlUBDmstfelehB2blwGwqrXJaz/x8JM6EimonYI6C",
+      "token": "175b28a9-9020-44be-8277-5490152f50d3",
       "sessions_total": 7,
       "sessions_won": 4
     }
@@ -62,7 +62,7 @@
         "Five Sushi Bros",
         "Black Sheep Cafe"
       ],
-      "start_time": 1699882687505,
+      "start_time": 1699894649456,
       "active_users_array": [
         {
           "name": "BILLY",
@@ -86,7 +86,8 @@
         }
       ],
       "unpopular_opinion": "",
-      "end_time": 0
+      "end_time": 0,
+      "group_selection": ""
     },
     {
       "session_id": "F7N7V4",
@@ -106,10 +107,11 @@
         "Five Sushi Bros",
         "Black Sheep Cafe"
       ],
-      "start_time": 1699882687505,
+      "start_time": 1699894649456,
       "active_users_array": [],
       "unpopular_opinion": "",
-      "end_time": 0
+      "end_time": 0,
+      "group_selection": ""
     },
     {
       "session_id": "C7T4H9",
@@ -129,10 +131,11 @@
         "Five Sushi Bros",
         "Black Sheep Cafe"
       ],
-      "start_time": 1699882687505,
+      "start_time": 1699894649456,
       "active_users_array": [],
       "unpopular_opinion": "",
-      "end_time": 0
+      "end_time": 0,
+      "group_selection": ""
     },
     {
       "session_id": "K4X6J2",
@@ -151,10 +154,11 @@
         "Gladiator",
         "The Silence of the Lambs"
       ],
-      "start_time": 1699882687505,
+      "start_time": 1699894649456,
       "active_users_array": [],
       "unpopular_opinion": "",
-      "end_time": 0
+      "end_time": 0,
+      "group_selection": ""
     },
     {
       "session_id": "N7T5Q6",
@@ -173,10 +177,11 @@
         "Gladiator",
         "The Silence of the Lambs"
       ],
-      "start_time": 1699882687505,
+      "start_time": 1699894649456,
       "active_users_array": [],
       "unpopular_opinion": "",
-      "end_time": 0
+      "end_time": 0,
+      "group_selection": ""
     },
     {
       "session_id": "L3V9B4",
@@ -195,10 +200,11 @@
         "Gladiator",
         "The Silence of the Lambs"
       ],
-      "start_time": 1699882687505,
+      "start_time": 1699894649456,
       "active_users_array": [],
       "unpopular_opinion": "",
-      "end_time": 0
+      "end_time": 0,
+      "group_selection": ""
     },
     {
       "session_id": "R7M0X2",
@@ -217,10 +223,11 @@
         "Splendor",
         "Betrayal at Baldur's Gate"
       ],
-      "start_time": 1699882687505,
+      "start_time": 1699894649456,
       "active_users_array": [],
       "unpopular_opinion": "",
-      "end_time": 0
+      "end_time": 0,
+      "group_selection": ""
     },
     {
       "session_id": "X7H3J3",
@@ -239,10 +246,11 @@
         "Splendor",
         "Betrayal at Baldur's Gate"
       ],
-      "start_time": 1699882687505,
+      "start_time": 1699894649456,
       "active_users_array": [],
       "unpopular_opinion": "",
-      "end_time": 0
+      "end_time": 0,
+      "group_selection": ""
     },
     {
       "session_id": "S4C3Q5",
@@ -261,10 +269,11 @@
         "Splendor",
         "Betrayal at Baldur's Gate"
       ],
-      "start_time": 1699882687505,
+      "start_time": 1699894649456,
       "active_users_array": [],
       "unpopular_opinion": "",
-      "end_time": 0
+      "end_time": 0,
+      "group_selection": ""
     }
   ],
   "options": {

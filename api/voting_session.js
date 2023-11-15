@@ -24,19 +24,7 @@ function pageSetup(app) {
 
 // 3.1.5 -- Produce internet recommendation html
         if (!recommendationHTML) {
-
-            try {
-
-// 3.1.5.1 ---- [For food sessions] Retrieve and produce Yelp recommendation and url
-                // Something with Yelp API, if it ever works
-                throw new Error('yelp API not connected')
-            
-            } catch {
-
-// 3.1.5.2 ---- [For movie and game sessions] Display link to google search
-                // Until Yelp API works, use this always
-                recommendationHTML = generateRecommendationHTML(sessionInstance.category)
-            }
+            recommendationHTML = generateRecommendationHTML(sessionInstance.category)
         }
 
         res.json({optionsHTML: optionsHTML,
@@ -56,7 +44,7 @@ function pageSetup(app) {
             const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
 
 // 3.2.2.2 ---- Update the session info
-// 3.2.2.2.1 -- Add user's vote to their object in LIVE SERVER
+// 3.2.2.2.1 -- Add/update user's vote in their object in LIVE SERVER
             const sessionUsersArray = sessionInstance.active_users_array
             const userInstance = sessionUsersArray.find(u => u.name === username)
             userInstance['vote'] = userVote
@@ -86,7 +74,7 @@ function pageSetup(app) {
 // 3.2.3.1 -- Retrieve session info from from LIVE SERVER
             const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
 
-// 3.2.3.2 -- Clear user's vote to their object in LIVE SERVER
+// 3.2.3.2 -- Clear user's vote in their object in LIVE SERVER
             const sessionUsersArray = sessionInstance.active_users_array
             const userInstance = sessionUsersArray.find(u => u.name === username)
             userInstance['vote'] = null
@@ -123,8 +111,8 @@ function pageSetup(app) {
 
         if (totalVotes === activeUsers ) {
 
-// 3.3.2 -- Calculate the most common vote (this is the group selection)
-// 3.3.2.1 -- Count the occurrences of each restaurant choice
+// 3.3.2 ---- Calculate the most common vote (this is the group selection)
+// 3.3.2.1 -- Count the occurrences of each choice
             const voteCounts = {};
             
             for (const voteObj of activeVotes) {
@@ -166,16 +154,16 @@ function pageSetup(app) {
             sessionInstance.end_time = Date.now()
         }
 
-// 3.4.1.2 -- End session in Mongo DB (including adding any new voting options)
+// 3.4.1.2 -- End session in Mongo DB (after adding any new voting options)
         DB.endSession(sessionID, sessionInstance.category, sessionInstance.options)
 
-// 3.4.1.3 ---- Update user information in Mongo DB
+// 3.4.1.3 -- Update user information in Mongo DB
         const users = sessionInstance.active_users_array
 
-// 3.4.1.3.1 -- Increment user total sessions
+// 3.4.1.3.1 -- Increment user's total sessions
         const allUsers = users.map(obj => obj.name)
 
-// 3.4.1.3.2 -- If user picked group selection, increment user sessions won
+// 3.4.1.3.2 -- If user picked group selection, increment user's sessions won
         const winUsers = users.filter(u => u.vote === groupSelection).map(obj => obj.name)
 
         DB.updateUsers(allUsers, winUsers)

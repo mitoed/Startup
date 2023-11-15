@@ -19,24 +19,23 @@ async function pagePopulation() {
         document.title = `Voting Session: ${sessionID}`
         document.getElementById('session_id').innerHTML = `Session ID: ${sessionID}`;
 
-// 3.1.2 -- Retrieve list of voting options from database
-// 3.1.3 -- Connect to live server and add options
-// 3.1.4 -- Retrieve list of active users from live server
-// 3.1.5 -- Produce table of options and datalist html
-// 3.1.6 -- Produce internet recommendation html
+// 3.1.2 -- Retrieve list of voting options from LIVE SERVER
+// 3.1.3 -- Count list of active users in session
+// 3.1.4 -- Produce table of options and datalist html
+// 3.1.5 -- Produce internet recommendation html
         const response = await fetch(`/api/populate-page/${sessionID}`)
         const data = await response.json()
         const optionsArrayHTML = data.optionsHTML
 
-// 3.1.7 -- Display table of options and datalist to be updated with votes
+// 3.1.6 -- Display table of options and datalist to be updated with votes
         clearTableAndList()
         populateTableAndList(optionsArrayHTML)
 
-// 3.1.8 -- Display active user count
+// 3.1.7 -- Display active user count
         const activeUsers = data.activeUsers
         document.getElementById('user_count').innerHTML = `Active Users: ${activeUsers}`
 
-// 3.1.9 -- Display internet recommendation
+// 3.1.8 -- Display internet recommendation
         const recommendationHTML = data.recommendation
         populateRecommendation(recommendationHTML)
 
@@ -77,16 +76,17 @@ async function finalizeVote() {
 // 3.2.2 -- Add user vote
         if (newVote !== 'null') {
             
-// 3.2.2.1 -- Update the data in the live server (dummy_data.json)
+// 3.2.2.1 -- Retrieve session info from LIVE SERVER
+// 3.2.2.2 -- Update the session info
             const response = await fetch(`/api/record-vote/${sessionID}/${currentUser}/${newVote}`)
 
             if (response.ok) {
                 localStorage.setItem('voteSelection', newVote)
 
-// 3.2.2.2 ---- Display updated data on page
+// 3.2.2.3 ---- Display updated data on page
                 pagePopulation()
 
-// 3.2.2.3 ---- Proceed to 3.3
+// 3.2.2.4 ---- Proceed to 3.3
                 checkVotes()
 
             } else {
@@ -94,7 +94,7 @@ async function finalizeVote() {
             }
         }
         
-// 3.2.3 -- Clear vote in live server (dummy_data.json)
+// 3.2.3 -- Clear user vote (see below)
         if (newVote === 'null') {
             clearVote(sessionID, currentUser)
         }
@@ -122,17 +122,18 @@ async function clearVote(sessionID = '', currentUser = '') {
     sessionID = sessionID || localStorage.getItem('currentSessionID')
     currentUser = currentUser || localStorage.getItem('currentUser')
 
-// 3.2.3.1 -- Update the data in the live server (dummy_data.json)
+// 3.2.3.1 -- Retrieve session info from LIVE SERVER
+// 3.2.3.2 -- Clear user's vote in their object in LIVE SERVER
     const response = await fetch(`/api/clear-vote/${sessionID}/${currentUser}`)
 
     if (response.ok) {
         localStorage.removeItem('voteSelection')
         document.getElementById('vote_selection').value = ''
 
-// 3.2.3.2 -- Display updated data on page
+// 3.2.3.3 -- Display updated data on page
         pagePopulation()
 
-// 3.2.3.3 -- Clear any timer started from 3.3.3
+// 3.2.3.4 -- Clear any timer started from 3.3.3
         resetCountdown(false)
     }
 }
@@ -174,7 +175,7 @@ async function checkVotes() {
 
 async function closeSession(sessionID, groupSelection) {
 
-// 3.4.1 -- End session in database and live server (dummy_data.json)
+// 3.4.1 -- End session in Mongo DB and LIVE SERVER
     const response = await fetch(`/api/close-session/${sessionID}/${groupSelection}`)
     const data = await response.json()
 

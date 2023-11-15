@@ -1,4 +1,6 @@
 const fs = require('fs');
+const bcrypt = require('bcrypt')
+const uuid = require('uuid')
 
 const DB_USERS = []
 const DB_SESSIONS = []
@@ -20,10 +22,10 @@ class User {
      * @param {number} sessions_total - how many sessions has this user participated in?
      * @param {number} sessions_won - how many times was this user's vote selected by the group?
      */
-    constructor(username, password, sessions_total = 0, sessions_won = 0) {
+    constructor(username, password_hash, sessions_total = 0, sessions_won = 0) {
         this.username = username
-        this.salt = generateSalt()
-        this.password_hash = hashPassword(password, this.salt)
+        this.password_hash = password_hash
+        this.token = uuid.v4()
         this.sessions_total = sessions_total
         this.sessions_won = sessions_won
     }
@@ -56,7 +58,7 @@ class Session {
     }
 
     addActiveUser (userObject) {
-        this.active_users_array.push(userObject)
+        this.active_users_array.push({ name: userObject, vote: null })
     }
 }
 
@@ -64,16 +66,21 @@ class Session {
 // DUMMY VALUES -- TO BE DELETED WHEN CONNECTED TO PERSISTENT DATABASE
 // =============================================================================
 
-function addFakeUser(fakeUserName, fakePassword, fakeTotal, fakeWon) {
-    let fakeUser = new User(fakeUserName, fakePassword, fakeTotal, fakeWon)
+async function addFakeUser(fakeUserName, fakePassword, fakeTotal, fakeWon) {
+    const fakeHash = await bcrypt.hash(fakePassword, 10)
+    let fakeUser = new User(fakeUserName, fakeHash, fakeTotal, fakeWon)
     DB_USERS.push(fakeUser)
+
 }
-addFakeUser("ADMIN", "1234", 100000, 100000)
-addFakeUser('BILLY', '389d9*', 7, 1)
-addFakeUser('JOE', '303udsd', 7, 0)
-addFakeUser('SAMMY', '38&jdkf', 3, 0)
-addFakeUser('KATIE', '7329fd', 3, 3)
-addFakeUser('BOB', '39fds', 7, 4)
+
+async function addUsers() {
+    await addFakeUser("ADMIN", "1234", 100000, 100000)
+    await addFakeUser('BILLY', '389dd9*w', 7, 1)
+    await addFakeUser('JOE', '303udsdf', 7, 0)
+    await addFakeUser('SAMMY', '38&sjdkf', 3, 0)
+    await addFakeUser('KATIE', '732df9fd', 3, 3)
+    await addFakeUser('BOB', '39fdsdf', 7, 4)
+}
 
 function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
     let fakeSession = new Session(fakeSessionID, fakeCategory, DB_CATEGORY)
@@ -85,8 +92,8 @@ function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
         { name: 'BOB', vote: "Cubby's" },
     ]
     if (fakeSession.session_id === 'SAMPLE') {
-        for (let newUser of fakeUserArray) {
-            fakeSession.addActiveUser(newUser)
+        for (let fakeUser of fakeUserArray) {
+            fakeSession.active_users_array.push(fakeUser)
         }
     }
     DB_SESSIONS.push(fakeSession)
@@ -147,42 +154,6 @@ addFakeSession("R7M0X2", 'game', listGAME)
 addFakeSession("X7H3J3", 'game', listGAME)
 addFakeSession("S4C3Q5", 'game', listGAME)
 
-/** Creates a salt to be appended to password--used for password hashing
- * 
- * @returns salt for user
- */
-function generateSalt() {
-    const saltArray = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('')
-    let newSalt = []
-    for (let digit = 0; digit < 6; digit++) {
-        newSalt.push(randomDigit(saltArray))
-    }
-    return newSalt.join('')
-}
-
-/** Creates a hash of a salt + password combination
- * 
- * @param {string} password - what did the user enter as a password?
- * @param {string} salt - what salt should be used for hash?
- * @returns the final hash
- */
-function hashPassword(password, salt) {
-    let hash = 0
-    const saltyPassword = salt + password
-    if (saltyPassword.length === 0) return hash;
-    for (let i = 0; i < saltyPassword.length; i++) {
-        let chr = saltyPassword.charCodeAt(i);
-        hash = ((hash << 5) - hash) + chr;
-        hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-}
-
-/** Get random digit from an array */
-function randomDigit(digitArray) {
-    return digitArray[Math.floor(Math.random() * digitArray.length)]
-}
-
 /** Convert the lists to objects with the proper table and list html structures */
 function convertArrayToObjects(list) {
 
@@ -199,12 +170,15 @@ function convertArrayToObjects(list) {
 // 
 // =============================================================================
 
-function createDummyJSON() {
+async function createDummyJSON() {
+
+    await addUsers()
+
     const sampleData = {
         users: DB_USERS.map(user => ({
             username: user.username,
             password_hash: user.password_hash,
-            salt: user.salt,
+            token: user.token,
             sessions_total: user.sessions_total,
             sessions_won: user.sessions_won,
         })),
@@ -216,7 +190,7 @@ function createDummyJSON() {
             active_users_array: session.active_users_array,
             unpopular_opinion: session.unpopular_opinion,
             end_time: session.end_time,
-            winner: session.winner,
+            group_selection: session.group_selection,
         })),
         options: {
             food: convertArrayToObjects(listFOOD),

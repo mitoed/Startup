@@ -1,10 +1,7 @@
-const db = require('./database.js')
+const DB = require('./database.js')
 const classes = require('./classes.js')
 
 function pageSetup(app) {
-
-    // Initialize global variables for backend
-    let recommendationHTML = ''
 
 // 3.1 -- Populate page and connect to servers
     app.get('/api/populate-page/:sessionID', async (req, res) => {
@@ -12,7 +9,7 @@ function pageSetup(app) {
         const { sessionID } = req.params
 
 // 3.1.2 -- Retrieve session info from from LIVE SERVER
-        const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
+        const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
 
 // 3.1.3 -- Count list of active users in session
         const numSessionUsers = sessionInstance.active_users_array.length
@@ -22,27 +19,22 @@ function pageSetup(app) {
         const sessionUsersArray = sessionInstance['active_users_array']
         const optionsHTML = generateTableHTML(sessionOptionsArray, sessionUsersArray)
 
-// 3.1.5 -- Produce internet recommendation html
-        if (!recommendationHTML) {
-
-            try {
-
-// 3.1.5.1 ---- [For food sessions] Retrieve and produce Yelp recommendation and url
-                // Something with Yelp API, if it ever works
-                throw new Error('yelp API not connected')
-            
-            } catch {
-
-// 3.1.5.2 ---- [For movie and game sessions] Display link to google search
-                // Until Yelp API works, use this always
-                recommendationHTML = generateRecommendationHTML(sessionInstance.category)
-            }
-        }
-
         res.json({optionsHTML: optionsHTML,
-            recommendation: recommendationHTML,
             activeUsers: numSessionUsers
         })
+    })
+
+// 3.1.7.1 -- Populate recommendation html based on category
+    app.get('/api/internet-recommendation/:sessionID', async (req, res) => {
+        const { sessionID } = req.params
+
+// 3.1.7.1.1 -- Retrieve session info from from LIVE SERVER
+        const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
+
+// 3.1.7.1.2 -- Produce internet recommendation html
+        const recommendationHTML = generateRecommendationHTML(sessionInstance.category)
+
+        res.json({recommendation: recommendationHTML})
     })
 
 // 3.2 ---- Record votes on page and servers
@@ -53,11 +45,12 @@ function pageSetup(app) {
 
         try {
 // 3.2.2.1 -- Retrieve session info from from LIVE SERVER
-            const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
+            const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
 
 // 3.2.2.2 ---- Update the session info
-// 3.2.2.2.1 -- Add user's vote to their object in LIVE SERVER
+// 3.2.2.2.1 -- Add/update user's vote in their object in LIVE SERVER
             const sessionUsersArray = sessionInstance.active_users_array
+            console.log(sessionInstance)
             const userInstance = sessionUsersArray.find(u => u.name === username)
             userInstance['vote'] = userVote
 
@@ -84,9 +77,9 @@ function pageSetup(app) {
 
         try {
 // 3.2.3.1 -- Retrieve session info from from LIVE SERVER
-            const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
+            const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
 
-// 3.2.3.2 -- Clear user's vote to their object in LIVE SERVER
+// 3.2.3.2 -- Clear user's vote in their object in LIVE SERVER
             const sessionUsersArray = sessionInstance.active_users_array
             const userInstance = sessionUsersArray.find(u => u.name === username)
             userInstance['vote'] = null
@@ -107,7 +100,7 @@ function pageSetup(app) {
 
 // 3.3.1 ---- Check if all votes are cast
 // 3.3.1.1 -- Retrieve session info from LIVE SERVER
-        const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
+        const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
         const sessionUsersArray = sessionInstance.active_users_array
 
 // 3.3.1.2 -- Compare total active users with total votes cast
@@ -123,8 +116,8 @@ function pageSetup(app) {
 
         if (totalVotes === activeUsers ) {
 
-// 3.3.2 -- Calculate the most common vote (this is the group selection)
-// 3.3.2.1 -- Count the occurrences of each restaurant choice
+// 3.3.2 ---- Calculate the most common vote (this is the group selection)
+// 3.3.2.1 -- Count the occurrences of each choice
             const voteCounts = {};
             
             for (const voteObj of activeVotes) {
@@ -159,23 +152,26 @@ function pageSetup(app) {
 
         const { sessionID, groupSelection } = req.params
 
-// 3.4.1.1 -- End session in LIVE SERVER
-        const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
-        sessionInstance.end_time = Date.now()
+// 3.4.1.1 -- End session in LIVE SERVER (unless it's the sample session)
+        const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
 
-// 3.4.1.2 -- End session in Mongo DB (including adding any new voting options)
-        db.endSession(sessionID, sessionInstance.category, sessionInstance.options)
+        if (sessionID !== 'SAMPLE') {
+            sessionInstance.end_time = Date.now()
+        }
 
-// 3.4.1.3 ---- Update user information in Mongo DB
+// 3.4.1.2 -- End session in Mongo DB (after adding any new voting options)
+        DB.endSession(sessionID, sessionInstance.category, sessionInstance.options)
+
+// 3.4.1.3 -- Update user information in Mongo DB
         const users = sessionInstance.active_users_array
 
-// 3.4.1.3.1 -- Increment user total sessions
+// 3.4.1.3.1 -- Increment user's total sessions
         const allUsers = users.map(obj => obj.name)
 
-// 3.4.1.3.2 -- If user picked group selection, increment user sessions won
+// 3.4.1.3.2 -- If user picked group selection, increment user's sessions won
         const winUsers = users.filter(u => u.vote === groupSelection).map(obj => obj.name)
 
-        db.updateUsers(allUsers, winUsers)
+        DB.updateUsers(allUsers, winUsers)
 
         res.json({category: sessionInstance.category})
     })
@@ -217,19 +213,13 @@ function generateTableHTML (sessionOptionsArray, sessionUsersArray) {
  */
 function generateRecommendationHTML(category) {
     let extraConditions = ''
+    let categoryPlural = ''
+    console.log('category:', category)
     switch (category) {
         case 'food':
-            /*This will try to call the yelp api.
-             Upon error, uses same method as the other categories.*/
-            try {
-                displayYelpData()
-                callYelpAPI()
-                return
-            } catch {
-                categoryPlural = 'restaurants'
-                extraConditions = 'near me'
-                break
-            }
+            categoryPlural = 'restaurants'
+            extraConditions = 'near me'
+            break
         case 'game':
             categoryPlural = 'board games'
             break
@@ -239,12 +229,11 @@ function generateRecommendationHTML(category) {
     }
 
     const recommendationTypeArray = ['classic', 'new', 'underrated']
-    const randomNum = Math.floor(Math.random() * 3)
-    let recommendationType = recommendationTypeArray[randomNum]
+    const randomNum = Math.floor(Math.random() * recommendationTypeArray.length)
+    const recommendationType = recommendationTypeArray[randomNum]
 
     const recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${categoryPlural}+${extraConditions}`
-    const recommendationHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the top <span>${recommendationType}</span> ${categoryPlural}<br>from Google.com</p>`
-    
+    const recommendationHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the top <span>${recommendationType}</span> ${categoryPlural}<br>on Google.com</p>`
     return recommendationHTML
     
 }

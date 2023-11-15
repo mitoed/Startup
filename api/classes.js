@@ -1,3 +1,6 @@
+const bcrypt = require('bcrypt')
+const uuid = require('uuid')
+
 // =============================================================================
 // CLASSES
 // =============================================================================
@@ -15,38 +18,14 @@ class User {
      * @param {number} sessions_total - how many sessions has this user participated in?
      * @param {number} sessions_won - how many times was this user's vote selected by the group?
      */
-    constructor(username, password, sessions_total = 0, sessions_won = 0) {
+    constructor(username, password_hash, sessions_total = 0, sessions_won = 0) {
         this.username = username
-        this.salt = generateSalt()
-        this.password_hash = hashPassword(password, this.salt)
+        this.password_hash = password_hash
+        this.token = uuid.v4()
         this.sessions_total = sessions_total
         this.sessions_won = sessions_won
     }
 
-    /** Once voting has finished, increment the user's total count.
-     * If group selected what the user did, increment the user's winning count.
-     * 
-     * @param {string} groupSelection 
-     */
-    incrementParticipation(groupSelection) {
-        if (groupSelection === this.active_vote) {
-            this._sessions_won++
-        }
-        this._sessions_total++
-    }
-
-    /** Calculates the loss rate.
-     * If user has participated in more than 5 sessions
-     * and has lost at least 70% of the time, returns their loss rate
-     * 
-     * @returns {double}
-     */
-    significantLossRate() {
-        const lossRate = (this.sessions_total - this._sessions_won) / this.sessions_total
-        if (this.sessions_total >= 5 && lossRate >= .7) {
-            return lossRate
-        }
-    }
 }
 
 /** Represents a session with the sesssion id, the category, the list of options, when it started/ended,
@@ -59,49 +38,23 @@ class Session {
      * 
      * @param {string} session_id 
      * @param {string} category 
+     * @param {string} category_array 
      * @param {array} active_users_array - {user: <username>, vote: <current_vote>}
      * @param {integer} start_time 
      */
-    constructor(session_id, category, active_users_array = [], start_time = Date.now()) {
+    constructor(session_id, category, category_array) {
         this.session_id = session_id
         this.category = category
-        this.active_users_array = active_users_array
-        this.start_time = start_time
+        this.options = category_array
+        this.active_users_array = []
+        this.start_time = Date.now()
         this.unpopular_opinion = ''
-        this.end_time = ''
+        this.end_time = 0
         this.group_selection = ''
     }
 
-    /** User joins the session
-     * 
-     * @param {string} addUser - Username of additional user
-     */
-    addActiveUser(addUsername) {
-        const addUserObject = {name: addUsername, vote: null}
-        this.active_users_array.push(addUserObject)
-    }
-
-    /** User leaves the session
-     * 
-     * @param {string} removeUser 
-     */
-    removeActiveUser(removeUsername) {
-        const removeUserObject = {name: removeUsername, vote: null}
-        const removeUserIndex = this.active_users_array.indexOf(removeUserObject)
-
-        if (removeUserIndex > -1) {
-            this.active_users_array.splice(removeUserIndex, 1)
-        }
-    }
-
-    /** Ends the session, recording the final decision and timestamp and clearning the usernames
-     * 
-     * @param {string} groupSelection 
-     */
-    endSession(groupSelection) {
-        this.active_users_array = []
-        this.group_selection = groupSelection
-        this.end_time = Date.now()
+    addActiveUser (userObject) {
+        this.active_users_array.push({ name: userObject, vote: null })
     }
 }
 

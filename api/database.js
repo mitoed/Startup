@@ -114,10 +114,9 @@ async function startLiveServer() {
  * @param {string} checkUsername - username of requested data
  * @returns - user object from Mongo DB
  */
-async function checkUserInfo(checkUsername) {
+async function getUser(checkUsername) {
     try {
-        const result = await usersCollection.findOne({ username: checkUsername });
-        return result
+        return await usersCollection.findOne({ username: checkUsername });
 
     } catch (ex) {
         console.log(`\nUnable to check user info in database with ${url} because ${ex.message}`);
@@ -128,14 +127,18 @@ async function checkUserInfo(checkUsername) {
  * 
  * @param {object} userInstance - user object to be added
  */
-async function addUserInfo(userInstance) {
+async function createUser(userInstance) {
     try {
-        const result = await usersCollection.insertOne(userInstance);
-        return result
+        return await usersCollection.insertOne(userInstance);
 
     } catch (ex) {
         console.log(`\nUnable to add user to database with ${url} because ${ex.message}`);
     }
+}
+
+async function getUserByToken(authToken) {
+    return await usersCollection.findOne({ token: authToken })
+
 }
 
 // =============================================================================
@@ -148,8 +151,7 @@ async function addUserInfo(userInstance) {
  */
 async function addMongoSession(sessionInstance) {
     try {
-        const result = await sessionsCollection.insertOne(sessionInstance);
-        return result
+        return await sessionsCollection.insertOne(sessionInstance);
 
     } catch (ex) {
         console.log(`\nUnable to add session to database with ${url} because ${ex.message}`);
@@ -196,8 +198,7 @@ async function userToMongoSession(sessionID, username) {
 
         // Only add the user if they are not already in the session
         if (!isActiveUser) {
-            const result = await sessionsCollection.updateOne(filter, updates)
-            return result
+            return await sessionsCollection.updateOne(filter, updates)
         }
 
         return
@@ -231,9 +232,6 @@ async function endSession(sessionID, category, optionsArray) {
         for await (const option of optionsArray) {
             await optionsCollection.updateOne({ "name" : option }, { $set: { "name" : option } }, { upsert: true, session })
         }
-        
-        //await optionsCollection.deleteMany()
-        //await optionsCollection.insertMany(optionUpdates)
 
         if (sessionID === 'SAMPLE') {
             console.log('\nSAMPLE session will not be ended in database.')
@@ -314,8 +312,9 @@ function loadSampleData() {
 module.exports = {
     connectToDatabase,
     LIVE_SERVER,
-    checkUserInfo,
-    addUserInfo,
+    getUser,
+    createUser,
+    getUserByToken,
     addMongoSession,
     getMongoOptions,
     userToMongoSession,

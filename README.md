@@ -144,9 +144,13 @@ About page
 
 ### Login Deliverable
 
-### Login To-Dos
+**New User Registration** - New users are added to Mongo DB after hashing their password using bcrypt. User token is also generated upon user creation.
 
-- [ ]
+**Existing User Authentication** - Existing user info stored and retreived from Mongo DB in backend.
+
+**Stores and Retrieves Credentials in Mongo DB** - As stated above, existing user information is stored and retrieved in Mongo DB. When user logs in, user token is stored as cookie for later authentication.
+
+**Restricts Application Functionality Based on Authentication** - Upon page loading, application checks for user token stored as cookie. If token not found in user database, user cannot go to Enter Session page (where their credentials are needed).
 
 ## WebSocket
 

@@ -1,4 +1,4 @@
-const db = require('./database.js')
+const DB = require('./database.js')
 const classes = require('./classes.js')
 
 function pageSetup(app) {
@@ -11,15 +11,15 @@ function pageSetup(app) {
         const { sessionID } = req.params
         
 // 2.1.2 ---- Check if session is open in LIVE SERVER
-        const sessionInstance = db.LIVE_SERVER.find(s => s.session_id === sessionID)
+        const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
 
 // 2.1.3 ---- If session is open, enter the session
         if (sessionInstance && sessionInstance.end_time === 0) {
 
 // 2.1.3.1 -- Begin to update the Mongo DB with the updated session info
-            db.userToMongoSession(sessionID, username)
+            DB.userToMongoSession(sessionID, username)
 
-// 2.1.3.2 -- Check if user is already added
+// 2.1.3.2 -- Check if user is already added in LIVE SERVER
             const sessionUsersArray = sessionInstance.active_users_array
             const userInSession = sessionUsersArray.find(u => u.name === username)
 
@@ -50,7 +50,7 @@ function pageSetup(app) {
 // 2.2 -- Create a session based on a category
     app.get('/api/create-session/:username/:category', async (req, res) => {
 
-// 2.2.1 -- Gather category selected by user from enter_session page
+// 2.2.1 -- Gather category selected by user from Enter Session page
         const { username } = req.params
         const { category } = req.params
 
@@ -63,14 +63,14 @@ function pageSetup(app) {
         newSessionInstance.addActiveUser(username)
         
 // 2.2.2.3 -- Begin to update the Mongo DB with new session info
-        db.addMongoSession(newSessionInstance)
+        DB.addMongoSession(newSessionInstance)
 
 // 2.2.2.4 -- Request options list from Mongo DB
-        const sessionOptions = await db.getMongoOptions(category)
+        const sessionOptions = await DB.getMongoOptions(category)
 
 // 2.2.2.5 -- Add the new session to LIVE SERVER (including options list)
         newSessionInstance['options'] = sessionOptions
-        db.LIVE_SERVER.push(newSessionInstance)
+        DB.LIVE_SERVER.push(newSessionInstance)
 
         res.status(200).json({sessionID: newSessionID})
 
@@ -96,7 +96,7 @@ function createSessionID(sessionCategory) {
         newSessionID = randomSessionID(sessionCategory)
 
         // If it already exists, make a new one
-        const existingID = db.LIVE_SERVER.some(s => s.session_id === newSessionID)
+        const existingID = DB.LIVE_SERVER.some(s => s.session_id === newSessionID)
         if (!existingID) {return newSessionID}
     }
     console.log('Something went wrong while creating a session ID.')

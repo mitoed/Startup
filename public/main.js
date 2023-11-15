@@ -1,80 +1,56 @@
 // =============================================================================
-// GLOBAL VARIABLES
-// =============================================================================
-
-let currentUser = localStorage.getItem('currentUser') || undefined
-let currentSessionID = localStorage.getItem('currentSessionID')
-if (!currentSessionID) {
-    currentSessionID = window.location.href.split('&session=')[1]
-    localStorage.setItem('currentSessionID', currentSessionID)
-}
-
-// =============================================================================
 // LOAD PAGE FUNCTIONALITY -- OCCURS EACH TIME A PAGE LOADS
 // =============================================================================
 
-/**
- * When page is loaded, get and display user/session information if available
- */
-infoToPage()
-infoToMenu()
-
-/**
- * Inserts local storage information into the correct html elements:
- *    currentUser
- *    currentSessionID (if user entered a session)
- */
-function infoToPage() {
-    try {
-        const currentUser = localStorage.getItem('currentUser')
-
-        if (currentUser === null) {
-            currentUser = window.location.href.split('&session=')[0].split('&user=')[1]
-            localStorage.setItem('currentUser', currentUser)
-        }
-
-        document.getElementById('username').innerHTML = `Welcome, ${currentUser}!`;
-        console.log(`Successfully logged in as: ${currentUser}`)
-
-    }
-    catch { } // no place to insert username, ignore
-
-    try {
-        const currentSessionID = localStorage.getItem('currentSessionID')
-
-        if (currentSessionID === null) {
-            currentSessionID = window.location.href.split('&session=')[1]
-            localStorage.setItem('currentSessionID', currentSessionID)
-        }
-
-        document.getElementById('session_id').innerHTML = `Session ID: ${currentSessionID}`;
-        console.log(`Successfully entered Session: ${currentSessionID}`)
-    }
-    catch { } // no place to insert session id, ignore
+// 5.1.1 -- [Trigger] Upon loading a page (except login page)
+const currentPage = window.location.href
+if (!currentPage.includes('index.html')) {
+    await allPageLoad()
 }
 
-/**
- * Insert local storage information into the navigation menu links
- */
-function infoToMenu() {
-    const navigationChildren = document.getElementById('navigation_menu').children
-    if (currentUser !== undefined) {
-        for (let child = 1; child < navigationChildren.length; child++) {
-            navigationChildren[child].href += `?user=${currentUser}`
-        }
-    } else if (currentUser === undefined) {
-        disableEnterSession()
-    }
+// If on the About page, clear all session info from local storage
+if (currentPage.includes('about')) {
+    localStorage.removeItem('currentSessionID')
+    localStorage.removeItem('voteSelection')
 }
 
-/**
- * Disable the "enter session" button on the navigation menu
- */
-function disableEnterSession() {
-    const navEnterSession = document.getElementById("nav_enter_session")
-    navEnterSession.href = ""
-    navEnterSession.onclick = function () {
-        alert('You must login or create an account before entering a session.')
+async function allPageLoad() {
+    
+// 5.1.2 -- [Response] Check for user token in cookies
+    const response = await fetch('/api/auth/user/me')
+    const data = await response.json()
+    const { username } = data
+
+// 5.1.3 -- [Action] If authenticated:
+    if (username) {
+        console.log(`Successfully logged in as ${username}`)
+
+// 5.1.3.1 -- Store username in local storage
+        localStorage.setItem('currentUser', username)
+
+// 5.1.3.2 -- Insert username into the correct html elements
+        try {document.getElementById('username').innerHTML = `Welcome, ${username}!`}
+        catch {} // If no element, ignore
+    }
+
+// 5.1.4 -- [Action] If not authenticated:
+    if (!username) {
+
+// 5.1.4.1 -- Remove any username in local storage
+        localStorage.removeItem('currentUser')
+
+// 5.1.4.2 -- Disable the Enter Session navigation
+        const navEnterSession = document.getElementById("nav_enter_session")
+        navEnterSession.href = ""
+        navEnterSession.onclick = function () {
+            alert('You must login or create an account before entering a session.')
+        }
+// 5.1.4.3 -- If on Enter Session or Voting Session pages, send back to login page with alert
+        const currentPage = window.location.href
+        if (currentPage.includes('session')) {
+            window.location.href = './index.html'
+            alert('Something went wrong.\nPlease log in before proceeding.')
+        }
     }
 }
 

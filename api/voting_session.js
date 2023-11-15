@@ -3,9 +3,6 @@ const classes = require('./classes.js')
 
 function pageSetup(app) {
 
-    // Initialize global variables for backend
-    let recommendationHTML = ''
-
 // 3.1 -- Populate page and connect to servers
     app.get('/api/populate-page/:sessionID', async (req, res) => {
         
@@ -22,15 +19,22 @@ function pageSetup(app) {
         const sessionUsersArray = sessionInstance['active_users_array']
         const optionsHTML = generateTableHTML(sessionOptionsArray, sessionUsersArray)
 
-// 3.1.5 -- Produce internet recommendation html
-        if (!recommendationHTML) {
-            recommendationHTML = generateRecommendationHTML(sessionInstance.category)
-        }
-
         res.json({optionsHTML: optionsHTML,
-            recommendation: recommendationHTML,
             activeUsers: numSessionUsers
         })
+    })
+
+// 3.1.7.1 -- Populate recommendation html based on category
+    app.get('/api/internet-recommendation/:sessionID', async (req, res) => {
+        const { sessionID } = req.params
+
+// 3.1.7.1.1 -- Retrieve session info from from LIVE SERVER
+        const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
+
+// 3.1.7.1.2 -- Produce internet recommendation html
+        const recommendationHTML = generateRecommendationHTML(sessionInstance.category)
+
+        res.json({recommendation: recommendationHTML})
     })
 
 // 3.2 ---- Record votes on page and servers
@@ -46,6 +50,7 @@ function pageSetup(app) {
 // 3.2.2.2 ---- Update the session info
 // 3.2.2.2.1 -- Add/update user's vote in their object in LIVE SERVER
             const sessionUsersArray = sessionInstance.active_users_array
+            console.log(sessionInstance)
             const userInstance = sessionUsersArray.find(u => u.name === username)
             userInstance['vote'] = userVote
 
@@ -208,19 +213,13 @@ function generateTableHTML (sessionOptionsArray, sessionUsersArray) {
  */
 function generateRecommendationHTML(category) {
     let extraConditions = ''
+    let categoryPlural = ''
+    console.log('category:', category)
     switch (category) {
         case 'food':
-            /*This will try to call the yelp api.
-             Upon error, uses same method as the other categories.*/
-            try {
-                displayYelpData()
-                callYelpAPI()
-                return
-            } catch {
-                categoryPlural = 'restaurants'
-                extraConditions = 'near me'
-                break
-            }
+            categoryPlural = 'restaurants'
+            extraConditions = 'near me'
+            break
         case 'game':
             categoryPlural = 'board games'
             break
@@ -230,12 +229,11 @@ function generateRecommendationHTML(category) {
     }
 
     const recommendationTypeArray = ['classic', 'new', 'underrated']
-    const randomNum = Math.floor(Math.random() * 3)
-    let recommendationType = recommendationTypeArray[randomNum]
+    const randomNum = Math.floor(Math.random() * recommendationTypeArray.length)
+    const recommendationType = recommendationTypeArray[randomNum]
 
     const recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${categoryPlural}+${extraConditions}`
-    const recommendationHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the top <span>${recommendationType}</span> ${categoryPlural}<br>from Google.com</p>`
-    
+    const recommendationHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the top <span>${recommendationType}</span> ${categoryPlural}<br>on Google.com</p>`
     return recommendationHTML
     
 }

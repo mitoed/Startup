@@ -10,6 +10,7 @@ let isCountdownRunning = false
 // =============================================================================
 
 pagePopulation()
+internetRecommendation()
 
 async function pagePopulation() {
 
@@ -27,23 +28,32 @@ async function pagePopulation() {
         const data = await response.json()
         const optionsArrayHTML = data.optionsHTML
 
-// 3.1.6 -- Display table of options and datalist to be updated with votes
+// 3.1.5 -- Display table of options and datalist to be updated with votes
         clearTableAndList()
         populateTableAndList(optionsArrayHTML)
 
-// 3.1.7 -- Display active user count
+// 3.1.6 -- Display active user count
         const activeUsers = data.activeUsers
         document.getElementById('user_count').innerHTML = `Active Users: ${activeUsers}`
-
-// 3.1.8 -- Display internet recommendation
-        const recommendationHTML = data.recommendation
-        populateRecommendation(recommendationHTML)
 
         // Unexpected errors
     } catch (error) {
         console.log('Problem with server. Please try again.', error)
         return
     }
+}
+
+async function internetRecommendation() {
+
+// 3.1.7 ---- Populate and display internet recommendation
+// 3.1.7.1 -- Populate recommendation html based on category
+    const sessionID = localStorage.getItem('currentSessionID')
+    const response = await fetch(`/api/internet-recommendation/${sessionID}`)
+    const data = await response.json()
+
+// 3.1.7.2 -- Display recommendation
+    const recommendationHTML = data.recommendation
+    displayRecommendation(recommendationHTML)
 }
 
 // =============================================================================
@@ -267,7 +277,7 @@ function clearTableAndList() {
     }
 }
 
-function populateRecommendation(recommendationHTML) {
+function displayRecommendation(recommendationHTML) {
     const recommendationBubble = document.getElementById('recommendation_bubble')
     recommendationBubble.innerHTML = recommendationHTML
 }

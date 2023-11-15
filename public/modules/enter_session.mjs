@@ -17,7 +17,7 @@ const join_session_button = document.getElementById('join_session')
 
 async function joinSession() {
 
-// 2.1.1 -- Gather session ID inputted from enter_session page
+// 2.1.1 -- Gather session ID inputted from Enter Session page
     const currentUser = localStorage.getItem('currentUser')
     const sessionID = document.getElementById('join_session_id').value.toUpperCase()
 
@@ -28,7 +28,7 @@ async function joinSession() {
     }
 
     try {
-// 2.1.2 -- Check if session is open on live server
+// 2.1.2 -- Check if session is open on LIVE SERVER
         const response = await fetch(`/api/join-session/${currentUser}/${sessionID}`)
         const success = response.status
 
@@ -39,7 +39,7 @@ async function joinSession() {
             window.location.href = `./voting_session.html`
             return
 
-// 2.1.4 -- If session is not open, respond with error message to user
+// 2.1.4 -- If session is not available or not open, respond with error message to user
         } else if (success === 204) {
             console.log('Error: Session Not Found')
             document.getElementById('session_not_found_error').innerHTML = 'Session Not Found'
@@ -68,7 +68,7 @@ const create_session_button = document.getElementById('create_session')
 
 async function createSession() {
 
-// 2.2.1 -- Gather category selected by user on enter_session page
+// 2.2.1 -- Gather category selected by user on Enter Session page
     const currentUser = localStorage.getItem('currentUser')
     const category = document.querySelector('input[name="category"]:checked').value;
 

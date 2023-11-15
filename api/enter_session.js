@@ -19,7 +19,7 @@ function pageSetup(app) {
 // 2.1.3.1 -- Begin to update the Mongo DB with the updated session info
             DB.userToMongoSession(sessionID, username)
 
-// 2.1.3.2 -- Check if user is already added
+// 2.1.3.2 -- Check if user is already added in LIVE SERVER
             const sessionUsersArray = sessionInstance.active_users_array
             const userInSession = sessionUsersArray.find(u => u.name === username)
 
@@ -50,7 +50,7 @@ function pageSetup(app) {
 // 2.2 -- Create a session based on a category
     app.get('/api/create-session/:username/:category', async (req, res) => {
 
-// 2.2.1 -- Gather category selected by user from enter_session page
+// 2.2.1 -- Gather category selected by user from Enter Session page
         const { username } = req.params
         const { category } = req.params
 

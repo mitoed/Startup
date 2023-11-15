@@ -8,6 +8,12 @@ if (!currentPage.includes('index.html')) {
     await allPageLoad()
 }
 
+// If on the About page, clear all session info from local storage
+if (currentPage.includes('about')) {
+    localStorage.removeItem('currentSessionID')
+    localStorage.removeItem('voteSelection')
+}
+
 async function allPageLoad() {
     
 // 5.1.2 -- [Response] Check for user token in cookies

@@ -159,9 +159,12 @@ function pageSetup(app) {
 
         const { sessionID, groupSelection } = req.params
 
-// 3.4.1.1 -- End session in LIVE SERVER
+// 3.4.1.1 -- End session in LIVE SERVER (unless it's the sample session)
         const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
-        sessionInstance.end_time = Date.now()
+
+        if (sessionID !== 'SAMPLE') {
+            sessionInstance.end_time = Date.now()
+        }
 
 // 3.4.1.2 -- End session in Mongo DB (including adding any new voting options)
         DB.endSession(sessionID, sessionInstance.category, sessionInstance.options)

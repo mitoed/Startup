@@ -1,5 +1,6 @@
 // Remove current data from local storage
 localStorage.removeItem('currentSessionID')
+localStorage.removeItem('voteSelection')
 
 // =============================================================================
 // 2.1 Enter a session with a Session ID

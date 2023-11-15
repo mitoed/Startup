@@ -1,81 +1,58 @@
 // =============================================================================
-// GLOBAL VARIABLES
-// =============================================================================
-
-let currentUser = localStorage.getItem('currentUser') || undefined
-let currentSessionID = localStorage.getItem('currentSessionID')
-if (!currentSessionID) {
-    currentSessionID = window.location.href.split('&session=')[1]
-    localStorage.setItem('currentSessionID', currentSessionID)
-}
-
-// =============================================================================
 // LOAD PAGE FUNCTIONALITY -- OCCURS EACH TIME A PAGE LOADS
 // =============================================================================
 
 /**
- * When page is loaded, get and display user/session information if available
+ * When a page loads, checks for an authentication token.
+ * If token is present, adds username to the local storage.
+ * If token not present, disables navigation to the Enter Session page.
  */
-infoToPage()
-infoToMenu()
+allPageLoad()
 
-/**
- * Inserts local storage information into the correct html elements:
- *    currentUser
- *    currentSessionID (if user entered a session)
- */
-function infoToPage() {
-    try {
-        const currentUser = localStorage.getItem('currentUser')
+async function allPageLoad() {
+    
+    const response = await fetch('/api/auth/user/me')
+    const data = await response.json()
+    const { username } = data
 
-        if (currentUser === null) {
-            currentUser = window.location.href.split('&session=')[0].split('&user=')[1]
-            localStorage.setItem('currentUser', currentUser)
+    // If logged in...
+    if (username) {
+        const userInLocalStorage = localStorage.getItem('currentUser')
+
+        // Store the user as the username
+        if (!userInLocalStorage || userInLocalStorage !== username) {
+            localStorage.setItem('currentUser', username)
         }
 
-        document.getElementById('username').innerHTML = `Welcome, ${currentUser}!`;
-        console.log(`Successfully logged in as: ${currentUser}`)
-
+        // Insert username into the correct html elements
+        infoToPage(username)
     }
-    catch { } // no place to insert username, ignore
 
-    try {
-        const currentSessionID = localStorage.getItem('currentSessionID')
+    // If not logged in...
+    if (!username) {
 
-        if (currentSessionID === null) {
-            currentSessionID = window.location.href.split('&session=')[1]
-            localStorage.setItem('currentSessionID', currentSessionID)
+        // Remove user from local storage
+        localStorage.removeItem('currentUser')
+
+        // Disable the Enter Session navigation
+        const navEnterSession = document.getElementById("nav_enter_session")
+        navEnterSession.href = ""
+        navEnterSession.onclick = function () {
+            alert('You must login or create an account before entering a session.')
         }
-
-        document.getElementById('session_id').innerHTML = `Session ID: ${currentSessionID}`;
-        console.log(`Successfully entered Session: ${currentSessionID}`)
-    }
-    catch { } // no place to insert session id, ignore
-}
-
-/**
- * Insert local storage information into the navigation menu links
- */
-function infoToMenu() {
-    const navigationChildren = document.getElementById('navigation_menu').children
-    if (currentUser !== undefined) {
-        for (let child = 1; child < navigationChildren.length; child++) {
-            navigationChildren[child].href += `?user=${currentUser}`
-        }
-    } else if (currentUser === undefined) {
-        disableEnterSession()
     }
 }
 
 /**
- * Disable the "enter session" button on the navigation menu
+ * Inserts username into the correct html elements
  */
-function disableEnterSession() {
-    const navEnterSession = document.getElementById("nav_enter_session")
-    navEnterSession.href = ""
-    navEnterSession.onclick = function () {
-        alert('You must login or create an account before entering a session.')
-    }
+function infoToPage(username) {
+
+    try {
+        document.getElementById('username').innerHTML = `Welcome, ${username}!`;
+        console.log(`Successfully logged in as: ${username}`)
+
+    } catch { } // if no place to insert username, ignore
 }
 
 // =============================================================================

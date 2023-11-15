@@ -2,14 +2,11 @@
 // LOAD PAGE FUNCTIONALITY -- OCCURS EACH TIME A PAGE LOADS
 // =============================================================================
 
-/**
- * When a page loads, checks for an authentication token.
- * If token is present, adds username to the local storage.
- * If token not present, disables navigation to the Enter Session page.
- */
-
-// 5.1.1 -- [Trigger] Upon loading a page
-allPageLoad()
+// 5.1.1 -- [Trigger] Upon loading a page (except login page)
+const currentPage = window.location.href
+if (!currentPage.includes('index.html')) {
+    await allPageLoad()
+}
 
 async function allPageLoad() {
     

@@ -54,7 +54,7 @@ class Session {
     }
 
     addActiveUser (userObject) {
-        this.active_users_array.push(userObject)
+        this.active_users_array.push({ name: userObject, vote: null })
     }
 }
 

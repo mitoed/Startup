@@ -58,7 +58,7 @@ class Session {
     }
 
     addActiveUser (userObject) {
-        this.active_users_array.push(userObject)
+        this.active_users_array.push({ name: userObject, vote: null })
     }
 }
 
@@ -92,8 +92,8 @@ function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
         { name: 'BOB', vote: "Cubby's" },
     ]
     if (fakeSession.session_id === 'SAMPLE') {
-        for (let newUser of fakeUserArray) {
-            fakeSession.addActiveUser(newUser)
+        for (let fakeUser of fakeUserArray) {
+            fakeSession.active_users_array.push(fakeUser)
         }
     }
     DB_SESSIONS.push(fakeSession)

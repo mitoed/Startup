@@ -28,7 +28,7 @@ async function joinSession() {
     }
 
     try {
-// 2.1.2 -- Check if session is open on LIVE SERVER
+// 2.1.2 -- Check if session is open on LIVE_SESSIONS
         const response = await fetch(`/api/join-session/${currentUser}/${sessionID}`)
         const { status } = response
 

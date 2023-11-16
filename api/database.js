@@ -13,8 +13,9 @@ const client = new MongoClient(url)
 const sessionsCollection = client.db('voting').collection('sessions')
 const usersCollection = client.db('voting').collection('users')
 
-// LIVE SERVER Initialization
-const LIVE_SERVER = []
+// Live Servers Initialization
+const LIVE_SESSIONS = []
+const LIVE_USERS = []
 
 // =============================================================================
 // Mongo Database Setup Functions -- Development Only
@@ -50,12 +51,12 @@ async function clearMongoDB() {
 
 async function addSampleData() {
     try {
-        const { users, sessions } = await loadSampleData()
+        const { Mongo_USERS, Mongo_LIVE_SESSIONS } = await loadSampleData()
 
-        let result = await usersCollection.insertMany(users)
+        let result = await usersCollection.insertMany(Mongo_USERS)
         console.log('\nSuccessfully added ', result.insertedCount, 'users')
 
-        result = await sessionsCollection.insertMany(sessions)
+        result = await sessionsCollection.insertMany(Mongo_LIVE_SESSIONS)
         console.log('\nSuccessfully added ', result.insertedCount, 'sessions')
 
         console.log('\nMongo DB has been reset to sample values.')
@@ -73,7 +74,7 @@ MASTERCONNECT()
 
 async function MASTERCONNECT() {
     await connectToDatabase()
-    await startLiveServer()
+    await getLiveSessionsData()
 }
 
 // Begin connection with Mongo Database
@@ -87,13 +88,13 @@ async function connectToDatabase () {
 }
 
 // Request sessions data from Mongo DB and add to LIVE_SERVER array
-async function startLiveServer() {
-    if (LIVE_SERVER.length === 0) {
+async function getLiveSessionsData() {
 
+    if (LIVE_SESSIONS.length === 0) {
         try {
             const result = await sessionsCollection.find({ end_time: 0 })
             for await (const session of result) {
-                LIVE_SERVER.push(session)
+                LIVE_SESSIONS.push(session)
             }
             console.log('\nSuccessfully loaded LIVE SERVER from Mongo DB.')
             return
@@ -311,7 +312,8 @@ function loadSampleData() {
 
 module.exports = {
     connectToDatabase,
-    LIVE_SERVER,
+    LIVE_SESSIONS,
+    LIVE_USERS,
     getUser,
     createUser,
     getUserByToken,

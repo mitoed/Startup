@@ -6,34 +6,22 @@ function pageSetup(app) {
 // 2.1 -- Enter a session with a session ID
     app.get('/api/join-session/:username/:sessionID', async (req, res) => {
         
-// 2.1.1 -- Gather session ID inputted from enter_session page
+// 2.1.1 -- Gather session ID inputted from Enter Session page
         const { username } = req.params
         const { sessionID } = req.params
         
-// 2.1.2 ---- Check if session is open in LIVE SERVER
-        const sessionInstance = DB.LIVE_SERVER.find(s => s.session_id === sessionID)
+// 2.1.2 ---- Check if session is open in LIVE_SESSIONS
+        const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
 
 // 2.1.3 ---- If session is open, enter the session
         if (sessionInstance && sessionInstance.end_time === 0) {
 
 // 2.1.3.1 -- Begin to update the Mongo DB with the updated session info
-            DB.userToMongoSession(sessionID, username)
+            //DB.userToMongoSession(sessionID, username)
 
-// 2.1.3.2 -- Check if user is already added in LIVE SERVER
-            const sessionUsersArray = sessionInstance.active_users_array
-            const userInSession = sessionUsersArray.find(u => u.name === username)
-
-// 2.1.3.3 -- If not already in session, add user to active_users_array in LIVE SERVER
-            if (!userInSession) {
-                // Add user to the active users array
-                sessionUsersArray.push({name: username, vote: null})
-            }
-    
-// 2.1.3.4 -- If already in session, remove user's previous vote in LIVE SERVER
-            if (userInSession) {
-                // Remove the user's vote from the array
-                userInSession['vote'] = null
-            }
+// 2.1.3.2 ---- User active in Live Server
+// 2.1.3.2.1 -- Check if user is already added in LIVE_USERS
+            userToLiveUsers(sessionID, username)
 
             res.status(200).send('Session found')
             return
@@ -59,8 +47,8 @@ function pageSetup(app) {
         const newSessionID = createSessionID(category)
         const newSessionInstance = new classes.Session(newSessionID, category)
 
-// 2.2.2.2 -- Add the user to this new session
-        newSessionInstance.addActiveUser(username)
+// 2.2.2.2 -- Add the user in LIVE_USERS (change session if active)
+        userToLiveUsers(newSessionID, username)
         
 // 2.2.2.3 -- Begin to update the Mongo DB with new session info
         DB.addMongoSession(newSessionInstance)
@@ -68,9 +56,9 @@ function pageSetup(app) {
 // 2.2.2.4 -- Request options list from Mongo DB
         const sessionOptions = await DB.getMongoOptions(category)
 
-// 2.2.2.5 -- Add the new session to LIVE SERVER (including options list)
+// 2.2.2.5 -- Add the new session to LIVE_SESSIONS (including options list)
         newSessionInstance['options'] = sessionOptions
-        DB.LIVE_SERVER.push(newSessionInstance)
+        DB.LIVE_SESSIONS.push(newSessionInstance)
 
         res.status(200).json({sessionID: newSessionID})
 
@@ -81,6 +69,26 @@ function pageSetup(app) {
 // Supporting Functions
 // =============================================================================
 
+function userToLiveUsers(sessionID, username) {
+
+    // Check if user is already in LIVE USERS
+    const userActive = DB.LIVE_USERS.find(u => u.name === username)
+
+    // If not, add user LIVE_USERS
+    if (!userActive) {
+        // Add user to the active users array
+        DB.LIVE_USERS.push({name: username, session: sessionID, vote: null})
+        return
+    }
+        
+    // If so, change session and remove user's previous vote in LIVE_USERS
+    if (userActive) {
+        userActive['session'] = sessionID
+        userActive['vote'] = null
+        return
+    }
+
+}
 
 /** Create a session id and verify that it doesn't already exist
  * 
@@ -96,7 +104,7 @@ function createSessionID(sessionCategory) {
         newSessionID = randomSessionID(sessionCategory)
 
         // If it already exists, make a new one
-        const existingID = DB.LIVE_SERVER.some(s => s.session_id === newSessionID)
+        const existingID = DB.LIVE_SESSIONS.some(s => s.session_id === newSessionID)
         if (!existingID) {return newSessionID}
     }
     console.log('Something went wrong while creating a session ID.')

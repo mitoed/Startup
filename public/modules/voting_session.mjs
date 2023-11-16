@@ -20,8 +20,8 @@ async function pagePopulation() {
         document.title = `Voting Session: ${sessionID}`
         document.getElementById('session_id').innerHTML = `Session ID: ${sessionID}`;
 
-// 3.1.2 -- Retrieve list of voting options from LIVE SERVER
-// 3.1.3 -- Count list of active users in session
+// 3.1.2 -- Retrieve list of voting options from LIVE_SESSIONS
+// 3.1.3 -- Count list of active users in session from LIVE_USRS
 // 3.1.4 -- Produce table of options and datalist html
 // 3.1.5 -- Produce internet recommendation html
         const response = await fetch(`/api/populate-page/${sessionID}`)
@@ -185,7 +185,7 @@ async function checkVotes() {
 
 async function closeSession(sessionID, groupSelection) {
 
-// 3.4.1 -- End session in Mongo DB and LIVE SERVER
+// 3.4.1 -- End session in Mongo DB and Live Servers
     const response = await fetch(`/api/close-session/${sessionID}/${groupSelection}`)
     const data = await response.json()
 

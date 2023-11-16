@@ -151,7 +151,7 @@ function userVote(msg) {
 }
 
 // =============================================================================
-// 3.4 -- Check for group selection
+// 3.4 -- Tally group votes
 // =============================================================================
 
 function checkVotes(msg) {
@@ -203,7 +203,6 @@ function checkVotes(msg) {
 
     return popularVote
 }
-
 
 // =============================================================================
 // Supporting Functions

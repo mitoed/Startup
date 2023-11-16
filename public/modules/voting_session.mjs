@@ -102,7 +102,7 @@ async function refreshHTML() {
 }
 
 // =============================================================================
-// 3.3 Record votes in page and servers
+// 3.3 -- Record votes in page and servers
 // =============================================================================
 
 // Assign the function to the Finalize Vote button
@@ -161,7 +161,7 @@ async function recordVotes() {
 }
 
 // =============================================================================
-// 3.4 Check for group selection
+// 3.4 -- Tally group votes
 // =============================================================================
 
 /* Server-side actions */

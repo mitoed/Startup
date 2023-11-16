@@ -36,114 +36,8 @@ function pageSetup(app) {
 
         res.json({recommendation: recommendationHTML})
     })
-
-// 3.2 ---- Record votes on page and servers
-// 3.2.2 -- Add user vote
-    app.get('/api/record-vote/:sessionID/:username/:userVote', async (req, res) => {
-
-        let { sessionID, username, userVote } = req.params
-
-        try {
-// 3.2.2.1 -- Retrieve session info from from LIVE SERVER
-            const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
-
-// 3.2.2.2 ---- Update the session info
-// 3.2.2.2.1 -- Add/update user's vote in their object in LIVE_USERS
-            const sessionUsersArray = DB.LIVE_USERS.filter(u => u.session === sessionID)
-            const userInstance = sessionUsersArray.find(u => u.name === username)
-            userInstance['vote'] = userVote
-
-// 3.2.2.2.2 -- Create a new option in LIVE_SESSIONS if new
-            const sessionOptionsArray = sessionInstance.options
-            const optionExists = sessionOptionsArray.find(option => option === userVote)
-            if (!optionExists) {
-                sessionOptionsArray.push(userVote)
-            }
-            
-            res.status(200).send('Everything worked')
-
-        } catch (error) {
-            console.error('An error occurred:', error)
-            res.status(500).send('Internal Server Error')
-        }
-
-    })
-
-// 3.2.3 -- Clear user vote
-    app.get('/api/clear-vote/:sessionID/:username', async (req, res) => {
-
-        const { sessionID, username } = req.params
-
-        try {
-// 3.2.3.1 -- Retrieve session info for session from LIVE_USERS
-            const sessionUsersArray = DB.LIVE_USERS.filter(u => u.session === sessionID)
-
-// 3.2.3.2 -- Clear user's vote in their object in LIVE_USERS
-            const userInstance = sessionUsersArray.find(u => u.name === username)
-            userInstance['vote'] = null
-
-            res.status(200).send('Success')
-
-        } catch (error) {
-            console.error('An error occurred:', error)
-            res.status(500).send('Internal Server Error')
-        }
-
-    })
-
-// 3.3 -- Check for group selection
-    app.get('/api/check-votes/:sessionID', async (req, res) => {
-
-        const { sessionID } = req.params
-
-// 3.3.1 ---- Check if all votes are cast
-// 3.3.1.1 -- Retrieve session info for session from LIVE_USERS
-        const sessionUsersArray = DB.LIVE_USERS.filter(u => u.session === sessionID)
-
-// 3.3.1.2 -- Compare total active users with total votes cast
-        const activeUsers = sessionUsersArray.length
-        const activeVotes = sessionUsersArray.filter(user => user.vote !== null)
-        const totalVotes = activeVotes.length
-        let popularVote = ''
-
-// 3.3.1.3 -- If not all users have voted, exit.
-        if (totalVotes !== activeUsers) {
-            popularVote = 'null'
-        }
-
-        if (totalVotes === activeUsers ) {
-
-// 3.3.2 ---- Calculate the most common vote (this is the group selection)
-// 3.3.2.1 -- Count the occurrences of each choice
-            const voteCounts = {};
-            
-            for (const voteObj of activeVotes) {
-                const vote = voteObj.vote;
-                (voteCounts[vote]) ? voteCounts[vote]++ : voteCounts[vote] = 1;
-            }
-
-// 3.3.2.2 -- Find the most common choice(s)
-            let highestCount = 0;
-
-            for (const vote in voteCounts) {
-                if (voteCounts[vote] > highestCount) {
-                    highestCount = voteCounts[vote];
-                    popularVote = vote;
-                }
-            }
-
-// 3.3.2.3 -- If there is a tie, randomly choose one of the top choices
-            const tiedOptions = Object.keys(voteCounts).filter(vote => voteCounts[vote] === highestCount)
-            if (tiedOptions.length > 1) {
-                const randomNum = Math.floor(Math.random() * tiedOptions.length)
-                popularVote = tiedOptions[randomNum]
-            }
-
-        }
-
-        res.json({groupSelection: popularVote})
-    })
     
+// 3.4 ---- Close the session
 // 3.4.1 -- End sesion in Mongo DB and Live Servers
     app.get('/api/close-session/:sessionID/:groupSelection', async (req, res) => {
 
@@ -184,6 +78,83 @@ function pageSetup(app) {
     })
 
 }
+
+// 3.2 -- Record votes on pages and servers
+function userVote(msg) {
+    
+// 3.2.2 -- Send vote through WebSocket
+    const { username, session, vote } = msg
+
+// 3.2.2.1 -- Add/update user's vote in their object in LIVE_USERS
+    const userInstance = DB.LIVE_USERS.find(u => u.name === username)
+    userInstance['vote'] = vote
+
+// 3.2.2.2 -- Create a new option in LIVE_SESSIONS if new
+    if (vote) {
+        const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === session)
+        const sessionOptionsArray = sessionInstance['options']
+        const optionExists = sessionOptionsArray.find(option => option === vote)
+        if (!optionExists) {
+            sessionOptionsArray.push(vote)
+        }
+    }
+}
+
+// 3.3 -- Check for group selection
+function checkVotes(msg) {
+
+// 3.3.1 -- Send session through WebSocket
+    const { session } = msg
+
+// 3.3.1 ---- Check if all votes are cast
+// 3.3.1.1 -- Retrieve session info for session from LIVE_USERS
+    const sessionUsersArray = DB.LIVE_USERS.filter(u => u.session === session)
+
+// 3.3.1.2 -- Compare total active users with total votes cast
+    const activeUsers = sessionUsersArray.length
+    const activeVotes = sessionUsersArray.filter(user => user.vote !== null)
+    const totalVotes = activeVotes.length
+    let popularVote = ''
+
+// 3.3.1.3 -- If not all users have voted, exit.
+    if (totalVotes !== activeUsers) {
+        popularVote = null
+    }
+
+    if (totalVotes === activeUsers ) {
+
+// 3.3.2 ---- Calculate the most common vote (this is the group selection)
+// 3.3.2.1 -- Count the occurrences of each choice
+        const voteCounts = {};
+        
+        for (const voteObj of activeVotes) {
+            const vote = voteObj.vote;
+            (voteCounts[vote]) ? voteCounts[vote]++ : voteCounts[vote] = 1;
+        }
+
+// 3.3.2.2 -- Find the most common choice(s)
+        let highestCount = 0;
+
+        for (const vote in voteCounts) {
+            if (voteCounts[vote] > highestCount) {
+                highestCount = voteCounts[vote];
+                popularVote = vote;
+            }
+        }
+
+// 3.3.2.3 -- If there is a tie, randomly choose one of the top choices
+        const tiedOptions = Object.keys(voteCounts).filter(vote => voteCounts[vote] === highestCount)
+        if (tiedOptions.length > 1) {
+            const randomNum = Math.floor(Math.random() * tiedOptions.length)
+            popularVote = tiedOptions[randomNum]
+        }
+
+    }
+
+// 3. ---- Return group selection
+    return popularVote
+}
+
 
 // =============================================================================
 // Supporting Functions
@@ -248,4 +219,7 @@ function generateRecommendationHTML(category) {
 // Function Exports to Server
 // =============================================================================
 
-module.exports = { pageSetup }
+module.exports = { pageSetup,
+    userVote,
+    checkVotes
+}

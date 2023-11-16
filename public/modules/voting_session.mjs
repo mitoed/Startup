@@ -6,11 +6,74 @@ let countdownTimer;
 let isCountdownRunning = false
 
 // =============================================================================
+// WebSocket Configuration
+// =============================================================================
+
+// Adjust the WebSocket protocol to what is being used for HTTP
+const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+
+// 6.1 -- User joins session
+socket.onopen = (event) => {
+    const username = localStorage.getItem('currentUser')
+    const session = localStorage.getItem('currentSessionID')
+    const wsMsg = {
+        "type": "addUser",
+        "session": session,
+        "username": username
+    }
+    socket.send(JSON.stringify(wsMsg))
+}
+
+// 6.2 -- User leaves session
+socket.onclose = (event) => {
+    const username = localStorage.getItem('currentUser')
+    const wsMsg = {
+     "type": "removeUser",
+     "username": username
+    }
+    socket.send(JSON.stringify(wsMsg))
+}
+
+// Direct WebSocket messages received from server
+socket.onmessage = async (event) => {
+    const text = await event.data
+    console.log(text)
+    const data = JSON.parse(text)
+    const type = data['type']
+
+    switch (type) {
+        case 'refreshPage':
+            pagePopulation()
+            break
+        case 'startCountdown':
+            resetCountdown(true, data.delay, data.selection);
+            break
+        case 'stopCountdown':
+            resetCountdown(false)
+            break
+    }
+}
+
+// =============================================================================
 // 3.1 Populate page and connect to servers
 // =============================================================================
 
+sendEntryMsg()
 pagePopulation()
 internetRecommendation()
+
+function sendEntryMsg() {
+    // Display that we have opened the WebSocket
+    socket.onopen = (event) => {
+        const sessionID = localStorage.getItem('currentSessionID')
+        const wsMsg = {
+            "type": "userJoin",
+            "session": sessionID
+        }
+        socket.send(JSON.stringify(wsMsg))
+    }
+}
 
 async function pagePopulation() {
 
@@ -21,7 +84,7 @@ async function pagePopulation() {
         document.getElementById('session_id').innerHTML = `Session ID: ${sessionID}`;
 
 // 3.1.2 -- Retrieve list of voting options from LIVE_SESSIONS
-// 3.1.3 -- Count list of active users in session from LIVE_USRS
+// 3.1.3 -- Count list of active users in session from LIVE_USERS
 // 3.1.4 -- Produce table of options and datalist html
 // 3.1.5 -- Produce internet recommendation html
         const response = await fetch(`/api/populate-page/${sessionID}`)
@@ -43,9 +106,9 @@ async function pagePopulation() {
     }
 }
 
+// 3.1.7 -- Populate and display internet recommendation
 async function internetRecommendation() {
 
-// 3.1.7 ---- Populate and display internet recommendation
 // 3.1.7.1 -- Populate recommendation html based on category
     const sessionID = localStorage.getItem('currentSessionID')
     const response = await fetch(`/api/internet-recommendation/${sessionID}`)
@@ -57,7 +120,7 @@ async function internetRecommendation() {
 }
 
 // =============================================================================
-// 3.2 Record votes and page and servers
+// 3.2 Record votes in page and servers
 // =============================================================================
 
 // Assign the function to the Finalize Vote button
@@ -66,48 +129,46 @@ const finalize_vote_button = document.getElementById('finalize_vote')
 finalize_vote_button.onclick = function (event) {
     event.preventDefault();
 
-    finalizeVote()
+    // Record vote in Live Servers
+    updateVotes()
 }
 
-async function finalizeVote() {
+// Assign the function to the Clear Vote button
+const clear_vote_button = document.getElementById('clear_vote')
+
+clear_vote_button.onclick = function (event) {
+    event.preventDefault();
+
+    // Clear the input box
+    document.getElementById('vote_selection').value = ''
+    
+    // Clear vote in Live Server
+    updateVotes()
+}
+
+async function updateVotes() {
     try {
 
 // 3.2.1 -- Gather selection from user input
         const sessionID = localStorage.getItem('currentSessionID')
-        const currentUser = localStorage.getItem('currentUser')
-        const newVote = document.getElementById('vote_selection').value.trim() || 'null'
-        const pastVote = localStorage.getItem('voteSelection') || 'null'
+        const username = localStorage.getItem('currentUser')
+        const userVote = document.getElementById('vote_selection').value.trim() || null
+        const pastVote = localStorage.getItem('voteSelection') || null
 
         // Just stop if vote has not changed
-        if (newVote === pastVote ) {
+        if (userVote === pastVote ) {
             return
         }
 
-// 3.2.2 -- Add user vote
-        if (newVote !== 'null') {
-            
-// 3.2.2.1 -- Retrieve session info from LIVE SERVER
-// 3.2.2.2 -- Update the session info
-            const response = await fetch(`/api/record-vote/${sessionID}/${currentUser}/${newVote}`)
-
-            if (response.ok) {
-                localStorage.setItem('voteSelection', newVote)
-
-// 3.2.2.3 ---- Display updated data on page
-                pagePopulation()
-
-// 3.2.2.4 ---- Proceed to 3.3
-                checkVotes()
-
-            } else {
-                throw new Error('Status code:', response.status)
-            }
+// 3.2.2 ---- Record vote through WebSocket
+        localStorage.setItem('voteSelection', userVote)
+        const wsMsg = {
+            "type": "userVote",
+            "username": username,
+            "session": sessionID,
+            "vote": userVote
         }
-        
-// 3.2.3 -- Clear user vote (see below)
-        if (newVote === 'null') {
-            clearVote(sessionID, currentUser)
-        }
+        socket.send(JSON.stringify(wsMsg))
 
         // Unexpected errors
     } catch (error) {
@@ -117,73 +178,13 @@ async function finalizeVote() {
 
 }
 
-// Assign the function to the Clear Vote button
-const clear_vote_button = document.getElementById('clear_vote')
-
-clear_vote_button.onclick = function (event) {
-    event.preventDefault();
-
-    clearVote()
-}
-
-// 3.2.3 -- Clear user vote
-async function clearVote(sessionID = '', currentUser = '') {
-
-    sessionID = sessionID || localStorage.getItem('currentSessionID')
-    currentUser = currentUser || localStorage.getItem('currentUser')
-
-// 3.2.3.1 -- Retrieve session info from LIVE SERVER
-// 3.2.3.2 -- Clear user's vote in their object in LIVE SERVER
-    const response = await fetch(`/api/clear-vote/${sessionID}/${currentUser}`)
-
-    if (response.ok) {
-        localStorage.removeItem('voteSelection')
-        document.getElementById('vote_selection').value = ''
-
-// 3.2.3.3 -- Display updated data on page
-        pagePopulation()
-
-// 3.2.3.4 -- Clear any timer started from 3.3.3
-        resetCountdown(false)
-    }
-}
-
-// =============================================================================
-// 3.3 Check for group selection
-// =============================================================================
-
-async function checkVotes() {
-
-    const sessionID = localStorage.getItem('currentSessionID')
-
-// 3.3.1 -- Check if all votes are cast
-// 3.3.2 -- Calculate the most common vote (this is the group selection)
-    const response = await fetch(`/api/check-votes/${sessionID}`)
-    const { groupSelection } = await response.json()
-
-    // If all votes are cast...
-    if (groupSelection !== 'null') { 
-
-// 3.3.3 -- Countdown timer until group selection declared
-        const delayInSeconds = 10
-        
-// 3.3.3.1 -- When timer finishes, proceed to 3.5
-        resetCountdown(true, delayInSeconds, closeSession, sessionID, groupSelection);
-    }
-
-    if (groupSelection === 'null') {
-        
-// 3.3.3.2 -- If votes are changed, cancel timer
-        resetCountdown(false)
-    }
-
-}
-
 // =============================================================================
 // 3.4 Close the session
 // =============================================================================
 
-async function closeSession(sessionID, groupSelection) {
+async function displaySelection(groupSelection) {
+
+    const sessionID = localStorage.getItem('currentSessionID')
 
 // 3.4.1 -- End session in Mongo DB and Live Servers
     const response = await fetch(`/api/close-session/${sessionID}/${groupSelection}`)
@@ -321,11 +322,9 @@ function disableCastVoteButton() {
 /** Function to start the countdown
  * 
  * @param {number} duration - seconds to be delayed
- * @param {function} onCountdownFinished - ran when countdown is complete
- * @param {*} parameter1 - parameter 1 for function
- * @param {*} parameter2 - parameter 2 for function
+ * @param {string} groupSelection - voting selection to be displayed at end of timer
  */
-function startCountdown(duration, onCountdownFinished, parameter1, parameter2) {
+function triggerCountdown(duration, groupSelection) {
     
     isCountdownRunning = true
     let countdown = duration;
@@ -339,9 +338,10 @@ function startCountdown(duration, onCountdownFinished, parameter1, parameter2) {
         const finalizeMsg = document.getElementById('finalize_msg')
         finalizeMsg.innerHTML = `Group selection in ${countdown}`
 
+        // Stop the timer and display the group selection on screen (3.4.2)
         if (countdown === 0) {
-            clearInterval(countdownTimer); // Stop the timer
-            onCountdownFinished(parameter1, parameter2); // Call the provided function when the countdown is finished
+            clearInterval(countdownTimer);
+            displaySelection(groupSelection);
         }
     }, 1000); // Update countdown every 1 second
 }
@@ -350,20 +350,22 @@ function startCountdown(duration, onCountdownFinished, parameter1, parameter2) {
  * 
  * @param {boolean} begin - if true, restarts timer; if false, stops timer
  * @param {number} duration - seconds to be delayed
- * @param {function} onCountdownFinished - ran when countdown is complete
- * @param {*} parameter1 - parameter 1 for function
- * @param {*} parameter2 - parameter 2 for function
+ * @param {string} groupSelection - voting selection to be displayed at end of timer
  */
-function resetCountdown(begin, duration = '', onCountdownFinished = '', parameter1 = '', parameter2 = '') {
+function resetCountdown(begin, duration = '', groupSelection = '') {
+
+    // Clear the existing timer if it exists
     if (isCountdownRunning) {
-        clearInterval(countdownTimer); // Clear the existing timer if it exists
+        clearInterval(countdownTimer);
         isCountdownRunning = false
     }
 
+    // Start the countdown on screen
     if (begin) {
-        startCountdown(duration, onCountdownFinished, parameter1, parameter2);
+        triggerCountdown(duration, groupSelection);
+    
+    // Remove countdown on the screen
     } else {
-        // Remove countdown on the screen
         const finalizeMsg = document.getElementById('finalize_msg')
         finalizeMsg.innerHTML = ''
     }

@@ -3,19 +3,41 @@ const classes = require('./classes.js')
 
 function pageSetup(app) {
 
-// 3.1 -- Populate page and connect to servers
-    app.get('/api/populate-page/:sessionID', async (req, res) => {
+// =============================================================================
+// 3.1 -- Join session and configure WebSocket
+// =============================================================================
+
+// 3.1.2 -- See Below
+
+// 3.1.6 ---- Populate and display internet recommendation
+// 3.1.6.1 -- Populate recommendation html based on category
+app.get('/api/internet-recommendation/:sessionID', async (req, res) => {
+    const { sessionID } = req.params
+
+// 3.1.6.1.1 -- Retrieve session info from from LIVE SERVER
+    const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
+
+// 3.1.6.1.2 -- Produce internet recommendation html
+    const recommendationHTML = generateRecommendationHTML(sessionInstance.category)
+
+    res.json({recommendation: recommendationHTML})
+})
+
+// =============================================================================
+// 3.2 -- Refresh page HTML
+// =============================================================================
+    app.get('/api/page-html/:sessionID', async (req, res) => {
         
         const { sessionID } = req.params
 
-// 3.1.2 -- Retrieve session info from LIVE_SESSIONS
+// 3.2.1 -- Retrieve session info from LIVE_SESSIONS
         const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
 
-// 3.1.3 -- Get list of users in session from LIVE_USERS
+// 3.2.2 -- Get list of users in session from LIVE_USERS
         const sessionUsersArray = DB.LIVE_USERS.filter(u => u.session === sessionID)
         const numSessionUsers = sessionUsersArray.length
 
-// 3.1.4 -- Produce table of options and datalist html
+// 3.2.3 -- Produce table of options and datalist html
         const sessionOptionsArray = sessionInstance['options']
         const optionsHTML = generateTableHTML(sessionOptionsArray, sessionUsersArray)
 
@@ -24,32 +46,26 @@ function pageSetup(app) {
         })
     })
 
-// 3.1.7.1 -- Populate recommendation html based on category
-    app.get('/api/internet-recommendation/:sessionID', async (req, res) => {
-        const { sessionID } = req.params
+// =============================================================================
+// 3.3 & 3.4 -- See below
+// =============================================================================
 
-// 3.1.7.1.1 -- Retrieve session info from from LIVE SERVER
-        const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
+// =============================================================================
+// 3.5 -- Close the session
+// =============================================================================
 
-// 3.1.7.1.2 -- Produce internet recommendation html
-        const recommendationHTML = generateRecommendationHTML(sessionInstance.category)
-
-        res.json({recommendation: recommendationHTML})
-    })
-    
-// 3.4 ---- Close the session
-// 3.4.1 -- End sesion in Mongo DB and Live Servers
+// 3.5.1 -- End sesion in Mongo DB and Live Servers
     app.get('/api/close-session/:sessionID/:groupSelection', async (req, res) => {
 
         const { sessionID, groupSelection } = req.params
 
-// 3.4.1.1 -- End session in LIVE_SESSIONS (unless it's the sample session)
+// 3.5.1.1 -- End session in LIVE_SESSIONS (unless it's the sample session)
         const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
         if (sessionID !== 'SAMPLE') {
             sessionInstance.end_time = Date.now()
         }
 
-// 3.4.1.2 -- Remove users in session from LIVE_USERS (unless it's the sample session)
+// 3.5.1.2 -- Remove users in session from LIVE_USERS (unless it's the sample session)
         if (sessionID !== 'SAMPLE') {
             let iUser = 0
             do {
@@ -61,16 +77,16 @@ function pageSetup(app) {
             } while (iUser < DB.LIVE_USERS.length)
         }
 
-// 3.4.1.3 -- End session in Mongo DB (after adding any new voting options)
+// 3.5.1.3 -- End session in Mongo DB (after adding any new voting options)
         DB.endSession(sessionID, sessionInstance.category, sessionInstance.options)
 
-// 3.4.1.4 -- Update user information in Mongo DB
-// 3.4.1.4.1 -- Increment user's total sessions
+// 3.5.1.4 -- Update user information in Mongo DB
+// 3.5.1.4.1 -- Increment user's total sessions
         const sessionUsersArray = DB.LIVE_USERS.filter(u => u.session === sessionID)
         const allUsers = sessionUsersArray.map(obj => obj.name)
 
-// 3.4.1.4.2 -- If user picked group selection, increment user's sessions won
-        const winUsers = sessionUsersArray.filter(u => u.vote === groupSelection).map(obj => obj.name)
+// 3.5.1.4.2 -- If user picked group selection, increment user's sessions won
+       const winUsers = sessionUsersArray.filter(u => u.vote === groupSelection).map(obj => obj.name)
 
         DB.updateUsers(allUsers, winUsers)
 
@@ -79,19 +95,24 @@ function pageSetup(app) {
 
 }
 
+// =============================================================================
+// 3.1 -- Join session and configure WebSocket
+// =============================================================================
+
+// 3.1.2 -- Add/update user in LIVE_USERS
 function userToLiveUsers(sessionID, username) {
 
-    // Check if user is already in LIVE_USERS
+// 3.1.2.1 -- Check if user is already in LIVE_USERS
     const userActive = DB.LIVE_USERS.find(u => u.name === username)
 
-    // If not, add user LIVE_USERS
+// 3.1.2.2 -- If not, add user LIVE_USERS
     if (!userActive) {
         // Add user to the active users array
         DB.LIVE_USERS.push({name: username, session: sessionID, vote: null})
         return
     }
         
-    // If so, change session and remove user's previous vote in LIVE_USERS
+// 3.1.2.3 -- If so, change session and remove user's previous vote in LIVE_USERS
     if (userActive) {
         userActive['session'] = sessionID
         userActive['vote'] = null
@@ -99,25 +120,26 @@ function userToLiveUsers(sessionID, username) {
     }
 }
 
+// 3.1.3 -- Upon closing, remove user from LIVE_USERS
 function userFromLiveUsers(username) {
-
-    // Remove user from LIVE_USERS
     const iUser = DB.LIVE_USERS.indexOf(u => u.name === username)
     DB.LIVE_USERS.splice(iUser, 1)
-
 }
 
-// 3.2 -- Record votes on pages and servers
+// =============================================================================
+// 3.3 -- Record votes on page and servers
+// =============================================================================
+
 function userVote(msg) {
     
-// 3.2.2 -- Send vote through WebSocket
+// 3.3.2 -- Send vote through WebSocket
     const { username, session, vote } = msg
 
-// 3.2.2.1 -- Add/update user's vote in their object in LIVE_USERS
+// 3.3.2.1 -- Add/update user's vote in their object in LIVE_USERS
     const userInstance = DB.LIVE_USERS.find(u => u.name === username)
     userInstance['vote'] = vote
 
-// 3.2.2.2 -- Create a new option in LIVE_SESSIONS if new
+// 3.3.2.2 -- Create a new option in LIVE_SESSIONS if needed
     if (vote) {
         const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === session)
         const sessionOptionsArray = sessionInstance['options']
@@ -128,31 +150,32 @@ function userVote(msg) {
     }
 }
 
-// 3.3 -- Check for group selection
+// =============================================================================
+// 3.4 -- Check for group selection
+// =============================================================================
+
 function checkVotes(msg) {
 
-// 3.3.1 -- Send session through WebSocket
+// 3.4.1 ---- Check if all votes are cast
+// 3.4.1.1 -- Retrieve session info for session from LIVE_USERS
     const { session } = msg
-
-// 3.3.1 ---- Check if all votes are cast
-// 3.3.1.1 -- Retrieve session info for session from LIVE_USERS
     const sessionUsersArray = DB.LIVE_USERS.filter(u => u.session === session)
 
-// 3.3.1.2 -- Compare total active users with total votes cast
+// 3.4.1.2 -- Compare total active users with total votes cast
     const activeUsers = sessionUsersArray.length
     const activeVotes = sessionUsersArray.filter(user => user.vote !== null)
     const totalVotes = activeVotes.length
     let popularVote = ''
 
-// 3.3.1.3 -- If not all users have voted, exit.
+// 3.4.1.3 -- If not all users have voted, exit.
     if (totalVotes !== activeUsers) {
         popularVote = null
     }
 
     if (totalVotes === activeUsers ) {
 
-// 3.3.2 ---- Calculate the most common vote (this is the group selection)
-// 3.3.2.1 -- Count the occurrences of each choice
+// 3.4.2 ---- Calculate the most common vote (this is the group selection)
+// 3.4.2.1 -- Count the occurrences of each choice
         const voteCounts = {};
         
         for (const voteObj of activeVotes) {
@@ -160,7 +183,7 @@ function checkVotes(msg) {
             (voteCounts[vote]) ? voteCounts[vote]++ : voteCounts[vote] = 1;
         }
 
-// 3.3.2.2 -- Find the most common choice(s)
+// 3.4.2.2 -- Find the most common choice(s)
         let highestCount = 0;
 
         for (const vote in voteCounts) {
@@ -170,16 +193,14 @@ function checkVotes(msg) {
             }
         }
 
-// 3.3.2.3 -- If there is a tie, randomly choose one of the top choices
+// 3.4.2.3 -- If there is a tie, randomly choose one of the top choices
         const tiedOptions = Object.keys(voteCounts).filter(vote => voteCounts[vote] === highestCount)
         if (tiedOptions.length > 1) {
             const randomNum = Math.floor(Math.random() * tiedOptions.length)
             popularVote = tiedOptions[randomNum]
         }
-
     }
 
-// 3. ---- Return group selection
     return popularVote
 }
 
@@ -240,7 +261,6 @@ function generateRecommendationHTML(category) {
     const recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${categoryPlural}+${extraConditions}`
     const recommendationHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the top <span>${recommendationType}</span> ${categoryPlural}<br>on Google.com</p>`
     return recommendationHTML
-    
 }
 
 // =============================================================================

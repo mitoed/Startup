@@ -3,7 +3,10 @@ const classes = require('./classes.js')
 
 function pageSetup(app) {
     
+// =============================================================================
 // 2.1 -- Enter a session with a session ID
+// =============================================================================
+
     app.get('/api/join-session/:username/:sessionID', async (req, res) => {
         
 // 2.1.1 -- Gather session ID inputted from Enter Session page
@@ -31,7 +34,10 @@ function pageSetup(app) {
         }
     })
 
+// =============================================================================
 // 2.2 -- Create a session based on a category
+// =============================================================================
+
     app.get('/api/create-session/:username/:category', async (req, res) => {
 
 // 2.2.1 -- Gather category selected by user from Enter Session page
@@ -43,13 +49,13 @@ function pageSetup(app) {
         const newSessionID = createSessionID(category)
         const newSessionInstance = new classes.Session(newSessionID, category)
 
-// 2.2.2.3 -- Begin to update the Mongo DB with new session info
+// 2.2.2.2 -- Begin to update the Mongo DB with new session info
         DB.addMongoSession(newSessionInstance)
 
-// 2.2.2.4 -- Request options list from Mongo DB
+// 2.2.2.3 -- Request options list from Mongo DB
         const sessionOptions = await DB.getMongoOptions(category)
 
-// 2.2.2.5 -- Add the new session to LIVE_SESSIONS (including options list)
+// 2.2.2.4 -- Add the new session to LIVE_SESSIONS (including options list)
         newSessionInstance['options'] = sessionOptions
         DB.LIVE_SESSIONS.push(newSessionInstance)
 

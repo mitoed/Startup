@@ -31,19 +31,21 @@ function peerProxy(httpServer) {
         ws.on('message', function message(data) {
             const msg = JSON.parse(data)
 
-            // Tell each client to refresh their page and stop any countdown
+            // Tell each client to refresh their page (3.2) and stop any countdown (3.4.3.2)
             msgToAllClients(connections, refreshPageMsg)
             msgToAllClients(connections, stopCountdown)
 
-            // Run function based on message
-            if (msg.type === 'userVote') {
-                VS.userVote(msg)
-
-            } else if (msg.type === 'addUser') {
+            // 3.1.2 -- Add/Update user in LIVE_USERS
+            if (msg.type === 'addUser') {
                 VS.userToLiveUsers(msg.session, msg.username)
 
+            // 3.1.3 -- Upon closing, remove user from LIVE_USERS
             } else if (msg.type === 'removeUser') {
                 VS.userFromLiveUsers(msg.username)
+
+            // 3.2.2 -- Send vote through WebSocket
+            } else if (msg.type === 'userVote') {
+                VS.userVote(msg)
             }
 
             // 3.3 -- Check for group selection

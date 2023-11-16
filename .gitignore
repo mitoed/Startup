@@ -5,3 +5,5 @@
 /playwright/.cache/
 dummy_values.json
 api/dbConfig.json
+public/create_sample_values.js
+sample_values.json

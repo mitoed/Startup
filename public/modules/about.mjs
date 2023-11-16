@@ -1,5 +1,5 @@
 // =============================================================================
-// 4 Get quote for about page
+// 4.1 -- Get quote for about page
 // =============================================================================
 
 insertQuote()
@@ -11,8 +11,7 @@ async function insertQuote() {
     let citation
 
     try {
-
-// 4.1 ---- Get quote and citation
+        
 // 4.1.1 -- Send request through "Quotable" api
         const response = await fetch('https://api.quotable.io/random')
         const data = await response.json()

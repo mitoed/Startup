@@ -16,11 +16,7 @@ function pageSetup(app) {
 // 2.1.3 ---- If session is open, enter the session
         if (sessionInstance && sessionInstance.end_time === 0) {
 
-// 2.1.3.1 -- Begin to update the Mongo DB with the updated session info
-            //DB.userToMongoSession(sessionID, username)
-
-// 2.1.3.2 ---- User active in Live Server
-// 2.1.3.2.1 -- Check if user is already added in LIVE_USERS
+// 2.1.3.1 ---- User active in Live Server
             userToLiveUsers(sessionID, username)
 
             res.status(200).send('Session found')

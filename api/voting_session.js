@@ -155,7 +155,7 @@ function pageSetup(app) {
             sessionInstance.end_time = Date.now()
         }
 
-// 3.4.1.2 -- Remove users in session from LIVE_USERS(unless it's the sample session)
+// 3.4.1.2 -- Remove users in session from LIVE_USERS (unless it's the sample session)
         if (sessionID !== 'SAMPLE') {
             let iUser = 0
             do {

@@ -38,7 +38,6 @@ socket.onclose = (event) => {
 // 3.1.4 -- Direct WebSocket messages received from server
 socket.onmessage = async (event) => {
     const text = await event.data
-    console.log(text)
     const data = JSON.parse(text)
     const type = data['type']
 

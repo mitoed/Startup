@@ -67,14 +67,14 @@ async function addSampleData() {
 }
 
 // =============================================================================
-// Mongo DB and LIVE SERVER Initialization Functions
+// Mongo DB and Live Servers Initialization Functions
 // =============================================================================
 
 MASTERCONNECT()
 
 async function MASTERCONNECT() {
     await connectToDatabase()
-    await getLiveSessionsData()
+    await getLiveData()
 }
 
 // Begin connection with Mongo Database
@@ -88,7 +88,7 @@ async function connectToDatabase () {
 }
 
 // Request sessions data from Mongo DB and add to LIVE_SERVER array
-async function getLiveSessionsData() {
+async function getLiveData() {
 
     if (LIVE_SESSIONS.length === 0) {
         try {
@@ -96,8 +96,21 @@ async function getLiveSessionsData() {
             for await (const session of result) {
                 LIVE_SESSIONS.push(session)
             }
-            console.log('\nSuccessfully loaded LIVE SERVER from Mongo DB.')
-            return
+            console.log('\nSuccessfully loaded LIVE_SESSIONS from Mongo DB.')
+
+        } catch (ex) {
+            console.log(`\nUnable to connect to database with ${url} because ${ex.message}`);
+            process.exit(1);
+        }
+    }
+
+    if (LIVE_USERS.length === 0) {
+        try {
+            const data = await loadSampleData()
+            for await (const user of data.LIVE_USERS){
+                LIVE_USERS.push(user)
+            }
+            console.log('\nSuccessfully loaded LIVE_USERS from sample data')
 
         } catch (ex) {
             console.log(`\nUnable to connect to database with ${url} because ${ex.message}`);

@@ -43,14 +43,12 @@ class Session {
      * @param {string} session_id 
      * @param {string} category 
      * @param {string} category_array 
-     * @param {array} active_users_array - {user: <username>, vote: <current_vote>}
      * @param {integer} start_time 
      */
     constructor(session_id, category, category_array) {
         this.session_id = session_id
         this.category = category
         this.options = category_array
-        this.active_users_array = []
         this.start_time = Date.now()
         this.unpopular_opinion = ''
         this.end_time = 0
@@ -84,18 +82,6 @@ async function addUsers() {
 
 function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
     let fakeSession = new Session(fakeSessionID, fakeCategory, DB_CATEGORY)
-    const fakeUserArray = [
-        { name: 'BILLY', vote: 'Costa Vida' },
-        { name: 'JOE', vote: 'Five Sushi Bros' },
-        { name: 'SAMMY', vote: 'Good Move' },
-        { name: 'KATIE', vote: 'Burger Supreme' },
-        { name: 'BOB', vote: "Cubby's" },
-    ]
-    if (fakeSession.session_id === 'SAMPLE') {
-        for (let fakeUser of fakeUserArray) {
-            fakeSession.active_users_array.push(fakeUser)
-        }
-    }
     DB_SESSIONS.push(fakeSession)
 }
 
@@ -147,7 +133,7 @@ let listGAME = [
 addFakeSession('SAMPLE', 'food', listFOOD)
 addFakeSession("F7N7V4", 'food', listFOOD)
 addFakeSession("C7T4H9", 'food', listFOOD)
-addFakeSession("K4X6J2", 'movie', listMOVIE)
+addFakeSession("TEST", 'movie', listMOVIE)
 addFakeSession("N7T5Q6", 'movie', listMOVIE)
 addFakeSession("L3V9B4", 'movie', listMOVIE)
 addFakeSession("R7M0X2", 'game', listGAME)
@@ -166,6 +152,14 @@ function convertArrayToObjects(list) {
     return objectsArray
 }
 
+const DB_LIVE_USERS = [
+    { name: 'BILLY', session: 'SAMPLE', vote: 'Costa Vida' },
+    { name: 'JOE', session: 'SAMPLE', vote: 'Five Sushi Bros' },
+    { name: 'SAMMY', session: 'SAMPLE', vote: 'Good Move' },
+    { name: 'KATIE', session: 'SAMPLE', vote: 'Burger Supreme' },
+    { name: 'BOB', session: 'TEST', vote: "Cubby's" },
+]
+
 // =============================================================================
 // 
 // =============================================================================
@@ -175,14 +169,14 @@ async function createDummyJSON() {
     await addUsers()
 
     const sampleData = {
-        users: DB_USERS.map(user => ({
+        Mongo_USERS: DB_USERS.map(user => ({
             username: user.username,
             password_hash: user.password_hash,
             token: user.token,
             sessions_total: user.sessions_total,
             sessions_won: user.sessions_won,
         })),
-        sessions: DB_SESSIONS.map(session => ({
+        Mongo_LIVE_SESSIONS: DB_SESSIONS.map(session => ({
             session_id: session.session_id,
             category: session.category,
             options: session.options,
@@ -192,7 +186,8 @@ async function createDummyJSON() {
             end_time: session.end_time,
             group_selection: session.group_selection,
         })),
-        options: {
+        LIVE_USERS: DB_LIVE_USERS,
+        Mongo_OPTIONS: {
             food: convertArrayToObjects(listFOOD),
             game: convertArrayToObjects(listGAME),
             movie: convertArrayToObjects(listMOVIE)

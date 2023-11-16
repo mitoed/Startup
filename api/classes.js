@@ -46,15 +46,10 @@ class Session {
         this.session_id = session_id
         this.category = category
         this.options = category_array
-        this.active_users_array = []
         this.start_time = Date.now()
         this.unpopular_opinion = ''
         this.end_time = 0
         this.group_selection = ''
-    }
-
-    addActiveUser (userObject) {
-        this.active_users_array.push({ name: userObject, vote: null })
     }
 }
 
@@ -106,37 +101,6 @@ class VotingOption {
 // Supporting Functions
 // =============================================================================
 
-/** Creates a salt to be appended to password--used for password hashing
- * 
- * @returns salt for user
- */
-function generateSalt() {
-    const saltArray = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('')
-    let newSalt = []
-    for (let digit = 0; digit < 6; digit++) {
-        newSalt.push(randomDigit(saltArray))
-    }
-    return newSalt.join('')
-}
-
-/** Creates a hash of a salt + password combination
- * 
- * @param {string} password - what did the user enter as a password?
- * @param {string} salt - what salt should be used for hash?
- * @returns the final hash
- */
-function hashPassword(password, salt) {
-    let hash = 0
-    const saltyPassword = salt + password
-    if (saltyPassword.length === 0) return hash;
-    for (let i = 0; i < saltyPassword.length; i++) {
-        let chr = saltyPassword.charCodeAt(i);
-        hash = ((hash << 5) - hash) + chr;
-        hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-}
-
 /** Get random digit from an array */
 function randomDigit(digitArray) {
     return digitArray[Math.floor(Math.random() * digitArray.length)]
@@ -146,6 +110,5 @@ module.exports = {
     User,
     Session,
     VotingOption,
-    hashPassword,
     randomDigit
 }

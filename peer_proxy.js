@@ -31,30 +31,26 @@ function peerProxy(httpServer) {
         ws.on('message', function message(data) {
             const msg = JSON.parse(data)
 
-            // Interpret the msg and run appropriate code
-            switch (msg.type) {
+            // Tell each client to refresh their page and stop any countdown
+            msgToAllClients(connections, refreshPageMsg)
+            msgToAllClients(connections, stopCountdown)
 
-                case 'userVote':
-                    // 3.2 -- Record votes on page and servers
-                    VS.userVote(msg)
-
-                    // Tell each client to refresh their page and stop any countdown
-                    msgToAllClients(connections, refreshPageMsg)
-                    msgToAllClients(connections, stopCountdown)
-
-                    // 3.3 -- Check for group selection
-                    const groupSelection = VS.checkVotes(msg)
-                    if (groupSelection) {
-                        // If there's a group selection, tell all clients to start their countdowns
-                        const startCountdown = `{ "type": "startCountdown", "selection": "${groupSelection}", "delay": "10" }`
-                        msgToAllClients(connections, startCountdown)
-                    } else {
-                        // If there's no group selection, tell all clients to stop their countdowns
-                        msgToAllClients(connections, stopCountdown)
-                    }
-                    break
-            
+            // 3.2 -- Record votes on page and servers
+            if (msg.type === 'userVote') {
+                VS.userVote(msg) 
             }
+
+            // 3.3 -- Check for group selection
+            const groupSelection = VS.checkVotes(msg)
+            if (groupSelection) {
+                // If there's a group selection, tell all clients to start their countdowns
+                const startCountdown = `{ "type": "startCountdown", "selection": "${groupSelection}", "delay": "10" }`
+                msgToAllClients(connections, startCountdown)
+            } else {
+                // If there's no group selection, tell all clients to stop their countdowns
+                msgToAllClients(connections, stopCountdown)
+            }
+            
         })
 
         // Remove the closed connection so we don't try to forward anymore

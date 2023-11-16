@@ -79,6 +79,34 @@ function pageSetup(app) {
 
 }
 
+function userToLiveUsers(sessionID, username) {
+
+    // Check if user is already in LIVE_USERS
+    const userActive = DB.LIVE_USERS.find(u => u.name === username)
+
+    // If not, add user LIVE_USERS
+    if (!userActive) {
+        // Add user to the active users array
+        DB.LIVE_USERS.push({name: username, session: sessionID, vote: null})
+        return
+    }
+        
+    // If so, change session and remove user's previous vote in LIVE_USERS
+    if (userActive) {
+        userActive['session'] = sessionID
+        userActive['vote'] = null
+        return
+    }
+}
+
+function userFromLiveUsers(username) {
+
+    // Remove user from LIVE_USERS
+    const iUser = DB.LIVE_USERS.indexOf(u => u.name === username)
+    DB.LIVE_USERS.splice(iUser, 1)
+
+}
+
 // 3.2 -- Record votes on pages and servers
 function userVote(msg) {
     
@@ -219,7 +247,10 @@ function generateRecommendationHTML(category) {
 // Function Exports to Server
 // =============================================================================
 
-module.exports = { pageSetup,
+module.exports = {
+    pageSetup,
+    userToLiveUsers,
+    userFromLiveUsers,
     userVote,
     checkVotes
 }

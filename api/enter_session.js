@@ -43,9 +43,6 @@ function pageSetup(app) {
         const newSessionID = createSessionID(category)
         const newSessionInstance = new classes.Session(newSessionID, category)
 
-// 2.2.2.2 -- Add the user in LIVE_USERS (change session if active)
-        userToLiveUsers(newSessionID, username)
-        
 // 2.2.2.3 -- Begin to update the Mongo DB with new session info
         DB.addMongoSession(newSessionInstance)
 
@@ -83,7 +80,6 @@ function userToLiveUsers(sessionID, username) {
         userActive['vote'] = null
         return
     }
-
 }
 
 /** Create a session id and verify that it doesn't already exist

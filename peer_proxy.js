@@ -35,9 +35,15 @@ function peerProxy(httpServer) {
             msgToAllClients(connections, refreshPageMsg)
             msgToAllClients(connections, stopCountdown)
 
-            // 3.2 -- Record votes on page and servers
+            // Run function based on message
             if (msg.type === 'userVote') {
-                VS.userVote(msg) 
+                VS.userVote(msg)
+
+            } else if (msg.type === 'addUser') {
+                VS.userToLiveUsers(msg.session, msg.username)
+
+            } else if (msg.type === 'removeUser') {
+                VS.userFromLiveUsers(msg.username)
             }
 
             // 3.3 -- Check for group selection
@@ -50,7 +56,7 @@ function peerProxy(httpServer) {
                 // If there's no group selection, tell all clients to stop their countdowns
                 msgToAllClients(connections, stopCountdown)
             }
-            
+
         })
 
         // Remove the closed connection so we don't try to forward anymore
@@ -79,7 +85,7 @@ function peerProxy(httpServer) {
                 c.ws.ping()
             }
         })
-    }, 100000)
+    }, 5000)
 }
 
 

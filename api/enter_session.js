@@ -132,15 +132,20 @@ function randomSessionID(sessionCategory) {
     let digitArray2 = 'BCDFGHJKLMNPQRSTVWXZ'.split('')
     let digitArray3 = '23456789'.split('')
 
-    sessionString.push(classes.randomDigit(digitArray1))
-    sessionString.push(classes.randomDigit(digitArray3))
-    sessionString.push(classes.randomDigit(digitArray2))
-    sessionString.push(classes.randomDigit(digitArray3))
-    sessionString.push(classes.randomDigit(digitArray2))
-    sessionString.push(classes.randomDigit(digitArray3))
+    sessionString.push(randomDigit(digitArray1))
+    sessionString.push(randomDigit(digitArray3))
+    sessionString.push(randomDigit(digitArray2))
+    sessionString.push(randomDigit(digitArray3))
+    sessionString.push(randomDigit(digitArray2))
+    sessionString.push(randomDigit(digitArray3))
 
     sessionString = sessionString.join('')
     return sessionString
+}
+
+/** Get random digit from an array */
+function randomDigit(digitArray) {
+    return digitArray[Math.floor(Math.random() * digitArray.length)]
 }
 
 module.exports = { pageSetup }

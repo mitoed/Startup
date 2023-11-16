@@ -1,63 +1,81 @@
 const fs = require('fs');
 const bcrypt = require('bcrypt')
-const uuid = require('uuid')
+const sampleDirectory = './sample_values.json'
+const { MongoClient } = require('mongodb')
+const config = require('./dbConfig.json')
+const classes = require('../api/classes.js')
+
+// Access Mongo Database
+const url = `mongodb+srv://${config.username}:${config.password}@${config.hostname}`
+const client = new MongoClient(url)
+const sessionsCollection = client.db('voting').collection('sessions')
+const usersCollection = client.db('voting').collection('users')
 
 const DB_USERS = []
 const DB_SESSIONS = []
 
 // =============================================================================
-// CLASSES
+// Mongo Database Setup Functions -- Development Only
 // =============================================================================
 
-/** Represents a user with username, password hash, salt, current session details, and totals
- * 
- * @class
- */
-class User {
-    /** Creates a user instance
-     * 
-     * @constructor
-     * @param {string} username - username (always capitalized in DB)
-     * @param {string} password - never maintained but is used (with salt) to generate the password_hash
-     * @param {number} sessions_total - how many sessions has this user participated in?
-     * @param {number} sessions_won - how many times was this user's vote selected by the group?
-     */
-    constructor(username, password_hash, sessions_total = 0, sessions_won = 0) {
-        this.username = username
-        this.password_hash = password_hash
-        this.token = uuid.v4()
-        this.sessions_total = sessions_total
-        this.sessions_won = sessions_won
-    }
+// START ME TO RESET MONGO DB TO DEFAULT VALUES
+resetMongo()
 
+async function resetMongo() {
+    try {
+
+        // This will completely clear user and session collections
+        await clearMongoDB()
+
+        // This will add sample values to user and session collections
+        await addSampleData()
+        
+    } catch (ex) {
+        console.log('\nSomething went wrong:', ex.message)
+    }
 }
 
-/** Represents a session with the sesssion id, the category, the list of options, when it started/ended,
- * what was an unpopular opinion (if any), and what was the winning vote.
- * 
- * @class
- */
-class Session {
-    /** Creates a new session instance.
-     * 
-     * @param {string} session_id 
-     * @param {string} category 
-     * @param {string} category_array 
-     * @param {integer} start_time 
-     */
-    constructor(session_id, category, category_array) {
-        this.session_id = session_id
-        this.category = category
-        this.options = category_array
-        this.start_time = Date.now()
-        this.unpopular_opinion = ''
-        this.end_time = 0
-        this.group_selection = ''
-    }
+async function clearMongoDB() {
+    try {
+        await usersCollection.deleteMany()
+        await sessionsCollection.deleteMany()
+        console.log('\nCleared all Mongo collections')
 
-    addActiveUser (userObject) {
-        this.active_users_array.push({ name: userObject, vote: null })
+    } catch (err) {
+        console.error(`\nError clearing the database: ${err}`)
     }
+}
+
+async function addSampleData() {
+    try {
+        const { Mongo_USERS, Mongo_LIVE_SESSIONS } = await loadSampleData()
+
+        let result = await usersCollection.insertMany(Mongo_USERS)
+        console.log('\nSuccessfully added ', result.insertedCount, 'users')
+
+        result = await sessionsCollection.insertMany(Mongo_LIVE_SESSIONS)
+        console.log('\nSuccessfully added ', result.insertedCount, 'sessions')
+
+        console.log('\nMongo DB has been reset to sample values.')
+
+    } catch (err) {
+        console.error(`Error adding options to the database: ${err}`)
+    }
+}
+
+function loadSampleData() {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Access sample data
+            const jsonData = await fs.promises.readFile(sampleDirectory, 'utf8');
+            const data = JSON.parse(jsonData);
+            resolve(data); // Resolve the promise with the data.
+
+        } catch (error) {
+            console.log('Internal Server Error: cannot connect to database');
+            reject(error); // Reject the promise in case of an error.
+        }
+    });
 }
 
 // =============================================================================
@@ -66,9 +84,8 @@ class Session {
 
 async function addFakeUser(fakeUserName, fakePassword, fakeTotal, fakeWon) {
     const fakeHash = await bcrypt.hash(fakePassword, 10)
-    let fakeUser = new User(fakeUserName, fakeHash, fakeTotal, fakeWon)
+    let fakeUser = new classes.User(fakeUserName, fakeHash, fakeTotal, fakeWon)
     DB_USERS.push(fakeUser)
-
 }
 
 async function addUsers() {
@@ -81,7 +98,7 @@ async function addUsers() {
 }
 
 function addFakeSession(fakeSessionID, fakeCategory, DB_CATEGORY) {
-    let fakeSession = new Session(fakeSessionID, fakeCategory, DB_CATEGORY)
+    let fakeSession = new classes.Session(fakeSessionID, fakeCategory, DB_CATEGORY)
     DB_SESSIONS.push(fakeSession)
 }
 
@@ -164,7 +181,10 @@ const DB_LIVE_USERS = [
 // 
 // =============================================================================
 
-async function createDummyJSON() {
+// Call the function to create and save the JSON file
+createSampleJSON();
+
+async function createSampleJSON() {
 
     await addUsers()
 
@@ -198,6 +218,3 @@ async function createDummyJSON() {
     const jsonContent = JSON.stringify(sampleData, null, 2);
     fs.writeFileSync('./sample_values.json', jsonContent);
 }
-
-// Call the function to create and save the JSON file
-createDummyJSON();

@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+// Initialize Module
 const uuid = require('uuid')
 
 // =============================================================================
@@ -53,62 +53,7 @@ class Session {
     }
 }
 
-/** Represents any given voting option, which is created from each entry from a session's category_array.
- * 
- * @class
- */
-class VotingOption {
-    /** Creates a new voting option instance
-     * 
-     * @param {string} option_name 
-     */
-    constructor(option_name) {
-        this.option_name = option_name
-    }
-    calculateVotes() {
-        const totalVotes = DB_USERS.filter(instance =>
-            (instance.active_session === currentSessionID && instance.active_vote === this.option_name)
-        ).length
-        return totalVotes
-    }
-
-    /** Using the option_name and the current votes, create html row for Table
-     * 
-     * @returns html for for Table
-     */
-    newHTMLTableRow() {
-        return `<tr><td>${this.option_name}</td><td>${this.calculateVotes()}</td></tr>`
-    }
-
-    /** Using the option_name and the current votes, create html row for Datalist
-     * 
-     * @returns html for for Datalist
-     */
-    newHTMLDatalistRow() {
-        return `<option value="${this.option_name}"></option>`
-    }
-
-    /** Adds "this" option to the appropriate category database
-     * 
-     * @param {array} DB_CATEGORY 
-     */
-    addToCategoryDatabase(DB_CATEGORY) {
-        DB_CATEGORY.push({ 'option_name': this.option_name, 'currentVotes': this.calculateVotes() })
-    }
-}
-
-// =============================================================================
-// Supporting Functions
-// =============================================================================
-
-/** Get random digit from an array */
-function randomDigit(digitArray) {
-    return digitArray[Math.floor(Math.random() * digitArray.length)]
-}
-
 module.exports = {
     User,
-    Session,
-    VotingOption,
-    randomDigit
+    Session
 }

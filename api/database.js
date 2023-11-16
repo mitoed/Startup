@@ -18,55 +18,6 @@ const LIVE_SESSIONS = []
 const LIVE_USERS = []
 
 // =============================================================================
-// Mongo Database Setup Functions -- Development Only
-// =============================================================================
-
-// START ME TO RESET MONGO DB TO DEFAULT VALUES
-//resetMongo()
-
-async function resetMongo() {
-    try {
-
-        // This will completely clear user and session collections
-        await clearMongoDB()
-
-        // This will add sample values to user and session collections
-        await addSampleData()
-        
-    } catch (ex) {
-        console.log('\nSomething went wrong:', ex.message)
-    }
-}
-
-async function clearMongoDB() {
-    try {
-        await usersCollection.deleteMany()
-        await sessionsCollection.deleteMany()
-        console.log('\nCleared all Mongo collections')
-
-    } catch (err) {
-        console.error(`\nError clearing the database: ${err}`)
-    }
-}
-
-async function addSampleData() {
-    try {
-        const { Mongo_USERS, Mongo_LIVE_SESSIONS } = await loadSampleData()
-
-        let result = await usersCollection.insertMany(Mongo_USERS)
-        console.log('\nSuccessfully added ', result.insertedCount, 'users')
-
-        result = await sessionsCollection.insertMany(Mongo_LIVE_SESSIONS)
-        console.log('\nSuccessfully added ', result.insertedCount, 'sessions')
-
-        console.log('\nMongo DB has been reset to sample values.')
-
-    } catch (err) {
-        console.error(`Error adding options to the database: ${err}`)
-    }
-}
-
-// =============================================================================
 // Mongo DB and Live Servers Initialization Functions
 // =============================================================================
 
@@ -298,29 +249,6 @@ async function updateUsers(allUsers, winUsers) {
         await session.endSession()
         return
     }
-}
-
-// =============================================================================
-// SUPPORTING FUNCTIONS
-// =============================================================================
-
-/**
- * Load data from database
- */
-function loadSampleData() {
-    return new Promise(async (resolve, reject) => {
-        try {
-            // Access sample data
-
-            const jsonData = await fs.promises.readFile(sampleDirectory, 'utf8');
-            const data = JSON.parse(jsonData);
-            resolve(data); // Resolve the promise with the data.
-
-        } catch (error) {
-            console.log('Internal Server Error: cannot connect to database');
-            reject(error); // Reject the promise in case of an error.
-        }
-    });
 }
 
 module.exports = {

@@ -70,6 +70,21 @@ async function getLiveData() {
     }
 }
 
+function loadSampleData() {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Access sample data
+            const jsonData = await fs.promises.readFile(sampleDirectory, 'utf8');
+            const data = JSON.parse(jsonData);
+            resolve(data); // Resolve the promise with the data.
+
+        } catch (error) {
+            console.log('Internal Server Error: cannot connect to database');
+            reject(error); // Reject the promise in case of an error.
+        }
+    });
+}
+
 // =============================================================================
 // Interacting with Mongo -- Login Page
 // =============================================================================

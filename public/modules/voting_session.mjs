@@ -59,21 +59,8 @@ socket.onmessage = async (event) => {
 // 3.1 Populate page and connect to servers
 // =============================================================================
 
-sendEntryMsg()
 pagePopulation()
 internetRecommendation()
-
-function sendEntryMsg() {
-    // Display that we have opened the WebSocket
-    socket.onopen = (event) => {
-        const sessionID = localStorage.getItem('currentSessionID')
-        const wsMsg = {
-            "type": "userJoin",
-            "session": sessionID
-        }
-        socket.send(JSON.stringify(wsMsg))
-    }
-}
 
 async function pagePopulation() {
 

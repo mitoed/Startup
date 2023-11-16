@@ -157,7 +157,7 @@ const DB_LIVE_USERS = [
     { name: 'JOE', session: 'SAMPLE', vote: 'Five Sushi Bros' },
     { name: 'SAMMY', session: 'SAMPLE', vote: 'Good Move' },
     { name: 'KATIE', session: 'SAMPLE', vote: 'Burger Supreme' },
-    { name: 'BOB', session: 'TEST', vote: "Cubby's" },
+    { name: 'BOB', session: 'TEST', vote: "Inception" },
 ]
 
 // =============================================================================

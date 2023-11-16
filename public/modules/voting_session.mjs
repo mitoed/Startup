@@ -44,7 +44,7 @@ socket.onmessage = async (event) => {
 
     switch (type) {
         case 'refreshPage':
-            pagePopulation()
+            refreshHTML()
             break
         case 'startCountdown':
             resetCountdown(true, data.delay, data.selection);

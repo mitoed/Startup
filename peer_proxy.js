@@ -85,7 +85,7 @@ function peerProxy(httpServer) {
                 c.ws.ping()
             }
         })
-    }, 5000)
+    }, 10000)
 }
 
 

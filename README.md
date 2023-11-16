@@ -156,9 +156,13 @@ About page
 
 ### WebSocket Deliverable
 
-### WebSocket To-Dos
+**Backend Listens For WebSocket Connection** - Done in peer_proxy.js file.
 
-- [ ]
+**Frontend makes WebSocket Connection** - Done in voting_session.mjs in the modules folder.
+
+**Data sent over WebSocket connection** - Clients send information including "entered session" and "vote cast". Server sends information telling clients to refresh the table html, counting down until the final decision is made, and displaying a winning selection.
+
+**WebSocket Data Displayed in the Application Interface** - WebSockets send the final group decision which is displayed at the end.
 
 ## React
 

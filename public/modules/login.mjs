@@ -1,29 +1,8 @@
-// =============================================================================
-// 5.2 Logout user
-// =============================================================================
-
-// 5.2.1 -- [Trigger] Upon loading Login page...
+// Trigger upon loading Login page...
 logout()
 
-async function logout() {
-
-// 5.2.2 ---- [Response] ... Logout for user
-// 5.2.2.1 -- [Action] Clear current data from local storage
-    localStorage.removeItem('currentUser')
-    localStorage.removeItem('currentSessionID')
-    localStorage.removeItem('voteSelection')
-
-// 5.2.2.2 -- [Action] Clear user token cookie
-    const response = await fetch('/api/auth/logout')
-
-// 5.2.2.3 -- [Action] Notify user of logout
-    if (response.status === 204) {
-        console.log('User successfully logged out.')
-    }
-}
-
 // =============================================================================
-// 1.1 Validate current user login
+// 1.1 -- Validate current user login
 // =============================================================================
 
 // Assign the function to the Login Button
@@ -69,7 +48,7 @@ async function validateLogin() {
 }
 
 // =============================================================================
-// 1.2 Create new user
+// 1.2 -- Create new user
 // =============================================================================
 
 // Assign the function to the Create User Button
@@ -119,5 +98,24 @@ async function createLogin() {
 // 1.2.6.2 -- Go to next page
         window.location.href = `./enter_session.html`
         return
+    }
+}
+
+// =============================================================================
+// 1.3 -- Logout user
+// =============================================================================
+
+async function logout() {
+
+// 1.3.1 -- Clear current data from local storage
+    localStorage.removeItem('currentUser')
+    localStorage.removeItem('currentSessionID')
+    localStorage.removeItem('voteSelection')
+
+// 1.3.2 -- Clear user token cookie
+    const response = await fetch('/api/auth/logout')
+
+    if (response.status === 204) {
+        console.log('User successfully logged out.')
     }
 }

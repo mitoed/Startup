@@ -3,7 +3,7 @@ localStorage.removeItem('currentSessionID')
 localStorage.removeItem('voteSelection')
 
 // =============================================================================
-// 2.1 Enter a session with a Session ID
+// 2.1 -- Enter a session with a Session ID
 // =============================================================================
 
 // Assign the function to the Join Session Button
@@ -28,7 +28,7 @@ async function joinSession() {
     }
 
     try {
-// 2.1.2 -- Check if session is open on LIVE SERVER
+// 2.1.2 -- Check if session is open on LIVE_SESSIONS
         const response = await fetch(`/api/join-session/${currentUser}/${sessionID}`)
         const { status } = response
 
@@ -54,7 +54,7 @@ async function joinSession() {
 }
 
 // =============================================================================
-// 2.2 Create a session based on a category
+// 2.2 -- Create a session based on a category
 // =============================================================================
 
 // Assign the function to the Create Session Button

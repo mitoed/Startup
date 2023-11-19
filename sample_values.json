@@ -1,49 +1,49 @@
 {
-  "users": [
+  "Mongo_USERS": [
     {
       "username": "ADMIN",
-      "password_hash": "$2b$10$QkzJ71lAGmk81rgwklEsqu2RWSyfN3EuUhfELeov2/xvA4E1SJ16m",
-      "token": "5a3e2666-5f46-4fcc-9218-a5b39e24c16e",
+      "password_hash": "$2b$10$JNUauXK6ZnpoivPZcbURzuAPKyC5pSDjSQrP/mEni/n5KXc23EPHO",
+      "token": "383ffe90-0a10-4405-953d-cc3a8d38e3e9",
       "sessions_total": 100000,
       "sessions_won": 100000
     },
     {
       "username": "BILLY",
-      "password_hash": "$2b$10$qUmEWCt4opnIc2S649Z4Xe19RSyk.r6y.hkcvXqJZ5LttzW4nPERy",
-      "token": "520209fe-f2bf-4d67-b2dc-d0f6eb1ade98",
+      "password_hash": "$2b$10$m6yZZSvlyuapmcL9Hvrw3udauXjIXSshccyq.EHFUJ4f9ZpkXXGm6",
+      "token": "ea6a0120-ed70-43a9-bd05-c38dca1d69ce",
       "sessions_total": 7,
       "sessions_won": 1
     },
     {
       "username": "JOE",
-      "password_hash": "$2b$10$Ygihgd9ivwEQZx/M5Ea5t.fp0Vo8vJs39Vw9za7vHlLcbeTdTMxVa",
-      "token": "d53b7e1e-faae-46aa-a3f8-354236abb253",
+      "password_hash": "$2b$10$n5mghw5s7fHzq2zpOAc1WuKz.nESPK7vbfzZp3/a4PH29cayvx4wC",
+      "token": "be2ed1fb-f4fc-4c81-8b40-f2a38ae215d6",
       "sessions_total": 7,
       "sessions_won": 0
     },
     {
       "username": "SAMMY",
-      "password_hash": "$2b$10$DeWIH/V9bZ2N/ZDHpuzX1.oIBYYUGuOTutjSP6/88iUiuVpxZXyjS",
-      "token": "6c80772a-9ee3-462d-be66-5c07ec60c14f",
+      "password_hash": "$2b$10$uJhev4iR1uEm9mUE4ZuYZ.QT7eLIGA9tbBnICsg91kWeVe2Hi.Aeq",
+      "token": "e7011ae2-07be-4b81-adf3-4165e3423fcf",
       "sessions_total": 3,
       "sessions_won": 0
     },
     {
       "username": "KATIE",
-      "password_hash": "$2b$10$37YOpqWYUC25Pww9jikloeQD8vmUXElVXMPx8p5mK5vEy4Uk9NJhm",
-      "token": "e2ebe3bf-e7be-48de-8fa7-08375effcd74",
+      "password_hash": "$2b$10$9dG5zWMPjlD8ckXAVnOdYeQuJoiQ6yrLEzhm5vcbPt19hWzOAbtQy",
+      "token": "3af50227-9eca-4824-8132-6e25eb54e1df",
       "sessions_total": 3,
       "sessions_won": 3
     },
     {
       "username": "BOB",
-      "password_hash": "$2b$10$CTPc0xZclqBz94tFR2qLmeO8TQs6jL9nEQzpsVGyYE4EBpCJMOzm.",
-      "token": "29d40ac6-7aa9-4ff0-a447-b2cbee6a59fb",
+      "password_hash": "$2b$10$.2T/SQJFTFGpIeL.R7AniOAa28E2bqIGIbBghRv2ELGipnFr1R8Ae",
+      "token": "55ce59c1-739d-4296-884c-a08a298f95ec",
       "sessions_total": 7,
       "sessions_won": 4
     }
   ],
-  "sessions": [
+  "Mongo_LIVE_SESSIONS": [
     {
       "session_id": "SAMPLE",
       "category": "food",
@@ -62,29 +62,7 @@
         "Five Sushi Bros",
         "Black Sheep Cafe"
       ],
-      "start_time": 1700058310455,
-      "active_users_array": [
-        {
-          "name": "BILLY",
-          "vote": "Costa Vida"
-        },
-        {
-          "name": "JOE",
-          "vote": "Five Sushi Bros"
-        },
-        {
-          "name": "SAMMY",
-          "vote": "Good Move"
-        },
-        {
-          "name": "KATIE",
-          "vote": "Burger Supreme"
-        },
-        {
-          "name": "BOB",
-          "vote": "Cubby's"
-        }
-      ],
+      "start_time": 1700122387229,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -107,8 +85,7 @@
         "Five Sushi Bros",
         "Black Sheep Cafe"
       ],
-      "start_time": 1700058310455,
-      "active_users_array": [],
+      "start_time": 1700122387229,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -131,14 +108,13 @@
         "Five Sushi Bros",
         "Black Sheep Cafe"
       ],
-      "start_time": 1700058310455,
-      "active_users_array": [],
+      "start_time": 1700122387229,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
     },
     {
-      "session_id": "K4X6J2",
+      "session_id": "TEST",
       "category": "movie",
       "options": [
         "The Shawshank Redemption",
@@ -154,8 +130,7 @@
         "Gladiator",
         "The Silence of the Lambs"
       ],
-      "start_time": 1700058310455,
-      "active_users_array": [],
+      "start_time": 1700122387229,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -177,8 +152,7 @@
         "Gladiator",
         "The Silence of the Lambs"
       ],
-      "start_time": 1700058310455,
-      "active_users_array": [],
+      "start_time": 1700122387229,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -200,8 +174,7 @@
         "Gladiator",
         "The Silence of the Lambs"
       ],
-      "start_time": 1700058310455,
-      "active_users_array": [],
+      "start_time": 1700122387229,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -223,8 +196,7 @@
         "Splendor",
         "Betrayal at Baldur's Gate"
       ],
-      "start_time": 1700058310455,
-      "active_users_array": [],
+      "start_time": 1700122387229,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -246,8 +218,7 @@
         "Splendor",
         "Betrayal at Baldur's Gate"
       ],
-      "start_time": 1700058310455,
-      "active_users_array": [],
+      "start_time": 1700122387229,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -269,14 +240,40 @@
         "Splendor",
         "Betrayal at Baldur's Gate"
       ],
-      "start_time": 1700058310455,
-      "active_users_array": [],
+      "start_time": 1700122387229,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
     }
   ],
-  "options": {
+  "LIVE_USERS": [
+    {
+      "name": "BILLY",
+      "session": "SAMPLE",
+      "vote": "Costa Vida"
+    },
+    {
+      "name": "JOE",
+      "session": "SAMPLE",
+      "vote": "Five Sushi Bros"
+    },
+    {
+      "name": "SAMMY",
+      "session": "SAMPLE",
+      "vote": "Good Move"
+    },
+    {
+      "name": "KATIE",
+      "session": "SAMPLE",
+      "vote": "Burger Supreme"
+    },
+    {
+      "name": "BOB",
+      "session": "TEST",
+      "vote": "Inception"
+    }
+  ],
+  "Mongo_OPTIONS": {
     "food": [
       {
         "name": "Wendy's"

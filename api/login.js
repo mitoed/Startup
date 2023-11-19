@@ -24,7 +24,10 @@ function pageSetup (app) {
         return
     })
 
+// =============================================================================
 // 1.1 -- Validate current user login
+// =============================================================================
+
     app.get('/api/auth/validate-login/:username/:password', async (req, res) => {
         
 // 1.1.1 -- Gather information inputted from login page
@@ -65,7 +68,10 @@ function pageSetup (app) {
 
     })
 
+// =============================================================================
 // 1.2 -- Create new user
+// =============================================================================
+
     app.get('/api/auth/create-login/:username/:password/:confirmation', async (req, res) => {
 
 // 1.2.1 -- Gather information inputted from login page
@@ -118,7 +124,11 @@ function pageSetup (app) {
 
     })
 
-// 5.2.2.2 -- Clear user token cookie
+// =============================================================================
+// 1.3 -- Logout of user
+// =============================================================================
+
+// 1.3.2 -- Clear user token cookie
     app.get('/api/auth/logout', async (req, res) => {
         res.clearCookie('token');
         res.status(204).end();

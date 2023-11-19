@@ -13,67 +13,19 @@ const client = new MongoClient(url)
 const sessionsCollection = client.db('voting').collection('sessions')
 const usersCollection = client.db('voting').collection('users')
 
-// LIVE SERVER Initialization
-const LIVE_SERVER = []
+// Live Servers Initialization
+const LIVE_SESSIONS = []
+const LIVE_USERS = []
 
 // =============================================================================
-// Mongo Database Setup Functions -- Development Only
-// =============================================================================
-
-// START ME TO RESET MONGO DB TO DEFAULT VALUES
-//resetMongo()
-
-async function resetMongo() {
-    try {
-
-        // This will completely clear user and session collections
-        await clearMongoDB()
-
-        // This will add sample values to user and session collections
-        await addSampleData()
-        
-    } catch (ex) {
-        console.log('\nSomething went wrong:', ex.message)
-    }
-}
-
-async function clearMongoDB() {
-    try {
-        await usersCollection.deleteMany()
-        await sessionsCollection.deleteMany()
-        console.log('\nCleared all Mongo collections')
-
-    } catch (err) {
-        console.error(`\nError clearing the database: ${err}`)
-    }
-}
-
-async function addSampleData() {
-    try {
-        const { users, sessions } = await loadSampleData()
-
-        let result = await usersCollection.insertMany(users)
-        console.log('\nSuccessfully added ', result.insertedCount, 'users')
-
-        result = await sessionsCollection.insertMany(sessions)
-        console.log('\nSuccessfully added ', result.insertedCount, 'sessions')
-
-        console.log('\nMongo DB has been reset to sample values.')
-
-    } catch (err) {
-        console.error(`Error adding options to the database: ${err}`)
-    }
-}
-
-// =============================================================================
-// Mongo DB and LIVE SERVER Initialization Functions
+// Mongo DB and Live Servers Initialization Functions
 // =============================================================================
 
 MASTERCONNECT()
 
 async function MASTERCONNECT() {
     await connectToDatabase()
-    await startLiveServer()
+    await getLiveData()
 }
 
 // Begin connection with Mongo Database
@@ -87,22 +39,50 @@ async function connectToDatabase () {
 }
 
 // Request sessions data from Mongo DB and add to LIVE_SERVER array
-async function startLiveServer() {
-    if (LIVE_SERVER.length === 0) {
+async function getLiveData() {
 
+    if (LIVE_SESSIONS.length === 0) {
         try {
             const result = await sessionsCollection.find({ end_time: 0 })
             for await (const session of result) {
-                LIVE_SERVER.push(session)
+                LIVE_SESSIONS.push(session)
             }
-            console.log('\nSuccessfully loaded LIVE SERVER from Mongo DB.')
-            return
+            console.log('\nSuccessfully loaded LIVE_SESSIONS from Mongo DB.')
 
         } catch (ex) {
             console.log(`\nUnable to connect to database with ${url} because ${ex.message}`);
             process.exit(1);
         }
     }
+
+    if (LIVE_USERS.length === 0) {
+        try {
+            const data = await loadSampleData()
+            for await (const user of data.LIVE_USERS){
+                LIVE_USERS.push(user)
+            }
+            console.log('\nSuccessfully loaded LIVE_USERS from sample data')
+
+        } catch (ex) {
+            console.log(`\nUnable to connect to database with ${url} because ${ex.message}`);
+            process.exit(1);
+        }
+    }
+}
+
+function loadSampleData() {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Access sample data
+            const jsonData = await fs.promises.readFile(sampleDirectory, 'utf8');
+            const data = JSON.parse(jsonData);
+            resolve(data); // Resolve the promise with the data.
+
+        } catch (error) {
+            console.log('Internal Server Error: cannot connect to database');
+            reject(error); // Reject the promise in case of an error.
+        }
+    });
 }
 
 // =============================================================================
@@ -286,32 +266,10 @@ async function updateUsers(allUsers, winUsers) {
     }
 }
 
-// =============================================================================
-// SUPPORTING FUNCTIONS
-// =============================================================================
-
-/**
- * Load data from database
- */
-function loadSampleData() {
-    return new Promise(async (resolve, reject) => {
-        try {
-            // Access sample data
-
-            const jsonData = await fs.promises.readFile(sampleDirectory, 'utf8');
-            const data = JSON.parse(jsonData);
-            resolve(data); // Resolve the promise with the data.
-
-        } catch (error) {
-            console.log('Internal Server Error: cannot connect to database');
-            reject(error); // Reject the promise in case of an error.
-        }
-    });
-}
-
 module.exports = {
     connectToDatabase,
-    LIVE_SERVER,
+    LIVE_SESSIONS,
+    LIVE_USERS,
     getUser,
     createUser,
     getUserByToken,

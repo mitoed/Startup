@@ -42,3 +42,18 @@ Within this script tag, you need to:
 
 By using doing this, Reach will compare the element and its children to the previous one, and it only changes the parts of the DOM that need to be updated!
 
+### How to use functions?
+
+1. Create a "function", which is used like an object.
+
+1. Define any state variables you wish: `const [<property>, <change_method>] = React.useState(<default_value>)`
+
+1. Update states by calling the change_method defined above; return value is the new state value
+
+1. Use the state as desired in the return statement.
+
+Function syntax = same as normal JavaScript but properties passed later are within "props" object. Access using `props.<property_name>`
+
+Pass function with properties to render in html = `<myFunction myProperty="" />`
+
+Create React element = `ReactDOM.render( <function_as_above>, document.getElementById('<elementID>'))`

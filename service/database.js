@@ -8,7 +8,7 @@ const { MongoClient } = require('mongodb')
 const config = require('./dbConfig.json')
 
 // Access Mongo Database
-const url = `mongodb+srv://${config.username}:${config.password}@${config.hostname}`
+const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`
 const client = new MongoClient(url)
 const sessionsCollection = client.db('voting').collection('sessions')
 const usersCollection = client.db('voting').collection('users')

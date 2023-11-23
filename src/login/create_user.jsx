@@ -7,7 +7,9 @@ export function CreateUser(props) {
     const [userCreateError, setUserCreateError] = React.useState(null)
 
     
-    async function CreateLogin() {
+    async function CreateLogin(event) {
+        event.preventDefault()
+
         const response = await fetch (`/api/auth/create-login`, {
             method: 'post',
             body: JSON.stringify({
@@ -63,7 +65,7 @@ export function CreateUser(props) {
                     onChange={(e) => setConfirmation(e.target.value)} />
                 <br />
                 <p id="create_error">{ userCreateError }</p>
-                <button className="submit" id="login_create" onClick={() => CreateLogin()}>Create New Account</button>
+                <button className="submit" id="login_create" onClick={(event) => CreateLogin(event)}>Create New Account</button>
             </form>
         </section>
     )

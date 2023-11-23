@@ -5,7 +5,8 @@ export function ExistingUser(props) {
     const [password, setPassword] = React.useState('')
     const [userLoginError, setUserLoginError] = React.useState('')
 
-    async function ValidateLogin() {
+    async function ValidateLogin(event) {
+        event.preventDefault()
 
         const response = await fetch(`/api/auth/validate-login`, {
             method: 'post',
@@ -51,7 +52,7 @@ export function ExistingUser(props) {
                     onChange={(e) => setPassword(e.target.value)} />
                 <br />
                 <p id="login_error">{ userLoginError }</p>
-                <button className="submit" id="login_exist" onClick={() => ValidateLogin()}>Login</button>
+                <button className="submit" id="login_exist" onClick={(event) => ValidateLogin(event)}>Login</button>
             </form>
         </section>
     )

@@ -15,4 +15,5 @@ sample_values.json
 /playwright/.cache/
 
 # Misc
+/all_notes/
 .env

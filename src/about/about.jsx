@@ -1,6 +1,27 @@
 import React from "react";
 
 export function About() {
+
+    const [ quote, setQuote] = React.useState('Loading inspirational quote...')
+    const [ citation, setCitation ] = React.useState(defaultCitation)
+
+    async function getQuote() {
+        try {
+            const response = await fetch('https://api.quotable.io/random')
+            const data = await response.json()
+    
+            setQuote(data.content)
+            setCitation('- ' + data.author)
+        } catch {
+            setQuote('Life is like a box of chocolates. Sometimes worth sharing, sometimes better eaten alone.')
+            setCitation('- Anonymous')
+        }
+    }
+
+    React.useEffect(() => {
+        getQuote()
+    }, [])
+
     return (
         <main class="ALL-l-main">
             <section id="media">
@@ -29,9 +50,8 @@ export function About() {
             </section>
             <section class="ABT-container">
                 <section class="ABT-quote">
-                    
-                    <p id="quote">Loading inspirational quote...</p>
-                    <p id="citation"></p>
+                    <p id="quote">{ quote }</p>
+                    <p id="citation">{ citation }</p>
                 </section>
             </section>
         </main>

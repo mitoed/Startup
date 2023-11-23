@@ -1,37 +1,12 @@
-<!--This is the page where users will view the 'about' information.-->
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>About - Activity Anarchy</title>
-        <link rel="icon" href="/black cowboy hat.png" type="image/x-icon">
-        <link rel="stylesheet" href="./src/app.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap" rel="stylesheet">
-        <script src="./main.js" defer type="module"></script>
-        <script src="./src/about/about.mjs" defer type="module"></script>
-    </head>
-    <body>
-        <header class="ALL-l-header">
-            <section id="logo">
-                <img src="/orange cowboy hat.png" alt="Orange Cowboy Hat Logo" width="100px">
-                <h1>Activity Anarchy</h1>
-            </section>
-            <nav>
-                <menu class="ALL-menu" id="navigation_menu">
-                    <a href="index.html">Login</a>
-                    <a href="enter_session.html" id="nav_enter_session">Enter Session</a>
-                    <a href="about.html">About</a>
-                </menu>
-            </nav>
-        </header>
-        <hr>
+import React from "react";
+
+export function About() {
+    return (
         <main class="ALL-l-main">
             <section id="media">
                 <img
                     src="https://bristoluniversitypress.co.uk/media/ducks-banner-resized.jpg"
-                    alt="meaningless placeholder picture" height="120">
+                    alt="meaningless placeholder picture" height="120" />
             </section>
             <section class="ABT-container">
                 <section class="ABT-why">
@@ -60,10 +35,5 @@
                 </section>
             </section>
         </main>
-        <footer class="ALL-l-footer">
-            <p><span class="Author-Name">Michael Saulls</span> | <a
-                    href="https://github.com/mitoed/Startup.git">GitHub
-                    Repository</a></p>
-        </footer>
-    </body>
-</html>
+    )
+}

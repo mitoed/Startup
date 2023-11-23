@@ -1,4 +1,5 @@
 import React from "react";
+import './login.mjs'
 
 export function Login() {
     return (
@@ -16,7 +17,7 @@ export function Login() {
                             placeholder="type your password" />
                         <br />
                         <p id="login_error"></p>
-                        <button className="submit" id="login_exist">Login</button>
+                        <button className="submit" id="login_exist" onClick={<validateLogin />}>Login</button>
                     </form>
                 </section>
                 <section className="IND-user IND-new">
@@ -35,7 +36,7 @@ export function Login() {
                             placeholder="confirm password" />
                         <br />
                         <p id="create_error"></p>
-                        <button className="submit" id="login_create" onClick={ createLogin }>Create New Account</button>
+                        <button className="submit" id="login_create" onClick={<createLogin />}>Create New Account</button>
                     </form>
                 </section>
             </section>

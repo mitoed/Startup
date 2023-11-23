@@ -1,6 +1,9 @@
 import React from "react";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
 import { Login } from './login/login.jsx'
+import { Enter } from './enter/enter_session.jsx'
+import { Voting } from './voting/voting_session.jsx'
+import { About } from './about/about.jsx'
 import './app.css'
 
 export default function App() {
@@ -15,14 +18,17 @@ export default function App() {
                     </section>
                     <nav>
                         <menu className="ALL-menu" id="navigation_menu">
-                            <NavLink to=''>Login</NavLink>
-                            <NavLink to='enter'>Enter Session</NavLink>
-                            <NavLink to='about'>About</NavLink>
+                            <NavLink to='/'>Login</NavLink>
+                            <NavLink to='/enter'>Enter Session</NavLink>
+                            <NavLink to='/about'>About</NavLink>
                         </menu>
                     </nav>
                 </header>
                 <Routes>
                     <Route path='/' element={<Login />} exact/>
+                    <Route path='/enter' element={<Enter />} exact/>
+                    <Route path='/voting' element={<Voting />} exact/>
+                    <Route path='/about' element={<About />} exact/>
                     <Route path='*' element={<NotFound />}/>
                 </Routes>
                 <footer className="ALL-l-footer">

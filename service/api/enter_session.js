@@ -7,11 +7,11 @@ function pageSetup(apiRouter) {
 // 2.1 -- Enter a session with a session ID
 // =============================================================================
 
-    apiRouter.get('/join-session/:username/:sessionID', async (req, res) => {
+    apiRouter.post('/join-session', async (req, res) => {
         
 // 2.1.1 -- Gather session ID inputted from Enter Session page
-        const { username } = req.params
-        const { sessionID } = req.params
+        const { username } = req.body
+        const { sessionID } = req.body
         
 // 2.1.2 ---- Check if session is open in LIVE_SESSIONS
         const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
@@ -38,11 +38,11 @@ function pageSetup(apiRouter) {
 // 2.2 -- Create a session based on a category
 // =============================================================================
 
-    apiRouter.get('/create-session/:username/:category', async (req, res) => {
+    apiRouter.post('/create-session', async (req, res) => {
 
 // 2.2.1 -- Gather category selected by user from Enter Session page
-        const { username } = req.params
-        const { category } = req.params
+        const { username } = req.body
+        const { category } = req.body
 
 // 2.2.2 ---- Create a new session
 // 2.2.2.1 -- Create new session using Session class
@@ -58,6 +58,9 @@ function pageSetup(apiRouter) {
 // 2.2.2.4 -- Add the new session to LIVE_SESSIONS (including options list)
         newSessionInstance['options'] = sessionOptions
         DB.LIVE_SESSIONS.push(newSessionInstance)
+
+// 2.2.2.5 -- User active in Live Server
+        userToLiveUsers(newSessionID, username)
 
         res.status(200).json({sessionID: newSessionID})
 

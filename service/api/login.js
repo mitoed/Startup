@@ -28,7 +28,7 @@ function pageSetup (app, apiRouter) {
 // 1.1 -- Validate current user login
 // =============================================================================
 
-    apiRouter.get('/auth/validate-login', async (req, res) => {
+    apiRouter.post('/auth/validate-login', async (req, res) => {
         
 // 1.1.1 -- Gather information inputted from login page
         const checkUsername = req.body.username
@@ -72,7 +72,7 @@ function pageSetup (app, apiRouter) {
 // 1.2 -- Create new user
 // =============================================================================
 
-    apiRouter.get('/auth/create-login', async (req, res) => {
+    apiRouter.post('/auth/create-login', async (req, res) => {
 
 // 1.2.1 -- Gather information inputted from login page
         const checkUsername = req.body.username

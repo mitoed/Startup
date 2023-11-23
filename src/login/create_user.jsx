@@ -9,7 +9,7 @@ export function CreateUser(props) {
     
     async function CreateLogin() {
         const response = await fetch (`/api/auth/create-login`, {
-            method: 'get',
+            method: 'post',
             body: JSON.stringify({
                 username: username,
                 password: password,
@@ -63,7 +63,7 @@ export function CreateUser(props) {
                     onChange={(e) => setConfirmation(e.target.value)} />
                 <br />
                 <p id="create_error">{ userCreateError }</p>
-                <button className="submit" id="login_create" onClick={<CreateLogin />}>Create New Account</button>
+                <button className="submit" id="login_create" onClick={() => CreateLogin()}>Create New Account</button>
             </form>
         </section>
     )

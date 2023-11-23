@@ -2,12 +2,9 @@
 const { WebSocketServer } = require('ws')
 const uuid = require('uuid')
 const VS = require('./api/voting_session.js');
-const { BulkOperationBase } = require('mongodb');
 
 // WebSocket Messages
 const refreshPageMsg = `{ "type": "refreshPage" }`
-const voteReceivedMsg = `{ "type": "Vote Received" }`
-const checkVotesMsg = `{ "type": "checkVotes" }`
 const stopCountdown = `{ "type": "stopCountdown" }`
 
 function peerProxy(httpServer) {

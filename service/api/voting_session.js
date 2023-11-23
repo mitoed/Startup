@@ -1,7 +1,7 @@
-const DB = require('../database.js')
+const DB = require('./database.js')
 const classes = require('./classes.js')
 
-function pageSetup(app) {
+function pageSetup(apiRouter) {
 
 // =============================================================================
 // 3.1 -- Join session and configure WebSocket
@@ -11,22 +11,22 @@ function pageSetup(app) {
 
 // 3.1.6 ---- Populate and display internet recommendation
 // 3.1.6.1 -- Populate recommendation html based on category
-app.get('/api/internet-recommendation/:sessionID', async (req, res) => {
-    const { sessionID } = req.params
+    apiRouter.get('/internet-recommendation/:sessionID', async (req, res) => {
+        const { sessionID } = req.params
 
 // 3.1.6.1.1 -- Retrieve session info from from LIVE SERVER
-    const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
+        const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
 
 // 3.1.6.1.2 -- Produce internet recommendation html
-    const recommendationHTML = generateRecommendationHTML(sessionInstance.category)
+        const recommendationHTML = generateRecommendationHTML(sessionInstance.category)
 
-    res.json({recommendation: recommendationHTML})
-})
+        res.json({recommendation: recommendationHTML})
+    })
 
 // =============================================================================
 // 3.2 -- Refresh page HTML
 // =============================================================================
-    app.get('/api/page-html/:sessionID', async (req, res) => {
+    apiRouter.get('/page-html/:sessionID', async (req, res) => {
         
         const { sessionID } = req.params
 
@@ -55,7 +55,7 @@ app.get('/api/internet-recommendation/:sessionID', async (req, res) => {
 // =============================================================================
 
 // 3.5.1 -- End sesion in Mongo DB and Live Servers
-    app.get('/api/close-session/:sessionID/:groupSelection', async (req, res) => {
+    apiRouter.get('/close-session/:sessionID/:groupSelection', async (req, res) => {
 
         const { sessionID, groupSelection } = req.params
 

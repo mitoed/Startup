@@ -1,13 +1,13 @@
-const DB = require('../database.js')
+const DB = require('./database.js')
 const classes = require('./classes.js')
 
-function pageSetup(app) {
+function pageSetup(apiRouter) {
     
 // =============================================================================
 // 2.1 -- Enter a session with a session ID
 // =============================================================================
 
-    app.get('/api/join-session/:username/:sessionID', async (req, res) => {
+    apiRouter.get('/join-session/:username/:sessionID', async (req, res) => {
         
 // 2.1.1 -- Gather session ID inputted from Enter Session page
         const { username } = req.params
@@ -38,7 +38,7 @@ function pageSetup(app) {
 // 2.2 -- Create a session based on a category
 // =============================================================================
 
-    app.get('/api/create-session/:username/:category', async (req, res) => {
+    apiRouter.get('/create-session/:username/:category', async (req, res) => {
 
 // 2.2.1 -- Gather category selected by user from Enter Session page
         const { username } = req.params

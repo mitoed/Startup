@@ -26,13 +26,17 @@ app.use(express.json());
 // Serve up the frontend static content hosting
 app.use(express.static('public'));
 
+// Router for service endpoints
+const apiRouter = express.Router()
+app.use('/api', apiRouter)
+
 setupPages()
 
 async function setupPages() {
     try {
-        login.pageSetup(app)
-        enter_session.pageSetup(app)
-        voting_session.pageSetup(app)
+        login.pageSetup(app, apiRouter)
+        enter_session.pageSetup(apiRouter)
+        voting_session.pageSetup(apiRouter)
 
     } catch (error) {
         console.error('An error occured during the server setup:', error)

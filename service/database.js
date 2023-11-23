@@ -3,7 +3,7 @@
 // =============================================================================
 
 const fs = require('fs')
-const sampleDirectory = './sample_values.json'
+const sampleDirectory = '../sample_values.json'
 const { MongoClient } = require('mongodb')
 const config = require('./dbConfig.json')
 

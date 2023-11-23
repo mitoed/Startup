@@ -4,15 +4,18 @@ import { CreateUser } from './create_user.jsx'
 
 export function Login(props) {
 
-    logout()
+    // Logout of any past user upon entering the login page
+    React.useEffect(() => {
+        logout()
+    }, [])
 
     async function logout() {
-    // 1.3.1 -- Clear current data from local storage
+        // 1.3.1 -- Clear current data from local storage
         localStorage.removeItem('currentUser')
         localStorage.removeItem('currentSessionID')
         localStorage.removeItem('voteSelection')
 
-    // 1.3.2 -- Clear user token cookie
+        // 1.3.2 -- Clear user token cookie
         const response = await fetch('/api/auth/logout')
 
         if (response.status === 204) {

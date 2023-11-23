@@ -28,11 +28,11 @@ function pageSetup (app, apiRouter) {
 // 1.1 -- Validate current user login
 // =============================================================================
 
-    apiRouter.get('/auth/validate-login/:username/:password', async (req, res) => {
+    apiRouter.get('/auth/validate-login', async (req, res) => {
         
 // 1.1.1 -- Gather information inputted from login page
-        const checkUsername = req.params.username
-        const checkPassword = req.params.password
+        const checkUsername = req.body.username
+        const checkPassword = req.body.password
         
 // 1.1.2 ---- Compare against database of current users
 // 1.1.2.1 -- Request persistent database data (Mongo DB)
@@ -72,12 +72,12 @@ function pageSetup (app, apiRouter) {
 // 1.2 -- Create new user
 // =============================================================================
 
-    apiRouter.get('/auth/create-login/:username/:password/:confirmation', async (req, res) => {
+    apiRouter.get('/auth/create-login', async (req, res) => {
 
 // 1.2.1 -- Gather information inputted from login page
-        const checkUsername = req.params.username
-        const checkPassword = req.params.password
-        const checkConfirmation = req.params.confirmation
+        const checkUsername = req.body.username
+        const checkPassword = req.body.password
+        const checkConfirmation = req.body.confirmation
         
 // 1.2.2 ---- Compare against database of current users
 // 1.2.2.1 -- Search Mongo DB for given username

@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
 import { Login } from './login/login.jsx'
 import { Enter } from './enter/enter.jsx'
-import { Voting } from './voting/voting_session.jsx'
+import { Voting } from './voting/voting.jsx'
 import { About } from './about/about.jsx'
 import './app.css'
 

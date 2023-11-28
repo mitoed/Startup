@@ -1,21 +1,27 @@
 import React from "react";
+import Recommendation from "./recommendation";
 
 export function Voting() {
+
+    const sessionID = localStorage.getItem('currentSessionID')
+
     return (
         <>
-            <main class="ALL-l-main ALL-container ALL-verticle">
-                <section class="VOT-session VOT-info">
-                    <h1 id="session_id">Session ID: D4K452</h1>
+            <main className="ALL-l-main ALL-container ALL-verticle">
+                <section className="VOT-session VOT-info">
+                    <h1 id="session_id">Session ID: {sessionID}</h1>
                 </section>
-                <section class="VOT-session VOT-user-count">
+                <section className="VOT-session VOT-user-count">
                     <h1 id="user_count">Active Users: 1</h1>
                 </section>
-                <section class="VOT-count_selection VOT-container">
-                    <section class="VOT-count">
+                <section className="VOT-count_selection VOT-container">
+                    <section className="VOT-count">
                         <table id="count_table">
-                            <tr>
-                                <th colspan="2">Voting Status</th>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <th colSpan="2">Voting Status</th>
+                                </tr>
+                            </tbody>
                             <tbody>
                                 <tr>
                                     <td>Loading...</td>
@@ -90,9 +96,9 @@ export function Voting() {
                             </tbody>
                         </table>
                     </section>
-                    <section class="VOT-select">
+                    <section className="VOT-select">
                         <form action>
-                            <label for="vote_selection">Voting Selection</label>
+                            <label htmlFor="vote_selection">Voting Selection</label>
                             <br/>
                             <input type="text" list="voting_options"
                                 id="vote_selection"
@@ -103,13 +109,11 @@ export function Voting() {
                         </form>
                         <p id="finalize_msg"></p>
                         <div>
-                            <button id="clear_vote" class="submit">Clear</button>
-                            <button id="finalize_vote" class="submit">Finalize</button>
+                            <button id="clear_vote" className="submit">Clear</button>
+                            <button id="finalize_vote" className="submit">Finalize</button>
                         </div>
                     </section>
-                    <section class="VOT-internet" id="recommendation_bubble">
-                        <p></p>
-                    </section>
+                    <Recommendation sessionID={sessionID}/>
                 </section>
             </main>
             <section>
@@ -130,8 +134,8 @@ export function Voting() {
                             <span id="recommended_selection">Good Move</span>
                             <br/>
                             Would you like to support this opinion instead?</p>
-                        <button id="opinion_yes" type="submit" class="submit">Yes</button>
-                        <button id="opinion_no" type="button" class="submit">No</button>
+                        <button id="opinion_yes" type="submit" className="submit">Yes</button>
+                        <button id="opinion_no" type="button" className="submit">No</button>
                     </div>
                 </div>
             </section>

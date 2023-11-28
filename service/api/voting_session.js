@@ -11,16 +11,40 @@ function pageSetup(apiRouter) {
 
 // 3.1.6 ---- Populate and display internet recommendation
 // 3.1.6.1 -- Populate recommendation html based on category
-    apiRouter.get('/internet-recommendation/:sessionID', async (req, res) => {
-        const { sessionID } = req.params
+    apiRouter.post('/internet-recommendation', async (req, res) => {
+        const { sessionID } = req.body
 
 // 3.1.6.1.1 -- Retrieve session info from from LIVE SERVER
         const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
-
+        const category = sessionInstance.category
+        
 // 3.1.6.1.2 -- Produce internet recommendation html
-        const recommendationHTML = generateRecommendationHTML(sessionInstance.category)
+        let extraConditions = ''
+        let categoryPlural = ''
+        switch (category) {
+            case 'food':
+                categoryPlural = 'restaurants'
+                extraConditions = 'near+me'
+                break
+            case 'game':
+                categoryPlural = 'board games'
+                break
+            case 'movie':
+                categoryPlural = 'movies'
+                break
+        }
 
-        res.json({recommendation: recommendationHTML})
+        const recommendationTypeArray = ['classic', 'new', 'underrated']
+        const randomNum = Math.floor(Math.random() * recommendationTypeArray.length)
+        const recommendationType = recommendationTypeArray[randomNum]
+
+        const recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${categoryPlural}+${extraConditions}`
+
+        res.json({
+            href: recommendationHREF,
+            type: recommendationType,
+            plural: categoryPlural,
+        })
     })
 
 // =============================================================================
@@ -229,36 +253,6 @@ function generateTableHTML (sessionOptionsArray, sessionUsersArray) {
     }
 
     return optionsHTML
-}
-
-
-/** Create the html for the internet recommendation bubble
- * 
- * @returns html to be displayed
- */
-function generateRecommendationHTML(category) {
-    let extraConditions = ''
-    let categoryPlural = ''
-    switch (category) {
-        case 'food':
-            categoryPlural = 'restaurants'
-            extraConditions = 'near me'
-            break
-        case 'game':
-            categoryPlural = 'board games'
-            break
-        case 'movie':
-            categoryPlural = 'movies'
-            break
-    }
-
-    const recommendationTypeArray = ['classic', 'new', 'underrated']
-    const randomNum = Math.floor(Math.random() * recommendationTypeArray.length)
-    const recommendationType = recommendationTypeArray[randomNum]
-
-    const recommendationHREF = `https://www.google.com/search?q=top+${recommendationType}+${categoryPlural}+${extraConditions}`
-    const recommendationHTML = `<p>Click <a href="${recommendationHREF}" target="_blank">here</a> to see some of the top <span>${recommendationType}</span> ${categoryPlural}<br>on Google.com</p>`
-    return recommendationHTML
 }
 
 // =============================================================================

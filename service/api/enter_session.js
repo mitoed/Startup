@@ -1,4 +1,4 @@
-const DB = require('./database.js')
+const DB = require('../database.js')
 const classes = require('./classes.js')
 
 function pageSetup(apiRouter) {

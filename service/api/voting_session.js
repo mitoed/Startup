@@ -1,4 +1,4 @@
-const DB = require('./database.js')
+const DB = require('../database.js')
 const classes = require('./classes.js')
 
 function pageSetup(apiRouter) {
@@ -26,9 +26,9 @@ function pageSetup(apiRouter) {
 // =============================================================================
 // 3.2 -- Refresh page HTML
 // =============================================================================
-    apiRouter.get('/page-html/:sessionID', async (req, res) => {
+    apiRouter.post('/page-html', async (req, res) => {
         
-        const { sessionID } = req.params
+        const { sessionID } = req.body
 
 // 3.2.1 -- Retrieve session info from LIVE_SESSIONS
         const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
@@ -39,10 +39,9 @@ function pageSetup(apiRouter) {
 
 // 3.2.3 -- Produce table of options and datalist html
         const sessionOptionsArray = sessionInstance['options']
-        const optionsHTML = generateTableHTML(sessionOptionsArray, sessionUsersArray)
 
-        res.json({optionsHTML: optionsHTML,
-            activeUsers: numSessionUsers
+        res.json({optionsArray: sessionOptionsArray,
+            usersArray: sessionUsersArray
         })
     })
 

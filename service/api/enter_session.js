@@ -10,8 +10,8 @@ function pageSetup(apiRouter) {
     apiRouter.post('/join-session', async (req, res) => {
         
 // 2.1.1 -- Gather session ID inputted from Enter Session page
-        const { username } = req.body
-        const { sessionID } = req.body
+        const username = req.body.username
+        const sessionID = req.body.sessionID
         
 // 2.1.2 ---- Check if session is open in LIVE_SESSIONS
         const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
@@ -41,8 +41,8 @@ function pageSetup(apiRouter) {
     apiRouter.post('/create-session', async (req, res) => {
 
 // 2.2.1 -- Gather category selected by user from Enter Session page
-        const { username } = req.body
-        const { category } = req.body
+        const username = req.body.username
+        const category = req.body.category
 
 // 2.2.2 ---- Create a new session
 // 2.2.2.1 -- Create new session using Session class

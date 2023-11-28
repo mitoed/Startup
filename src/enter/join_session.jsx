@@ -1,13 +1,18 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 
-export function Join(props) {
+export function Join({ username }) {
 
     const [ sessionID, setSessionID ] = React.useState('')
     const [ joinError, setJoinError ] = React.useState('')
+    const navigate = useNavigate()
 
-    async function JoinSession() {
+    async function JoinSession(event) {
+
+        event.preventDefault()
+
         // 2.1.1 -- Gather session ID inputted from Enter Session page
-        const username = props.username
+        //const username = props.username
 
         // Make sure input is filled before continuing
         if (sessionID.trim() === '') {
@@ -21,17 +26,20 @@ export function Join(props) {
                 method: 'post',
                 body: JSON.stringify({
                     username: username,
-                    sessionID: sessionID,
-                })
+                    sessionID: sessionID.toUpperCase(),
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                },
             })
             const { status } = response
 
         // 2.1.3 -- If session is open, enter the session
             if (status === 200) {
-                localStorage.setItem('currentSessionID', sessionID)
-                
-                // NAVIGATE TO SESSION PAGE
+                localStorage.setItem('currentSessionID', sessionID.toUpperCase())
+                setJoinError('')
 
+                navigate('/voting')
                 return
 
         // 2.1.4 -- If session is not available or not open, respond with error message to user
@@ -52,17 +60,18 @@ export function Join(props) {
         <section className="ENT-join">
             <h2>Join an existing session</h2>
             <form method="get" className="ENT-join-form">
-                <label htmlFor="session_id">Session ID</label>
+                <label htmlFor="join_session_id">Session ID</label>
                 <input type="text"
                     id="join_session_id"
-                    name="session_id"
+                    name="join_session_id"
                     placeholder="type a session id"
+                    value={sessionID}
                     onChange={(e) => setSessionID(e.target.value)} />
                 <br />
                 <p id="session_not_found_error">{ joinError }</p>
                 <button className="submit"
                     id="join_session"
-                    onClick={() => JoinSession(sessionID)}
+                    onClick={(event) => JoinSession(event)}
                     >Join Session</button>
             </form>
         </section>

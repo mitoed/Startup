@@ -1,34 +1,42 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 
-export function Create(props) {
+export function Create({ username }) {
 
     const [ category, setCategory ] = React.useState('')
+    const navigate = useNavigate()
 
-    async function newSession() {
+    async function newSession(event) {
+
+        event.preventDefault()
         
-            try {
-                const response = await fetch(`/api/create-session`, {
-                    method: 'post',
-                    body: JSON.stringify({
-                        username: props.username,
-                        category: category,
-                    })
-                })
-                const { status } = response
-        
-                if (status === 200) {
-                    const { sessionID } = await response.json()
-                    localStorage.setItem('currentSessionID', sessionID)
-                    window.location.href = `./voting_session.html`
-                }
-        
-            // Unexpected errors
-            } catch (error) {
-                console.log('Problem with server. Please try again.', error)
-                return
+        try {
+            const response = await fetch(`/api/create-session`, {
+                method: 'post',
+                body: JSON.stringify({
+                    username: username,
+                    category: category,
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                },
+            })
+            const { status } = response
+    
+            if (status === 200) {
+                const { sessionID } = await response.json()
+                localStorage.setItem('currentSessionID', sessionID.toUpperCase())
+                
+                navigate('/voting')
             }
-        
+    
+        // Unexpected errors
+        } catch (error) {
+            console.log('Problem with server. Please try again.', error)
+            return
         }
+    
+    }
 
     return (
         <section className="ENT-create">
@@ -64,7 +72,7 @@ export function Create(props) {
                 <button
                     className="submit"
                     id="create_session"
-                    onClick={() => newSession()}
+                    onClick={(event) => newSession(event)}
                     >Create Session</button>
             </form>
         </section>

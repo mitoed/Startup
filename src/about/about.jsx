@@ -3,7 +3,7 @@ import React from "react";
 export function About() {
 
     const [ quote, setQuote] = React.useState('Loading inspirational quote...')
-    const [ citation, setCitation ] = React.useState(defaultCitation)
+    const [ citation, setCitation ] = React.useState('')
 
     async function getQuote() {
         try {
@@ -23,14 +23,14 @@ export function About() {
     }, [])
 
     return (
-        <main class="ALL-l-main">
+        <main className="ALL-l-main">
             <section id="media">
                 <img
                     src="https://bristoluniversitypress.co.uk/media/ducks-banner-resized.jpg"
                     alt="meaningless placeholder picture" height="120" />
             </section>
-            <section class="ABT-container">
-                <section class="ABT-why">
+            <section className="ABT-container">
+                <section className="ABT-why">
                     <h1>Why did I create Activity Anarchy?</h1>
                     <p>Making decisions can be exhausting! Then, include more people.
                         I made Activity Anarchy to help groups of people decide on things
@@ -38,7 +38,7 @@ export function About() {
                         your group will find the balance between exploring new options
                         and quickly coming to group concencious. Try it out for yourself!</p>
                 </section>
-                <section class="ABT-how">
+                <section className="ABT-how">
                     <h1>How is Activity Anarchy meant to be used?</h1>
                     <p>As each member of the group
                         can vote freely, you will see each preference without hesitence.
@@ -48,8 +48,8 @@ export function About() {
                         the decision-making process.</p>
                 </section>
             </section>
-            <section class="ABT-container">
-                <section class="ABT-quote">
+            <section className="ABT-container">
+                <section className="ABT-quote">
                     <p id="quote">{ quote }</p>
                     <p id="citation">{ citation }</p>
                 </section>

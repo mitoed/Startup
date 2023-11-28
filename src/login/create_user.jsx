@@ -1,11 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export function CreateUser(props) {
     const [username, setUsername] = React.useState(props.username)
     const [password, setPassword] = React.useState('')
     const [confirmation, setConfirmation] = React.useState('')
     const [userCreateError, setUserCreateError] = React.useState(null)
-
+    const navigate = useNavigate()
     
     async function CreateLogin(event) {
         event.preventDefault()
@@ -13,7 +14,7 @@ export function CreateUser(props) {
         const response = await fetch (`/api/auth/create-login`, {
             method: 'post',
             body: JSON.stringify({
-                username: username,
+                username: username.toUpperCase(),
                 password: password,
                 confirmation: confirmation,
             }),
@@ -24,7 +25,7 @@ export function CreateUser(props) {
         const dataValidation = await response.json()
 
         if (!dataValidation.goodUsername) {
-            setUserCreateError(`${username} already exists`)
+            setUserCreateError(`${username.toUpperCase()} already exists`)
             return
     
         } else if (!dataValidation.goodPassword) {
@@ -36,9 +37,9 @@ export function CreateUser(props) {
             return
     
         } else {
-            localStorage.setItem('currentUser', username)
+            localStorage.setItem('currentUser', username.toUpperCase())
     
-            // NAVIGATE TO THE NEXT PAGE
+            navigate('/enter')
         }
     }
 

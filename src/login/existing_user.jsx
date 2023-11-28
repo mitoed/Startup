@@ -1,9 +1,11 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 
 export function ExistingUser(props) {
     const [username, setUsername] = React.useState(props.username)
     const [password, setPassword] = React.useState('')
     const [userLoginError, setUserLoginError] = React.useState('')
+    const navigate = useNavigate()
 
     async function ValidateLogin(event) {
         event.preventDefault()
@@ -11,13 +13,14 @@ export function ExistingUser(props) {
         const response = await fetch(`/api/auth/validate-login`, {
             method: 'post',
             body: JSON.stringify({
-                username: username,
+                username: username.toUpperCase(),
                 password: password,
             }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'
             },
         })
+        console.log(response.status)
         const dataValidation = await response.json()
 
         if (!dataValidation.goodUsername) {
@@ -29,9 +32,9 @@ export function ExistingUser(props) {
             return
 
         } else {
-            localStorage.setItem('currentUser', username_input)
+            localStorage.setItem('currentUser', username.toUpperCase())
             
-            // NAVIGATE TO THE NEXT PAGE
+            navigate('/enter')
         }
     }
 

@@ -14,13 +14,13 @@ function pageSetup(apiRouter) {
         const sessionID = req.body.sessionID
         
 // 2.1.2 ---- Check if session is open in LIVE_SESSIONS
-        const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
+        const sessionInstance = await DB.getMongoSession(sessionID)
 
 // 2.1.3 ---- If session is open, enter the session
         if (sessionInstance && sessionInstance.end_time === 0) {
 
 // 2.1.3.1 ---- User active in Live Server
-            userToLiveUsers(sessionID, username)
+            DB.changeUserVote(sessionID, username, null)
 
             res.status(200).send('Session found')
             return
@@ -45,21 +45,14 @@ function pageSetup(apiRouter) {
 
 // 2.2.2 ---- Create a new session
 // 2.2.2.1 -- Create new session using Session class
-        const newSessionID = createSessionID(category)
+        const newSessionID = await createSessionID(category)
         const newSessionInstance = new classes.Session(newSessionID, category)
 
 // 2.2.2.2 -- Begin to update the Mongo DB with new session info
-        DB.addMongoSession(newSessionInstance)
-
-// 2.2.2.3 -- Request options list from Mongo DB
-        const sessionOptions = await DB.getMongoOptions(category)
-
-// 2.2.2.4 -- Add the new session to LIVE_SESSIONS (including options list)
-        newSessionInstance['options'] = sessionOptions
-        DB.LIVE_SESSIONS.push(newSessionInstance)
+        await DB.addMongoSession(newSessionInstance)
 
 // 2.2.2.5 -- User active in Live Server
-        userToLiveUsers(newSessionID, username)
+        await DB.changeUserVote(newSessionID, username, null)
 
         res.status(200).json({sessionID: newSessionID})
 
@@ -70,42 +63,25 @@ function pageSetup(apiRouter) {
 // Supporting Functions
 // =============================================================================
 
-function userToLiveUsers(sessionID, username) {
-
-    // Check if user is already in LIVE USERS
-    const userActive = DB.LIVE_USERS.find(u => u.name === username)
-
-    // If not, add user LIVE_USERS
-    if (!userActive) {
-        // Add user to the active users array
-        DB.LIVE_USERS.push({name: username, session: sessionID, vote: null})
-        return
-    }
-        
-    // If so, change session and remove user's previous vote in LIVE_USERS
-    if (userActive) {
-        userActive['session'] = sessionID
-        userActive['vote'] = null
-        return
-    }
-}
-
 /** Create a session id and verify that it doesn't already exist
  * 
  * @param {string} sessionCategory - the category (movie, game, food) to send to randomSessionID()
  * @param {array} DB_SESSIONS - array of sessions to check for duplicates
  * @returns the new session id
  */
-function createSessionID(sessionCategory) {
+async function createSessionID(sessionCategory) {
     let newSessionID
     for (let loopLimit = 0; loopLimit < 10; loopLimit++) {
         
         // Create a new session ID
         newSessionID = randomSessionID(sessionCategory)
+        console.log(newSessionID)
 
         // If it already exists, make a new one
-        const existingID = DB.LIVE_SESSIONS.some(s => s.session_id === newSessionID)
-        if (!existingID) {return newSessionID}
+        const existingID = await DB.getMongoSession(newSessionID)
+        if (!existingID) {
+            return newSessionID
+        }
     }
     console.log('Something went wrong while creating a session ID.')
     return null

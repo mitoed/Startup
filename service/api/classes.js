@@ -38,14 +38,11 @@ class Session {
      * 
      * @param {string} session_id 
      * @param {string} category 
-     * @param {string} category_array 
-     * @param {array} active_users_array - {user: <username>, vote: <current_vote>}
      * @param {integer} start_time 
      */
-    constructor(session_id, category, category_array) {
+    constructor(session_id, category) {
         this.session_id = session_id
         this.category = category
-        this.options = category_array
         this.start_time = Date.now()
         this.unpopular_opinion = ''
         this.end_time = 0

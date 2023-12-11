@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import { locals } from "../../service";
 
 export function Join({ username }) {
 

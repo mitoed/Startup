@@ -22,6 +22,7 @@ function pageSetup(apiRouter) {
 // 2.1.3.1 ---- User active in Live Server
             DB.changeUserVote(sessionID, username, null)
 
+            res.json({category: sessionInstance.category})
             res.status(200).send('Session found')
             return
         }

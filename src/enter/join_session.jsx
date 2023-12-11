@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
+import { locals } from "../../service";
 
 export function Join({ username }) {
 
@@ -33,10 +34,12 @@ export function Join({ username }) {
                 },
             })
             const { status } = response
+            const { category } = response.json()
 
         // 2.1.3 -- If session is open, enter the session
             if (status === 200) {
                 localStorage.setItem('currentSessionID', sessionID.toUpperCase())
+                localStorage.setItem('currentCategory', category)
                 setJoinError('')
 
                 navigate('/voting')

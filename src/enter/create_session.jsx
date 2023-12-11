@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
+import { locals } from "../../service";
 
 export function Create({ username }) {
 
@@ -26,6 +27,7 @@ export function Create({ username }) {
             if (status === 200) {
                 const { sessionID } = await response.json()
                 localStorage.setItem('currentSessionID', sessionID.toUpperCase())
+                localStorage.setItem('currentCategory', category)
                 
                 navigate('/voting')
             }

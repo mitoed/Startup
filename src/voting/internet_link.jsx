@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom"
 
-export default function Recommendation({ sessionID }) {
+export default function InternetLink({ category }) {
 
     const [ recommendationHREF, setHREF ] = React.useState('')
     const [ recommendationType, setType ] = React.useState('')
@@ -15,7 +15,7 @@ export default function Recommendation({ sessionID }) {
         const response = await fetch(`/api/internet-recommendation`, {
             method: 'post',
             body: JSON.stringify({
-                sessionID: sessionID
+                category: category
             }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'

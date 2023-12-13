@@ -32,11 +32,10 @@ export function Join({ username }) {
                     'Content-type': 'application/json; charset=UTF-8'
                 },
             })
-            const { status } = response
-            const { category } = response.json()
+            const { category } = await response.json()
 
         // 2.1.3 -- If session is open, enter the session
-            if (status === 200) {
+            if (category) {
                 localStorage.setItem('currentSessionID', sessionID.toUpperCase())
                 localStorage.setItem('currentCategory', category)
                 setJoinError('')
@@ -45,7 +44,7 @@ export function Join({ username }) {
                 return
 
         // 2.1.4 -- If session is not available or not open, respond with error message to user
-            } else if (status === 204) {
+            } else if (!category) {
                 console.log('Error: Session Not Found')
                 setJoinError('Session Not Found')
                 return

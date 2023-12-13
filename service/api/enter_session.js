@@ -23,13 +23,12 @@ function pageSetup(apiRouter) {
             DB.changeUserVote(sessionID, username, null)
 
             res.json({category: sessionInstance.category})
-            res.status(200).send('Session found')
             return
         }
 
 // 2.1.4 -- If session is not available or not open, respond with error message to user
         if (!sessionInstance || sessionInstance.end_time !== 0) {
-            res.status(204).send('Session Not Found')
+            res.json({category: null})
             return
         }
     })

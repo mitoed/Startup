@@ -12,6 +12,7 @@ const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostna
 const client = new MongoClient(url)
 const sessionsCollection = client.db('voting').collection('sessions')
 const usersCollection = client.db('voting').collection('users')
+const userVoteCollection = client.db('voting').collection('user_vote')
 
 // Live Servers Initialization
 const LIVE_SESSIONS = []
@@ -25,7 +26,7 @@ MASTERCONNECT()
 
 async function MASTERCONNECT() {
     await connectToDatabase()
-    await getLiveData()
+    //await getLiveData()
 }
 
 // Begin connection with Mongo Database
@@ -125,6 +126,19 @@ async function getUserByToken(authToken) {
 // Interacting with Mongo -- Enter Session Page
 // =============================================================================
 
+async function getMongoSession(sessionID) {
+
+    const filter = { "session_id": sessionID }
+
+    try {
+        const sessionInstance = await sessionsCollection.findOne(filter);
+        return sessionInstance
+
+    } catch (ex) {
+        console.log(`\nUnable to add session to database with ${url} because ${ex.message}`);
+    }
+}
+
 /** Add a new session object to the Mongo DB
  * 
  * @param {object} sessionInstance - session object to be added
@@ -147,9 +161,10 @@ async function getMongoOptions(category) {
     try {
         const optionsCollection = client.db('options').collection(category)
         const result = await optionsCollection.find()
+        const resultArray = await result.toArray()
 
         const sessionOptions = []
-        for await (const option of result) {
+        for await (const option of resultArray) {
             sessionOptions.push(option.name)
         }
         return sessionOptions
@@ -165,7 +180,7 @@ async function getMongoOptions(category) {
  * @param {string} username - user to be added
  * @returns - confirmation of success
  */
-async function userToMongoSession(sessionID, username) {
+/*async function userToMongoSession(sessionID, username) {
 
     const filter = {session_id: sessionID}
     const newUser = {name: username, vote: null}
@@ -187,11 +202,50 @@ async function userToMongoSession(sessionID, username) {
         console.log(`\nUnable to add user to session in database with ${url} because ${ex.message}`);
         process.exit(1);
     }
-}
+}*/
 
 // =============================================================================
 // Interacting with Mongo -- Voting Page
 // =============================================================================
+
+async function changeUserVote(sessionID, username, vote) {
+    const filter = { "session_id" : sessionID, "name": username }
+    const update = { $set: { "vote": vote }}
+    
+    try {
+        const success = await userVoteCollection.updateOne(filter, update, {
+            upsert: true
+        })
+        return
+    } catch (ex) {
+        console.log(`\nUnable to add user vote with session in database with ${url} because ${ex.message}`);
+        process.exit(1);
+    }
+}
+
+function removeUserVote(sessionID, username) {
+    const filter = { "session_id" : sessionID, "name": username }
+
+    try {
+        userVoteCollection.deleteOne(filter)
+        return
+    } catch (ex) {
+        console.log(`\nUnable to remove user vote with session in database with ${url} because ${ex.message}`);
+        process.exit(1);
+    }
+}
+
+async function getUserVoteData(sessionID) {
+    const filter = { "session_id": sessionID }
+
+    try {
+        const userVoteData = await userVoteCollection.find(filter).toArray()
+        return userVoteData
+    } catch (ex) {
+        console.log(`\nUnable to remove user vote with session in database with ${url} because ${ex.message}`);
+        process.exit(1);
+    }
+}
 
 /** Updates session with an end time, 'closing' the session
  * 
@@ -221,6 +275,17 @@ async function endSession(sessionID, category, optionsArray) {
             await sessionsCollection.updateOne(filter, updates, {session})
             console.log('\nSuccess updating SESSION in Mongo')
         }
+
+        // Remove all users from user_vote
+        
+        
+        
+        
+        // ADD ME!!!!!
+
+
+
+
 
     } catch (ex) {
         console.log(`\nUnable to end session in database with ${url} because ${ex.message}`);
@@ -268,14 +333,18 @@ async function updateUsers(allUsers, winUsers) {
 
 module.exports = {
     connectToDatabase,
-    LIVE_SESSIONS,
-    LIVE_USERS,
+    //LIVE_SESSIONS,
+    //LIVE_USERS,
     getUser,
     createUser,
     getUserByToken,
+    getMongoSession,
     addMongoSession,
     getMongoOptions,
-    userToMongoSession,
+    //userToMongoSession,
+    changeUserVote,
+    removeUserVote,
+    getUserVoteData,
     endSession,
     updateUsers,
 }

@@ -12,11 +12,7 @@ function pageSetup(apiRouter) {
 // 3.1.6 ---- Populate and display internet recommendation
 // 3.1.6.1 -- Populate recommendation html based on category
     apiRouter.post('/internet-recommendation', async (req, res) => {
-        const { sessionID } = req.body
-
-// 3.1.6.1.1 -- Retrieve session info from from LIVE SERVER
-        const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
-        const category = sessionInstance.category
+        const { category } = req.body
         
 // 3.1.6.1.2 -- Produce internet recommendation html
         let extraConditions = ''
@@ -50,22 +46,26 @@ function pageSetup(apiRouter) {
 // =============================================================================
 // 3.2 -- Refresh page HTML
 // =============================================================================
-    apiRouter.post('/page-html', async (req, res) => {
+    apiRouter.post('/session-data', async (req, res) => {
         
-        const { sessionID } = req.body
+        const { sessionID, category } = req.body
+
+        const sessionUserVotes = await DB.getUserVoteData(sessionID)
+        const sessionOptions = await DB.getMongoOptions(category)
+        /*
 
 // 3.2.1 -- Retrieve session info from LIVE_SESSIONS
         const sessionInstance = DB.LIVE_SESSIONS.find(s => s.session_id === sessionID)
 
 // 3.2.2 -- Get list of users in session from LIVE_USERS
         const sessionUsersArray = DB.LIVE_USERS.filter(u => u.session === sessionID)
-        const numSessionUsers = sessionUsersArray.length
 
 // 3.2.3 -- Produce table of options and datalist html
-        const sessionOptionsArray = sessionInstance['options']
+        const sessionOptionsArray = sessionInstance['options']*/
 
-        res.json({optionsArray: sessionOptionsArray,
-            usersArray: sessionUsersArray
+        res.json({
+            sessionData: sessionUserVotes,
+            sessionOptions: sessionOptions
         })
     })
 
@@ -123,8 +123,11 @@ function pageSetup(apiRouter) {
 // =============================================================================
 
 // 3.1.2 -- Add/update user in LIVE_USERS
-function userToLiveUsers(sessionID, username) {
+function userToUserVote(sessionID, username) {
 
+    DB.changeUserVote(sessionID, username, null)
+
+/*
 // 3.1.2.1 -- Check if user is already in LIVE_USERS
     const userActive = DB.LIVE_USERS.find(u => u.name === username)
 
@@ -140,13 +143,16 @@ function userToLiveUsers(sessionID, username) {
         userActive['session'] = sessionID
         userActive['vote'] = null
         return
-    }
+    }*/
 }
 
 // 3.1.3 -- Upon closing, remove user from LIVE_USERS
-function userFromLiveUsers(username) {
+function userFromUserVote(sessionID, username) {
+
+    DB.removeUserVote(sessionID, username)
+    /*
     const iUser = DB.LIVE_USERS.indexOf(u => u.name === username)
-    DB.LIVE_USERS.splice(iUser, 1)
+    DB.LIVE_USERS.splice(iUser, 1)*/
 }
 
 // =============================================================================
@@ -261,8 +267,8 @@ function generateTableHTML (sessionOptionsArray, sessionUsersArray) {
 
 module.exports = {
     pageSetup,
-    userToLiveUsers,
-    userFromLiveUsers,
+    userToUserVote,
+    userFromUserVote,
     userVote,
     checkVotes
 }

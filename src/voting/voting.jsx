@@ -1,9 +1,72 @@
 import React from "react";
-import Recommendation from "./recommendation";
+import InternetLink from "./internet_link";
+import UserSelection from "./user_selection";
+import GroupSelection from "./group_selection";
+import SuggestionLink from "./suggestion_link";
+import VotingTable from "./voting_table";
 
 export function Voting() {
 
     const sessionID = localStorage.getItem('currentSessionID')
+    const category = localStorage.getItem('currentCategory')
+    const [ sessionOptions, setSessionOptions ] = React.useState([])
+    const [ sessionUserVotes, setSessionUserVotes ] = React.useState([])
+    const [ decision, setDecision ] = React.useState('')
+    const [ suggestion, setSuggestion ] = React.useState('')
+
+    React.useEffect(() => {
+        getSessionDataFromMongo(sessionID)
+    }, [])
+
+    async function getSessionDataFromMongo(sessionID) {
+        const response = await fetch('/api/session-data', {
+            method: 'post',
+            body: JSON.stringify({
+                sessionID: sessionID,
+                category: category
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            },
+        })
+        
+        const data = await response.json()
+
+        setSessionOptions(data.sessionOptions)
+        console.log(sessionOptions)
+        setSessionUserVotes(data.sessionData)
+    }
+
+    const port = window.location.port
+    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+    const socket = new WebSocket(`${protocol}://${window.location.hostname}/ws`);
+
+    socket.onopen = (event) => {
+        const username = localStorage.getItem('currentUser')
+        const session = localStorage.getItem('currentSessionID')
+        const wsMsg = {
+            "type": "addUser",
+            "session": session,
+            "username": username
+        }
+        socket.send(JSON.stringify(wsMsg))
+    }
+    
+    socket.addEventListener('message', (e) => {
+        const msg = JSON.parse(e.data)
+
+        if (msg.type === 'userVote') {
+            const updatedVote = {name: msg.username, session: msg.session, vote: msg.vote}
+            const updatedVotes = sessionUserVotes.map((vote) => 
+                vote._id === updatedVote._id ? updatedVote : vote
+            )
+            setSessionUserVotes(updatedVotes)
+        
+            if (!sessionOptions.includes(msg.vote)) {
+                setSessionOptions((pastOptions) => [...pastOptions, msg.vote])
+            }
+        }
+    })
 
     return (
         <>
@@ -12,132 +75,17 @@ export function Voting() {
                     <h1 id="session_id">Session ID: {sessionID}</h1>
                 </section>
                 <section className="VOT-session VOT-user-count">
-                    <h1 id="user_count">Active Users: 1</h1>
+                    <h1 id="user_count">Active Users: {sessionUserVotes.length}</h1>
                 </section>
                 <section className="VOT-count_selection VOT-container">
-                    <section className="VOT-count">
-                        <table id="count_table">
-                            <tbody>
-                                <tr>
-                                    <th colSpan="2">Voting Status</th>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Loading...</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Loading...</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Loading...</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Loading...</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Loading...</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Loading...</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Loading...</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Loading...</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Loading...</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Loading...</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Loading...</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Loading...</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </section>
-                    <section className="VOT-select">
-                        <form action>
-                            <label htmlFor="vote_selection">Voting Selection</label>
-                            <br/>
-                            <input type="text" list="voting_options"
-                                id="vote_selection"
-                                name="vote_selection"
-                                placeholder="type to search or create" />
-                            <datalist id="voting_options">
-                            </datalist>
-                        </form>
-                        <p id="finalize_msg"></p>
-                        <div>
-                            <button id="clear_vote" className="submit">Clear</button>
-                            <button id="finalize_vote" className="submit">Finalize</button>
-                        </div>
-                    </section>
-                    <Recommendation sessionID={sessionID}/>
+                    <VotingTable options={sessionOptions} users={sessionUserVotes}/>
+                    <UserSelection options={sessionOptions}/>
+                    <InternetLink category={category}/>
                 </section>
             </main>
             <section>
-                <div id="dark_background"></div>
-                <div id="final_decision_box">
-                    <div id="final_decision">
-                        <p>Based on the selection of the group, you will be
-                            <span id="category_verb">eating at</span>
-                            <span id="group_selection">McDonald's</span>!</p>
-                    </div>
-                </div>
-                <div id="recommended_opinion_box">
-                    <div id="recommended_opinion">
-                        <h1>Care to try something new?</h1>
-                        <p>A group member seems to be more creative than the rest.
-                            <br/>
-                            This time, they voted for:
-                            <span id="recommended_selection">Good Move</span>
-                            <br/>
-                            Would you like to support this opinion instead?</p>
-                        <button id="opinion_yes" type="submit" className="submit">Yes</button>
-                        <button id="opinion_no" type="button" className="submit">No</button>
-                    </div>
-                </div>
+                <GroupSelection decision={decision}/>
+                <SuggestionLink suggestion={suggestion}/>
             </section>
         </>
     )

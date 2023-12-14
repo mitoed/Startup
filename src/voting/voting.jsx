@@ -84,12 +84,6 @@ export function Voting() {
     }
 
     const fetchData = async () => {
-        const data = await getSessionDataFromMongo(sessionID)
-        setSessionOptions(data.sessionOptions)
-        setSessionUserVotes(data.sessionData)
-    }
-
-    async function getSessionDataFromMongo(sessionID) {
         const response = await fetch('/api/session-data', {
             method: 'post',
             body: JSON.stringify({
@@ -102,7 +96,8 @@ export function Voting() {
         })
         
         const data = await response.json()
-        return data
+        setSessionOptions(data.sessionOptions)
+        setSessionUserVotes(data.sessionData)
     }
 
     return (

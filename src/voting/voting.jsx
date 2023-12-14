@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import InternetLink from "./internet_link";
 import UserSelection from "./user_selection";
 import GroupSelection from "./group_selection";
-import SuggestionLink from "./suggestion_link";
 import VotingTable from "./voting_table";
 
 export function Voting() {
@@ -186,7 +185,6 @@ export function Voting() {
             </main>
             <section>
                 <GroupSelection decision={decision} category={category}/>
-                <SuggestionLink suggestion={suggestion}/>
             </section>
         </>
     )

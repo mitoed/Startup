@@ -123,9 +123,9 @@ function pageSetup(apiRouter) {
 // =============================================================================
 
 // 3.1.2 -- Add/update user in LIVE_USERS
-function addUserToMongoUserVotes({ session_id, username, vote }) {
+async function addUserToMongoUserVotes({ session_id, username, vote }) {
 
-    DB.changeUserVote(session_id, username, vote)
+    await DB.changeUserVote(session_id, username, vote)
 
 /*
 // 3.1.2.1 -- Check if user is already in LIVE_USERS
@@ -183,16 +183,16 @@ function userVote(msg) {
 // 3.4 -- Tally group votes
 // =============================================================================
 
-function checkVotes(msg) {
+async function checkVotes(msg) {
 
 // 3.4.1 ---- Check if all votes are cast
 // 3.4.1.1 -- Retrieve session info for session from LIVE_USERS
-    const { session } = msg
-    const sessionUsersArray = DB.LIVE_USERS.filter(u => u.session === session)
+    const { session_id } = msg
+    const sessionUserVotes = await DB.getUserVoteData(session_id)
 
 // 3.4.1.2 -- Compare total active users with total votes cast
-    const activeUsers = sessionUsersArray.length
-    const activeVotes = sessionUsersArray.filter(user => user.vote !== null)
+    const activeUsers = sessionUserVotes.length
+    const activeVotes = sessionUserVotes.filter(user => user.vote !== null)
     const totalVotes = activeVotes.length
     let popularVote = ''
 

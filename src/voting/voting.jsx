@@ -65,7 +65,28 @@ export function Voting() {
         socketRef.current.addEventListener('message', async (e) => {
             const msg = JSON.parse(e.data)
 
-            await fetchData()
+            console.log('Type: ', msg.type)
+            // Run code depending on the msg type
+            switch (msg.type) {
+                case 'addUser':
+                    await fetchData()
+                    break
+                case 'removeUser':
+                    await fetchData()
+                    break
+                case 'userVote':
+                    await fetchData()
+                    break
+                case 'stopCountdown':
+                    console.log('Stop countdown')
+                    resetCountdown(false);
+                    break
+                case 'startCountdown':
+                    console.log('Start countdown')
+                    resetCountdown(true, msg.delay, msg.selection)
+                    break
+            }
+            
         })
 
         // Setup the beforeunload event to send a message before the user leaves the page
@@ -100,6 +121,54 @@ export function Voting() {
         setSessionUserVotes(data.sessionData)
     }
 
+    let isCountdownRunning = false
+    let countdownTimer
+
+    // Countdown timer until group selection displayed
+    function triggerCountdown(duration, groupSelection) {
+        
+        isCountdownRunning = true
+        let countdown = duration;
+
+        countdownTimer = setInterval(() => {
+
+            // Increment the timer
+            countdown--;
+            
+            // Update countdown on the screen
+            const finalizeMsg = document.getElementById('finalize_msg')
+            finalizeMsg.innerHTML = `Group selection in ${countdown}`
+
+    // 3.4.3.1 -- When timer finished, proceed to 3.5
+            if (countdown === 0) {
+                clearInterval(countdownTimer);
+                setDecision(groupSelection);
+                const finalizeMsg = document.getElementById('finalize_msg')
+                finalizeMsg.innerHTML = 'Session has ended'
+            }
+        }, 1000); // Update countdown every 1 second
+    }
+
+    // 3.4.3.2 -- If votes are changed, cancel timer
+    function resetCountdown(begin, duration = '', groupSelection = '') {
+
+        // Clear the existing timer if it exists
+        if (isCountdownRunning) {
+            clearInterval(countdownTimer);
+            isCountdownRunning = false
+        }
+
+        // Start the countdown on screen
+        if (begin) {
+            triggerCountdown(duration, groupSelection);
+        
+        // Remove countdown on the screen
+        } else {
+            const finalizeMsg = document.getElementById('finalize_msg')
+            finalizeMsg.innerHTML = ''
+        }
+    }
+
     return (
         <>
             <main className="ALL-l-main ALL-container ALL-verticle">
@@ -116,7 +185,7 @@ export function Voting() {
                 </section>
             </main>
             <section>
-                <GroupSelection decision={decision}/>
+                <GroupSelection decision={decision} category={category}/>
                 <SuggestionLink suggestion={suggestion}/>
             </section>
         </>

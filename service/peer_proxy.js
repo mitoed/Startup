@@ -4,8 +4,7 @@ const uuid = require('uuid')
 const VS = require('./api/voting_session.js');
 
 // WebSocket Messages
-const refreshPageMsg = `{ "type": "refreshPage" }`
-const stopCountdown = `{ "type": "stopCountdown" }`
+const stopCountdown = { "type": "stopCountdown" }
 
 class userVote {
     constructor (username, session_id, vote) {
@@ -33,7 +32,7 @@ function peerProxy(httpServer) {
         const connection = { id: uuid.v4(), alive: true, ws: ws }
         connections.push(connection)
 
-        ws.on('message', function message(data) {
+        ws.on('message', async function message(data) {
             const msg = JSON.parse(data)
 
             if (msg.type === 'addUser' || msg.type === 'userVote') {
@@ -47,20 +46,17 @@ function peerProxy(httpServer) {
 
             // Forward message to each client
             msgToAllClients(connections, msg)
-            //msgToAllClients(connections, stopCountdown)
-
-            /*
+            msgToAllClients(connections, stopCountdown)
+            
             // 3.3 -- Check for group selection
-            const groupSelection = VS.checkVotes(msg)
+            const groupSelection = await VS.checkVotes(msg)
             if (groupSelection) {
                 // If there's a group selection, tell all clients to start their countdowns
-                const startCountdown = `{ "type": "startCountdown", "selection": "${groupSelection}", "delay": "10" }`
+                const startCountdown = { "type": "startCountdown", "selection": groupSelection, "delay": "10" }
                 msgToAllClients(connections, startCountdown)
             } else {
-                // If there's no group selection, tell all clients to stop their countdowns
-                msgToAllClients(connections, stopCountdown)
-            }*/
-
+                //msgToAllClients(connections, stopCountdown)
+            }
         })
 
         // Remove the closed connection so we don't try to forward anymore

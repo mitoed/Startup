@@ -1,13 +1,15 @@
 import React from "react";
 import castVote from "./cast_vote";
 
-export default function UserSelection({ options, socket, username, sessionID, category }) {
+export default function UserSelection({ options, socket, username, sessionID, category, buttonEnable }) {
 
     const [ userVote, setUserVote ] = React.useState('')
 
     function handleSubmit(newVote) {
-        setUserVote(newVote.trim() || '')
-        castVote(socket, username, newVote.trim() || '', sessionID, category)
+        if (buttonEnable) {
+            setUserVote(newVote.trim() || '')
+            castVote(socket, username, newVote.trim() || '', sessionID, category)
+        }
     }
 
     function CreateDatalist() {

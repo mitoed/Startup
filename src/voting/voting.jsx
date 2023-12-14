@@ -11,7 +11,7 @@ export function Voting() {
     const [ sessionOptions, setSessionOptions ] = React.useState([])
     const [ sessionUserVotes, setSessionUserVotes ] = React.useState([])
     const [ decision, setDecision ] = React.useState('')
-    const [ suggestion, setSuggestion ] = React.useState('')
+    const [ buttonEnable, setButtonEnable ] = React.useState(true)
 
     const socketRef = useRef(null)
 
@@ -144,6 +144,7 @@ export function Voting() {
                 setDecision(groupSelection);
                 const finalizeMsg = document.getElementById('finalize_msg')
                 finalizeMsg.innerHTML = 'Session has ended'
+                setButtonEnable(false)
             }
         }, 1000); // Update countdown every 1 second
     }
@@ -179,7 +180,7 @@ export function Voting() {
                 </section>
                 <section className="VOT-count_selection VOT-container">
                     <VotingTable options={sessionOptions} sessionUserVotes={sessionUserVotes}/>
-                    <UserSelection options={sessionOptions} sessionID={sessionID} category={category} socket={socketRef.current}/>
+                    <UserSelection options={sessionOptions} sessionID={sessionID} category={category} socket={socketRef.current} buttonEnable={buttonEnable}/>
                     <InternetLink category={category}/>
                 </section>
             </main>

@@ -7,9 +7,17 @@ const VS = require('./api/voting_session.js');
 const refreshPageMsg = `{ "type": "refreshPage" }`
 const stopCountdown = `{ "type": "stopCountdown" }`
 
+class userVote {
+    constructor (username, session_id, vote) {
+        this.username = username,
+        this.session_id = session_id,
+        this.vote = vote
+    }
+}
+
 function peerProxy(httpServer) {
     // Create a websocket object
-    const wss = new WebSocketServer({ noServer: true })
+    const wss = new WebSocketServer({ noServer: true, perMessageDeflate: false })
 
     // Handle the protocol upgrade from HTTP to WebSocket
     httpServer.on('upgrade', (request, socket, head) => {
@@ -28,23 +36,20 @@ function peerProxy(httpServer) {
         ws.on('message', function message(data) {
             const msg = JSON.parse(data)
 
-            // Tell each client to refresh their page (3.2) and stop any countdown (3.4.3.2)
-            msgToAllClients(connections, refreshPageMsg)
-            msgToAllClients(connections, stopCountdown)
+            if (msg.type === 'addUser' || msg.type === 'userVote') {
+                const newVote = new userVote(msg.username, msg.session_id, msg.vote || null)
 
-            // 3.1.2 -- Add/Update user in LIVE_USERS
-            if (msg.type === 'addUser') {
-                VS.userToLiveUsers(msg.session, msg.username)
-
-            // 3.1.3 -- Upon closing, remove user from LIVE_USERS
+                VS.addUserToMongoUserVotes(newVote)
             } else if (msg.type === 'removeUser') {
-                VS.userFromLiveUsers(msg.username)
-
-            // 3.2.2 -- Send vote through WebSocket
-            } else if (msg.type === 'userVote') {
-                VS.userVote(msg)
+                const oldUser = new userVote(msg.username, msg.session_id, null)
+                VS.removeUserFromMongoUserVotes(oldUser)
             }
 
+            // Forward message to each client
+            msgToAllClients(connections, msg)
+            //msgToAllClients(connections, stopCountdown)
+
+            /*
             // 3.3 -- Check for group selection
             const groupSelection = VS.checkVotes(msg)
             if (groupSelection) {
@@ -54,14 +59,14 @@ function peerProxy(httpServer) {
             } else {
                 // If there's no group selection, tell all clients to stop their countdowns
                 msgToAllClients(connections, stopCountdown)
-            }
+            }*/
 
         })
 
         // Remove the closed connection so we don't try to forward anymore
         ws.on('close', () => {
             connections.findIndex((o, i) => {
-                if (o.id === connections.id) {
+                if (o.id === connections[i].id) {
                     connections.splice(i, 1)
                     return true
                 }
@@ -84,13 +89,13 @@ function peerProxy(httpServer) {
                 c.ws.ping()
             }
         })
-    }, 10000)
+    }, 5000)
 }
 
 
 function msgToAllClients(connections, msg) {
     connections.forEach((c) => {
-        c.ws.send(msg)
+        c.ws.send(JSON.stringify(msg))
     })
 }
 

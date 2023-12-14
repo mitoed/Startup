@@ -38,7 +38,7 @@ function peerProxy(httpServer) {
             if (msg.type === 'addUser' || msg.type === 'userVote') {
                 const newVote = new userVote(msg.username, msg.session_id, msg.vote || null)
 
-                VS.addUserToMongoUserVotes(newVote)
+                await VS.addUserToMongoUserVotes(newVote)
             } else if (msg.type === 'removeUser') {
                 const oldUser = new userVote(msg.username, msg.session_id, null)
                 VS.removeUserFromMongoUserVotes(oldUser)

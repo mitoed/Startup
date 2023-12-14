@@ -1,19 +1,20 @@
 import React from "react";
 import castVote from "./cast_vote";
 
-export default function UserSelection({ options }) {
+export default function UserSelection({ options, socket, username, sessionID, category }) {
 
     const [ userVote, setUserVote ] = React.useState('')
 
-    function handleSubmit(userVote) {
-        setUserVote(userVote.trim() || null)
-        castVote(userVote)
+    function handleSubmit(newVote) {
+        setUserVote(newVote.trim() || '')
+        castVote(socket, username, newVote.trim() || '', sessionID, category)
     }
 
     function CreateDatalist() {
+        const sortedOptions = options.sort((a, b) => a.localeCompare(b))
+        
         const datalist = []
-
-        for (let option of options) {
+        for (let option of sortedOptions) {
             datalist.push(<option key={option} value={option}></option>)
         }
         return datalist

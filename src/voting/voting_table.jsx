@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function VotingTable({ options , userVotes }) {
+export default function VotingTable({ options , sessionUserVotes }) {
 
     const [ tableVotes, setTableVotes ] = React.useState(loading())
 
@@ -8,7 +8,7 @@ export default function VotingTable({ options , userVotes }) {
         const voteTotals = []
 
             for (const option of options) {
-                const optionTotal = userVotes.filter((user) => user.vote === option).length
+                const optionTotal = sessionUserVotes.filter((user) => user.vote === option).length
                 voteTotals.push({_id: option, option: option, votes: optionTotal})
             }
 
@@ -20,7 +20,7 @@ export default function VotingTable({ options , userVotes }) {
 
     React.useEffect(() => {
         setTableVotes(createSortedTable())
-    }, [userVotes])
+    }, [sessionUserVotes])
 
     return (
         <section className="VOT-count">

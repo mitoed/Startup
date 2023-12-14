@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import InternetLink from "./internet_link";
 import UserSelection from "./user_selection";
 import GroupSelection from "./group_selection";
@@ -14,9 +14,54 @@ export function Voting() {
     const [ decision, setDecision ] = React.useState('')
     const [ suggestion, setSuggestion ] = React.useState('')
 
+    const socketRef = useRef(null)
+
     React.useEffect(() => {
-        getSessionDataFromMongo(sessionID)
+        pageSetup()
     }, [])
+
+    async function pageSetup() {
+        await getSessionDataFromMongo(sessionID)
+
+        const port = window.location.port
+        const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+        socketRef.current = new WebSocket(`${protocol}://${window.location.hostname}:${port}/ws`);
+    
+        socketRef.current.onopen = (event) => {
+            const username = localStorage.getItem('currentUser')
+            const session = localStorage.getItem('currentSessionID')
+            const wsMsg = {
+                "type": 'addUser',
+                "session": session,
+                "username": username,
+                "vote": '',
+            }
+            socketRef.current.send(JSON.stringify(wsMsg))
+        }
+        
+        socketRef.current.addEventListener('message', (e) => {
+            const msg = JSON.parse(e.data)
+    
+            if (msg.type === 'userVote') {
+                const updatedVote = {name: msg.username, session: msg.session, vote: msg.vote}
+                const voteIndex = sessionUserVotes.findIndex((vote) => {
+                    return vote.name === updatedVote.name && vote.session === updatedVote.session
+                })
+                const updatedVotes = [...sessionUserVotes]
+                updatedVotes[voteIndex] = updatedVote
+                console.log('Old Votes: ', sessionUserVotes)
+                console.log('New Votes: ', updatedVotes)
+                setSessionUserVotes(updatedVotes)
+            
+                if (!sessionOptions.includes(msg.vote)) {
+                    setSessionOptions((pastOptions) => [...pastOptions, msg.vote])
+                }
+                
+            } else if (msg.type === 'addUser') {
+                setSessionUserVotes(prevVotes => [...prevVotes, { name: msg.username, session: msg.session, vote: msg.vote }]);
+            }
+        })
+    }
 
     async function getSessionDataFromMongo(sessionID) {
         const response = await fetch('/api/session-data', {
@@ -33,40 +78,8 @@ export function Voting() {
         const data = await response.json()
 
         setSessionOptions(data.sessionOptions)
-        console.log(sessionOptions)
         setSessionUserVotes(data.sessionData)
     }
-
-    const port = window.location.port
-    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
-    const socket = new WebSocket(`${protocol}://${window.location.hostname}/ws`);
-
-    socket.onopen = (event) => {
-        const username = localStorage.getItem('currentUser')
-        const session = localStorage.getItem('currentSessionID')
-        const wsMsg = {
-            "type": "addUser",
-            "session": session,
-            "username": username
-        }
-        socket.send(JSON.stringify(wsMsg))
-    }
-    
-    socket.addEventListener('message', (e) => {
-        const msg = JSON.parse(e.data)
-
-        if (msg.type === 'userVote') {
-            const updatedVote = {name: msg.username, session: msg.session, vote: msg.vote}
-            const updatedVotes = sessionUserVotes.map((vote) => 
-                vote._id === updatedVote._id ? updatedVote : vote
-            )
-            setSessionUserVotes(updatedVotes)
-        
-            if (!sessionOptions.includes(msg.vote)) {
-                setSessionOptions((pastOptions) => [...pastOptions, msg.vote])
-            }
-        }
-    })
 
     return (
         <>
@@ -78,8 +91,8 @@ export function Voting() {
                     <h1 id="user_count">Active Users: {sessionUserVotes.length}</h1>
                 </section>
                 <section className="VOT-count_selection VOT-container">
-                    <VotingTable options={sessionOptions} users={sessionUserVotes}/>
-                    <UserSelection options={sessionOptions}/>
+                    <VotingTable options={sessionOptions} userVotes={sessionUserVotes}/>
+                    <UserSelection options={sessionOptions} sessionID={sessionID} category={category} socket={socketRef.current}/>
                     <InternetLink category={category}/>
                 </section>
             </main>

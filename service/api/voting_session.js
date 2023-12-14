@@ -123,9 +123,9 @@ function pageSetup(apiRouter) {
 // =============================================================================
 
 // 3.1.2 -- Add/update user in LIVE_USERS
-function userToUserVote(sessionID, username) {
+function addUserToMongoUserVotes({ session_id, username, vote }) {
 
-    DB.changeUserVote(sessionID, username, null)
+    DB.changeUserVote(session_id, username, vote)
 
 /*
 // 3.1.2.1 -- Check if user is already in LIVE_USERS
@@ -147,9 +147,9 @@ function userToUserVote(sessionID, username) {
 }
 
 // 3.1.3 -- Upon closing, remove user from LIVE_USERS
-function userFromUserVote(sessionID, username) {
+function removeUserFromMongoUserVotes({ session_id, username }) {
 
-    DB.removeUserVote(sessionID, username)
+    DB.removeUserVote(session_id, username)
     /*
     const iUser = DB.LIVE_USERS.indexOf(u => u.name === username)
     DB.LIVE_USERS.splice(iUser, 1)*/
@@ -267,8 +267,8 @@ function generateTableHTML (sessionOptionsArray, sessionUsersArray) {
 
 module.exports = {
     pageSetup,
-    userToUserVote,
-    userFromUserVote,
+    addUserToMongoUserVotes,
+    removeUserFromMongoUserVotes,
     userVote,
     checkVotes
 }

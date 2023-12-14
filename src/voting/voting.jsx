@@ -17,11 +17,34 @@ export function Voting() {
     const socketRef = useRef(null)
 
     React.useEffect(() => {
-        pageSetup()
-    }, [])
+        fetchData();
+    }, [sessionID]);
 
-    async function pageSetup() {
-        await getSessionDataFromMongo(sessionID)
+    React.useEffect(() => {
+        // Only setup the WebSocket when the component mounts
+        setupWebSocket();
+
+        // Cleanup function to close the WebSocket when the component unmounts
+        return () => {
+            if (socketRef.current) {
+                // Send a message indicating that the user is leaving
+                const username = localStorage.getItem('currentUser');
+                const session_id = localStorage.getItem('currentSessionID');
+                const wsMsg = {
+                    "type": 'removeUser',
+                    "session_id": session_id,
+                    "username": username,
+                };
+                if (socketRef.current.readyState === WebSocket.OPEN) {
+                    socketRef.current.send(JSON.stringify(wsMsg));
+                }
+                // Close the WebSocket
+                socketRef.current.close();
+            }
+        };
+    }, []);
+
+    async function setupWebSocket() {
 
         const port = window.location.port
         const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
@@ -29,38 +52,41 @@ export function Voting() {
     
         socketRef.current.onopen = (event) => {
             const username = localStorage.getItem('currentUser')
-            const session = localStorage.getItem('currentSessionID')
+            const session_id = localStorage.getItem('currentSessionID')
             const wsMsg = {
                 "type": 'addUser',
-                "session": session,
+                "session_id": session_id,
                 "username": username,
                 "vote": '',
             }
             socketRef.current.send(JSON.stringify(wsMsg))
         }
         
-        socketRef.current.addEventListener('message', (e) => {
+        socketRef.current.addEventListener('message', async (e) => {
             const msg = JSON.parse(e.data)
-    
-            if (msg.type === 'userVote') {
-                const updatedVote = {name: msg.username, session: msg.session, vote: msg.vote}
-                const voteIndex = sessionUserVotes.findIndex((vote) => {
-                    return vote.name === updatedVote.name && vote.session === updatedVote.session
-                })
-                const updatedVotes = [...sessionUserVotes]
-                updatedVotes[voteIndex] = updatedVote
-                console.log('Old Votes: ', sessionUserVotes)
-                console.log('New Votes: ', updatedVotes)
-                setSessionUserVotes(updatedVotes)
-            
-                if (!sessionOptions.includes(msg.vote)) {
-                    setSessionOptions((pastOptions) => [...pastOptions, msg.vote])
-                }
-                
-            } else if (msg.type === 'addUser') {
-                setSessionUserVotes(prevVotes => [...prevVotes, { name: msg.username, session: msg.session, vote: msg.vote }]);
-            }
+
+            await fetchData()
         })
+
+        // Setup the beforeunload event to send a message before the user leaves the page
+        window.addEventListener('beforeunload', () => {
+            const username = localStorage.getItem('currentUser');
+            const session_id = localStorage.getItem('currentSessionID');
+            const wsMsg = {
+                "type": 'removeUser',
+                "session_id": session_id,
+                "username": username,
+            };
+            if (socketRef.current.readyState === WebSocket.OPEN) {
+                socketRef.current.send(JSON.stringify(wsMsg));
+            }
+        });
+    }
+
+    const fetchData = async () => {
+        const data = await getSessionDataFromMongo(sessionID)
+        setSessionOptions(data.sessionOptions)
+        setSessionUserVotes(data.sessionData)
     }
 
     async function getSessionDataFromMongo(sessionID) {
@@ -76,9 +102,7 @@ export function Voting() {
         })
         
         const data = await response.json()
-
-        setSessionOptions(data.sessionOptions)
-        setSessionUserVotes(data.sessionData)
+        return data
     }
 
     return (
@@ -91,7 +115,7 @@ export function Voting() {
                     <h1 id="user_count">Active Users: {sessionUserVotes.length}</h1>
                 </section>
                 <section className="VOT-count_selection VOT-container">
-                    <VotingTable options={sessionOptions} userVotes={sessionUserVotes}/>
+                    <VotingTable options={sessionOptions} sessionUserVotes={sessionUserVotes}/>
                     <UserSelection options={sessionOptions} sessionID={sessionID} category={category} socket={socketRef.current}/>
                     <InternetLink category={category}/>
                 </section>

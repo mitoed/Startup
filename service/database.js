@@ -135,7 +135,7 @@ async function getMongoSession(sessionID) {
         return sessionInstance
 
     } catch (ex) {
-        console.log(`\nUnable to add session to database with ${url} because ${ex.message}`);
+        console.log(`\nUnable to get session to database with ${url} because ${ex.message}`);
     }
 }
 

@@ -37,8 +37,8 @@ function peerProxy(httpServer) {
 
             if (msg.type === 'addUser' || msg.type === 'userVote') {
                 const newVote = new userVote(msg.username, msg.session_id, msg.vote || null)
-
                 await VS.addUserToMongoUserVotes(newVote)
+
             } else if (msg.type === 'removeUser') {
                 const oldUser = new userVote(msg.username, msg.session_id, null)
                 VS.removeUserFromMongoUserVotes(oldUser)
@@ -48,14 +48,15 @@ function peerProxy(httpServer) {
             msgToAllClients(connections, msg)
             msgToAllClients(connections, stopCountdown)
             
-            // 3.3 -- Check for group selection
-            const groupSelection = await VS.checkVotes(msg)
-            if (groupSelection) {
-                // If there's a group selection, tell all clients to start their countdowns
-                const startCountdown = { "type": "startCountdown", "selection": groupSelection, "delay": "10" }
-                msgToAllClients(connections, startCountdown)
-            } else {
-                //msgToAllClients(connections, stopCountdown)
+            if (msg.type !== 'addUser') {
+                // 3.3 -- Check for group selection
+                const groupSelection = await VS.checkVotes(msg)
+                
+                if (groupSelection) {
+                    // If there's a group selection, tell all clients to start their countdowns
+                    const startCountdown = { "type": "startCountdown", "selection": groupSelection, "delay": "10" }
+                    msgToAllClients(connections, startCountdown)
+                }
             }
         })
 

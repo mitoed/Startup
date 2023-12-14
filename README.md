@@ -1,6 +1,6 @@
 ### Run in console to deploy code:
 
-> ./deployService.sh -k ~/JavaScript/keys/prod.pem -h activityanarchy.click -s startup
+> ./deployReact.sh -k ~/JavaScript/keys/prod.pem -h activityanarchy.click -s startup
 
 # Startup - Activity Anarchy
 

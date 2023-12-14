@@ -2,7 +2,7 @@ Link to [README file](/README.md) for startup application
 
 ### Run in console to deploy code:
 
-> ./deployService.sh -k ~/JavaScript/keys/prod.pem -h activityanarchy.click -s startup
+> ./deployReact.sh -k ~/JavaScript/keys/prod.pem -h activityanarchy.click -s startup
 
 # CS 260 Notes (by topic)
 

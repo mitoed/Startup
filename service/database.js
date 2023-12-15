@@ -174,36 +174,6 @@ async function getMongoOptions(category) {
     }
 }
 
-/** Adds a user to the session entry of Mongo DB
- * 
- * @param {string} sessionID - session to be updated
- * @param {string} username - user to be added
- * @returns - confirmation of success
- */
-/*async function userToMongoSession(sessionID, username) {
-
-    const filter = {session_id: sessionID}
-    const newUser = {name: username, vote: null}
-    const updates = { $push: { active_users_array: newUser}}
-
-    try {
-
-        const session = await sessionsCollection.findOne(filter)
-        const isActiveUser = session.active_users_array.some(u => u.name === username)
-
-        // Only add the user if they are not already in the session
-        if (!isActiveUser) {
-            return await sessionsCollection.updateOne(filter, updates)
-        }
-
-        return
-        
-    } catch (ex) {
-        console.log(`\nUnable to add user to session in database with ${url} because ${ex.message}`);
-        process.exit(1);
-    }
-}*/
-
 // =============================================================================
 // Interacting with Mongo -- Voting Page
 // =============================================================================
@@ -252,7 +222,7 @@ async function getUserVoteData(sessionID) {
  * @param {string} sessionID - id of session to be closed
  * @returns - confirmation of success
  */
-async function endSession(sessionID, category, optionsArray) {
+async function endSession(sessionID) {
 
     const session = client.startSession()
     
@@ -260,12 +230,6 @@ async function endSession(sessionID, category, optionsArray) {
     const updates = { $inc: { end_time: Date.now() } }
 
     try {
-
-        // Replace the options DB with the new set of options
-        const optionsCollection = client.db('options').collection(category)
-        for await (const option of optionsArray) {
-            await optionsCollection.updateOne({ "name" : option }, { $set: { "name" : option } }, { upsert: true, session })
-        }
 
         if (sessionID === 'SAMPLE') {
             console.log('\nSAMPLE session will not be ended in database.')
@@ -275,17 +239,6 @@ async function endSession(sessionID, category, optionsArray) {
             await sessionsCollection.updateOne(filter, updates, {session})
             console.log('\nSuccess updating SESSION in Mongo')
         }
-
-        // Remove all users from user_vote
-        
-        
-        
-        
-        // ADD ME!!!!!
-
-
-
-
 
     } catch (ex) {
         console.log(`\nUnable to end session in database with ${url} because ${ex.message}`);

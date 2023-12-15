@@ -64,7 +64,6 @@ export function Voting() {
         socketRef.current.addEventListener('message', async (e) => {
             const msg = JSON.parse(e.data)
 
-            console.log('Type: ', msg.type)
             // Run code depending on the msg type
             switch (msg.type) {
                 case 'addUser':
@@ -77,11 +76,9 @@ export function Voting() {
                     await fetchData()
                     break
                 case 'stopCountdown':
-                    console.log('Stop countdown')
                     resetCountdown(false);
                     break
                 case 'startCountdown':
-                    console.log('Start countdown')
                     resetCountdown(true, msg.delay, msg.selection)
                     break
             }
@@ -142,9 +139,7 @@ export function Voting() {
             if (countdown === 0) {
                 clearInterval(countdownTimer);
                 setDecision(groupSelection);
-                const finalizeMsg = document.getElementById('finalize_msg')
-                finalizeMsg.innerHTML = 'Session has ended'
-                setButtonEnable(false)
+                closeSession()
             }
         }, 1000); // Update countdown every 1 second
     }
@@ -167,6 +162,21 @@ export function Voting() {
             const finalizeMsg = document.getElementById('finalize_msg')
             finalizeMsg.innerHTML = ''
         }
+    }
+
+    async function closeSession() {
+        const finalizeMsg = document.getElementById('finalize_msg')
+        finalizeMsg.innerHTML = 'Session has ended'
+        setButtonEnable(false)
+        await fetch('/api/close-session', {
+            method: 'post',
+            body: JSON.stringify({
+                sessionID: sessionID,
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            },
+        })
     }
 
     return (

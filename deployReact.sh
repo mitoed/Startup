@@ -20,11 +20,12 @@ printf "\n----> Build the distribution package\n"
 rm -rf build
 mkdir build
 npm install # make sure vite is installed so that we can bundle
+npm fund # make sure there are enough resources allocated to deploy the packages
 npm run build # build the React front end
 cp -rf dist build/public # move the React front end to the target distribution
 cp service/*.js build # move the back end service to the target distribution
 cp service/*.json build
-cp service/api*.js build
+cp -r service/api build
 
 # Step 2
 printf "\n----> Clearing out previous distribution on the target\n"

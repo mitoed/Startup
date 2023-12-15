@@ -8,6 +8,7 @@ sample_values.json
 
 # Modules
 /node_modules/
+/service/node_modules/
 
 # Testing
 /test-results/

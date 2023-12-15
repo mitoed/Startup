@@ -2,43 +2,43 @@
   "Mongo_USERS": [
     {
       "username": "ADMIN",
-      "password_hash": "$2b$10$JNUauXK6ZnpoivPZcbURzuAPKyC5pSDjSQrP/mEni/n5KXc23EPHO",
-      "token": "383ffe90-0a10-4405-953d-cc3a8d38e3e9",
+      "password_hash": "$2b$10$66LjUFHWxJtB7BfyPt9sfe13S/W1P1Y.xgMG0.u6TLlK.os080v8.",
+      "token": "f6dd5cea-c883-452c-b7b3-99cbfe9dbc2e",
       "sessions_total": 100000,
       "sessions_won": 100000
     },
     {
       "username": "BILLY",
-      "password_hash": "$2b$10$m6yZZSvlyuapmcL9Hvrw3udauXjIXSshccyq.EHFUJ4f9ZpkXXGm6",
-      "token": "ea6a0120-ed70-43a9-bd05-c38dca1d69ce",
+      "password_hash": "$2b$10$EeWpGp7jnYHLwEnVxed.S.K0qZLUG00xc/4DEucWZQwcy5UVOLwH2",
+      "token": "468d4986-a774-49ef-8a75-df64444adde6",
       "sessions_total": 7,
       "sessions_won": 1
     },
     {
       "username": "JOE",
-      "password_hash": "$2b$10$n5mghw5s7fHzq2zpOAc1WuKz.nESPK7vbfzZp3/a4PH29cayvx4wC",
-      "token": "be2ed1fb-f4fc-4c81-8b40-f2a38ae215d6",
+      "password_hash": "$2b$10$/SyOr864JiaLJ2WHBjziG.BvbZcl96iQNQIl12.M1fYzwM2ns384G",
+      "token": "3b212c07-8a4c-440b-82dd-a7eed5927258",
       "sessions_total": 7,
       "sessions_won": 0
     },
     {
       "username": "SAMMY",
-      "password_hash": "$2b$10$uJhev4iR1uEm9mUE4ZuYZ.QT7eLIGA9tbBnICsg91kWeVe2Hi.Aeq",
-      "token": "e7011ae2-07be-4b81-adf3-4165e3423fcf",
+      "password_hash": "$2b$10$rmc.W5dPDzLNomI.D0NKdeAolmrcD8OZ1Vwnhmwctgw7dy5.PbxhW",
+      "token": "9c417aa1-439c-4d0a-acc8-a33f1968510f",
       "sessions_total": 3,
       "sessions_won": 0
     },
     {
       "username": "KATIE",
-      "password_hash": "$2b$10$9dG5zWMPjlD8ckXAVnOdYeQuJoiQ6yrLEzhm5vcbPt19hWzOAbtQy",
-      "token": "3af50227-9eca-4824-8132-6e25eb54e1df",
+      "password_hash": "$2b$10$2HqcvkwiNtvL4we4hkXr7ul09115VYkEQZnmmY1vCSmMV0Gda3S1W",
+      "token": "6ed14e64-aef4-4f55-a5ca-fb88b009449b",
       "sessions_total": 3,
       "sessions_won": 3
     },
     {
       "username": "BOB",
-      "password_hash": "$2b$10$.2T/SQJFTFGpIeL.R7AniOAa28E2bqIGIbBghRv2ELGipnFr1R8Ae",
-      "token": "55ce59c1-739d-4296-884c-a08a298f95ec",
+      "password_hash": "$2b$10$dzu2LIbBlZuvnJ7R27uzjOke9Ise53bABvClN5MhtOEoSTgRouv1C",
+      "token": "f0bda7ab-052b-49bc-ad73-69f91743a61e",
       "sessions_total": 7,
       "sessions_won": 4
     }
@@ -47,22 +47,7 @@
     {
       "session_id": "SAMPLE",
       "category": "food",
-      "options": [
-        "Wendy's",
-        "McDonald's",
-        "Chick-fil-A",
-        "Bumblebees",
-        "Se Llama Peru",
-        "India Palace",
-        "Burger Supreme",
-        "Cubby's",
-        "Good Move",
-        "Brick Oven",
-        "Costa Vida",
-        "Five Sushi Bros",
-        "Black Sheep Cafe"
-      ],
-      "start_time": 1700122387229,
+      "start_time": 1702053064978,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -70,22 +55,7 @@
     {
       "session_id": "F7N7V4",
       "category": "food",
-      "options": [
-        "Wendy's",
-        "McDonald's",
-        "Chick-fil-A",
-        "Bumblebees",
-        "Se Llama Peru",
-        "India Palace",
-        "Burger Supreme",
-        "Cubby's",
-        "Good Move",
-        "Brick Oven",
-        "Costa Vida",
-        "Five Sushi Bros",
-        "Black Sheep Cafe"
-      ],
-      "start_time": 1700122387229,
+      "start_time": 1702053064978,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -93,22 +63,7 @@
     {
       "session_id": "C7T4H9",
       "category": "food",
-      "options": [
-        "Wendy's",
-        "McDonald's",
-        "Chick-fil-A",
-        "Bumblebees",
-        "Se Llama Peru",
-        "India Palace",
-        "Burger Supreme",
-        "Cubby's",
-        "Good Move",
-        "Brick Oven",
-        "Costa Vida",
-        "Five Sushi Bros",
-        "Black Sheep Cafe"
-      ],
-      "start_time": 1700122387229,
+      "start_time": 1702053064978,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -116,21 +71,7 @@
     {
       "session_id": "TEST",
       "category": "movie",
-      "options": [
-        "The Shawshank Redemption",
-        "The Godfather",
-        "The Dark Knight",
-        "Pulp Fiction",
-        "Schindler's List",
-        "The Return of the King",
-        "Fight Club",
-        "Forrest Gump",
-        "Inception",
-        "The Matrix",
-        "Gladiator",
-        "The Silence of the Lambs"
-      ],
-      "start_time": 1700122387229,
+      "start_time": 1702053064978,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -138,21 +79,7 @@
     {
       "session_id": "N7T5Q6",
       "category": "movie",
-      "options": [
-        "The Shawshank Redemption",
-        "The Godfather",
-        "The Dark Knight",
-        "Pulp Fiction",
-        "Schindler's List",
-        "The Return of the King",
-        "Fight Club",
-        "Forrest Gump",
-        "Inception",
-        "The Matrix",
-        "Gladiator",
-        "The Silence of the Lambs"
-      ],
-      "start_time": 1700122387229,
+      "start_time": 1702053064978,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -160,21 +87,7 @@
     {
       "session_id": "L3V9B4",
       "category": "movie",
-      "options": [
-        "The Shawshank Redemption",
-        "The Godfather",
-        "The Dark Knight",
-        "Pulp Fiction",
-        "Schindler's List",
-        "The Return of the King",
-        "Fight Club",
-        "Forrest Gump",
-        "Inception",
-        "The Matrix",
-        "Gladiator",
-        "The Silence of the Lambs"
-      ],
-      "start_time": 1700122387229,
+      "start_time": 1702053064978,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -182,21 +95,7 @@
     {
       "session_id": "R7M0X2",
       "category": "game",
-      "options": [
-        "Settlers of Catan",
-        "Ticket to Ride",
-        "Carcassonne",
-        "Pandemic",
-        "Dominion",
-        "Codenames",
-        "7 Wonders",
-        "Twilight Struggle",
-        "Agricola",
-        "Scythe",
-        "Splendor",
-        "Betrayal at Baldur's Gate"
-      ],
-      "start_time": 1700122387229,
+      "start_time": 1702053064978,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -204,21 +103,7 @@
     {
       "session_id": "X7H3J3",
       "category": "game",
-      "options": [
-        "Settlers of Catan",
-        "Ticket to Ride",
-        "Carcassonne",
-        "Pandemic",
-        "Dominion",
-        "Codenames",
-        "7 Wonders",
-        "Twilight Struggle",
-        "Agricola",
-        "Scythe",
-        "Splendor",
-        "Betrayal at Baldur's Gate"
-      ],
-      "start_time": 1700122387229,
+      "start_time": 1702053064978,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
@@ -226,50 +111,36 @@
     {
       "session_id": "S4C3Q5",
       "category": "game",
-      "options": [
-        "Settlers of Catan",
-        "Ticket to Ride",
-        "Carcassonne",
-        "Pandemic",
-        "Dominion",
-        "Codenames",
-        "7 Wonders",
-        "Twilight Struggle",
-        "Agricola",
-        "Scythe",
-        "Splendor",
-        "Betrayal at Baldur's Gate"
-      ],
-      "start_time": 1700122387229,
+      "start_time": 1702053064978,
       "unpopular_opinion": "",
       "end_time": 0,
       "group_selection": ""
     }
   ],
-  "LIVE_USERS": [
+  "USER_VOTES": [
     {
       "name": "BILLY",
-      "session": "SAMPLE",
+      "session_id": "SAMPLE",
       "vote": "Costa Vida"
     },
     {
       "name": "JOE",
-      "session": "SAMPLE",
+      "session_id": "SAMPLE",
       "vote": "Five Sushi Bros"
     },
     {
       "name": "SAMMY",
-      "session": "SAMPLE",
+      "session_id": "SAMPLE",
       "vote": "Good Move"
     },
     {
       "name": "KATIE",
-      "session": "SAMPLE",
+      "session_id": "SAMPLE",
       "vote": "Burger Supreme"
     },
     {
       "name": "BOB",
-      "session": "TEST",
+      "session_id": "TEST",
       "vote": "Inception"
     }
   ],

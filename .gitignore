@@ -1,10 +1,20 @@
-.env
+# Configurations
+service/dbConfig.json
+vite.config.js
+
+# Sample values
+create_sample_values.js
+sample_values.json
+
+# Modules
 /node_modules/
+/service/node_modules/
+
+# Testing
 /test-results/
 /playwright-report/
 /playwright/.cache/
-dummy_values.json
-api/dbConfig.json
-create_sample_values.js
-sample_values.json
-server.test.js
+
+# Misc
+/all_notes/
+.env

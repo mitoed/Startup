@@ -1,6 +1,6 @@
 ### Run in console to deploy code:
 
-> ./deployService.sh -k ~/JavaScript/keys/prod.pem -h activityanarchy.click -s startup
+> ./deployReact.sh -k ~/JavaScript/keys/prod.pem -h activityanarchy.click -s startup
 
 # Startup - Activity Anarchy
 
@@ -168,6 +168,10 @@ About page
 
 ### React Deliverable
 
-### React To-Dos
+**Bundled with WebPack and Bable into React app** - Done.
 
-- [ ]
+**Multiple React Components** - Components for Login, Entering a Session, the Voting page, and the About page. Within the Voting page, components for the table, the user selection, the internet recommendation, and the group selection. Components pass variables and call server-side apis similar to past itterations of the app.
+
+**React Router** - Routing within the login, enter session, and voting session components
+
+**React Hooks** - Effect hooks that load data on initializing the voting session components, then State hooks that respond to changes in data and update component values.

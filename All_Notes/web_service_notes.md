@@ -254,7 +254,29 @@ fetch('https://jsonplaceholder.typicode.com/posts', {
   });
 ```
 
-## Service Design
+## Node.js
 
-### Model and Sequence Diagrams
+Running JavaScript outside of the web browser. Used in backend services.
+
+## Express
+
+Node package that helps with:
+
+- Routing requests for service endpoints
+
+- Manipulating HTTP requests with JSON body content
+
+- Generating HTTP responses
+
+- Using middleware to add functionality
+
+Defines the routes for HTTP requests to the backend.
+
+### Middleware
+
+After a request is made, middleware can be added to add functionality to the backend response. For example, a middleware function can clean posted data, handle errors, or check for cookies.
+
+## Daemons - PM2
+
+To keep a service running when a console or computer is shutdown, create the service as a daemon. Process Manager 2 (PM2) helps to manage that and easy server starting/stopping.
 

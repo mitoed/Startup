@@ -279,4 +279,3 @@ After a request is made, middleware can be added to add functionality to the bac
 ## Daemons - PM2
 
 To keep a service running when a console or computer is shutdown, create the service as a daemon. Process Manager 2 (PM2) helps to manage that and easy server starting/stopping.
-

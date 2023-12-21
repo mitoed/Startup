@@ -16,12 +16,12 @@ Link to [README file](/README.md) for startup application
 
 [JavaScript Notes -- DOM interaction, Promises, other need-to-knows](/all_notes/javascript_notes.md)
 
-[Web Service Notes](/all_notes/web_service_notes.md)
+[Web Service Notes -- Backend, HTTP, APIs, Fetch, etc.](/all_notes/web_service_notes.md)
 
-[Database Notes](/all_notes/database_notes.md)
+[Database Notes -- Storage Services, Mongo DB](/all_notes/database_notes.md)
 
-[Login Notes](/all_notes/login_notes.md)
+[Login Notes -- Authorization, Login and Account Management](/all_notes/login_notes.md)
 
-[WebSocket](/all_notes/websocket_notes.md)
+[WebSocket -- Purpose, Connections](/all_notes/websocket_notes.md)
 
-[React](/all_notes/react_notes.md)
+[React -- Web Frameworks, React Components, Hooks ](/all_notes/react_notes.md)
